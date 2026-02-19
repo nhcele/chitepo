@@ -1,0 +1,1008 @@
+# Mindelta Developer Contribution Guidelines
+
+## Welcome to Mindelta Development
+
+Thank you for your interest in contributing to Mindelta! This guide will help you understand our development process, coding standards, and how to make meaningful contributions to our professional learning platform.
+
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Development Environment Setup](#development-environment-setup)
+3. [Code Standards and Guidelines](#code-standards-and-guidelines)
+4. [Contribution Workflow](#contribution-workflow)
+5. [Testing Requirements](#testing-requirements)
+6. [Documentation Standards](#documentation-standards)
+7. [Security Guidelines](#security-guidelines)
+8. [Review Process](#review-process)
+9. [Community Guidelines](#community-guidelines)
+
+## Getting Started
+
+### Prerequisites
+
+Before contributing, ensure you have:
+
+```bash
+# Required Software
+- Node.js 18.x or higher
+- npm 8.x or higher
+- Docker 20.x or higher
+- Docker Compose 2.x or higher
+- Git 2.30 or higher
+- PostgreSQL 14.x or higher
+- Redis 6.x or higher
+
+# Development Tools
+- VS Code (recommended)
+- Postman or similar API client
+- Database client (pgAdmin, DBeaver, etc.)
+```
+
+### System Requirements
+
+- **RAM**: Minimum 8GB, recommended 16GB
+- **Storage**: Minimum 20GB free space
+- **OS**: Windows 10+, macOS 10.15+, or Linux (Ubuntu 18.04+)
+
+## Development Environment Setup
+
+### 1. Fork and Clone Repository
+
+```bash
+# Fork the repository on GitHub
+# Clone your fork locally
+git clone https://github.com/YOUR_USERNAME/mindelta.git
+cd mindelta
+
+# Add upstream remote
+git remote add upstream https://github.com/mindelta/mindelta.git
+```
+
+### 2. Install Dependencies
+
+```bash
+# Install root dependencies
+npm install
+
+# Install backend dependencies
+cd backend
+npm install
+
+# Install frontend dependencies
+cd ../frontend
+npm install
+
+# Install shared package dependencies
+cd ../shared
+npm install
+```
+
+### 3. Environment Configuration
+
+```bash
+# Copy environment templates
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env.local
+
+# Configure environment variables (see Environment Variables section)
+```
+
+### 4. Database Setup
+
+```bash
+# Start PostgreSQL and Redis
+docker-compose up -d postgres redis
+
+# Run database migrations
+cd backend
+npm run migration:run
+
+# Seed database with development data
+npm run seed:dev
+```
+
+### 5. Start Development Servers
+
+```bash
+# Terminal 1: Start backend
+cd backend
+npm run start:dev
+
+# Terminal 2: Start frontend
+cd frontend
+npm run dev
+
+# Terminal 3: Start shared package (if making changes)
+cd shared
+npm run dev
+```
+
+### 6. Verify Setup
+
+```bash
+# Backend should be running on http://localhost:3001
+# Frontend should be running on http://localhost:3000
+# API docs available at http://localhost:3001/api/docs
+```
+
+## Code Standards and Guidelines
+
+### TypeScript Standards
+
+#### General Guidelines
+
+```typescript
+// Use explicit types for function parameters and return values
+function calculateProgress(completed: number, total: number): number {
+  if (total === 0) return 0;
+  return Math.round((completed / total) * 100);
+}
+
+// Use interfaces for object shapes
+interface UserProgress {
+  userId: string;
+  courseId: string;
+  completedLessons: number;
+  totalLessons: number;
+  percentage: number;
+}
+
+// Use enums for constants
+enum UserRole {
+  LEARNER = 'learner',
+  INSTRUCTOR = 'instructor',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
+}
+
+// Use generics for reusable components
+interface ApiResponse<T> {
+  data: T;
+  message: string;
+  success: boolean;
+}
+```
+
+#### Naming Conventions
+
+```typescript
+// Variables and functions: camelCase
+const userProgress = calculateUserProgress(userId);
+const isCompleted = checkLessonCompletion(lessonId);
+
+// Classes and interfaces: PascalCase
+class AnalyticsService {}
+interface CourseMetadata {}
+
+// Constants: UPPER_SNAKE_CASE
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const DEFAULT_PAGE_SIZE = 20;
+
+// Files: kebab-case
+// user-progress.service.ts
+// course-analytics.controller.ts
+// learner-dashboard.component.tsx
+```
+
+### Backend Standards (NestJS)
+
+#### Controller Guidelines
+
+```typescript
+@Controller('courses')
+@ApiTags('Courses')
+@UseGuards(JwtAuthGuard)
+export class CourseController {
+  constructor(private readonly courseService: CourseService) {}
+
+  @Get()
+  @ApiOperation({ summary: 'Get all courses' })
+  @ApiResponse({ status: 200, description: 'Courses retrieved successfully' })
+  async getCourses(@Query() query: GetCoursesDto): Promise<Course[]> {
+    return this.courseService.findAll(query);
+  }
+
+  @Post(':id/enroll')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Enroll in a course' })
+  async enrollCourse(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Request() req: AuthenticatedRequest,
+  ): Promise<Enrollment> {
+    return this.courseService.enroll(id, req.user.id);
+  }
+}
+```
+
+#### Service Guidelines
+
+```typescript
+@Injectable()
+export class CourseService {
+  constructor(
+    @InjectRepository(Course)
+    private readonly courseRepository: Repository<Course>,
+    @InjectRepository(Enrollment)
+    private readonly enrollmentRepository: Repository<Enrollment>,
+  ) {}
+
+  async findAll(query: GetCoursesDto): Promise<Course[]> {
+    const { page = 1, limit = 10, category, level } = query;
+    
+    const queryBuilder = this.courseRepository
+      .createQueryBuilder('course')
+      .leftJoinAndSelect('course.instructor', 'instructor')
+      .where('course.published = :published', { published: true });
+
+    if (category) {
+      queryBuilder.andWhere('course.category = :category', { category });
+    }
+
+    if (level) {
+      queryBuilder.andWhere('course.level = :level', { level });
+    }
+
+    return queryBuilder
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getMany();
+  }
+}
+```
+
+#### Entity Guidelines
+
+```typescript
+@Entity('courses')
+export class Course {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ length: 255 })
+  title: string;
+
+  @Column('text')
+  description: string;
+
+  @Column({ length: 100, nullable: true })
+  category: string;
+
+  @Column({ type: 'enum', enum: CourseLevel, default: CourseLevel.BEGINNER })
+  level: CourseLevel;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  price: number;
+
+  @Column({ default: true })
+  published: boolean;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+
+  @ManyToOne(() => User, user => user.courses)
+  @JoinColumn({ name: 'instructor_id' })
+  instructor: User;
+
+  @OneToMany(() => Lesson, lesson => lesson.course)
+  lessons: Lesson[];
+
+  @OneToMany(() => Enrollment, enrollment => enrollment.course)
+  enrollments: Enrollment[];
+}
+```
+
+### Frontend Standards (React/Next.js)
+
+#### Component Guidelines
+
+```typescript
+// Functional components with TypeScript
+interface LearnerDashboardProps {
+  userId: string;
+  initialData?: CourseProgress[];
+}
+
+export default function LearnerDashboard({ 
+  userId, 
+  initialData = [] 
+}: LearnerDashboardProps) {
+  const [courses, setCourses] = useState<CourseProgress[]>(initialData);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (courses.length === 0) {
+      loadCourses();
+    }
+  }, [userId]);
+
+  const loadCourses = async () => {
+    setLoading(true);
+    try {
+      const data = await getUserCourses(userId);
+      setCourses(data);
+    } catch (error) {
+      console.error('Failed to load courses:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="learner-dashboard">
+      <CourseGrid courses={courses} loading={loading} />
+    </div>
+  );
+}
+```
+
+#### Hooks Guidelines
+
+```typescript
+// Custom hooks for reusable logic
+export function useUserProgress(userId: string) {
+  const [progress, setProgress] = useState<UserProgress | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        setLoading(true);
+        const data = await getUserProgress(userId);
+        setProgress(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchProgress();
+    }
+  }, [userId]);
+
+  return { progress, loading, error };
+}
+```
+
+#### Styling Guidelines
+
+```typescript
+// Use Tailwind CSS for styling
+// Avoid inline styles
+// Use consistent spacing and color palette
+
+// Good:
+<div className="bg-white rounded-lg shadow-md p-6">
+  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+    Course Progress
+  </h2>
+  <div className="space-y-4">
+    {courses.map(course => (
+      <CourseCard key={course.id} course={course} />
+    ))}
+  </div>
+</div>
+
+// Avoid:
+<div style={{ backgroundColor: 'white', borderRadius: '8px' }}>
+  <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>
+    Course Progress
+  </h2>
+</div>
+```
+
+## Contribution Workflow
+
+### 1. Create an Issue
+
+Before starting work:
+
+1. **Check existing issues**: Search for similar issues
+2. **Create new issue**: Use appropriate templates
+3. **Get approval**: Wait for maintainer approval
+4. **Assign issue**: Request assignment if you want to work on it
+
+### 2. Setup Development Branch
+
+```bash
+# Sync with upstream
+git checkout main
+git pull upstream main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+
+# Or for bug fixes
+git checkout -b fix/bug-description
+```
+
+### 3. Make Changes
+
+#### Development Guidelines
+
+```bash
+# Follow these practices:
+
+✅ Make small, focused commits
+✅ Write clear commit messages
+✅ Follow code style guidelines
+✅ Add tests for new functionality
+✅ Update documentation
+✅ Ensure all tests pass
+✅ Check for security vulnerabilities
+```
+
+#### Commit Message Format
+
+```bash
+# Format: <type>(<scope>): <description>
+
+# Types:
+feat: New feature
+fix: Bug fix
+docs: Documentation changes
+style: Code style changes (formatting, etc.)
+refactor: Code refactoring
+test: Adding or updating tests
+chore: Maintenance tasks
+
+# Examples:
+feat(auth): add two-factor authentication
+fix(courses): resolve enrollment validation issue
+docs(api): update authentication endpoints
+```
+
+### 4. Testing
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests with coverage
+npm run test:cov
+
+# Run E2E tests
+npm run test:e2e
+
+# Run linting
+npm run lint
+
+# Type checking
+npm run type-check
+```
+
+### 5. Submit Pull Request
+
+#### PR Requirements
+
+```markdown
+✅ Clean, focused changes
+✅ All tests passing
+✅ Code coverage maintained
+✅ Documentation updated
+✅ No breaking changes (or clearly documented)
+✅ Security review completed
+✅ Performance impact considered
+```
+
+#### PR Template
+
+```markdown
+## Description
+Brief description of changes made.
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] E2E tests added/updated
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated
+- [ ] No console.log statements
+- [ ] No TODO comments left
+- [ ] Performance considerations addressed
+```
+
+## Testing Requirements
+
+### Unit Testing
+
+#### Backend Testing
+
+```typescript
+// course.service.spec.ts
+describe('CourseService', () => {
+  let service: CourseService;
+  let repository: Repository<Course>;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        CourseService,
+        {
+          provide: getRepositoryToken(Course),
+          useValue: mockRepository,
+        },
+      ],
+    }).compile();
+
+    service = module.get<CourseService>(CourseService);
+    repository = module.get<Repository<Course>>(getRepositoryToken(Course));
+  });
+
+  describe('findAll', () => {
+    it('should return paginated courses', async () => {
+      const expectedResult = [mockCourse];
+      jest.spyOn(repository, 'find').mockResolvedValue(expectedResult);
+
+      const result = await service.findAll({ page: 1, limit: 10 });
+
+      expect(result).toEqual(expectedResult);
+      expect(repository.find).toHaveBeenCalledWith({
+        skip: 0,
+        take: 10,
+        where: { published: true },
+      });
+    });
+  });
+});
+```
+
+#### Frontend Testing
+
+```typescript
+// LearnerDashboard.test.tsx
+describe('LearnerDashboard', () => {
+  const mockProps = {
+    userId: 'test-user-id',
+    initialData: [],
+  };
+
+  it('renders loading state initially', () => {
+    render(<LearnerDashboard {...mockProps} />);
+    
+    expect(screen.getByText('Loading courses...')).toBeInTheDocument();
+  });
+
+  it('displays courses when loaded', async () => {
+    const mockCourses = [mockCourseData];
+    jest.mocked(getUserCourses).mockResolvedValue(mockCourses);
+
+    render(<LearnerDashboard {...mockProps} />);
+
+    await waitFor(() => {
+      expect(screen.getByText(mockCourses[0].title)).toBeInTheDocument();
+    });
+  });
+});
+```
+
+### Integration Testing
+
+```typescript
+// course.e2e.spec.ts
+describe('Course API (e2e)', () => {
+  let app: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  describe('/courses (GET)', () => {
+    it('should return courses array', () => {
+      return request(app.getHttpServer())
+        .get('/api/courses')
+        .expect(200)
+        .expect((res) => {
+          expect(Array.isArray(res.body)).toBe(true);
+          expect(res.body.length).toBeGreaterThan(0);
+        });
+    });
+  });
+});
+```
+
+### Test Coverage Requirements
+
+```bash
+# Coverage targets:
+- Backend: 80% line coverage, 75% branch coverage
+- Frontend: 70% line coverage, 65% branch coverage
+- Critical paths: 90%+ coverage
+
+# Coverage reports generated in:
+- backend/coverage/
+- frontend/coverage/
+```
+
+## Documentation Standards
+
+### Code Documentation
+
+#### JSDoc Guidelines
+
+```typescript
+/**
+ * Calculates the completion percentage for a course
+ * @param completedLessons - Number of completed lessons
+ * @param totalLessons - Total number of lessons in the course
+ * @returns Completion percentage (0-100)
+ * @throws {Error} When totalLessons is zero or negative
+ * @example
+ * ```typescript
+ * const percentage = calculateCompletion(8, 10); // Returns 80
+ * ```
+ */
+function calculateCompletion(completedLessons: number, totalLessons: number): number {
+  if (totalLessons <= 0) {
+    throw new Error('Total lessons must be greater than zero');
+  }
+  return Math.round((completedLessons / totalLessons) * 100);
+}
+```
+
+#### API Documentation
+
+```typescript
+@Controller('courses')
+@ApiTags('Courses')
+export class CourseController {
+  /**
+   * Retrieves a paginated list of published courses
+   * @param query - Query parameters for filtering and pagination
+   * @returns Array of course objects
+   */
+  @Get()
+  @ApiOperation({ 
+    summary: 'Get all courses',
+    description: 'Returns a paginated list of published courses with optional filtering'
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Courses retrieved successfully',
+    type: [Course]
+  })
+  async getCourses(@Query() query: GetCoursesDto): Promise<Course[]> {
+    return this.courseService.findAll(query);
+  }
+}
+```
+
+### README Documentation
+
+#### Project README Structure
+
+```markdown
+# Project Title
+
+## Description
+Brief project description and purpose
+
+## Features
+Key features and capabilities
+
+## Quick Start
+Fast setup instructions
+
+## Development
+Detailed development setup
+
+## API Documentation
+Link to API docs
+
+## Contributing
+Link to contribution guidelines
+
+## License
+License information
+```
+
+#### Component Documentation
+
+```typescript
+/**
+ * CourseCard Component
+ * 
+ * Displays course information in a card format.
+ * Used in course grids and search results.
+ * 
+ * @example
+ * ```tsx
+ * <CourseCard 
+ *   course={courseData}
+ *   onEnroll={handleEnroll}
+ *   showProgress={true}
+ * />
+ * ```
+ */
+interface CourseCardProps {
+  /** Course data to display */
+  course: Course;
+  /** Callback when enroll button is clicked */
+  onEnroll: (courseId: string) => void;
+  /** Whether to show progress indicator */
+  showProgress?: boolean;
+}
+```
+
+## Security Guidelines
+
+### Secure Coding Practices
+
+#### Input Validation
+
+```typescript
+// Always validate and sanitize inputs
+@Post()
+async createCourse(@Body() createCourseDto: CreateCourseDto) {
+  // DTO validation with class-validator
+  if (!createCourseDto.title || createCourseDto.title.length > 255) {
+    throw new BadRequestException('Invalid title');
+  }
+  
+  // Sanitize HTML content
+  const sanitizedDescription = sanitizeHtml(createCourseDto.description);
+  
+  return this.courseService.create({
+    ...createCourseDto,
+    description: sanitizedDescription,
+  });
+}
+```
+
+#### Authentication and Authorization
+
+```typescript
+// Use proper authentication guards
+@Controller('admin')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@ApiBearerAuth()
+export class AdminController {
+  
+  @Get('users')
+  @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  async getUsers() {
+    // Only admins can access this endpoint
+    return this.userService.findAll();
+  }
+}
+```
+
+#### Data Protection
+
+```typescript
+// Never expose sensitive data
+@Injectable()
+export class UserService {
+  async getUserProfile(userId: string): Promise<Partial<User>> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    
+    // Return only safe fields
+    const { password, ...safeUser } = user;
+    return safeUser;
+  }
+}
+```
+
+### Security Testing
+
+```typescript
+// Test for security vulnerabilities
+describe('Security Tests', () => {
+  it('should prevent SQL injection', async () => {
+    const maliciousInput = "'; DROP TABLE users; --";
+    
+    await request(app.getHttpServer())
+      .post('/api/courses')
+      .send({ title: maliciousInput })
+      .expect(400);
+  });
+
+  it('should sanitize HTML content', async () => {
+    const htmlInput = '<script>alert("xss")</script>';
+    
+    const result = await courseService.create({
+      title: 'Test Course',
+      description: htmlInput,
+    });
+
+    expect(result.description).not.toContain('<script>');
+  });
+});
+```
+
+## Review Process
+
+### Code Review Checklist
+
+#### Functional Review
+
+```markdown
+✅ Functionality works as expected
+✅ Edge cases handled properly
+✅ Error handling implemented
+✅ Performance considerations addressed
+✅ Security vulnerabilities checked
+```
+
+#### Code Quality Review
+
+```markdown
+✅ Code follows style guidelines
+✅ TypeScript types are correct
+✅ Variable and function names are descriptive
+✅ Code is well-organized and readable
+✅ No duplicated code
+```
+
+#### Testing Review
+
+```markdown
+✅ Tests cover new functionality
+✅ Tests are well-written and maintainable
+✅ Edge cases are tested
+✅ Integration tests included when needed
+✅ Test coverage meets requirements
+```
+
+### Review Guidelines
+
+#### For Reviewers
+
+1. **Be constructive**: Provide helpful, specific feedback
+2. **Be thorough**: Check security, performance, and maintainability
+3. **Be respectful**: Maintain professional communication
+4. **Be timely**: Review within 48 hours
+
+#### For Contributors
+
+1. **Respond promptly**: Address feedback quickly
+2. **Explain decisions**: Provide rationale for changes
+3. **Be open to feedback**: Consider all suggestions
+4. **Update documentation**: Keep docs in sync with code
+
+## Community Guidelines
+
+### Code of Conduct
+
+#### Our Pledge
+
+We are committed to providing a welcoming and inclusive environment for all contributors, regardless of:
+
+- Experience level
+- Gender identity and expression
+- Sexual orientation
+- Disability
+- Personal appearance
+- Body size
+- Race, ethnicity, age, religion, or nationality
+
+#### Expected Behavior
+
+```markdown
+✅ Use welcoming and inclusive language
+✅ Be respectful of different viewpoints and experiences
+✅ Gracefully accept constructive criticism
+✅ Focus on what is best for the community
+✅ Show empathy towards other community members
+```
+
+#### Unacceptable Behavior
+
+```markdown
+❌ Harassment, trolling, or inappropriate behavior
+❌ Personal attacks or political discussions
+❌ Publishing private information
+❌ Any other conduct which could reasonably be considered inappropriate
+```
+
+### Communication Guidelines
+
+#### GitHub Issues
+
+```markdown
+📝 Use clear, descriptive titles
+📝 Provide detailed descriptions
+📝 Include steps to reproduce bugs
+📝 Add relevant labels and milestones
+📝 Search for duplicates before creating
+```
+
+#### Pull Request Discussions
+
+```markdown
+💬 Keep discussions focused and technical
+💬 Provide constructive feedback
+💬 Ask questions for clarification
+💬 Acknowledge good work and improvements
+💬 Be patient with different time zones
+```
+
+#### Slack/Discord Communication
+
+```markdown
+🗣️ Use appropriate channels for topics
+🗣️ Be professional and respectful
+🗣️ Help others when you can
+🗣️ Share knowledge and resources
+🗣️ Celebrate successes and milestones
+```
+
+## Getting Help
+
+### Support Channels
+
+```markdown
+💬 GitHub Discussions: General questions and ideas
+🐛 GitHub Issues: Bug reports and feature requests
+📧 Developer Email: dev-support@mindelta.com
+💬 Slack: #mindelta-dev channel
+📖 Documentation: docs.mindelta.com
+```
+
+### Resources
+
+```markdown
+📚 API Documentation: Complete API reference
+🎥 Video Tutorials: Development walkthroughs
+📖 Architecture Docs: System design and patterns
+🔧 Development Tools: Recommended tools and extensions
+📊 Performance Guides: Optimization best practices
+```
+
+## Recognition
+
+### Contributor Recognition
+
+We value all contributions and recognize contributors through:
+
+```markdown
+🏆 Contributor of the Month
+📝 Release notes acknowledgments
+🎖️ Badge system on GitHub
+🌟 Featured contributor on website
+📈 Contribution statistics dashboard
+```
+
+### Ways to Contribute
+
+```markdown
+🔧 Code contributions (features, fixes, improvements)
+📖 Documentation improvements
+🐛 Bug reports and testing
+💡 Feature suggestions and ideas
+🎨 Design improvements
+🌍 Translation and localization
+📊 Analytics and performance optimization
+```
+
+## License
+
+By contributing to Mindelta, you agree that your contributions will be licensed under the same license as the project (MIT License).
+
+---
+
+Thank you for contributing to Mindelta! Your help makes this platform better for learners worldwide. 🚀
+
+**Last Updated**: January 2024  
+**Version**: 1.0.0  
+**Maintainers**: Mindelta Development Team

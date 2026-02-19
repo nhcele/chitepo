@@ -1,0 +1,729 @@
+# Mindelta Deployment Guide
+
+## Overview
+
+This guide provides comprehensive instructions for deploying the Mindelta learning platform in various environments including development, staging, and production.
+
+## Prerequisites
+
+### System Requirements
+
+**Minimum Requirements:**
+- **CPU**: 4 cores
+- **Memory**: 8GB RAM
+- **Storage**: 50GB SSD
+- **Network**: 100 Mbps bandwidth
+
+**Recommended Requirements:**
+- **CPU**: 8 cores
+- **Memory**: 16GB RAM
+- **Storage**: 100GB SSD
+- **Network**: 1 Gbps bandwidth
+
+### Software Requirements
+
+- **Node.js**: v18.x or higher
+- **Docker**: v20.x or higher
+- **Docker Compose**: v2.x or higher
+- **PostgreSQL**: v14.x or higher
+- **Redis**: v6.x or higher
+- **Nginx**: v1.20 or higher
+- **SSL Certificate**: For HTTPS
+
+## Environment Setup
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/mindelta/platform.git
+cd platform
+```
+
+### 2. Environment Configuration
+
+Copy environment templates and configure:
+
+```bash
+# Backend environment
+cp backend/.env.example backend/.env
+
+# Frontend environment
+cp frontend/.env.example frontend/.env.local
+```
+
+### 3. Backend Environment Variables
+
+```env
+# Database Configuration
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USERNAME=mindelta
+DATABASE_PASSWORD=your-secure-password
+DATABASE_NAME=mindelta_prod
+
+# Redis Configuration
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=your-redis-password
+
+# JWT Configuration
+JWT_SECRET=your-super-secure-jwt-secret-key
+JWT_EXPIRES_IN=1h
+JWT_REFRESH_EXPIRES_IN=7d
+
+# OpenAI Configuration
+OPENAI_API_KEY=your-openai-api-key
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+
+# AWS Configuration
+AWS_ACCESS_KEY_ID=your-aws-access-key
+AWS_SECRET_ACCESS_KEY=your-aws-secret-key
+AWS_REGION=us-east-1
+AWS_S3_BUCKET=mindelta-prod-assets
+
+# Security Configuration
+FRONTEND_URL=https://app.mindelta.com
+RATE_LIMIT_TTL=60000
+RATE_LIMIT_LIMIT=100
+
+# AI Companion Configuration
+AI_COMPANION_ENABLED=true
+AI_RATE_LIMIT_TTL=86400000
+AI_RATE_LIMIT_LIMIT=30
+
+# Application Configuration
+NODE_ENV=production
+PORT=3001
+CORS_ORIGIN=https://app.mindelta.com
+```
+
+### 4. Frontend Environment Variables
+
+```env
+# API Configuration
+NEXT_PUBLIC_API_URL=https://api.mindelta.com/api
+NEXT_PUBLIC_WS_URL=wss://api.mindelta.com/ws
+
+# Authentication
+NEXT_PUBLIC_AUTH_GOOGLE_CLIENT_ID=your-google-client-id
+
+# Analytics
+NEXT_PUBLIC_GRAFANA_URL=https://grafana.mindelta.com
+
+# Feature Flags
+NEXT_PUBLIC_AI_COMPANION_ENABLED=true
+NEXT_PUBLIC_ANALYTICS_ENABLED=true
+
+# Application
+NODE_ENV=production
+PORT=3000
+```
+
+## Deployment Methods
+
+### Method 1: Docker Compose (Recommended for Development/Staging)
+
+#### 1. Build and Start Services
+
+```bash
+# Build all services
+docker-compose build
+
+# Start services in detached mode
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+```
+
+#### 2. Database Setup
+
+```bash
+# Run database migrations
+docker-compose exec backend npm run migration:run
+
+# Seed database with initial data
+docker-compose exec backend npm run seed:run
+```
+
+#### 3. SSL Configuration with Nginx
+
+```bash
+# Generate SSL certificates (Let's Encrypt)
+certbot --nginx -d api.mindelta.com -d app.mindelta.com
+
+# Reload Nginx
+docker-compose exec nginx nginx -s reload
+```
+
+### Method 2: Kubernetes (Production)
+
+#### 1. Prepare Kubernetes Configuration
+
+```bash
+# Create namespace
+kubectl create namespace mindelta
+
+# Apply secrets
+kubectl apply -f k8s/secrets/
+
+# Apply configurations
+kubectl apply -f k8s/configmaps/
+```
+
+#### 2. Deploy Services
+
+```bash
+# Deploy database
+kubectl apply -f k8s/postgres/
+kubectl apply -f k8s/redis/
+
+# Deploy backend
+kubectl apply -f k8s/backend/
+
+# Deploy frontend
+kubectl apply -f k8s/frontend/
+
+# Deploy ingress
+kubectl apply -f k8s/ingress/
+```
+
+#### 3. Monitor Deployment
+
+```bash
+# Check pod status
+kubectl get pods -n mindelta
+
+# Check services
+kubectl get services -n mindelta
+
+# Check ingress
+kubectl get ingress -n mindelta
+```
+
+### Method 3: Cloud Provider Deployment
+
+#### AWS ECS Deployment
+
+1. **Create ECS Cluster**
+```bash
+aws ecs create-cluster --cluster-name mindelta-prod
+```
+
+2. **Create Task Definitions**
+```bash
+# Backend task definition
+aws ecs register-task-definition --cli-input-json file://backend-task-definition.json
+
+# Frontend task definition
+aws ecs register-task-definition --cli-input-json file://frontend-task-definition.json
+```
+
+3. **Create Services**
+```bash
+# Backend service
+aws ecs create-service --cluster mindelta-prod --service-name backend --task-definition backend:1
+
+# Frontend service
+aws ecs create-service --cluster mindelta-prod --service-name frontend --task-definition frontend:1
+```
+
+#### Google Cloud Run Deployment
+
+1. **Build and Push Images**
+```bash
+# Backend
+gcloud builds submit --tag gcr.io/PROJECT-ID/mindelta-backend
+
+# Frontend
+gcloud builds submit --tag gcr.io/PROJECT-ID/mindelta-frontend
+```
+
+2. **Deploy Services**
+```bash
+# Backend
+gcloud run deploy mindelta-backend --image gcr.io/PROJECT-ID/mindelta-backend --platform managed
+
+# Frontend
+gcloud run deploy mindelta-frontend --image gcr.io/PROJECT-ID/mindelta-frontend --platform managed
+```
+
+## Database Management
+
+### 1. PostgreSQL Setup
+
+#### Production Database Configuration
+
+```sql
+-- Create database
+CREATE DATABASE mindelta_prod;
+
+-- Create user
+CREATE USER mindelta_user WITH PASSWORD 'secure_password';
+
+-- Grant privileges
+GRANT ALL PRIVILEGES ON DATABASE mindelta_prod TO mindelta_user;
+
+-- Enable extensions
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+```
+
+#### Database Optimization
+
+```sql
+-- Create indexes for performance
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_enrollments_user_id ON enrollments(user_id);
+CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
+CREATE INDEX idx_progress_user_id ON progress(user_id);
+CREATE INDEX idx_progress_course_id ON progress(course_id);
+CREATE INDEX idx_analytics_events_user_id ON analytics_events(user_id);
+CREATE INDEX idx_analytics_events_timestamp ON analytics_events(timestamp);
+
+-- Configure connection pooling
+ALTER SYSTEM SET max_connections = 200;
+ALTER SYSTEM SET shared_buffers = '256MB';
+ALTER SYSTEM SET effective_cache_size = '1GB';
+```
+
+### 2. Redis Configuration
+
+```conf
+# redis.conf
+maxmemory 512mb
+maxmemory-policy allkeys-lru
+save 900 1
+save 300 10
+save 60 10000
+```
+
+## Monitoring and Logging
+
+### 1. Application Monitoring
+
+#### Prometheus Configuration
+
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'mindelta-backend'
+    static_configs:
+      - targets: ['backend:3001']
+    metrics_path: '/metrics'
+
+  - job_name: 'mindelta-frontend'
+    static_configs:
+      - targets: ['frontend:3000']
+    metrics_path: '/api/metrics'
+```
+
+#### Grafana Dashboard
+
+```bash
+# Import dashboard
+curl -X POST \
+  http://admin:admin@grafana:3000/api/dashboards/db \
+  -H 'Content-Type: application/json' \
+  -d @grafana-dashboard.json
+```
+
+### 2. Log Management
+
+#### ELK Stack Setup
+
+```yaml
+# docker-compose.logging.yml
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.0
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+```
+
+### 3. Health Checks
+
+#### Backend Health Check
+
+```typescript
+// health.controller.ts
+@Get('health')
+async healthCheck() {
+  return {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    database: await this.checkDatabase(),
+    redis: await this.checkRedis(),
+  };
+}
+```
+
+#### Frontend Health Check
+
+```typescript
+// pages/api/health.ts
+export default function handler(req, res) {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    version: process.env.NEXT_PUBLIC_VERSION,
+  });
+}
+```
+
+## Security Configuration
+
+### 1. SSL/TLS Setup
+
+#### Nginx Configuration
+
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name api.mindelta.com;
+
+    ssl_certificate /etc/letsencrypt/live/api.mindelta.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.mindelta.com/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512;
+    ssl_prefer_server_ciphers off;
+
+    location / {
+        proxy_pass http://backend:3001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 2. Firewall Configuration
+
+```bash
+# UFW configuration
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw enable
+```
+
+### 3. Security Headers
+
+```nginx
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+```
+
+## Performance Optimization
+
+### 1. Backend Optimization
+
+#### Database Connection Pooling
+
+```typescript
+// app.module.ts
+TypeOrmModule.forRootAsync({
+  useFactory: () => ({
+    type: 'postgres',
+    host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT),
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    synchronize: false,
+    logging: process.env.NODE_ENV === 'development',
+    extra: {
+      max: 20,
+      min: 5,
+      acquire: 30000,
+      idle: 10000,
+    },
+  }),
+}),
+```
+
+#### Redis Caching
+
+```typescript
+// cache.module.ts
+@Module({
+  imports: [
+    CacheModule.registerAsync({
+      useFactory: () => ({
+        store: 'redis',
+        host: process.env.REDIS_HOST,
+        port: parseInt(process.env.REDIS_PORT),
+        password: process.env.REDIS_PASSWORD,
+        ttl: 3600, // 1 hour
+      }),
+    }),
+  ],
+})
+export class CacheModule {}
+```
+
+### 2. Frontend Optimization
+
+#### Next.js Configuration
+
+```javascript
+// next.config.js
+module.exports = {
+  compress: true,
+  poweredByHeader: false,
+  experimental: {
+    optimizeCss: true,
+    optimizeImages: true,
+  },
+  images: {
+    domains: ['cdn.mindelta.com'],
+    formats: ['image/webp', 'image/avif'],
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
+      };
+    }
+    return config;
+  },
+};
+```
+
+## Backup and Recovery
+
+### 1. Database Backup
+
+#### Automated Backup Script
+
+```bash
+#!/bin/bash
+# backup.sh
+
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/backups/postgres"
+DB_NAME="mindelta_prod"
+
+# Create backup directory
+mkdir -p $BACKUP_DIR
+
+# Create backup
+pg_dump -h localhost -U mindelta_user -d $DB_NAME > $BACKUP_DIR/mindelta_$DATE.sql
+
+# Compress backup
+gzip $BACKUP_DIR/mindelta_$DATE.sql
+
+# Remove backups older than 30 days
+find $BACKUP_DIR -name "*.sql.gz" -mtime +30 -delete
+
+# Upload to S3
+aws s3 cp $BACKUP_DIR/mindelta_$DATE.sql.gz s3://mindelta-backups/database/
+```
+
+#### Cron Job for Automated Backups
+
+```bash
+# Add to crontab
+0 2 * * * /path/to/backup.sh
+```
+
+### 2. File Backup
+
+#### S3 Sync Script
+
+```bash
+#!/bin/bash
+# backup-files.sh
+
+# Sync uploads to S3
+aws s3 sync /var/www/uploads s3://mindelta-backups/files/ --delete
+
+# Sync certificates
+aws s3 sync /etc/letsencrypt s3://mindelta-backups/certificates/
+```
+
+## Deployment Checklist
+
+### Pre-Deployment
+
+- [ ] Environment variables configured
+- [ ] SSL certificates obtained
+- [ ] Database created and optimized
+- [ ] Redis configured
+- [ ] Firewall rules set
+- [ ] Monitoring tools configured
+- [ ] Backup scripts in place
+- [ ] Load balancer configured
+- [ ] Domain DNS configured
+
+### Post-Deployment
+
+- [ ] Services are running and healthy
+- [ ] Database migrations applied
+- [ ] SSL certificates working
+- [ ] Monitoring dashboards active
+- [ ] Log aggregation working
+- [ ] Performance tests passed
+- [ ] Security scans completed
+- [ ] Backup procedures tested
+- [ ] Documentation updated
+
+## Troubleshooting
+
+### Common Issues
+
+#### 1. Database Connection Failed
+
+```bash
+# Check database status
+docker-compose exec postgres pg_isready
+
+# Check connection
+docker-compose exec backend npm run migration:show
+```
+
+#### 2. Redis Connection Failed
+
+```bash
+# Check Redis status
+docker-compose exec redis redis-cli ping
+
+# Check logs
+docker-compose logs redis
+```
+
+#### 3. SSL Certificate Issues
+
+```bash
+# Check certificate status
+certbot certificates
+
+# Renew certificate
+certbot renew --dry-run
+```
+
+#### 4. High Memory Usage
+
+```bash
+# Check memory usage
+docker stats
+
+# Optimize Node.js memory
+NODE_OPTIONS="--max-old-space-size=2048"
+```
+
+### Performance Issues
+
+#### 1. Slow Database Queries
+
+```sql
+-- Identify slow queries
+SELECT query, mean_time, calls 
+FROM pg_stat_statements 
+ORDER BY mean_time DESC 
+LIMIT 10;
+```
+
+#### 2. High CPU Usage
+
+```bash
+# Check process usage
+top
+
+# Profile Node.js application
+node --prof app.js
+```
+
+## Scaling
+
+### Horizontal Scaling
+
+#### Backend Scaling
+
+```yaml
+# docker-compose.scale.yml
+version: '3.8'
+services:
+  backend:
+    deploy:
+      replicas: 3
+    environment:
+      - NODE_ENV=production
+```
+
+#### Database Scaling
+
+```sql
+-- Read replica setup
+CREATE USER mindelta_readonly WITH PASSWORD 'readonly_password';
+GRANT CONNECT ON DATABASE mindelta_prod TO mindelta_readonly;
+GRANT USAGE ON SCHEMA public TO mindelta_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO mindelta_readonly;
+```
+
+### Load Balancing
+
+#### Nginx Load Balancer
+
+```nginx
+upstream backend {
+    server backend1:3001;
+    server backend2:3001;
+    server backend3:3001;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.mindelta.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+## Support
+
+For deployment support:
+- **Documentation**: https://docs.mindelta.com/deployment
+- **Support Email**: deploy-support@mindelta.com
+- **Emergency Contact**: emergency@mindelta.com
+
+---
+
+**Last Updated**: January 2024  
+**Version**: 1.0.0  
+**Environment**: Production

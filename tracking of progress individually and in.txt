@@ -1,0 +1,3 @@
+tracking of progress individually and instructor should be able to see the progress of the students and communicate with them through the platform.
+make a recommendation system for the students based on their progress and performance.
+make a system for the students to be able to track their progress and performance

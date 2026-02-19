@@ -1,0 +1,491 @@
+# Mindelta API Documentation
+
+## Overview
+
+The Mindelta API is a comprehensive RESTful API built with NestJS that provides endpoints for all platform functionality including user management, courses, assessments, analytics, AI companion features, and more.
+
+## Base URL
+
+- **Development**: `http://localhost:3001/api`
+- **Production**: `https://api.mindelta.com/api`
+
+## Authentication
+
+All API endpoints (except public ones) require authentication using JWT tokens.
+
+### Headers
+```
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+```
+
+### Authentication Endpoints
+
+#### POST /auth/login
+Login with email and password.
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "uuid",
+    "email": "user@example.com",
+    "name": "John Doe",
+    "role": "learner"
+  }
+}
+```
+
+#### POST /auth/register
+Register a new user account.
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "John Doe",
+  "jobTitle": "Software Developer",
+  "skillInterests": ["JavaScript", "React", "Node.js"]
+}
+```
+
+## User Management
+
+### GET /users/profile
+Get current user profile.
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "email": "user@example.com",
+  "name": "John Doe",
+  "jobTitle": "Software Developer",
+  "skillInterests": ["JavaScript", "React", "Node.js"],
+  "role": "learner",
+  "avatar": "https://example.com/avatar.jpg",
+  "createdAt": "2024-01-01T00:00:00.000Z",
+  "updatedAt": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### PUT /users/profile
+Update user profile.
+
+**Request Body:**
+```json
+{
+  "name": "John Smith",
+  "jobTitle": "Senior Software Developer",
+  "skillInterests": ["JavaScript", "React", "Node.js", "TypeScript"],
+  "avatar": "https://example.com/new-avatar.jpg"
+}
+```
+
+## Courses
+
+### GET /courses
+Get list of available courses with pagination and filtering.
+
+**Query Parameters:**
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 10)
+- `category` (string): Filter by category
+- `level` (string): Filter by level (beginner, intermediate, advanced)
+- `search` (string): Search in title and description
+
+**Response:**
+```json
+{
+  "courses": [
+    {
+      "id": "uuid",
+      "title": "React Fundamentals",
+      "description": "Learn the basics of React",
+      "category": "Web Development",
+      "level": "beginner",
+      "price": 99.99,
+      "estimatedDurationMin": 480,
+      "instructor": {
+        "id": "uuid",
+        "name": "Jane Doe",
+        "avatar": "https://example.com/avatar.jpg"
+      },
+      "thumbnail": "https://example.com/thumbnail.jpg",
+      "published": true,
+      "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "total": 50,
+  "page": 1,
+  "limit": 10,
+  "totalPages": 5
+}
+```
+
+### GET /courses/:id
+Get detailed course information.
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "title": "React Fundamentals",
+  "description": "Comprehensive React course covering hooks, state management, and best practices",
+  "category": "Web Development",
+  "level": "beginner",
+  "price": 99.99,
+  "estimatedDurationMin": 480,
+  "skills": ["React", "JavaScript", "HTML", "CSS"],
+  "lessons": [
+    {
+      "id": "uuid",
+      "title": "Introduction to React",
+      "description": "Getting started with React",
+      "order": 1,
+      "estimatedDurationMin": 30,
+      "videoUrl": "https://example.com/video.mp4",
+      "resources": []
+    }
+  ],
+  "instructor": {
+    "id": "uuid",
+    "name": "Jane Doe",
+    "bio": "React expert with 10 years experience",
+    "avatar": "https://example.com/avatar.jpg"
+  },
+  "enrollmentCount": 1250,
+  "rating": 4.5,
+  "reviewCount": 128
+}
+```
+
+### POST /courses/:id/enroll
+Enroll in a course.
+
+**Response:**
+```json
+{
+  "enrollmentId": "uuid",
+  "courseId": "uuid",
+  "userId": "uuid",
+  "enrolledAt": "2024-01-01T00:00:00.000Z",
+  "completedAt": null,
+  "progress": 0
+}
+```
+
+## Assessments
+
+### GET /assessments/progress/:courseId
+Get user progress for a specific course.
+
+**Response:**
+```json
+{
+  "courseId": "uuid",
+  "userId": "uuid",
+  "totalLessons": 20,
+  "completedLessons": 8,
+  "progressPercentage": 40,
+  "lastAccessed": "2024-01-01T00:00:00.000Z",
+  "lessonProgress": [
+    {
+      "lessonId": "uuid",
+      "completed": true,
+      "watchTime": 1800,
+      "lastAccessed": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+### POST /assessments/quiz/:lessonId/submit
+Submit quiz answers for a lesson.
+
+**Request Body:**
+```json
+{
+  "answers": [
+    {
+      "questionId": "uuid",
+      "selectedOption": "A"
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "score": 85,
+  "passed": true,
+  "totalQuestions": 10,
+  "correctAnswers": 8,
+  "feedback": "Great job! You passed the quiz."
+}
+```
+
+## AI Companion
+
+### POST /ai-companion/chat
+Chat with AI companion for learning assistance.
+
+**Request Body:**
+```json
+{
+  "lessonId": "uuid",
+  "mode": "answer",
+  "level": 15,
+  "message": "Can you explain React hooks in simple terms?"
+}
+```
+
+**Response:**
+```json
+{
+  "response": "React hooks are functions that let you use state and other React features in functional components...",
+  "sources": ["lesson-1", "documentation"],
+  "remaining": 25
+}
+```
+
+### GET /ai-companion/usage
+Get AI companion usage statistics.
+
+**Response:**
+```json
+{
+  "totalRequests": 5,
+  "remainingRequests": 25,
+  "resetTime": 1640995200000,
+  "timeframe": "24h"
+}
+```
+
+## Analytics
+
+### GET /analytics/user/:userId/progress
+Get user learning progress analytics.
+
+**Response:**
+```json
+{
+  "totalEvents": 45,
+  "lessonsCompleted": 12,
+  "quizzesAttempted": 8,
+  "lastActivity": "2024-01-01T00:00:00.000Z",
+  "streakDays": 5
+}
+```
+
+### GET /analytics/course/:courseId/summary
+Get course performance analytics.
+
+**Response:**
+```json
+{
+  "courseId": "uuid",
+  "enrollments": 1250,
+  "lessonCompletions": 890,
+  "quizCompleted": 450,
+  "passRate": 0.85,
+  "avgAttemptsPerLearner": 1.2,
+  "active7d": 89,
+  "active30d": 234,
+  "lastActivity": "2024-01-01T00:00:00.000Z"
+}
+```
+
+## Security
+
+### GET /security/audit-logs
+Get audit logs (Admin only).
+
+**Query Parameters:**
+- `userId` (string): Filter by user ID
+- `action` (string): Filter by action type
+- `limit` (number): Limit results (default: 100)
+- `offset` (number): Offset results (default: 0)
+
+**Response:**
+```json
+{
+  "logs": [
+    {
+      "id": "uuid",
+      "userId": "uuid",
+      "action": "LOGIN_SUCCESS",
+      "resource": "AUTH",
+      "ipAddress": "192.168.1.1",
+      "userAgent": "Mozilla/5.0...",
+      "success": true,
+      "timestamp": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "total": 100
+}
+```
+
+## Error Handling
+
+All API endpoints return consistent error responses:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Bad Request",
+  "error": "Validation failed",
+  "details": [
+    {
+      "field": "email",
+      "message": "Email is required"
+    }
+  ]
+}
+```
+
+### Common HTTP Status Codes
+
+- `200` - Success
+- `201` - Created
+- `400` - Bad Request
+- `401` - Unauthorized
+- `403` - Forbidden
+- `404` - Not Found
+- `429` - Too Many Requests
+- `500` - Internal Server Error
+
+## Rate Limiting
+
+API endpoints are rate-limited to prevent abuse:
+
+- **General API**: 100 requests per minute per IP
+- **AI Companion**: 30 requests per 24 hours per user
+- **Authentication**: 5 requests per 15 minutes per IP
+- **File Uploads**: 10 uploads per hour per user
+
+Rate limit headers are included in responses:
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640995200
+```
+
+## Pagination
+
+List endpoints support pagination with the following parameters:
+
+- `page` (number): Page number (default: 1)
+- `limit` (number): Items per page (default: 10, max: 100)
+
+Pagination metadata is included in responses:
+```json
+{
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 50,
+    "totalPages": 5,
+    "hasNext": true,
+    "hasPrev": false
+  }
+}
+```
+
+## WebSocket Connections
+
+Real-time features use WebSocket connections:
+
+**Connection URL:** `ws://localhost:3001/ws`
+
+**Authentication:** Include JWT token in connection query parameter:
+```
+ws://localhost:3001/ws?token=your-jwt-token
+```
+
+### WebSocket Events
+
+- `lesson_progress` - Real-time lesson progress updates
+- `quiz_result` - Quiz completion notifications
+- `course_enrollment` - New enrollment notifications (instructors)
+- `system_announcement` - Platform announcements
+
+## SDK and Client Libraries
+
+### JavaScript/TypeScript
+```bash
+npm install @mindelta/client
+```
+
+```javascript
+import { MindeltaClient } from '@mindelta/client';
+
+const client = new MindeltaClient({
+  baseURL: 'http://localhost:3001/api',
+  token: 'your-jwt-token'
+});
+
+// Get courses
+const courses = await client.courses.list();
+
+// Enroll in course
+await client.courses.enroll('course-id');
+```
+
+### Python
+```bash
+pip install mindelta-python
+```
+
+```python
+from mindelta import MindeltaClient
+
+client = MindeltaClient(
+    base_url='http://localhost:3001/api',
+    token='your-jwt-token'
+)
+
+# Get courses
+courses = client.courses.list()
+
+# Enroll in course
+client.courses.enroll('course-id')
+```
+
+## Support
+
+For API support and questions:
+- **Documentation**: https://docs.mindelta.com
+- **Support Email**: api-support@mindelta.com
+- **Status Page**: https://status.mindelta.com
+- **GitHub Issues**: https://github.com/mindelta/api/issues
+
+## Changelog
+
+### v1.0.0 (2024-01-01)
+- Initial API release
+- User authentication and management
+- Course catalog and enrollment
+- Assessment and progress tracking
+- AI companion integration
+- Analytics and reporting
+- Security and audit logging
+
+---
+
+**Last Updated**: January 2024  
+**API Version**: 1.0.0  
+**Documentation Version**: 1.0.0

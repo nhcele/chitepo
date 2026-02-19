@@ -1,0 +1,110 @@
+{
+  "institution": "Chitepo School of Ideology",
+  "description": "Political education and ideological training institution",
+  "courses": [
+    {
+      "title": "Pan-Africanism and African Unity",
+      "subtitle": "Foundations of African solidarity and continental integration",
+      "category": "African Studies",
+      "topics": [
+        "Historical Foundations of Pan-Africanism",
+        "Liberation Struggles and Independence",
+        "Contemporary Pan-Africanism"
+      ],
+      "duration_hours": 7,
+      "difficulty": "intermediate"
+    },
+    {
+      "title": "Revolutionary Theory and Practice",
+      "subtitle": "Principles of revolutionary transformation and social change",
+      "category": "Political Theory",
+      "topics": [
+        "Foundations of Revolutionary Thought",
+        "Revolutionary Strategy and Tactics",
+        "Post-Revolutionary Governance"
+      ],
+      "duration_hours": 8,
+      "difficulty": "advanced"
+    },
+    {
+      "title": "Political Economy and Development",
+      "subtitle": "Economic systems, development strategies, and wealth creation",
+      "category": "Economics",
+      "topics": [
+        "Economic Systems and Ideologies",
+        "Development Theories and Strategies",
+        "Resource Management and Industrialization"
+      ],
+      "duration_hours": 7.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "title": "Leadership and Governance",
+      "subtitle": "Principles of effective leadership and democratic governance",
+      "category": "Governance",
+      "topics": [
+        "Leadership Principles and Styles",
+        "Democratic Governance",
+        "Accountability and Ethics"
+      ],
+      "duration_hours": 6,
+      "difficulty": "intermediate"
+    },
+    {
+      "title": "African History and Liberation Heritage",
+      "subtitle": "Pre-colonial civilization to independence struggles",
+      "category": "History",
+      "topics": [
+        "Pre-Colonial African Civilizations",
+        "Colonialism and Resistance",
+        "Liberation Struggles"
+      ],
+      "duration_hours": 8,
+      "difficulty": "beginner"
+    },
+    {
+      "title": "Social Transformation and Nation Building",
+      "subtitle": "Creating inclusive and prosperous societies",
+      "category": "Social Policy",
+      "topics": [
+        "National Identity and Unity",
+        "Social Justice and Equity",
+        "Cultural and Educational Transformation"
+      ],
+      "duration_hours": 5.5,
+      "difficulty": "intermediate"
+    },
+    {
+      "title": "International Relations and Diplomacy",
+      "subtitle": "Foreign policy, diplomacy, and global engagement",
+      "category": "International Relations",
+      "topics": [
+        "Foundations of International Relations",
+        "African Foreign Policy",
+        "Global Challenges and African Responses"
+      ],
+      "duration_hours": 6.5,
+      "difficulty": "advanced"
+    },
+    {
+      "title": "Political Philosophy and Ideology",
+      "subtitle": "Major political theories and ideological frameworks",
+      "category": "Philosophy",
+      "topics": [
+        "Classical Political Philosophy",
+        "Modern Political Ideologies",
+        "African Political Thought"
+      ],
+      "duration_hours": 7.5,
+      "difficulty": "advanced"
+    }
+  ],
+  "total_courses": 8,
+  "total_duration_hours": 56,
+  "instructor": {
+    "name": "Herbert Chitepo",
+    "email": "ideology.instructor@chitepo.edu",
+    "specialization": "Political Education and Ideology"
+  }
+}
+

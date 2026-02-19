@@ -1,0 +1,224 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main, develop ]
+
+jobs:
+  # Quick checks for PR
+  pr-checks:
+    name: PR Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Format check
+        run: npm run format -- --check
+
+      - name: Build check
+        run: npm run build
+
+  # Unit tests for PR
+  pr-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: mindelta_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup test environment
+        run: |
+          cp .env.test.example .env.test
+          echo "DB_HOST=localhost" >> .env.test
+          echo "DB_PORT=3306" >> .env.test
+          echo "DB_USERNAME=root" >> .env.test
+          echo "DB_PASSWORD=testpassword" >> .env.test
+          echo "DB_DATABASE=mindelta_test" >> .env.test
+
+      - name: Run database migrations
+        run: npm run migration:run
+        env:
+          NODE_ENV: test
+
+      - name: Run tests
+        run: npm test
+        env:
+          NODE_ENV: test
+
+  # PR size and complexity checks
+  pr-analysis:
+    name: PR Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR size
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD~1 | wc -l)
+          echo "Changed files: $CHANGED_FILES"
+          if [ $CHANGED_FILES -gt 50 ]; then
+            echo "::warning::Large PR detected ($CHANGED_FILES files). Consider breaking this into smaller PRs."
+          fi
+
+      - name: Check for TODO comments
+        run: |
+          TODOS=$(git diff HEAD~1 | grep -c "TODO\|FIXME\|XXX" || echo 0)
+          if [ $TODOS -gt 0 ]; then
+            echo "::warning::Found $TODOS TODO/FIXME comments in PR changes"
+          fi
+
+      - name: Check for console.log statements
+        run: |
+          CONSOLE_LOGS=$(git diff HEAD~1 | grep -c "console\.log\|console\.debug\|console\.warn" || echo 0)
+          if [ $CONSOLE_LOGS -gt 0 ]; then
+            echo "::warning::Found $CONSOLE_LOGS console.log statements in PR changes"
+          fi
+
+  # Dependency check
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level moderate
+
+      - name: Check for outdated dependencies
+        run: npm outdated || true
+
+  # API breaking changes check
+  api-break-check:
+    name: API Breaking Changes Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for API changes
+        run: |
+          # Check if controller files have changed
+          API_CHANGES=$(git diff --name-only HEAD~1 | grep -c "controller\|dto" || echo 0)
+          if [ $API_CHANGES -gt 0 ]; then
+            echo "::warning::API changes detected. Please ensure backward compatibility or update API version."
+          fi
+
+  # Database migration check
+  migration-check:
+    name: Database Migration Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for migration changes
+        run: |
+          MIGRATION_CHANGES=$(git diff --name-only HEAD~1 | grep -c "migration\|src/database" || echo 0)
+          if [ $MIGRATION_CHANGES -gt 0 ]; then
+            echo "::warning::Database changes detected. Please ensure migrations are backward compatible."
+          fi
+
+  # Test coverage check
+  coverage-check:
+    name: Test Coverage Check
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: mindelta_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup test environment
+        run: |
+          cp .env.test.example .env.test
+          echo "DB_HOST=localhost" >> .env.test
+          echo "DB_PORT=3306" >> .env.test
+          echo "DB_USERNAME=root" >> .env.test
+          echo "DB_PASSWORD=testpassword" >> .env.test
+          echo "DB_DATABASE=mindelta_test" >> .env.test
+
+      - name: Run tests with coverage
+        run: npm run test:cov
+        env:
+          NODE_ENV: test
+
+      - name: Check coverage thresholds
+        run: |
+          COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+          echo "Current coverage: $COVERAGE%"
+          if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+            echo "::error::Test coverage is below 80%. Current: $COVERAGE%"
+            exit 1
+          fi

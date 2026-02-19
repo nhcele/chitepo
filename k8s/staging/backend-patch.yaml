@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindelta-backend
+  namespace: mindelta-staging
+spec:
+  template:
+    spec:
+      containers:
+      - name: mindelta-backend
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mindelta-backend-service
+  namespace: mindelta-staging
+spec:
+  selector:
+    app: mindelta-backend
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mindelta-ingress
+  namespace: mindelta-staging
+spec:
+  tls:
+  - hosts:
+    - staging.mindelta.com
+    - api-staging.mindelta.com
+    secretName: mindelta-staging-tls
+  rules:
+  - host: staging.mindelta.com
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: mindelta-backend-service
+            port:
+              number: 80
+  - host: api-staging.mindelta.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mindelta-backend-service
+            port:
+              number: 80

@@ -1,0 +1,1645 @@
+# Mindelta Architecture Documentation
+
+## Overview
+
+Mindelta is a next-generation professional learning platform built with modern microservices architecture, designed for scalability, reliability, and maintainability. This document provides a comprehensive overview of the system architecture, design patterns, and technical decisions.
+
+## Table of Contents
+
+1. [System Architecture](#system-architecture)
+2. [Technology Stack](#technology-stack)
+3. [Microservices Design](#microservices-design)
+4. [Database Architecture](#database-architecture)
+5. [API Design](#api-design)
+6. [Frontend Architecture](#frontend-architecture)
+7. [Security Architecture](#security-architecture)
+8. [Scalability and Performance](#scalability-and-performance)
+9. [DevOps and Infrastructure](#devops-and-infrastructure)
+10. [Monitoring and Observability](#monitoring-and-observability)
+
+## System Architecture
+
+### High-Level Architecture
+
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        WEB[Web Application]
+        MOBILE[Mobile Application]
+        DESKTOP[Desktop Application]
+    end
+
+    subgraph "CDN & Load Balancer"
+        CDN[CloudFlare CDN]
+        LB[Application Load Balancer]
+    end
+
+    subgraph "API Gateway"
+        GATEWAY[API Gateway]
+    end
+
+    subgraph "Microservices"
+        AUTH[Authentication Service]
+        USER[User Service]
+        COURSE[Course Service]
+        ENROLLMENT[Enrollment Service]
+        ASSESSMENT[Assessment Service]
+        ANALYTICS[Analytics Service]
+        AI_COMPANION[AI Companion Service]
+        NOTIFICATION[Notification Service]
+        PAYMENT[Payment Service]
+        CONTENT[Content Service]
+        SECURITY[Security Service]
+    end
+
+    subgraph "Data Layer"
+        POSTGRES[(PostgreSQL)]
+        REDIS[(Redis)]
+        S3[(AWS S3)]
+        PINECONE[(Pinecone DB)]
+    end
+
+    subgraph "External Services"
+        OPENAI[OpenAI API]
+        AWS[AWS Services]
+        STRIPE[Stripe API]
+        SENDGRID[SendGrid API]
+    end
+
+    subgraph "Infrastructure"
+        K8S[Kubernetes Cluster]
+        DOCKER[Docker Containers]
+        MONITORING[Monitoring Stack]
+    end
+
+    WEB --> CDN
+    MOBILE --> CDN
+    DESKTOP --> CDN
+    CDN --> LB
+    LB --> GATEWAY
+    GATEWAY --> AUTH
+    GATEWAY --> USER
+    GATEWAY --> COURSE
+    GATEWAY --> ENROLLMENT
+    GATEWAY --> ASSESSMENT
+    GATEWAY --> ANALYTICS
+    GATEWAY --> AI_COMPANION
+    GATEWAY --> NOTIFICATION
+    GATEWAY --> PAYMENT
+    GATEWAY --> CONTENT
+    GATEWAY --> SECURITY
+
+    AUTH --> POSTGRES
+    USER --> POSTGRES
+    COURSE --> POSTGRES
+    ENROLLMENT --> POSTGRES
+    ASSESSMENT --> POSTGRES
+    ANALYTICS --> POSTGRES
+
+    AUTH --> REDIS
+    USER --> REDIS
+    COURSE --> REDIS
+    ANALYTICS --> REDIS
+
+    CONTENT --> S3
+    AI_COMPANION --> PINECONE
+    AI_COMPANION --> OPENAI
+    PAYMENT --> STRIPE
+    NOTIFICATION --> SENDGRID
+    CONTENT --> AWS
+```
+
+### Architectural Principles
+
+#### 1. Microservices Architecture
+- **Service Isolation**: Each service has its own database and business logic
+- **Independent Deployment**: Services can be deployed independently
+- **Technology Diversity**: Different services can use different technologies
+- **Fault Tolerance**: Failure in one service doesn't affect others
+
+#### 2. Domain-Driven Design (DDD)
+- **Bounded Contexts**: Clear boundaries between different domains
+- **Ubiquitous Language**: Consistent terminology across the system
+- **Aggregates**: Consistency boundaries within domains
+- **Domain Events**: Event-driven communication between services
+
+#### 3. Event-Driven Architecture
+- **Asynchronous Communication**: Services communicate via events
+- **Loose Coupling**: Services don't directly depend on each other
+- **Scalability**: Independent scaling of event producers and consumers
+- **Resilience**: Event replay and recovery mechanisms
+
+## Technology Stack
+
+### Backend Technologies
+
+#### Core Framework
+```typescript
+// NestJS - Progressive Node.js Framework
+- TypeScript-first development
+- Modular architecture
+- Dependency injection
+- Extensive ecosystem
+- Built-in testing support
+```
+
+#### Database Technologies
+```sql
+-- PostgreSQL - Primary Database
+- ACID compliance
+- JSON support
+- Full-text search
+- Advanced indexing
+- Replication support
+
+-- Redis - Caching and Session Store
+- In-memory data structure store
+- Pub/Sub messaging
+- Distributed locks
+- Session management
+- Rate limiting
+```
+
+#### Message Queue
+```typescript
+// Bull Queue - Job Processing
+- Redis-backed job queue
+- Job priorities and delays
+- Retry mechanisms
+- Web UI for monitoring
+- Concurrent processing
+```
+
+### Frontend Technologies
+
+#### React Ecosystem
+```typescript
+// Next.js - React Framework
+- Server-side rendering
+- Static site generation
+- API routes
+- Image optimization
+- Built-in optimizations
+
+// React - UI Library
+- Component-based architecture
+- Virtual DOM
+- Hooks API
+- Context API
+- Extensive ecosystem
+```
+
+#### Styling and UI
+```typescript
+// Tailwind CSS - Utility-first CSS
+- Rapid development
+- Consistent design system
+- Responsive design
+- Dark mode support
+- Custom components
+
+// Framer Motion - Animation Library
+- Declarative animations
+- Gesture recognition
+- Physics-based animations
+- Performance optimized
+```
+
+### Infrastructure Technologies
+
+#### Containerization
+```yaml
+# Docker
+- Container orchestration
+- Service isolation
+- Consistent environments
+- Easy scaling
+- Portability
+
+# Kubernetes
+- Container orchestration
+- Auto-scaling
+- Service discovery
+- Load balancing
+- Health checks
+```
+
+#### Cloud Services
+```yaml
+# AWS
+- S3: Object storage
+- CloudFront: CDN
+- RDS: Managed database
+- ElastiCache: Managed Redis
+- Lambda: Serverless functions
+- CloudWatch: Monitoring
+```
+
+## Microservices Design
+
+### Service Breakdown
+
+#### 1. Authentication Service
+```typescript
+// Responsibilities
+- User authentication and authorization
+- JWT token management
+- Password reset and recovery
+- Social login integration
+- Session management
+
+// Key Features
+- Two-factor authentication
+- OAuth 2.0 integration
+- Role-based access control
+- Audit logging
+- Security monitoring
+```
+
+#### 2. User Service
+```typescript
+// Responsibilities
+- User profile management
+- User preferences and settings
+- Skill tracking
+- Achievement management
+- Social features
+
+// Key Features
+- Profile CRUD operations
+- Skill assessment
+- Learning path generation
+- Progress tracking
+- Social connections
+```
+
+#### 3. Course Service
+```typescript
+// Responsibilities
+- Course catalog management
+- Course content delivery
+- Instructor management
+- Course recommendations
+- Content versioning
+
+// Key Features
+- Course CRUD operations
+- Content management
+- Instructor profiles
+- Recommendation engine
+- Version control
+```
+
+#### 4. Enrollment Service
+```typescript
+// Responsibilities
+- Course enrollment management
+- Payment processing
+- Subscription management
+- Refund processing
+- Enrollment analytics
+
+// Key Features
+- Enrollment lifecycle
+- Payment integration
+- Subscription billing
+- Refund workflows
+- Revenue tracking
+```
+
+#### 5. Assessment Service
+```typescript
+// Responsibilities
+- Quiz and test management
+- Progress tracking
+- Grading and feedback
+- Certificate generation
+- Performance analytics
+
+// Key Features
+- Quiz creation and delivery
+- Automated grading
+- Progress calculation
+- Certificate issuance
+- Performance metrics
+```
+
+#### 6. Analytics Service
+```typescript
+// Responsibilities
+- Learning analytics
+- Business intelligence
+- User behavior tracking
+- Performance metrics
+- Reporting and insights
+
+// Key Features
+- Event tracking
+- Real-time analytics
+- Business metrics
+- User insights
+- Custom reports
+```
+
+#### 7. AI Companion Service
+```typescript
+// Responsibilities
+- AI-powered learning assistance
+- Personalized recommendations
+- Content generation
+- Natural language processing
+- Knowledge base management
+
+// Key Features
+- Chat interface
+- Content recommendations
+- Personalized learning paths
+- Knowledge extraction
+- Context-aware assistance
+```
+
+### Service Communication
+
+#### Synchronous Communication
+```typescript
+// REST API
+- HTTP/HTTPS protocols
+- JSON data format
+- Standard HTTP methods
+- Status codes and errors
+- API versioning
+
+// GraphQL (Optional)
+- Single endpoint
+- Flexible queries
+- Strong typing
+- Real-time subscriptions
+- Efficient data fetching
+```
+
+#### Asynchronous Communication
+```typescript
+// Event Bus
+- Domain events
+- Event sourcing
+- CQRS pattern
+- Event replay
+- Dead letter queues
+
+// Message Queues
+- Reliable delivery
+- Order processing
+- Background jobs
+- Notification delivery
+- Data synchronization
+```
+
+## Database Architecture
+
+### Database Design Principles
+
+#### 1. Data Normalization
+```sql
+-- Normalized structure for data integrity
+- First Normal Form (1NF)
+- Second Normal Form (2NF)
+- Third Normal Form (3NF)
+- Foreign key constraints
+- Data validation rules
+```
+
+#### 2. Database per Service
+```sql
+-- Each microservice has its own database
+- Service isolation
+- Independent scaling
+- Technology flexibility
+- Data ownership
+- Migration independence
+```
+
+#### 3. Read Replicas
+```sql
+-- Master-slave replication for read scalability
+- Write operations on master
+- Read operations on replicas
+- Automatic failover
+- Load distribution
+- Data consistency
+```
+
+### Schema Design
+
+#### User Schema
+```sql
+-- Users table
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    job_title VARCHAR(255),
+    avatar_url VARCHAR(500),
+    role VARCHAR(50) NOT NULL DEFAULT 'learner',
+    email_verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- User profiles
+CREATE TABLE user_profiles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    bio TEXT,
+    skills JSONB,
+    preferences JSONB,
+    timezone VARCHAR(50),
+    language VARCHAR(10) DEFAULT 'en',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Course Schema
+```sql
+-- Courses table
+CREATE TABLE courses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    instructor_id UUID REFERENCES users(id),
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    category VARCHAR(100),
+    level VARCHAR(20) DEFAULT 'beginner',
+    price DECIMAL(10,2),
+    estimated_duration_min INTEGER,
+    thumbnail_url VARCHAR(500),
+    published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Lessons table
+CREATE TABLE lessons (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    content TEXT,
+    video_url VARCHAR(500),
+    order_index INTEGER NOT NULL,
+    estimated_duration_min INTEGER,
+    published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### Enrollment Schema
+```sql
+-- Enrollments table
+CREATE TABLE enrollments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+    enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    progress_percentage INTEGER DEFAULT 0,
+    last_accessed_at TIMESTAMP,
+    UNIQUE(user_id, course_id)
+);
+
+-- Progress tracking
+CREATE TABLE progress (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
+    lesson_id UUID REFERENCES lessons(id) ON DELETE CASCADE,
+    completed BOOLEAN DEFAULT FALSE,
+    watch_time INTEGER DEFAULT 0,
+    last_accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, lesson_id)
+);
+```
+
+### Database Optimization
+
+#### Indexing Strategy
+```sql
+-- Performance indexes
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_enrollments_user_id ON enrollments(user_id);
+CREATE INDEX idx_enrollments_course_id ON enrollments(course_id);
+CREATE INDEX idx_progress_user_id ON progress(user_id);
+CREATE INDEX idx_progress_course_id ON progress(course_id);
+CREATE INDEX idx_courses_instructor_id ON courses(instructor_id);
+CREATE INDEX idx_lessons_course_id ON lessons(course_id);
+
+-- Composite indexes
+CREATE INDEX idx_enrollments_user_course ON enrollments(user_id, course_id);
+CREATE INDEX idx_progress_user_lesson ON progress(user_id, lesson_id);
+CREATE INDEX idx_courses_category_published ON courses(category, published);
+```
+
+#### Query Optimization
+```sql
+-- Optimized queries with proper joins
+SELECT c.*, u.name as instructor_name, COUNT(e.id) as enrollment_count
+FROM courses c
+JOIN users u ON c.instructor_id = u.id
+LEFT JOIN enrollments e ON c.id = e.course_id
+WHERE c.published = true
+GROUP BY c.id, u.name
+ORDER BY c.created_at DESC;
+
+-- Efficient pagination
+SELECT * FROM courses
+WHERE published = true
+ORDER BY created_at DESC
+LIMIT 10 OFFSET 0;
+```
+
+## API Design
+
+### RESTful API Principles
+
+#### Resource Naming
+```typescript
+// Consistent resource naming
+GET    /api/courses           // Get all courses
+GET    /api/courses/:id       // Get specific course
+POST   /api/courses           // Create new course
+PUT    /api/courses/:id       // Update course
+DELETE /api/courses/:id       // Delete course
+
+// Nested resources
+GET    /api/courses/:id/lessons        // Get course lessons
+POST   /api/courses/:id/enroll         // Enroll in course
+GET    /api/users/:id/courses          // Get user courses
+```
+
+#### HTTP Status Codes
+```typescript
+// Success codes
+200 OK              // Request successful
+201 Created         // Resource created
+204 No Content      // Request successful, no content
+
+// Client error codes
+400 Bad Request     // Invalid request
+401 Unauthorized    // Authentication required
+403 Forbidden       // Permission denied
+404 Not Found       // Resource not found
+409 Conflict        // Resource conflict
+422 Unprocessable   // Validation failed
+
+// Server error codes
+500 Internal Error  // Server error
+502 Bad Gateway     // Upstream service error
+503 Service Unavailable  // Service temporarily unavailable
+```
+
+#### API Versioning
+```typescript
+// URL versioning
+/api/v1/courses
+/api/v2/courses
+
+// Header versioning
+Accept: application/vnd.mindelta.v1+json
+
+// Query parameter versioning
+/api/courses?version=1
+```
+
+### GraphQL API (Optional)
+
+#### Schema Design
+```graphql
+# User type
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  profile: UserProfile
+  enrollments: [Enrollment!]!
+}
+
+# Course type
+type Course {
+  id: ID!
+  title: String!
+  description: String
+  instructor: User!
+  lessons: [Lesson!]!
+  enrollmentCount: Int!
+}
+
+# Query schema
+type Query {
+  courses(filter: CourseFilter): [Course!]!
+  course(id: ID!): Course
+  userCourses(userId: ID!): [Course!]!
+}
+
+# Mutation schema
+type Mutation {
+  enrollCourse(courseId: ID!): Enrollment!
+  updateProgress(lessonId: ID!, completed: Boolean!): Progress!
+}
+```
+
+### API Documentation
+
+#### OpenAPI Specification
+```yaml
+# OpenAPI 3.0 specification
+openapi: 3.0.0
+info:
+  title: Mindelta API
+  version: 1.0.0
+  description: Professional learning platform API
+
+paths:
+  /courses:
+    get:
+      summary: Get all courses
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Courses retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+```
+
+## Frontend Architecture
+
+### Component Architecture
+
+#### Atomic Design Pattern
+```typescript
+// Atoms - Basic building blocks
+export const Button = ({ variant, size, children, ...props }) => {
+  return (
+    <button 
+      className={`btn btn-${variant} btn-${size}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
+// Molecules - Groups of atoms
+export const SearchBox = () => {
+  return (
+    <div className="search-box">
+      <Input placeholder="Search courses..." />
+      <Button variant="primary">Search</Button>
+    </div>
+  );
+};
+
+// Organisms - Complex components
+export const CourseCard = ({ course }) => {
+  return (
+    <div className="course-card">
+      <Image src={course.thumbnail} alt={course.title} />
+      <div className="course-info">
+        <h3>{course.title}</h3>
+        <p>{course.description}</p>
+        <Button onClick={() => enroll(course.id)}>
+          Enroll Now
+        </Button>
+      </div>
+    </div>
+  );
+};
+```
+
+#### State Management
+```typescript
+// Redux Toolkit for global state
+import { createSlice, configureStore } from '@reduxjs/toolkit';
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    user: null,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+  },
+});
+
+// React Query for server state
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+export const useCourses = () => {
+  return useQuery({
+    queryKey: ['courses'],
+    queryFn: getCourses,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+export const useEnrollCourse = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: enrollCourse,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['courses'] });
+    },
+  });
+};
+```
+
+### Routing Architecture
+
+#### Next.js App Router
+```typescript
+// App directory structure
+app/
+├── (auth)/
+│   ├── login/
+│   └── register/
+├── (dashboard)/
+│   ├── learner/
+│   ├── instructor/
+│   └── admin/
+├── courses/
+│   ├── [id]/
+│   └── category/
+└── api/
+    ├── courses/
+    └── auth/
+
+// Dynamic routing
+export default function CoursePage({ params }: { params: { id: string } }) {
+  return <CourseDetail courseId={params.id} />;
+}
+
+// Route groups for layouts
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <DashboardLayout>
+      <Sidebar />
+      <main>{children}</main>
+    </DashboardLayout>
+  );
+}
+```
+
+### Performance Optimization
+
+#### Code Splitting
+```typescript
+// Dynamic imports for code splitting
+const CoursePlayer = dynamic(() => import('@/components/CoursePlayer'), {
+  loading: () => <div>Loading player...</div>,
+  ssr: false,
+});
+
+const AnalyticsDashboard = dynamic(() => 
+  import('@/components/AnalyticsDashboard')
+);
+
+// Route-based code splitting
+const LearnerDashboard = () => import('./LearnerDashboard');
+const InstructorDashboard = () => import('./InstructorDashboard');
+```
+
+#### Image Optimization
+```typescript
+// Next.js Image component
+import Image from 'next/image';
+
+export const CourseThumbnail = ({ course }) => {
+  return (
+    <Image
+      src={course.thumbnail}
+      alt={course.title}
+      width={400}
+      height={225}
+      priority={course.featured}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,..."
+    />
+  );
+};
+```
+
+## Security Architecture
+
+### Authentication and Authorization
+
+#### JWT Implementation
+```typescript
+// JWT token structure
+interface JwtPayload {
+  sub: string;        // User ID
+  email: string;      // User email
+  role: UserRole;     // User role
+  permissions: string[];
+  iat: number;        // Issued at
+  exp: number;        // Expires at
+}
+
+// Token generation
+export const generateTokens = (user: User) => {
+  const payload: JwtPayload = {
+    sub: user.id,
+    email: user.email,
+    role: user.role,
+    permissions: getUserPermissions(user.role),
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour
+  };
+
+  return {
+    accessToken: jwt.sign(payload, process.env.JWT_SECRET),
+    refreshToken: jwt.sign(
+      { sub: user.id, type: 'refresh' },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: '7d' }
+    ),
+  };
+};
+```
+
+#### Role-Based Access Control
+```typescript
+// Role permissions
+enum UserRole {
+  LEARNER = 'learner',
+  INSTRUCTOR = 'instructor',
+  ADMIN = 'admin',
+  SUPER_ADMIN = 'super_admin',
+}
+
+const permissions = {
+  [UserRole.LEARNER]: [
+    'course:read',
+    'enrollment:create',
+    'progress:update',
+  ],
+  [UserRole.INSTRUCTOR]: [
+    'course:create',
+    'course:update',
+    'course:delete',
+    'enrollment:read',
+  ],
+  [UserRole.ADMIN]: [
+    'user:read',
+    'user:update',
+    'analytics:read',
+  ],
+  [UserRole.SUPER_ADMIN]: [
+    '*': '*', // All permissions
+  ],
+};
+```
+
+### Data Protection
+
+#### Input Validation and Sanitization
+```typescript
+// DTO validation with class-validator
+import { IsString, IsEmail, MinLength, MaxLength } from 'class-validator';
+
+export class CreateUserDto {
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(8)
+  @MaxLength(100)
+  password: string;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(50)
+  name: string;
+}
+
+// HTML sanitization
+import * as sanitizeHtml from 'sanitize-html';
+
+export const sanitizeContent = (content: string): string => {
+  return sanitizeHtml(content, {
+    allowedTags: ['p', 'br', 'strong', 'em', 'ul', 'ol', 'li'],
+    allowedAttributes: {},
+  });
+};
+```
+
+#### Rate Limiting
+```typescript
+// Rate limiting configuration
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+
+@Module({
+  imports: [
+    ThrottlerModule.forRoot([
+      {
+        name: 'short',
+        ttl: 60000,      // 1 minute
+        limit: 100,      // 100 requests per minute
+      },
+      {
+        name: 'medium',
+        ttl: 300000,     // 5 minutes
+        limit: 500,      // 500 requests per 5 minutes
+      },
+      {
+        name: 'long',
+        ttl: 3600000,    // 1 hour
+        limit: 2000,     // 2000 requests per hour
+      },
+    ]),
+  ],
+})
+export class AppModule {}
+```
+
+### Security Headers
+```typescript
+// Security middleware configuration
+import helmet from 'helmet';
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true,
+  },
+}));
+```
+
+## Scalability and Performance
+
+### Horizontal Scaling
+
+#### Load Balancing
+```yaml
+# Kubernetes deployment with horizontal pod autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: course-service-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: course-service
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+#### Database Scaling
+```sql
+-- Read replicas for read scalability
+CREATE USER read_replica_user WITH PASSWORD 'secure_password';
+GRANT CONNECT ON DATABASE mindelta_prod TO read_replica_user;
+GRANT USAGE ON SCHEMA public TO read_replica_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO read_replica_user;
+
+-- Connection pooling
+ALTER SYSTEM SET max_connections = 200;
+ALTER SYSTEM SET shared_buffers = '256MB';
+ALTER SYSTEM SET effective_cache_size = '1GB';
+```
+
+### Caching Strategy
+
+#### Multi-Level Caching
+```typescript
+// L1: In-memory cache
+const memoryCache = new Map<string, any>();
+
+// L2: Redis cache
+@Injectable()
+export class CacheService {
+  constructor(
+    @Inject('REDIS_CLIENT') private redis: Redis,
+  ) {}
+
+  async get<T>(key: string): Promise<T | null> {
+    // Check memory cache first
+    if (memoryCache.has(key)) {
+      return memoryCache.get(key);
+    }
+
+    // Check Redis cache
+    const value = await this.redis.get(key);
+    if (value) {
+      const parsed = JSON.parse(value);
+      memoryCache.set(key, parsed);
+      return parsed;
+    }
+
+    return null;
+  }
+
+  async set(key: string, value: any, ttl: number = 3600): Promise<void> {
+    // Set in both caches
+    memoryCache.set(key, value);
+    await this.redis.setex(key, ttl, JSON.stringify(value));
+  }
+}
+```
+
+#### CDN Integration
+```typescript
+// CloudFront CDN configuration
+export const getCloudFrontUrl = (key: string): string => {
+  const cloudFrontDomain = process.env.CLOUDFRONT_DOMAIN;
+  return `https://${cloudFrontDomain}/${key}`;
+};
+
+// Cache headers for static assets
+export const setCacheHeaders = (req: Request, res: Response) => {
+  if (req.url.includes('/static/')) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  } else if (req.url.includes('/api/')) {
+    res.setHeader('Cache-Control', 'public, max-age=300'); // 5 minutes
+  }
+};
+```
+
+### Performance Monitoring
+
+#### Application Performance Monitoring (APM)
+```typescript
+// APM integration with New Relic or DataDog
+import * as newrelic from 'newrelic';
+
+// Custom metrics
+export const trackCustomMetric = (name: string, value: number) => {
+  newrelic.recordMetric(name, value);
+};
+
+// Transaction tracking
+export const trackTransaction = (name: string, fn: () => Promise<any>) => {
+  return newrelic.startSegment(name, true, fn);
+};
+
+// Error tracking
+export const trackError = (error: Error, context?: any) => {
+  newrelic.noticeError(error, context);
+};
+```
+
+#### Database Performance Monitoring
+```sql
+-- Enable query logging
+ALTER SYSTEM SET log_statement = 'all';
+ALTER SYSTEM SET log_min_duration_statement = 100; // Log queries > 100ms
+
+-- Performance monitoring
+SELECT query, mean_time, calls, total_time
+FROM pg_stat_statements
+ORDER BY mean_time DESC
+LIMIT 10;
+
+-- Index usage analysis
+SELECT schemaname, tablename, indexname, idx_scan, idx_tup_read, idx_tup_fetch
+FROM pg_stat_user_indexes
+ORDER BY idx_scan DESC;
+```
+
+## DevOps and Infrastructure
+
+### Container Strategy
+
+#### Docker Configuration
+```dockerfile
+# Multi-stage Dockerfile for backend
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine AS runtime
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
+EXPOSE 3001
+CMD ["npm", "run", "start:prod"]
+```
+
+#### Docker Compose for Development
+```yaml
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_HOST=postgres
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:3001/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=mindelta_dev
+      - POSTGRES_USER=mindelta
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+```
+
+### Kubernetes Deployment
+
+#### Deployment Configuration
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: course-service
+  template:
+    metadata:
+      labels:
+        app: course-service
+    spec:
+      containers:
+      - name: course-service
+        image: mindelta/course-service:latest
+        ports:
+        - containerPort: 3001
+        env:
+        - name: DATABASE_HOST
+          value: "postgres-service"
+        - name: REDIS_HOST
+          value: "redis-service"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+```
+
+#### Service Configuration
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: course-service
+spec:
+  selector:
+    app: course-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3001
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: course-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - api.mindelta.com
+    secretName: mindelta-tls
+  rules:
+  - host: api.mindelta.com
+    http:
+      paths:
+      - path: /api/courses
+        pathType: Prefix
+        backend:
+          service:
+            name: course-service
+            port:
+              number: 80
+```
+
+### CI/CD Pipeline
+
+#### GitHub Actions Workflow
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        cd backend && npm ci
+        cd ../frontend && npm ci
+    
+    - name: Run tests
+      run: |
+        cd backend && npm run test:cov
+        cd ../frontend && npm run test:cov
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build and push Docker images
+      run: |
+        docker build -t mindelta/backend:${{ github.sha }} ./backend
+        docker build -t mindelta/frontend:${{ github.sha }} ./frontend
+        
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push mindelta/backend:${{ github.sha }}
+        docker push mindelta/frontend:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Deploy to Kubernetes
+      run: |
+        echo ${{ secrets.KUBECONFIG }} | base64 -d > kubeconfig
+        export KUBECONFIG=kubeconfig
+        
+        kubectl set image deployment/backend backend=mindelta/backend:${{ github.sha }}
+        kubectl set image deployment/frontend frontend=mindelta/frontend:${{ github.sha }}
+        
+        kubectl rollout status deployment/backend
+        kubectl rollout status deployment/frontend
+```
+
+## Monitoring and Observability
+
+### Logging Strategy
+
+#### Structured Logging
+```typescript
+// Winston logger configuration
+import { Logger } from 'winston';
+
+export const logger = Logger.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.errors({ stack: true }),
+    winston.format.json()
+  ),
+  defaultMeta: { service: 'course-service' },
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+    new winston.transports.Console({
+      format: winston.format.simple()
+    })
+  ],
+});
+
+// Usage
+logger.info('Course created', { courseId: course.id, userId: user.id });
+logger.error('Failed to create course', { error: error.message, stack: error.stack });
+```
+
+#### Log Aggregation
+```yaml
+# ELK Stack configuration
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.15.0
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "5044:5044"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+```
+
+### Metrics Collection
+
+#### Prometheus Metrics
+```typescript
+// Prometheus client integration
+import { register, Counter, Histogram, Gauge } from 'prom-client';
+
+export const httpRequestsTotal = new Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['method', 'route', 'status_code'],
+});
+
+export const httpRequestDuration = new Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route'],
+  buckets: [0.1, 0.5, 1, 2, 5],
+});
+
+export const activeUsers = new Gauge({
+  name: 'active_users_total',
+  help: 'Number of active users',
+});
+
+// Middleware for metrics collection
+export const metricsMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const start = Date.now();
+  
+  res.on('finish', () => {
+    const duration = (Date.now() - start) / 1000;
+    
+    httpRequestsTotal
+      .labels(req.method, req.route?.path || req.path, res.statusCode.toString())
+      .inc();
+    
+    httpRequestDuration
+      .labels(req.method, req.route?.path || req.path)
+      .observe(duration);
+  });
+  
+  next();
+};
+```
+
+#### Custom Business Metrics
+```typescript
+// Business metrics tracking
+export const businessMetrics = {
+  coursesCreated: new Counter({
+    name: 'courses_created_total',
+    help: 'Total number of courses created',
+  }),
+  
+  enrollmentsCompleted: new Counter({
+    name: 'enrollments_completed_total',
+    help: 'Total number of course enrollments',
+  }),
+  
+  lessonCompletions: new Counter({
+    name: 'lesson_completions_total',
+    help: 'Total number of lesson completions',
+  }),
+  
+  revenueGenerated: new Gauge({
+    name: 'revenue_generated_total',
+    help: 'Total revenue generated in USD',
+  }),
+};
+```
+
+### Health Checks
+
+#### Comprehensive Health Monitoring
+```typescript
+// Health check endpoint
+@Controller('health')
+export class HealthController {
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly redisService: RedisService,
+    private readonly externalService: ExternalService,
+  ) {}
+
+  @Get()
+  async healthCheck(): Promise<HealthStatus> {
+    const [db, redis, external] = await Promise.allSettled([
+      this.databaseService.checkConnection(),
+      this.redisService.checkConnection(),
+      this.externalService.checkConnection(),
+    ]);
+
+    return {
+      status: this.getOverallStatus([db, redis, external]),
+      timestamp: new Date().toISOString(),
+      services: {
+        database: this.getServiceStatus(db),
+        redis: this.getServiceStatus(redis),
+        external: this.getServiceStatus(external),
+      },
+      version: process.env.APP_VERSION,
+      uptime: process.uptime(),
+    };
+  }
+
+  private getOverallStatus(results: PromiseSettledResult<any>[]): 'healthy' | 'degraded' | 'unhealthy' {
+    const failed = results.filter(r => r.status === 'rejected').length;
+    if (failed === 0) return 'healthy';
+    if (failed <= results.length / 2) return 'degraded';
+    return 'unhealthy';
+  }
+}
+```
+
+### Alerting Strategy
+
+#### Alert Configuration
+```yaml
+# Prometheus AlertManager configuration
+global:
+  smtp_smarthost: 'localhost:587'
+  smtp_from: 'alerts@mindelta.com'
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'web.hook'
+
+receivers:
+- name: 'web.hook'
+  email_configs:
+  - to: 'devops@mindelta.com'
+    subject: '[Mindelta Alert] {{ .GroupLabels.alertname }}'
+    body: |
+      {{ range .Alerts }}
+      Alert: {{ .Annotations.summary }}
+      Description: {{ .Annotations.description }}
+      {{ end }}
+
+inhibit_rules:
+- source_match:
+    severity: 'critical'
+  target_match:
+    severity: 'warning'
+  equal: ['alertname', 'dev', 'instance']
+```
+
+#### Alert Rules
+```yaml
+# Alert rules
+groups:
+- name: mindelta.rules
+  rules:
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status_code=~"5.."}[5m]) > 0.1
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate detected"
+      description: "Error rate is {{ $value }} errors per second"
+
+  - alert: HighResponseTime
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High response time detected"
+      description: "95th percentile response time is {{ $value }} seconds"
+
+  - alert: DatabaseConnectionFailure
+    expr: up{job="postgres"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Database connection failure"
+      description: "PostgreSQL database is down"
+```
+
+## Conclusion
+
+The Mindelta architecture is designed to be:
+
+- **Scalable**: Horizontal scaling with microservices and containerization
+- **Resilient**: Fault tolerance with redundancy and failover mechanisms
+- **Secure**: Multiple layers of security with authentication and authorization
+- **Performant**: Optimized for speed with caching and CDN integration
+- **Maintainable**: Clean code structure with comprehensive documentation
+- **Observable**: Full monitoring and alerting capabilities
+
+This architecture supports the platform's goals of delivering high-quality professional learning experiences to millions of users worldwide while maintaining reliability and performance standards.
+
+---
+
+**Last Updated**: January 2024  
+**Version**: 1.0.0  
+**Architecture Team**: Mindelta Engineering

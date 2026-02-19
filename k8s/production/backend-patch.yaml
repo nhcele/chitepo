@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindelta-backend
+  namespace: mindelta
+spec:
+  template:
+    spec:
+      containers:
+      - name: mindelta-backend
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        env:
+        - name: DB_HOST
+          value: "mysql-prod-service"
+        - name: REDIS_HOST
+          value: "redis-prod-service"
+        - name: MINIO_ENDPOINT
+          value: "minio-prod-service"
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mindelta-backend-hpa
+  namespace: mindelta
+spec:
+  minReplicas: 3
+  maxReplicas: 20
