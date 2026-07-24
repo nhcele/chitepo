@@ -111,7 +111,7 @@ export default function CourseCard({
           />
         ))}
         <span className="text-sm text-gray-600 ml-1">
-          {rating.toFixed(1)}
+          {rating > 0 ? rating.toFixed(1) : 'New'}
         </span>
       </div>
     )
@@ -248,7 +248,7 @@ export default function CourseCard({
               </div>
               <div className="flex items-center space-x-1">
                 <StarIconSolid className="h-4 w-4 text-yellow-400" />
-                <span>{(typeof course.rating === 'number' ? course.rating : 0).toFixed(1)}</span>
+                <span>{(typeof course.rating === 'number' && course.rating > 0) ? course.rating.toFixed(1) : 'New'}</span>
               </div>
             </div>
           </div>
@@ -382,7 +382,7 @@ export default function CourseCard({
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1">
               <StarIconSolid className="h-4 w-4 text-yellow-400" />
-              <span>{(typeof course.rating === 'number' ? course.rating : 0).toFixed(1)}</span>
+              <span>{(typeof course.rating === 'number' && course.rating > 0) ? course.rating.toFixed(1) : 'New'}</span>
             </div>
             
             <div className="flex items-center space-x-1">

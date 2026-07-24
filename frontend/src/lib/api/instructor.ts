@@ -33,9 +33,16 @@ export interface LessonDTO {
   video_url?: string;
   videoDuration?: number;
   durationSeconds?: number;
+  durationMinutes?: number;
+  estimatedDurationMin?: number;
   isPublished?: boolean;
   hasQuiz?: boolean;
   quiz_json?: any;
+  transcript?: string;
+  resourceLinks?: Array<{ title: string; url: string }>;
+  completionMode?: 'required' | 'optional' | 'manual';
+  minimumWatchPercent?: number;
+  minimumQuizScore?: number;
   order_within_module?: number;
 }
 
@@ -75,10 +82,22 @@ export async function instructorGetCourseAnalytics(courseId: string): Promise<an
   return apiClient.get<any>(`/instructor/analytics/${courseId}`);
 }
 
+export interface InstructorActivityDTO {
+  id: string;
+  type: 'enrollment' | 'completion' | 'review' | 'purchase' | 'lesson';
+  title: string;
+  description: string;
+  course?: string;
+  timestamp: string;
+}
+
 export interface InstructorMetricsDTO {
   publishedCourses: number;
   totalLearners: number;
   monthlyRevenue: number;
+  averageRating?: number | null;
+  coursePerformance?: Array<{ name: string; students: number; completion: number; revenue: number }>;
+  recentActivity?: InstructorActivityDTO[];
 }
 
 export async function instructorGetMetrics(): Promise<InstructorMetricsDTO> {

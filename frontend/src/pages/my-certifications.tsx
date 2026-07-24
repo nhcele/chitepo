@@ -4,6 +4,7 @@ import CertificationProgressTracker from '@/components/certifications/Certificat
 import { useState, useEffect } from 'react';
 import { AcademicCapIcon, LightBulbIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { getAuthHeaders } from '@/lib/auth';
 
 interface RecommendedPathway {
   pathway: {
@@ -32,9 +33,7 @@ export default function MyCertificationsPage() {
   const fetchRecommendations = async () => {
     try {
       const response = await fetch('/api/certifications/recommendations', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {

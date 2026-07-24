@@ -11,13 +11,13 @@ export interface UserProgressSummary {
 
 export async function getUserProgress(userId: string): Promise<UserProgressSummary> {
   // Backend returns the object directly; apiClient already returns response.data
-  const res = await apiClient.get<UserProgressSummary>(`/api/analytics/user/${userId}/progress`);
+  const res = await apiClient.get<UserProgressSummary>(`/analytics/user/${userId}/progress`);
   return res;
 }
 
 export async function trackEvent(partial: Partial<CreateAnalyticsEventDto> & { eventType: AnalyticsEventType }): Promise<void> {
   try {
-    await apiClient.post(`/api/analytics/events`, partial);
+    await apiClient.post(`/analytics/events`, partial);
   } catch (e) {
     // swallow errors — analytics should never break UX
   }
@@ -38,7 +38,7 @@ export interface CourseSummary {
 }
 
 export async function getCourseSummary(courseId: string): Promise<CourseSummary> {
-  return apiClient.get<CourseSummary>(`/api/analytics/course/${courseId}/summary`);
+  return apiClient.get<CourseSummary>(`/analytics/course/${courseId}/summary`);
 }
 
 export interface LiveSessionSummary {
@@ -53,7 +53,7 @@ export interface LiveSessionSummary {
 }
 
 export async function getLiveSessionSummary(sessionId: string): Promise<LiveSessionSummary> {
-  return apiClient.get<LiveSessionSummary>(`/api/analytics/live-session/${sessionId}/summary`);
+  return apiClient.get<LiveSessionSummary>(`/analytics/live-session/${sessionId}/summary`);
 }
 
 export interface InstructorSummary {
@@ -71,5 +71,5 @@ export interface InstructorSummary {
 }
 
 export async function getInstructorSummary(instructorId: string): Promise<InstructorSummary> {
-  return apiClient.get<InstructorSummary>(`/api/analytics/instructor/${instructorId}/summary`);
+  return apiClient.get<InstructorSummary>(`/analytics/instructor/${instructorId}/summary`);
 }

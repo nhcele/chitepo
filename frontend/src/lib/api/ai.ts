@@ -1,15 +1,16 @@
 import { apiClient } from './client';
 
 export interface GeneratedQuestion {
+  id?: string; // present when the question is a persisted DB question (server-graded)
   question: string;
   options: string[];
-  correctAnswer: string;
+  correctAnswer?: string; // present only for ephemeral AI-practice questions
   explanation?: string;
 }
 
 export async function generateQuizQuestions(courseContent: string, count: number = 3): Promise<GeneratedQuestion[]> {
   const res = await apiClient.post<{ questions: GeneratedQuestion[] }>(
-    '/api/ai-companion/generate-quiz',
+    '/ai-companion/generate-quiz',
     { courseContent, count },
     { timeout: 60000 } // 60 seconds for AI generation
   );
@@ -32,11 +33,11 @@ export interface ChatResponse {
 }
 
 export async function aiChat(req: ChatRequest): Promise<ChatResponse> {
-  return apiClient.post<ChatResponse>('/api/ai-companion/chat', req);
+  return apiClient.post<ChatResponse>('/ai-companion/chat', req);
 }
 
 export async function getAiUsage(): Promise<{ remaining: number; limit: number }> {
-  return apiClient.get<{ remaining: number; limit: number }>('/api/ai-companion/usage');
+  return apiClient.get<{ remaining: number; limit: number }>('/ai-companion/usage');
 }
 
 export async function provideFeedback(data: {
@@ -92,5 +93,5 @@ export async function adaptDifficulty(data: {
   lessonId: string;
   performance: number;
 }): Promise<{ adjustedLevel: number; reasoning: string }> {
-  return apiClient.post<{ adjustedLevel: number; reasoning: string }>('/api/ai-companion/adaptive-difficulty', data);
+  return apiClient.post<{ adjustedLevel: number; reasoning: string }>('/ai-companion/adaptive-difficulty', data);
 }

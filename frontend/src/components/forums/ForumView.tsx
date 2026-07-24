@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import {
@@ -63,7 +64,7 @@ export default function ForumView({ forumId }: ForumViewProps) {
       loadData();
     } catch (error) {
       console.error('Error creating post:', error);
-      alert('Failed to create post. Please try again.');
+      toast('Failed to create post. Please try again.');
     }
   };
 

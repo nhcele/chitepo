@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import toast from 'react-hot-toast';
 import Layout from '@/components/Layout';
 import { useState, useEffect } from 'react';
 import {
@@ -113,7 +114,7 @@ export default function RPLApplicationPage() {
         });
 
         if (submitRes.ok) {
-          alert('Application submitted successfully!');
+          toast('Application submitted successfully!');
           setShowForm(false);
           fetchData();
         } else {
@@ -124,7 +125,7 @@ export default function RPLApplicationPage() {
         throw new Error(error.message || 'Failed to create application');
       }
     } catch (err: any) {
-      alert(err.message || 'Failed to submit application. Please try again.');
+      toast(err.message || 'Failed to submit application. Please try again.');
       throw err;
     }
   };

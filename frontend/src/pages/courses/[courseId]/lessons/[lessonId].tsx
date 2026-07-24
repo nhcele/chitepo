@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { getCourse } from '@/lib/api/courses';
 import { getMyEnrollmentForCourse, updateEnrollmentProgress } from '@/lib/api/enrollments';
 import { generateQuizQuestions, GeneratedQuestion } from '@/lib/api/ai';
-import { getQuizByLesson, submitQuizAttempt, getMyQuizAttempts } from '@/lib/api/assessments';
+import { getQuizByLesson, submitQuizAttempt, getMyQuizAttempts, gradeQuestions } from '@/lib/api/assessments';
 import { trackEvent, AnalyticsEventType } from '@/lib/api/analytics';
 import { useAuth } from '@/contexts/AuthContext';
 import LessonPlayer from '@/components/LessonPlayer';
@@ -24,6 +24,7 @@ export default function LessonPage() {
   const [quizOpen, setQuizOpen] = useState(false);
   const [quizSource, setQuizSource] = useState<'persisted' | 'ai'>('ai');
   const [quizQuestions, setQuizQuestions] = useState<GeneratedQuestion[]>([]);
+  const [quizResults, setQuizResults] = useState<Record<number, { isCorrect: boolean; explanation?: string }>>({});
   const [persistedQuiz, setPersistedQuiz] = useState<(Quiz & { questions?: any[] }) | null>(null);
   const [quizType, setQuizType] = useState<'lesson' | 'module'>('lesson');
   const [answers, setAnswers] = useState<Record<number, number | null>>({}); // idx -> option index (AI quiz)
@@ -60,19 +61,19 @@ export default function LessonPage() {
     for (const quiz of quizzes) {
       if (!quiz?.questions?.length) continue;
       for (const q of quiz.questions) {
+        const id = (q as any).id as string | undefined;
         const stem = (q as any).stem || (q as any).questionText || '';
         const options = Array.isArray((q as any).options) ? (q as any).options : [];
-        if (!stem || options.length < 2) continue;
-        const correctIndex = Number((q as any).correctAnswer ?? 0);
-        const correctAnswer = options[Number.isFinite(correctIndex) && correctIndex >= 0 && correctIndex < options.length ? correctIndex : 0];
-        if (!correctAnswer) continue;
+        // Persisted questions no longer expose the answer key to learners; keep the
+        // question id so grading can be done securely on the server.
+        if (!id || !stem || options.length < 2) continue;
         const key = `${stem}-${options.join('|')}`;
         if (seen.has(key)) continue;
         seen.add(key);
         pool.push({
+          id,
           question: stem,
           options,
-          correctAnswer,
           explanation: (q as any).explanation || undefined,
         });
       }
@@ -421,6 +422,7 @@ export default function LessonPage() {
     setAnswers({});
     setPersistedAnswers({});
     setShowExplanations(false);
+    setQuizResults({});
     setQuizError(null);
     setQuizFallbackContent(null);
     setQuizOpen(true);
@@ -491,6 +493,7 @@ export default function LessonPage() {
     setPersistedQuiz(null);
     setAnswers({});
     setShowExplanations(false);
+    setQuizResults({});
     setQuizError(null);
     setQuizFallbackContent(null);
     setQuizSource('ai');
@@ -548,7 +551,7 @@ export default function LessonPage() {
   return (
     <>
       <Head>
-        <title>{lesson ? `${lesson.title} - Mindelta` : 'Lesson'}</title>
+        <title>{lesson ? `${lesson.title} - Chitepo` : 'Lesson'}</title>
       </Head>
       <Layout>
         {/* Hero header */}
@@ -794,7 +797,7 @@ export default function LessonPage() {
           {activeTab==='instructors' && (
             <div className="space-y-3 text-gray-800">
               <h2 className="text-xl font-semibold">Instructors</h2>
-              <p className="text-gray-700">{(course as any)?.instructor?.name || 'Mindelta Instructor'}</p>
+              <p className="text-gray-700">{(course as any)?.instructor?.name || 'Chitepo Instructor'}</p>
             </div>
           )}
           {/* Quiz Drawer/Panel */}
@@ -1240,11 +1243,11 @@ export default function LessonPage() {
 
                               {showExplanations && (
 
-                                <div className={`mt-2 text-sm ${q.options[answers[idx] ?? -1] === q.correctAnswer ? 'text-green-700' : 'text-red-700'}`}>
+                                <div className={`mt-2 text-sm ${quizResults[idx]?.isCorrect ? 'text-green-700' : 'text-red-700'}`}>
 
-                                  Correct answer: <span className="font-semibold">{q.correctAnswer}</span>
+                                  {quizResults[idx]?.isCorrect ? 'Correct' : 'Incorrect'}
 
-                                  {q.explanation ? <div className="mt-1 text-gray-600">{q.explanation}</div> : null}
+                                  {quizResults[idx]?.explanation ? <div className="mt-1 text-gray-600">{quizResults[idx]?.explanation}</div> : null}
 
                                 </div>
 
@@ -1260,42 +1263,48 @@ export default function LessonPage() {
 
                               type="button"
 
-                              onClick={() => {
-
-                                setShowExplanations(true);
-
-                                // Track quiz completed for AI quiz
-
-                                if (lesson?.id) {
-
-                                  const total = quizQuestions.length;
-
-                                  const correct = quizQuestions.reduce((acc, q, idx) => {
-
-                                    const selectedIdx = (answers[idx] ?? -1) as number;
-
-                                    const selected = q.options[selectedIdx];
-
-                                    return acc + (selected === q.correctAnswer ? 1 : 0);
-
-                                  }, 0);
-
-                                  const scorePct = total > 0 ? (correct / total) * 100 : 0;
-
-                                  trackEvent({
-
-                                    eventType: AnalyticsEventType.QUIZ_COMPLETED,
-
-                                    lessonId: lesson.id,
-
-                                    courseId: courseId as string,
-
-                                    metadata: { source: 'ai', total, correct, score: scorePct },
-
-                                  });
-
+                              onClick={async () => {
+                                const resultsMap: Record<number, { isCorrect: boolean; explanation?: string }> = {};
+                                // Grade persisted questions on the server (answer key never sent to the client);
+                                // ephemeral AI-practice questions (no id) are graded locally against their inline key.
+                                const serverItems = quizQuestions
+                                  .map((q, idx) => ({ idx, id: q.id, answerIdx: (answers[idx] ?? -1) as number }))
+                                  .filter((x) => x.id && x.answerIdx >= 0);
+                                try {
+                                  if (serverItems.length > 0) {
+                                    const graded = await gradeQuestions(
+                                      serverItems.map((x) => ({ questionId: x.id as string, answer: x.answerIdx })),
+                                    );
+                                    const byId = new Map((graded.results || []).map((r) => [r.questionId, r]));
+                                    serverItems.forEach((x) => {
+                                      const r = byId.get(x.id as string);
+                                      resultsMap[x.idx] = { isCorrect: !!r?.isCorrect, explanation: (r?.explanation as string) || undefined };
+                                    });
+                                  }
+                                } catch (_e) {
+                                  // fall through to local grading for anything not resolved by the server
                                 }
-
+                                quizQuestions.forEach((q, idx) => {
+                                  if (resultsMap[idx] !== undefined) return;
+                                  const selected = q.options[(answers[idx] ?? -1) as number];
+                                  resultsMap[idx] = {
+                                    isCorrect: selected != null && q.correctAnswer != null && selected === q.correctAnswer,
+                                    explanation: q.explanation,
+                                  };
+                                });
+                                setQuizResults(resultsMap);
+                                setShowExplanations(true);
+                                if (lesson?.id) {
+                                  const total = quizQuestions.length;
+                                  const correct = Object.values(resultsMap).filter((r) => r.isCorrect).length;
+                                  const scorePct = total > 0 ? (correct / total) * 100 : 0;
+                                  trackEvent({
+                                    eventType: AnalyticsEventType.QUIZ_COMPLETED,
+                                    lessonId: lesson.id,
+                                    courseId: courseId as string,
+                                    metadata: { source: 'ai', total, correct, score: scorePct },
+                                  });
+                                }
                               }}
 
                               className="inline-flex items-center px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700"
@@ -1346,9 +1355,12 @@ export default function LessonPage() {
 
             </div>
 
-          )}
-          </div>
-
+          )}
+
+          </div>
+
+
+
           {/* Desktop sticky outline (right) */}
           <aside className="hidden lg:block lg:col-span-4">
             <div className="sticky top-24">

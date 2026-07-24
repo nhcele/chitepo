@@ -117,7 +117,8 @@ export default () => ({
 
   // Session Security
   session: {
-    secret: process.env.SESSION_SECRET || 'default-secret-change-in-production',
+    secret: process.env.SESSION_SECRET ||
+      (process.env.NODE_ENV === 'production' ? undefined : 'dev-only-session-secret'),
     maxAge: parseInt(process.env.SESSION_MAX_AGE) || 24 * 60 * 60 * 1000, // 24 hours
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
@@ -127,7 +128,8 @@ export default () => ({
 
   // JWT Security
   jwt: {
-    secret: process.env.JWT_SECRET || 'default-jwt-secret-change-in-production',
+    secret: process.env.JWT_SECRET ||
+      (process.env.NODE_ENV === 'production' ? undefined : 'dev-only-jwt-secret'),
     expiresIn: process.env.JWT_EXPIRES_IN || '1h',
     refreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
     issuer: process.env.JWT_ISSUER || 'mindelta',
@@ -137,7 +139,8 @@ export default () => ({
   // Encryption
   encryption: {
     algorithm: process.env.ENCRYPTION_ALGORITHM || 'aes-256-gcm',
-    key: process.env.ENCRYPTION_KEY || 'default-encryption-key-change-in-production',
+    key: process.env.ENCRYPTION_KEY ||
+      (process.env.NODE_ENV === 'production' ? undefined : 'dev-only-encryption-key'),
     ivLength: parseInt(process.env.ENCRYPTION_IV_LENGTH) || 16,
     tagLength: parseInt(process.env.ENCRYPTION_TAG_LENGTH) || 16,
   },

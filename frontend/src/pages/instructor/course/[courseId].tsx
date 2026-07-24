@@ -6,7 +6,23 @@ import RoleGuard from '@/components/RoleGuard';
 import { UserRole } from '@mindelta/shared';
 import Layout from '@/components/Layout';
 
-type LessonNode = { id: string; title: string; content?: string; contentUrl?: string; backendLessonId?: string };
+type LessonSettings = {
+  duration?: string;
+  hasQuiz?: 'Yes' | 'No';
+  visibility?: 'Draft' | 'Published';
+  completionMode?: 'required' | 'optional' | 'manual';
+  minimumWatchPercent?: string;
+  minimumQuizScore?: string;
+  transcript?: string;
+  resources?: string;
+};
+type LessonNode = {
+  id: string;
+  title: string;
+  content?: string;
+  contentUrl?: string;
+  backendLessonId?: string;
+} & LessonSettings;
 type ModuleNode = { id: string; title: string; lessons: LessonNode[]; reused?: boolean; sourceModuleId?: string; usageCount?: number; backendModuleId?: string };
 
 export default function CourseBuilder() {
@@ -38,6 +54,14 @@ export default function CourseBuilder() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const lessonSettings = useMemo(() => {
+    return modules.reduce<Record<string, LessonSettings>>((acc, module) => {
+      module.lessons.forEach((lesson) => {
+        acc[lesson.id] = lesson;
+      });
+      return acc;
+    }, {});
+  }, [modules]);
 
   // Fetch course data from backend when editing existing course
   useEffect(() => {
@@ -62,6 +86,16 @@ export default function CourseBuilder() {
                 content: l.content,
                 contentUrl: l.videoUrl || l.contentUrl || l.video_url || '',
                 backendLessonId: l.id,
+                duration: l.durationMinutes?.toString() || l.estimatedDurationMin?.toString() || (l.durationSeconds ? Math.ceil(l.durationSeconds / 60).toString() : ''),
+                hasQuiz: l.hasQuiz ? 'Yes' : 'No',
+                visibility: l.isPublished ? 'Published' : 'Draft',
+                completionMode: l.completionMode || 'required',
+                minimumWatchPercent: l.minimumWatchPercent?.toString() || '',
+                minimumQuizScore: l.minimumQuizScore?.toString() || '',
+                transcript: l.transcript || '',
+                resources: Array.isArray(l.resourceLinks)
+                  ? l.resourceLinks.map((r: any) => `${r.title || ''} | ${r.url || ''}`.trim()).join('\n')
+                  : '',
               })),
             }));
             setModules(convertedModules);
@@ -203,6 +237,40 @@ export default function CourseBuilder() {
     // Update backend if lesson exists
     if (!isNew && lesson?.backendLessonId) {
       try { await apiUpdateLesson(lesson.backendLessonId, { contentUrl }); } catch {}
+    }
+  };
+
+  const parseResourceLinks = (resources?: string) => {
+    const rows = resources?.split('\n').map(row => row.trim()).filter(Boolean) || [];
+    return rows.map(row => {
+      const [titlePart, ...urlParts] = row.split('|');
+      const url = (urlParts.join('|') || titlePart).trim();
+      return { title: (urlParts.length ? titlePart : url).trim(), url };
+    });
+  };
+
+  const updateLessonSettings = async (moduleId: string, lessonId: string, settings: Partial<LessonSettings>) => {
+    const foundModule = modules.find(m => m.id === moduleId);
+    const lesson = foundModule?.lessons.find(l => l.id === lessonId);
+    if (!lesson) return;
+
+    setModules((prev) => prev.map(m => m.id === moduleId ? {
+      ...m,
+      lessons: m.lessons.map(l => l.id === lessonId ? { ...l, ...settings } : l),
+    } : m));
+
+    if (!isNew && lesson.backendLessonId) {
+      const payload: any = {};
+      if ('duration' in settings) payload.estimatedDurationMin = settings.duration;
+      if ('hasQuiz' in settings) payload.hasQuiz = settings.hasQuiz === 'Yes';
+      if ('visibility' in settings) payload.visibility = settings.visibility;
+      if ('completionMode' in settings) payload.completionMode = settings.completionMode;
+      if ('minimumWatchPercent' in settings) payload.minimumWatchPercent = settings.minimumWatchPercent;
+      if ('minimumQuizScore' in settings) payload.minimumQuizScore = settings.minimumQuizScore;
+      if ('transcript' in settings) payload.transcript = settings.transcript;
+      if ('resources' in settings) payload.resourceLinks = parseResourceLinks(settings.resources);
+
+      try { await apiUpdateLesson(lesson.backendLessonId, payload); } catch {}
     }
   };
 
@@ -753,18 +821,124 @@ export default function CourseBuilder() {
                             onChange={e => lesson && updateLessonContent(selected.moduleId!, selected.lessonId!, e.target.value)}
                           />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                          <div>
-                            <label className="block text-xs text-gray-600 mb-1">Estimated duration (min)</label>
-                            <input type="number" className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" placeholder="10" />
+                        
+                        {/* Lesson Settings */}
+                        <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                          <div className="text-sm font-medium text-gray-700">Lesson Settings</div>
+                          
+                          {/* Basic Settings Row */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Estimated duration (min)</label>
+                              <input 
+                                type="number" 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                placeholder="10"
+                                value={lessonSettings[lesson.id]?.duration || ''}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { duration: e.target.value })}
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Has quiz?</label>
+                              <select 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                value={lessonSettings[lesson.id]?.hasQuiz || 'No'}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { hasQuiz: e.target.value })}
+                              >
+                                <option>No</option>
+                                <option>Yes</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Visibility</label>
+                              <select 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                value={lessonSettings[lesson.id]?.visibility || 'Draft'}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { visibility: e.target.value })}
+                              >
+                                <option>Draft</option>
+                                <option>Published</option>
+                              </select>
+                            </div>
                           </div>
-                          <div>
-                            <label className="block text-xs text-gray-600 mb-1">Has quiz?</label>
-                            <select className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"><option>No</option><option>Yes</option></select>
+                          
+                          {/* Completion Settings Row */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Completion mode</label>
+                              <select 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                value={lessonSettings[lesson.id]?.completionMode || 'required'}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { completionMode: e.target.value })}
+                              >
+                                <option value="required">Required</option>
+                                <option value="optional">Optional</option>
+                                <option value="manual">Manual</option>
+                              </select>
+                              <p className="mt-1 text-xs text-gray-500">How students complete this lesson</p>
+                            </div>
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Min. watch % (0-100)</label>
+                              <input 
+                                type="number" 
+                                min="0" 
+                                max="100" 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                placeholder="80"
+                                value={lessonSettings[lesson.id]?.minimumWatchPercent || ''}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  if (val === '' || (Number(val) >= 0 && Number(val) <= 100)) {
+                                    updateLessonSettings(selected.moduleId!, selected.lessonId!, { minimumWatchPercent: val });
+                                  }
+                                }}
+                              />
+                              <p className="mt-1 text-xs text-gray-500">Video watch requirement</p>
+                            </div>
+                            <div>
+                              <label className="block text-xs text-gray-600 mb-1">Min. quiz score % (0-100)</label>
+                              <input 
+                                type="number" 
+                                min="0" 
+                                max="100" 
+                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                placeholder="70"
+                                value={lessonSettings[lesson.id]?.minimumQuizScore || ''}
+                                onChange={e => {
+                                  const val = e.target.value;
+                                  if (val === '' || (Number(val) >= 0 && Number(val) <= 100)) {
+                                    updateLessonSettings(selected.moduleId!, selected.lessonId!, { minimumQuizScore: val });
+                                  }
+                                }}
+                              />
+                              <p className="mt-1 text-xs text-gray-500">Quiz pass requirement</p>
+                            </div>
                           </div>
+                          
+                          {/* Transcript */}
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">Visibility</label>
-                            <select className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"><option>Draft</option><option>Published</option></select>
+                            <label className="block text-xs text-gray-600 mb-1">Transcript (optional)</label>
+                            <textarea 
+                              rows={4} 
+                              className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm" 
+                              placeholder="Enter video transcript for accessibility..."
+                              value={lessonSettings[lesson.id]?.transcript || ''}
+                              onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { transcript: e.target.value })}
+                            />
+                            <p className="mt-1 text-xs text-gray-500">Improves accessibility and SEO</p>
+                          </div>
+                          
+                          {/* Resource Links */}
+                          <div>
+                            <label className="block text-xs text-gray-600 mb-1">Resource links (one per line)</label>
+                            <textarea 
+                              rows={4} 
+                              className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm font-mono" 
+                              placeholder="Title | https://example.com&#10;Documentation | https://docs.example.com"
+                              value={lessonSettings[lesson.id]?.resources || ''}
+                              onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { resources: e.target.value })}
+                            />
+                            <p className="mt-1 text-xs text-gray-500">Format: Title | URL (one per line)</p>
                           </div>
                         </div>
                       </div>
@@ -808,30 +982,144 @@ export default function CourseBuilder() {
         {libraryOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40" onClick={() => setLibraryOpen(false)} />
-            <div className="relative bg-white rounded-xl shadow-xl border w-[90vw] max-w-2xl p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-semibold">Browse module library</div>
-                <button onClick={() => setLibraryOpen(false)} className="text-xs px-2 py-1 rounded border bg-white hover:bg-gray-50">Close</button>
+            <div className="relative bg-white rounded-xl shadow-xl border w-[92vw] max-w-3xl p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="text-lg font-semibold text-gray-900">Module library</div>
+                  <p className="mt-1 text-xs text-gray-500">Reuse approved modules or search by title, tag, or topic.</p>
+                </div>
+                <button onClick={() => setLibraryOpen(false)} className="text-xs px-3 py-1.5 rounded-lg border bg-white hover:bg-gray-50">Close</button>
               </div>
-              <div className="mt-3 flex gap-2">
-                <input value={librarySearch} onChange={(e) => setLibrarySearch(e.target.value)} placeholder="Search modules..."
-                       className="flex-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
-                <button onClick={() => loadLibraryModules(librarySearch)} className="px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Search</button>
+
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="relative flex-1">
+                  <input 
+                    value={librarySearch} 
+                    onChange={(e) => setLibrarySearch(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') loadLibraryModules(librarySearch);
+                    }}
+                    placeholder="Search modules..."
+                    className="w-full rounded-lg border-gray-300 pl-3 pr-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => loadLibraryModules(librarySearch)}
+                    disabled={libraryLoading}
+                    className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700 disabled:opacity-60"
+                  >
+                    Search
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLibrarySearch('');
+                      loadLibraryModules('');
+                    }}
+                    className="px-3 py-2 rounded-lg border text-sm text-gray-600 hover:bg-gray-50"
+                  >
+                    Clear
+                  </button>
+                </div>
               </div>
-              <div className="mt-4 max-h-80 overflow-auto border rounded-lg divide-y">
-                {libraryLoading && <div className="p-4 text-sm text-gray-500">Loading…</div>}
-                {!libraryLoading && libraryItems.length === 0 && <div className="p-4 text-sm text-gray-500">No modules found.</div>}
-                {!libraryLoading && libraryItems.map((m) => (
-                  <div key={m.id} className="p-3 flex items-center justify-between">
-                    <div>
-                      <div className="text-sm font-medium">{m.title}</div>
-                      <div className="text-xs text-gray-500">{m.visibility || 'private'}{typeof m.usageCount === 'number' ? ` • used ${m.usageCount}x` : ''}</div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => addLibraryModule(m)} className="text-xs px-2 py-1 rounded bg-gray-800 text-white hover:bg-gray-900">Add</button>
-                    </div>
+
+              <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
+                <span>{libraryLoading ? 'Searching...' : `${libraryItems.length} results`}</span>
+                <span>Tip: leave search empty to see latest modules.</span>
+              </div>
+
+              <div className="mt-4 max-h-[360px] overflow-auto border rounded-lg divide-y bg-white">
+                {libraryLoading && (
+                  <div className="p-4 space-y-3 animate-pulse">
+                    {[0, 1, 2].map((i) => (
+                      <div key={i} className="space-y-2">
+                        <div className="h-4 bg-gray-100 rounded w-2/3" />
+                        <div className="h-3 bg-gray-100 rounded w-5/6" />
+                        <div className="h-3 bg-gray-100 rounded w-1/2" />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                )}
+                {!libraryLoading && libraryItems.length === 0 && (
+                  <div className="p-10 text-center text-sm text-gray-500">
+                    <svg className="h-8 w-8 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <p>No modules found. Try a different search.</p>
+                    <button
+                      onClick={() => loadLibraryModules('')}
+                      className="mt-3 inline-flex items-center justify-center rounded-lg border px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50"
+                    >
+                      Show all modules
+                    </button>
+                  </div>
+                )}
+                {!libraryLoading && libraryItems.map((m) => {
+                  const alreadyAdded = modules.some((mod) => mod.backendModuleId === m.id || mod.sourceModuleId === m.id);
+                  const visibility = m.visibility || 'private';
+                  const visibilityStyles =
+                    visibility === 'public'
+                      ? 'bg-green-50 text-green-700'
+                      : visibility === 'shared'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'bg-gray-100 text-gray-600';
+
+                  return (
+                    <div key={m.id} className="p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="text-sm font-medium text-gray-900 truncate">{m.title}</h4>
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${visibilityStyles}`}>
+                              {visibility}
+                            </span>
+                          </div>
+                          {m.summary && (
+                            <p className="text-xs text-gray-600 line-clamp-2 mb-2">{m.summary}</p>
+                          )}
+                          <div className="flex items-center gap-3 text-xs text-gray-500">
+                            {m.estimatedDurationMin && (
+                              <span className="flex items-center gap-1">
+                                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                {m.estimatedDurationMin} min
+                              </span>
+                            )}
+                            {typeof m.usageCount === 'number' && (
+                              <span className="flex items-center gap-1">
+                                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                Used {m.usageCount}× in courses
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {alreadyAdded ? (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700">
+                              <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                              Already added
+                            </span>
+                          ) : (
+                            <button 
+                              onClick={() => addLibraryModule(m)} 
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-800 text-white text-xs font-medium hover:bg-gray-900 transition-colors"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                              </svg>
+                              Add to course
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

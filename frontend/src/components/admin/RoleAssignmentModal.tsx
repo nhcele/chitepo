@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   XMarkIcon,
   ShieldCheckIcon,
@@ -36,12 +37,12 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
 
   const handleAssign = async () => {
     if (!selectedRole) {
-      alert('Please select a role');
+      toast('Please select a role');
       return;
     }
 
     if (selectedRole === user.jobRole) {
-      alert('This user already has this role');
+      toast('This user already has this role');
       return;
     }
 

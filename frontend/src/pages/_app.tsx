@@ -2,24 +2,10 @@ import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Toaster } from 'react-hot-toast';
+import { MotionConfig } from 'framer-motion';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import '@/styles/globals.css';
-
-// Suppress React warning about fetchPriority (known Next.js 14.0.4 issue)
-if (typeof window !== 'undefined') {
-  const originalError = console.error;
-  console.error = (...args: any[]) => {
-    if (
-      typeof args[0] === 'string' &&
-      args[0].includes('fetchPriority') &&
-      args[0].includes('React does not recognize')
-    ) {
-      return; // Suppress this specific warning
-    }
-    originalError.apply(console, args);
-  };
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <MotionConfig reducedMotion="user">
         <AuthProvider>
           <Component {...pageProps} />
           <Toaster
@@ -61,8 +48,9 @@ export default function App({ Component, pageProps }: AppProps) {
             }}
           />
         </AuthProvider>
+        </MotionConfig>
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

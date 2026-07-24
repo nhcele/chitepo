@@ -376,7 +376,7 @@ export class AdminService {
       await this.notifications.sendEmail(
         app.email,
         'Your instructor application was approved',
-        `<p>Hi ${app.fullName},</p><p>Your application to teach on Mindelta has been approved.</p>`
+        `<p>Hi ${app.fullName},</p><p>Your application to teach on Chitepo has been approved.</p>`
       );
     } catch {}
     return { status: 'approved', id };

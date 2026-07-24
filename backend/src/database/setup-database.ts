@@ -3,7 +3,7 @@ import { MigrationUtils } from './migration-utils';
 import { execSync } from 'child_process';
 
 async function setupDatabase() {
-  console.log('🚀 Setting up Mindelta Database...\n');
+  console.log('🚀 Setting up Chitepo Database...\n');
 
   const utils = new MigrationUtils();
 

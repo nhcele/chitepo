@@ -122,6 +122,13 @@ export class User {
   @Column({ name: 'email_verification_token', nullable: true })
   emailVerificationToken: string;
 
+  @Column({ name: 'password_reset_token', nullable: true })
+  @Exclude()
+  passwordResetToken: string;
+
+  @Column({ name: 'password_reset_expires_at', type: 'timestamp', nullable: true })
+  passwordResetExpiresAt: Date;
+
   @Column({ name: 'last_login_at', nullable: true })
   lastLoginAt: Date;
 

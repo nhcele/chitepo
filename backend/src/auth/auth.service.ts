@@ -6,6 +6,8 @@ import * as bcrypt from 'bcryptjs';
 import { User } from '../users/entities/user.entity';
 import { CreateUserDto, LoginDto, UserRole } from '@mindelta/shared';
 import { addMonths } from 'date-fns';
+import { randomBytes } from 'crypto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class AuthService {
@@ -14,11 +16,13 @@ export class AuthService {
   private readonly minPasswordLength = 8;
   private readonly lockoutThreshold = 5;
   private readonly lockoutWindowMs = 15 * 60 * 1000; // 15 minutes
+  private readonly resetTokenTtlMs = 60 * 60 * 1000; // 1 hour
 
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
+    private notificationsService: NotificationsService,
   ) {}
 
   private isPasswordComplex(password: string): boolean {
@@ -139,6 +143,8 @@ export class AuthService {
     const firstName = nameParts[0] || '';
     const lastName = nameParts.slice(1).join(' ') || '';
     
+    const emailVerificationToken = randomBytes(32).toString('hex');
+
     const user = this.usersRepository.create({
       email: createUserDto.email.toLowerCase().trim(),
       firstName,
@@ -152,9 +158,19 @@ export class AuthService {
       role: createUserDto.role || UserRole.LEARNER,
       isActive: true,
       emailVerified: false,
+      emailVerificationToken,
     });
 
     const savedUser = await this.usersRepository.save(user);
+
+    // Send verification email; never fail registration if email delivery is down.
+    try {
+      await this.notificationsService.sendVerificationEmail(savedUser.email, emailVerificationToken);
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to send verification email:', err?.message || err);
+    }
+
     const { password, ...result } = savedUser;
     
     const payload = { email: result.email, sub: result.id, role: result.role };
@@ -165,29 +181,143 @@ export class AuthService {
   }
 
   async googleLogin(req: any) {
-    if (!req.user) {
+    const profile = req.user;
+    if (!profile || !profile.email) {
       throw new UnauthorizedException('No user from Google');
     }
 
+    const normalizedEmail = String(profile.email).toLowerCase().trim();
     let user = await this.usersRepository.findOne({
-      where: { email: req.user.email }
+      where: { email: normalizedEmail },
     });
 
     if (!user) {
+      // First-time Google sign-in: create the account.
+      // firstName/lastName are NOT NULL columns, so always provide a value.
       user = this.usersRepository.create({
-        email: req.user.email,
-        name: req.user.name,
-        avatar: req.user.picture,
+        email: normalizedEmail,
+        firstName: profile.firstName || 'Google',
+        lastName: profile.lastName || 'User',
+        avatarUrl: profile.picture || null,
+        googleId: profile.googleId || null,
         emailVerified: true,
+        isActive: true,
         role: UserRole.LEARNER,
       });
       user = await this.usersRepository.save(user);
+    } else if (!user.googleId) {
+      // Existing local account: link the Google identity instead of failing.
+      user.googleId = profile.googleId || user.googleId;
+      if (!user.avatarUrl && profile.picture) {
+        user.avatarUrl = profile.picture;
+      }
+      user.emailVerified = true;
+      user = await this.usersRepository.save(user);
     }
 
-    const payload = { email: user.email, sub: user.id, role: user.role };
+    const { password: _password, ...result } = user;
+    const payload = { email: result.email, sub: result.id, role: result.role };
     return {
       access_token: this.jwtService.sign(payload),
-      user,
+      user: result,
     };
+  }
+
+  async requestPasswordReset(email: string): Promise<{ message: string }> {
+    const normalizedEmail = String(email || '').toLowerCase().trim();
+    // Always return the same response to prevent account enumeration.
+    const genericResponse = {
+      message: 'If an account exists for that email, a password reset link has been sent.',
+    };
+    if (!normalizedEmail) return genericResponse;
+
+    const user = await this.usersRepository.findOne({ where: { email: normalizedEmail } });
+    if (!user) return genericResponse;
+
+    const verifier = randomBytes(32).toString('hex');
+    const tokenHash = await bcrypt.hash(verifier, 10);
+    await this.usersRepository.update(user.id, {
+      passwordResetToken: tokenHash,
+      passwordResetExpiresAt: new Date(Date.now() + this.resetTokenTtlMs),
+    });
+
+    // Token = "<userId>.<verifier>": the selector lets us find the user without a
+    // full-table scan, while only a bcrypt hash of the verifier is stored at rest.
+    const resetToken = `${user.id}.${verifier}`;
+    try {
+      await this.notificationsService.sendPasswordResetEmail(user.email, resetToken);
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to send password reset email:', err?.message || err);
+    }
+    return genericResponse;
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {
+    const [userId, verifier] = String(token || '').split('.');
+    if (!userId || !verifier) {
+      throw new BadRequestException('Invalid or malformed reset token.');
+    }
+
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
+    if (!user || !user.passwordResetToken || !user.passwordResetExpiresAt) {
+      throw new BadRequestException('Invalid or expired reset token.');
+    }
+    if (user.passwordResetExpiresAt.getTime() < Date.now()) {
+      throw new BadRequestException('Reset token has expired. Please request a new one.');
+    }
+    const tokenValid = await bcrypt.compare(verifier, user.passwordResetToken);
+    if (!tokenValid) {
+      throw new BadRequestException('Invalid or expired reset token.');
+    }
+
+    if (!this.isPasswordComplex(newPassword)) {
+      throw new BadRequestException(
+        'Password must be at least 8 characters and include upper, lower, digit, and special characters.',
+      );
+    }
+
+    // Prevent reuse of recent passwords.
+    const history = user.passwordHistory || [];
+    for (const oldHash of history) {
+      if (await bcrypt.compare(newPassword, oldHash)) {
+        throw new BadRequestException(
+          `New password must not match your last ${this.passwordHistoryLimit} passwords.`,
+        );
+      }
+    }
+
+    const newHash = await bcrypt.hash(newPassword, 10);
+    const newHistory = [newHash, ...history].slice(0, this.passwordHistoryLimit);
+
+    await this.usersRepository.update(user.id, {
+      password: newHash,
+      passwordHistory: newHistory,
+      lastPasswordChangedAt: new Date(),
+      passwordExpiryAt: this.computeExpiryDate(),
+      passwordResetToken: null,
+      passwordResetExpiresAt: null,
+      failedLoginAttempts: 0,
+      lockoutUntil: null,
+      lastFailedLoginAt: null,
+    });
+
+    return { message: 'Your password has been reset successfully. You can now sign in.' };
+  }
+
+  async verifyEmail(token: string): Promise<{ message: string }> {
+    const raw = String(token || '').trim();
+    if (!raw) throw new BadRequestException('Verification token is required.');
+
+    const user = await this.usersRepository.findOne({ where: { emailVerificationToken: raw } });
+    if (!user) {
+      throw new BadRequestException('Invalid or already-used verification token.');
+    }
+
+    await this.usersRepository.update(user.id, {
+      emailVerified: true,
+      emailVerificationToken: null,
+    });
+    return { message: 'Email verified successfully.' };
   }
 }

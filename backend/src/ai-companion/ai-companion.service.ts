@@ -90,7 +90,7 @@ export class AiCompanionService {
         ? 'Explain the concept clearly with examples and analogies grounded in the provided transcript.'
         : 'Answer the user question using only the transcript facts. If unknown, say you cannot find it in the transcript.';
 
-    const systemPrompt = `You are Mindelta AI. Be concise, cite transcript snippets when possible. Do not fabricate.`;
+    const systemPrompt = `You are Chitepo AI. Be concise, cite transcript snippets when possible. Do not fabricate.`;
     const userContent = `Mode: ${mode}\n${modeInstr}\nLesson: ${lesson.title}\n${readingLevel}\n\nRelevant transcript snippets:\n---\n${top.join('\n\n---\n')}\n\nUser message: ${message}`;
 
     let text = '';
@@ -197,7 +197,7 @@ export class AiCompanionService {
     }
 
     try {
-      const systemPrompt = `You are Mindelta AI, a helpful learning companion for the Mindelta professional learning platform. 
+      const systemPrompt = `You are Chitepo AI, a helpful learning companion for the Chitepo professional learning platform. 
       You help learners understand course content, answer questions, and provide personalized guidance.
       Be encouraging, concise, and educational in your responses.`;
 

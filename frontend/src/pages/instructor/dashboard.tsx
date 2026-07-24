@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { formatDistanceToNow } from 'date-fns';
 import RoleGuard from '@/components/RoleGuard';
 import Layout from '@/components/Layout';
 import { UserRole } from '@mindelta/shared';
@@ -27,50 +28,13 @@ export default function InstructorDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Mock data for demonstration
-  const coursePerformanceData = [
-    { name: 'Web Development for Zimbabwean Businesses', students: 245, completion: 78, revenue: 4850 },
-    { name: 'Mobile App Development with React Native', students: 189, completion: 82, revenue: 3780 },
-    { name: 'Digital Marketing for African Markets', students: 156, completion: 71, revenue: 3120 },
-    { name: 'Python Programming for Data Analysis', students: 134, completion: 69, revenue: 2680 }
-  ];
-
-  const recentActivities = [
-    {
-      id: '1',
-      type: 'enrollment' as const,
-      title: 'New student enrolled',
-      description: 'Tatenda Mapfumo joined Web Development for Zimbabwean Businesses',
-      course: 'Web Development for Zimbabwean Businesses',
-      student: 'Tatenda Mapfumo',
-      timestamp: '2 minutes ago'
-    },
-    {
-      id: '2',
-      type: 'completion' as const,
-      title: 'Course completed',
-      description: 'Kudzai Nhamo finished Mobile App Development with React Native',
-      course: 'Mobile App Development with React Native',
-      student: 'Kudzai Nhamo',
-      timestamp: '15 minutes ago'
-    },
-    {
-      id: '3',
-      type: 'review' as const,
-      title: 'New review received',
-      description: '5-star review for Digital Marketing for African Markets',
-      course: 'Digital Marketing for African Markets',
-      timestamp: '1 hour ago'
-    },
-    {
-      id: '4',
-      type: 'purchase' as const,
-      title: 'Course purchased',
-      description: 'Python Programming for Data Analysis was purchased',
-      course: 'Python Programming for Data Analysis',
-      timestamp: '3 hours ago'
+  const formatActivityTime = (iso: string) => {
+    try {
+      return formatDistanceToNow(new Date(iso), { addSuffix: true });
+    } catch {
+      return '';
     }
-  ];
+  };
 
   useEffect(() => {
     const run = async () => {
@@ -153,7 +117,6 @@ export default function InstructorDashboard() {
                 icon={CurrencyDollarIcon}
                 color="text-emerald-600"
                 bgColor="bg-emerald-50"
-                trend={{ value: 12.5, isPositive: true }}
                 loading={loading}
               />
               <InstructorStatsCard
@@ -162,7 +125,6 @@ export default function InstructorDashboard() {
                 icon={AcademicCapIcon}
                 color="text-primary-600"
                 bgColor="bg-primary-50"
-                trend={{ value: 8.2, isPositive: true }}
                 loading={loading}
               />
               <InstructorStatsCard
@@ -171,16 +133,14 @@ export default function InstructorDashboard() {
                 icon={UserGroupIcon}
                 color="text-purple-600"
                 bgColor="bg-purple-50"
-                trend={{ value: 15.3, isPositive: true }}
                 loading={loading}
               />
               <InstructorStatsCard
                 title="Avg. Rating"
-                value={loading ? '—' : '4.8'}
+                value={loading ? '—' : ((metrics as any)?.averageRating ? (metrics as any).averageRating.toFixed(1) : 'New')}
                 icon={StarIcon}
                 color="text-yellow-600"
                 bgColor="bg-yellow-50"
-                trend={{ value: 2.1, isPositive: true }}
                 loading={loading}
               />
             </div>
@@ -189,16 +149,16 @@ export default function InstructorDashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Course Performance Chart */}
               <div className="lg:col-span-2">
-                <CoursePerformanceChart 
-                  data={coursePerformanceData} 
+                <CoursePerformanceChart
+                  data={metrics?.coursePerformance || []}
                   loading={loading}
                 />
               </div>
 
               {/* Recent Activity */}
               <div>
-                <RecentActivity 
-                  activities={recentActivities} 
+                <RecentActivity
+                  activities={(metrics?.recentActivity || []).map((a) => ({ ...a, timestamp: formatActivityTime(a.timestamp) }))}
                   loading={loading}
                 />
               </div>

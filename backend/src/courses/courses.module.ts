@@ -7,12 +7,13 @@ import { LessonsController } from './lessons.controller';
 import { Course } from './entities/course.entity';
 import { Module as CourseModule } from './entities/module.entity';
 import { Lesson } from './entities/lesson.entity';
+import { LessonProgress } from './entities/lesson-progress.entity';
 import { CourseModule as CourseModuleJoin } from './entities/course-module.entity';
-import { Enrollment } from './entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Course, CourseModule, Lesson, Enrollment, User, CourseModuleJoin])],
+  imports: [TypeOrmModule.forFeature([Course, CourseModule, Lesson, LessonProgress, Enrollment, User, CourseModuleJoin])],
   controllers: [CoursesController, ModulesController, LessonsController],
   providers: [CoursesService],
   exports: [CoursesService],

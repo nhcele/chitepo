@@ -32,7 +32,7 @@ export default function RecommendationsPage() {
   return (
     <Layout>
       <Head>
-        <title>Course Recommendations - Mindelta</title>
+        <title>Course Recommendations - Chitepo</title>
       </Head>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RecommendationsDisplay />

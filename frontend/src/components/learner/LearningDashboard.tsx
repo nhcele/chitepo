@@ -308,7 +308,7 @@ export default function LearningDashboard({
                       <div className="flex items-center space-x-3 text-xs text-gray-500 mb-3">
                         <div className="flex items-center space-x-1">
                           <StarIcon className="h-3 w-3 text-yellow-400" />
-                          <span>{course.rating.toFixed(1)}</span>
+                          <span>{course.rating > 0 ? course.rating.toFixed(1) : 'New'}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <UserGroupIcon className="h-3 w-3" />

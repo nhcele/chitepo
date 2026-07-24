@@ -36,7 +36,7 @@ export default function InstructorStatsCard({
           <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
           <p className="text-2xl font-bold text-gray-900">
             {loading ? (
-              <div className="h-8 w-24 bg-gray-200 rounded animate-pulse" />
+              <span className="inline-block h-8 w-24 bg-gray-200 rounded animate-pulse" />
             ) : (
               value
             )}

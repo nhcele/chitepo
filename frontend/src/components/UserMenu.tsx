@@ -77,7 +77,7 @@ export default function UserMenu({ user }: UserMenuProps) {
                   } group flex items-center px-4 py-2 text-sm`}
                 >
                   <Cog6ToothIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
-                  Settings
+                  Profile
                 </Link>
               )}
             </Menu.Item>

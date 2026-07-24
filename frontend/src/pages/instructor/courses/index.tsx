@@ -101,8 +101,8 @@ export default function InstructorCourses() {
   return (
     <>
       <Head>
-        <title>My Courses - Instructor Dashboard - Mindelta</title>
-        <meta name="description" content="Manage your courses, track progress, and create new content on Mindelta." />
+        <title>My Courses - Instructor Dashboard - Chitepo</title>
+        <meta name="description" content="Manage your courses, track progress, and create new content on Chitepo." />
       </Head>
       <Layout>
         <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>

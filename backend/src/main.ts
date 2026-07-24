@@ -7,8 +7,12 @@ import helmet from 'helmet';
 import compression from 'compression';
 import { join } from 'path';
 import { AppModule } from './app.module';
+import { validateEnvironment } from './config/env-validation';
 
 async function bootstrap() {
+  // Fail fast if security-critical env vars are missing/weak before serving traffic.
+  validateEnvironment();
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
@@ -119,7 +123,7 @@ async function bootstrap() {
   // Swagger documentation
   if (configService.get('NODE_ENV') !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('Mindelta API')
+      .setTitle('Chitepo API')
       .setDescription('Professional learning platform API')
       .setVersion('1.0')
       .addBearerAuth()
@@ -132,7 +136,7 @@ async function bootstrap() {
   const port = configService.get('PORT') || 3001;
   await app.listen(port);
   
-  console.log(`🚀 Mindelta API is running on: http://localhost:${port}`);
+  console.log(`🚀 Chitepo API is running on: http://localhost:${port}`);
   console.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
 }
 

@@ -36,7 +36,7 @@ export default function CourseStudentsPage() {
     <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <Layout>
         <Head>
-          <title>Student Management - Mindelta</title>
+          <title>Student Management - Chitepo</title>
         </Head>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <StudentManagement courseId={courseId} />

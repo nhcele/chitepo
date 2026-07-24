@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   getSession,
   startSession,
@@ -45,7 +46,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
       setSession(updated);
     } catch (error) {
       console.error('Error starting session:', error);
-      alert('Failed to start session');
+      toast('Failed to start session');
     } finally {
       setActionLoading(false);
     }
@@ -58,7 +59,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
       setSession(updated);
     } catch (error) {
       console.error('Error pausing session:', error);
-      alert('Failed to pause session');
+      toast('Failed to pause session');
     } finally {
       setActionLoading(false);
     }
@@ -73,7 +74,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
       router.push('/trainer/classroom');
     } catch (error) {
       console.error('Error ending session:', error);
-      alert('Failed to end session');
+      toast('Failed to end session');
     } finally {
       setActionLoading(false);
     }

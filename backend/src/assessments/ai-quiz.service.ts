@@ -117,6 +117,12 @@ export class AIQuizService {
     const content = lesson.transcript || lesson.content || '';
     const courseContext = lesson.module?.course?.title || '';
 
+    if (!content.trim()) {
+      throw new Error(
+        'This lesson has no text content (transcript or written content) to generate a quiz from. Add a transcript or lesson text first.',
+      );
+    }
+
     const prompt = `Generate ${options.questionCount} quiz questions based on this lesson content.
 
 Lesson: ${lesson.title}
@@ -169,7 +175,7 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
           { role: 'user', content: prompt }
         ],
         temperature: 0.6,
-        max_tokens: 2000,
+        max_tokens: Math.min(4000, 600 + options.questionCount * 280),
       });
 
       const content_response = response.choices[0]?.message?.content;
@@ -183,10 +189,6 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
       if (!questions.length) {
         throw new Error('AI returned no valid questions');
       }
-
-      // Cache the generated questions
-      const cacheKey = `quiz:generated:${options.lessonId}:${Date.now()}`;
-      await this.cache.set(cacheKey, questions, 3600000); // 1 hour
 
       return questions;
     } catch (error) {
@@ -287,7 +289,7 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
           { role: 'user', content: prompt },
         ],
         temperature: 0.6,
-        max_tokens: 2000,
+        max_tokens: Math.min(4000, 600 + options.questionCount * 280),
       });
 
       const content_response = response.choices[0]?.message?.content;
@@ -301,9 +303,6 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
       if (!questions.length) {
         throw new Error('AI returned no valid questions');
       }
-
-      const cacheKey = `quiz:generated:module:${options.moduleId}:${Date.now()}`;
-      await this.cache.set(cacheKey, questions, 3600000);
 
       return questions;
     } catch (error) {
@@ -334,6 +333,28 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
       throw new Error('AI response is not a JSON array');
     }
     return parsed;
+  }
+
+  private parseJsonObject(raw: string): any {
+    let text = (raw || '').trim();
+    const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+    if (codeBlockMatch?.[1]) {
+      text = codeBlockMatch[1].trim();
+    }
+    const first = text.indexOf('{');
+    const last = text.lastIndexOf('}');
+    if (first !== -1 && last !== -1 && last > first) {
+      text = text.slice(first, last + 1);
+    }
+    return JSON.parse(text);
+  }
+
+  private resolveOptionText(value: string, options?: string[]): string {
+    if (options && options.length && /^\d+$/.test(String(value).trim())) {
+      const i = Number(value);
+      if (i >= 0 && i < options.length) return String(options[i]);
+    }
+    return String(value ?? '');
   }
 
   private normalizeGeneratedQuestions(raw: any[]): any[] {
@@ -380,18 +401,31 @@ IMPORTANT: Respond with ONLY a valid JSON array. Do not wrap in code blocks or m
     questionType: string;
     lessonContext?: string;
   }): Promise<IntelligentFeedback> {
-    const isCorrect = this.checkAnswerCorrectness(
-      params.userAnswer,
-      params.correctAnswer,
-      params.questionType
-    );
+    // Resolve the authoritative correct answer from the DB (never trust a
+    // client-supplied answer key) and convert option indices to readable text.
+    let questionText = params.questionText;
+    let questionType = params.questionType;
+    let correctAnswer = params.correctAnswer;
+    let userAnswer = params.userAnswer;
+    if (params.questionId) {
+      const q = await this.questionRepo.findOne({ where: { id: params.questionId } });
+      if (q) {
+        const options = Array.isArray(q.options) ? q.options : undefined;
+        questionText = q.questionText || questionText;
+        questionType = String(q.questionType) || questionType;
+        correctAnswer = this.resolveOptionText(String(q.correctAnswer), options);
+        userAnswer = this.resolveOptionText(String(params.userAnswer), options);
+      }
+    }
+
+    const isCorrect = this.checkAnswerCorrectness(userAnswer, correctAnswer, questionType);
 
     const prompt = `Provide detailed, encouraging feedback for this quiz question:
 
-Question: ${params.questionText}
-Question Type: ${params.questionType}
-Student's Answer: ${params.userAnswer}
-Correct Answer: ${params.correctAnswer}
+Question: ${questionText}
+Question Type: ${questionType}
+Student's Answer: ${userAnswer}
+Correct Answer: ${correctAnswer}
 Result: ${isCorrect ? 'Correct' : 'Incorrect'}
 ${params.lessonContext ? `Lesson Context: ${params.lessonContext}` : ''}
 
@@ -431,7 +465,7 @@ Guidelines:
         throw new Error('No feedback generated');
       }
 
-      const feedback = JSON.parse(content);
+      const feedback = this.parseJsonObject(content);
       return {
         isCorrect,
         ...feedback
@@ -484,10 +518,6 @@ Guidelines:
     } else {
       reasoning = 'Maintaining current difficulty level';
     }
-
-    // Cache the difficulty adjustment
-    const cacheKey = `difficulty:${params.userId}:${Date.now()}`;
-    await this.cache.set(cacheKey, nextDifficulty, 3600000);
 
     return {
       nextDifficulty: Math.round(nextDifficulty * 10) / 10,
@@ -557,7 +587,7 @@ Grading Guidelines:
         throw new Error('No grading result generated');
       }
 
-      const result = JSON.parse(content);
+      const result = this.parseJsonObject(content);
       return {
         maxScore: params.maxPoints,
         ...result
@@ -619,7 +649,7 @@ Identify common misconceptions as JSON array:
         return [];
       }
 
-      return JSON.parse(content);
+      return this.parseJsonArray(content);
     } catch (error) {
       console.error('Misconception detection error:', error);
       return [];

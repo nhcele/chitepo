@@ -301,6 +301,90 @@ const benefits = [
 
 const placeholderCover = '/api/placeholder/400/225';
 
+type CourseCardData = {
+  id: string;
+  title: string;
+  description: string;
+  instructor: string;
+  rating: number;
+  students: number;
+  category: string;
+  categoryIds: string[];
+  difficulty: CourseDifficulty;
+  estimatedDuration: number;
+  coverImage: string;
+  enrolled?: boolean;
+};
+
+const coreIdeologyCourseTitles = new Set([
+  'Pan-Africanism and African Unity',
+  'Revolutionary Theory and Practice',
+  'Political Economy and Development',
+  'Leadership and Governance',
+  'African History and Liberation Heritage',
+  'Social Transformation and Nation Building',
+  'International Relations and Diplomacy',
+  'Political Philosophy and Ideology'
+]);
+
+const contemporaryStudiesCourseTitles = new Set([
+  'Contemporary African Politics and Democracy',
+  'Gender Studies and Feminism in Africa',
+  'Environmental Justice and Climate Policy',
+  'Youth Leadership and Empowerment',
+  'Pan-African Media and Communication',
+  'African Languages and Cultural Studies',
+  'Security Studies and Conflict Resolution',
+  'Human Rights and Social Movements'
+]);
+
+const legacyCategoryToCourseCategory: Record<string, string> = {
+  'African Studies': 'core_ideology',
+  'Political Theory': 'core_ideology',
+  Economics: 'core_ideology',
+  Governance: 'core_ideology',
+  History: 'core_ideology',
+  'International Relations': 'core_ideology',
+  Philosophy: 'core_ideology',
+  'Social Policy': 'contemporary_studies',
+  'Gender Studies': 'contemporary_studies',
+  Environment: 'contemporary_studies',
+  Youth: 'contemporary_studies',
+  Media: 'contemporary_studies',
+  Culture: 'contemporary_studies',
+  Security: 'contemporary_studies',
+  'Human Rights': 'contemporary_studies'
+};
+
+function normalizeCourseCategories(course: ApiCourse & { category?: string; tags?: string[] }) {
+  const categoryIds = new Set<string>();
+
+  if (course.category) {
+    const normalizedCategory = legacyCategoryToCourseCategory[course.category] || course.category;
+    if (categories.some((category) => category.id === normalizedCategory)) {
+      categoryIds.add(normalizedCategory);
+    }
+  }
+
+  if (coreIdeologyCourseTitles.has(course.title)) {
+    categoryIds.add('core_ideology');
+  }
+
+  if (contemporaryStudiesCourseTitles.has(course.title)) {
+    categoryIds.add('contemporary_studies');
+  }
+
+  const tags = course.tags || [];
+  if (tags.some((tag) => /diaspora/i.test(tag))) {
+    categoryIds.add('diaspora_program');
+  }
+  if (tags.some((tag) => /governance|local government|dcc|campaign|mobilization|rural development|vision 2030/i.test(tag))) {
+    categoryIds.add('practical_governance');
+  }
+
+  return Array.from(categoryIds);
+}
+
 export default function LearningPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -312,8 +396,8 @@ export default function LearningPage() {
     difficulty: [] as string[],
     duration: [] as string[]
   });
-  const [courses, setCourses] = useState<Array<{ id: string; title: string; description: string; instructor: string; rating: number; students: number; category: string; difficulty: CourseDifficulty; estimatedDuration: number; coverImage: string; enrolled?: boolean }>>([]);
-  const [allCourses, setAllCourses] = useState<Array<{ id: string; title: string; description: string; instructor: string; rating: number; students: number; category: string; difficulty: CourseDifficulty; estimatedDuration: number; coverImage: string; enrolled?: boolean }>>([]);
+  const [courses, setCourses] = useState<CourseCardData[]>([]);
+  const [allCourses, setAllCourses] = useState<CourseCardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [enrollingId, setEnrollingId] = useState<string | null>(null);
@@ -334,7 +418,7 @@ export default function LearningPage() {
     }
   }, [router.query.tab, router.query.pathway]);
 
-  const mapApiToCard = (c: ApiCourse & { instructor?: { firstName?: string; lastName?: string; name?: string }; category?: string }) => {
+  const mapApiToCard = (c: ApiCourse & { instructor?: { firstName?: string; lastName?: string; name?: string }; category?: string; tags?: string[] }) => {
     // Build instructor name from firstName and lastName, or use name field, or default
     let instructorName = 'Chitepo Instructor';
     if (c.instructor) {
@@ -344,15 +428,18 @@ export default function LearningPage() {
         instructorName = c.instructor.name;
       }
     }
-    
+    const categoryIds = normalizeCourseCategories(c);
+    const primaryCategory = categoryIds[0] || c.category || (c as any).tags?.[0] || 'General';
+
     return {
       id: c.id,
       title: c.title,
       description: c.subtitle || '',
       instructor: instructorName,
-      rating: typeof (c as any).averageRating === 'number' ? (c as any).averageRating : 4.7,
+      rating: typeof (c as any).averageRating === 'number' ? (c as any).averageRating : 0,
       students: typeof (c as any).totalEnrollments === 'number' ? (c as any).totalEnrollments : 0,
-      category: c.category || (c as any).tags?.[0] || 'General',
+      category: primaryCategory,
+      categoryIds,
       difficulty: c.difficulty,
       estimatedDuration: c.estimatedDuration || 0,
       coverImage: getCourseCoverImage(c.title, (c as any).coverImageUrl) || placeholderCover,
@@ -384,7 +471,7 @@ export default function LearningPage() {
       const pathway = pathways.find(p => p.id === pathwayFilter);
       if (pathway && pathway.courseCategories) {
         const filtered = allCourses.filter(course => 
-          pathway.courseCategories.includes(course.category)
+          pathway.courseCategories.some((categoryId) => course.categoryIds.includes(categoryId))
         );
         setCourses(filtered);
         // Set the first matching category as selected
@@ -417,7 +504,7 @@ export default function LearningPage() {
         setCourses(allCourses);
       } else {
         // Filter from allCourses instead of making API call
-        const filtered = allCourses.filter(course => course.category === categoryId);
+        const filtered = allCourses.filter(course => course.categoryIds.includes(categoryId));
         setCourses(filtered);
       }
     } catch (e: any) {
@@ -470,7 +557,7 @@ export default function LearningPage() {
     if (!pathway) return null;
     
     const pathwayCourseCount = allCourses.filter(course => 
-      pathway.courseCategories?.includes(course.category)
+      pathway.courseCategories?.some((categoryId) => course.categoryIds.includes(categoryId))
     ).length;
     
     return (
@@ -512,6 +599,11 @@ export default function LearningPage() {
         </div>
       </div>
     );
+  };
+
+  const getCategoryCourseCount = (categoryId: string) => {
+    if (categoryId === 'all') return allCourses.length;
+    return allCourses.filter((course) => course.categoryIds.includes(categoryId)).length;
   };
 
   return (
@@ -612,7 +704,7 @@ export default function LearningPage() {
                       </p>
                     )}
                     <span className={`text-sm font-medium ${selectedCategory === category.id ? 'text-white' : 'text-primary-600'}`}>
-                      {category.count} courses
+                      {getCategoryCourseCount(category.id)} courses
                     </span>
                   </button>
                 ))}
@@ -711,7 +803,7 @@ export default function LearningPage() {
                   <h2 className="text-3xl font-bold mb-4">Progressive Certification Pathways</h2>
                   <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                     Progressive credentials for ideological education, governance excellence, diaspora leadership, 
-                    youth empowerment, and women's advancement.
+                    youth empowerment, and women&apos;s advancement.
                   </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -774,7 +866,7 @@ export default function LearningPage() {
                         <div className="flex flex-wrap gap-2">
                           {selectedPathway.courseCategories?.map((cat) => {
                             const category = categories.find(c => c.id === cat);
-                            const courseCount = allCourses.filter(course => course.category === cat).length;
+                            const courseCount = getCategoryCourseCount(cat);
                             return category ? (
                               <span key={cat} className="inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
                                 {category.icon} {category.name} ({courseCount})

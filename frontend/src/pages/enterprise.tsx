@@ -61,7 +61,7 @@ const stats = [
 
 const testimonials = [
   {
-    content: "Mindelta transformed our engineering team's capabilities. The AI-driven micro-pacing helped our developers complete courses 40% faster while maintaining high comprehension.",
+    content: "Chitepo transformed our engineering team's capabilities. The AI-driven micro-pacing helped our developers complete courses 40% faster while maintaining high comprehension.",
     author: "Sarah Chen",
     role: "VP of Engineering",
     company: "TechCorp",
@@ -143,8 +143,8 @@ export default function EnterprisePage() {
   return (
     <>
       <Head>
-        <title>Enterprise Solutions - Mindelta</title>
-        <meta name="description" content="Scale your team's skills with Mindelta's enterprise learning platform. Custom learning paths, advanced analytics, and blockchain certificates." />
+        <title>Enterprise Solutions - Chitepo</title>
+        <meta name="description" content="Scale your team's skills with Chitepo's enterprise learning platform. Custom learning paths, advanced analytics, and blockchain certificates." />
       </Head>
       <Layout>
         {/* Hero Section */}
@@ -156,7 +156,7 @@ export default function EnterprisePage() {
               </h1>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 Empower your organization with AI-driven professional learning, blockchain certificates, 
-                and comprehensive analytics. Join 500+ companies already scaling their teams with Mindelta.
+                and comprehensive analytics. Join 500+ companies already scaling their teams with Chitepo.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -328,7 +328,7 @@ export default function EnterprisePage() {
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Success Stories</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  See how leading organizations are transforming their teams with Mindelta.
+                  See how leading organizations are transforming their teams with Chitepo.
                 </p>
               </div>
               
@@ -370,7 +370,7 @@ export default function EnterprisePage() {
               Ready to Transform Your Team?
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Join hundreds of companies already using Mindelta to upskill their teams.
+              Join hundreds of companies already using Chitepo to upskill their teams.
               Get started with a personalized demo today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

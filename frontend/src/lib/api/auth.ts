@@ -25,7 +25,7 @@ interface ApiEnvelope<T> {
 export async function login(email: string, password: string): Promise<LoginResponse> {
   try {
     // Backend returns { access_token, user }
-    const tokenRes = await apiClient.post<BackendLoginResponse>('/api/auth/login', { email, password });
+    const tokenRes = await apiClient.post<BackendLoginResponse>('/auth/login', { email, password });
     const accessToken = tokenRes.access_token;
     const user = tokenRes.user;
     
@@ -60,7 +60,7 @@ export async function login(email: string, password: string): Promise<LoginRespo
 export async function register(userData: CreateUserDto): Promise<RegisterResponse> {
   try {
     // Backend returns { access_token, user }
-    const tokenRes = await apiClient.post<BackendLoginResponse>('/api/auth/register', userData);
+    const tokenRes = await apiClient.post<BackendLoginResponse>('/auth/register', userData);
     const accessToken = tokenRes.access_token;
     const user = tokenRes.user;
     
@@ -93,28 +93,28 @@ export async function register(userData: CreateUserDto): Promise<RegisterRespons
 }
 
 export async function getProfile(): Promise<User> {
-  const res = await apiClient.get<ApiEnvelope<User>>('/api/users/me');
+  const res = await apiClient.get<ApiEnvelope<User>>('/users/me');
   return res.data;
 }
 
 export async function refreshToken(refreshToken: string): Promise<AuthTokens> {
   // If/when backend supports refresh, adapt here. Placeholder keeps shape.
-  const res = await apiClient.post<{ access_token: string }>('/api/auth/refresh', { refreshToken });
+  const res = await apiClient.post<{ access_token: string }>('/auth/refresh', { refreshToken });
   return { accessToken: res.access_token, refreshToken };
 }
 
 export async function logout(): Promise<void> {
-  await apiClient.post('/api/auth/logout');
+  await apiClient.post('/auth/logout');
 }
 
 export async function forgotPassword(email: string): Promise<void> {
-  await apiClient.post('/api/auth/forgot-password', { email });
+  await apiClient.post('/auth/forgot-password', { email });
 }
 
 export async function resetPassword(token: string, password: string): Promise<void> {
-  await apiClient.post('/api/auth/reset-password', { token, password });
+  await apiClient.post('/auth/reset-password', { token, password });
 }
 
 export async function verifyEmail(token: string): Promise<void> {
-  await apiClient.post('/api/auth/verify-email', { token });
+  await apiClient.post('/auth/verify-email', { token });
 }

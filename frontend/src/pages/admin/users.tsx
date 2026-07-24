@@ -198,8 +198,8 @@ export default function AdminUsers() {
   return (
     <>
       <Head>
-        <title>User Management - Admin Dashboard - Mindelta</title>
-        <meta name="description" content="Manage users, roles, and permissions on the Mindelta platform." />
+        <title>User Management - Admin Dashboard - Chitepo</title>
+        <meta name="description" content="Manage users, roles, and permissions on the Chitepo platform." />
       </Head>
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>

@@ -46,7 +46,7 @@ export class InstructorService {
       await this.notifications.sendEmail(
         saved.email,
         'We received your instructor application',
-        `<p>Hi ${saved.fullName},</p><p>Thanks for applying to teach on Mindelta. Our team will review your application and get back within 3 business days.</p>`
+        `<p>Hi ${saved.fullName},</p><p>Thanks for applying to teach on Chitepo. Our team will review your application and get back within 3 business days.</p>`
       );
     } catch {}
     return { status: 'received', id: saved.id };
@@ -259,7 +259,62 @@ export class InstructorService {
     const monthlyRevenue = enrollments
       .filter((e) => e.enrolledAt && e.enrolledAt >= since)
       .reduce((sum, e) => sum + Number(e.course?.price || 0), 0);
-    return { publishedCourses, totalLearners, monthlyRevenue };
+
+    // Real per-course performance from the instructor's own courses + enrollments.
+    const courses = await this.courseRepo.find({ where: { instructorId } });
+    const perCourse = new Map<
+      string,
+      { name: string; students: number; completionSum: number; revenue: number }
+    >();
+    for (const c of courses) {
+      perCourse.set(c.id, { name: c.title, students: 0, completionSum: 0, revenue: 0 });
+    }
+    for (const e of enrollments) {
+      const cid = e.course?.id;
+      const entry = cid ? perCourse.get(cid) : undefined;
+      if (!entry) continue;
+      entry.students += 1;
+      entry.completionSum += Number((e as any).progressPercentage ?? (e as any).progressPercent ?? 0);
+      entry.revenue += Number(e.course?.price || 0);
+    }
+    const coursePerformance = Array.from(perCourse.values())
+      .map((v) => ({
+        name: v.name,
+        students: v.students,
+        completion: v.students > 0 ? Math.round(v.completionSum / v.students) : 0,
+        revenue: Math.round(v.revenue),
+      }))
+      .sort((a, b) => b.students - a.students);
+
+    // Real average rating across the instructor's rated courses (null when none rated).
+    const rated = courses.filter((c) => Number(c.averageRating) > 0);
+    const averageRating =
+      rated.length > 0
+        ? Number((rated.reduce((sum, c) => sum + Number(c.averageRating), 0) / rated.length).toFixed(1))
+        : null;
+
+    // Real recent activity from the latest enrollments (no fabricated names).
+    const recentActivity = enrollments
+      .filter((e) => e.enrolledAt)
+      .sort((a, b) => new Date(b.enrolledAt as any).getTime() - new Date(a.enrolledAt as any).getTime())
+      .slice(0, 6)
+      .map((e, i) => ({
+        id: e.id || String(i),
+        type: 'enrollment' as const,
+        title: 'New enrollment',
+        description: `A learner enrolled in ${e.course?.title || 'a course'}`,
+        course: e.course?.title || undefined,
+        timestamp: new Date(e.enrolledAt as any).toISOString(),
+      }));
+
+    return {
+      publishedCourses,
+      totalLearners,
+      monthlyRevenue,
+      averageRating,
+      coursePerformance,
+      recentActivity,
+    };
   }
 
   async getCoursesByInstructor(instructorId: string): Promise<Course[]> {

@@ -97,7 +97,7 @@ export default function AdminSettings() {
   return (
     <>
       <Head>
-        <title>Settings - Admin Dashboard - Mindelta</title>
+        <title>Settings - Admin Dashboard - Chitepo</title>
         <meta name="description" content="Configure platform settings, feature flags, and system preferences." />
       </Head>
       <Layout>

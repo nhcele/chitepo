@@ -105,4 +105,33 @@ export class CoursesController {
   snapshotCourseModules(@Param('id') courseId: string) {
     return this.coursesService.snapshotCourseModules(courseId);
   }
+
+  // ---------- Lesson Access Control ----------
+  @Get(':courseId/lessons/:lessonId/access')
+  @UseGuards(JwtAuthGuard)
+  checkLessonAccess(
+    @Param('courseId') courseId: string,
+    @Param('lessonId') lessonId: string,
+    @Req() req: any,
+  ) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+    }
+    return this.coursesService.checkLessonAccess(userId, courseId, lessonId);
+  }
+
+  @Post('lessons/:lessonId/progress')
+  @UseGuards(JwtAuthGuard)
+  updateLessonProgress(
+    @Param('lessonId') lessonId: string,
+    @Body() body: { watchPercent?: number; quizScore?: number; isCompleted?: boolean },
+    @Req() req: any,
+  ) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+    }
+    return this.coursesService.updateLessonProgress(userId, lessonId, body);
+  }
 }

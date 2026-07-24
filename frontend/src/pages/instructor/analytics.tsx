@@ -71,7 +71,7 @@ export default function InstructorAnalytics() {
     <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <Layout>
         <Head>
-          <title>Analytics - Instructor Dashboard - Mindelta</title>
+          <title>Analytics - Instructor Dashboard - Chitepo</title>
           <meta name="description" content="View detailed analytics and insights about your courses and student performance." />
         </Head>
         

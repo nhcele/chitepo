@@ -102,7 +102,9 @@ export class AiCompanionController {
     await this.ensureEnabled();
     
     if (!data.courseContent || data.courseContent.trim().length === 0) {
-      throw new HttpException('Course content is required', HttpStatus.BAD_REQUEST);
+      // No text/transcript to generate from: return empty so the client falls back
+      // to persisted/module questions without logging a 400 error.
+      return { questions: [] };
     }
     
     const questions = await this.aiCompanionService.generateQuizQuestions(

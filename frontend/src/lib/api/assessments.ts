@@ -3,7 +3,7 @@ import { Quiz, QuizAttempt } from '@mindelta/shared';
 
 export async function getQuizByLesson(lessonId: string): Promise<Quiz | null> {
   try {
-    return await apiClient.get<Quiz>(`/api/assessments/quizzes/by-lesson/${lessonId}`);
+    return await apiClient.get<Quiz>(`/assessments/quizzes/by-lesson/${lessonId}`);
   } catch (e: any) {
     if (e?.response?.status === 404) return null;
     throw e;
@@ -11,19 +11,19 @@ export async function getQuizByLesson(lessonId: string): Promise<Quiz | null> {
 }
 
 export async function getQuizzesByLesson(lessonId: string): Promise<Quiz[]> {
-  return apiClient.get<Quiz[]>(`/api/assessments/quizzes/by-lesson/${lessonId}/all`);
+  return apiClient.get<Quiz[]>(`/assessments/quizzes/by-lesson/${lessonId}/all`);
 }
 
 export async function getQuizById(quizId: string): Promise<Quiz> {
-  return apiClient.get<Quiz>(`/api/assessments/quizzes/${quizId}`);
+  return apiClient.get<Quiz>(`/assessments/quizzes/${quizId}`);
 }
 
 export async function getMyQuizAttempts(quizId: string): Promise<QuizAttempt[]> {
-  return apiClient.get<QuizAttempt[]>(`/api/assessments/attempts/me/${quizId}`);
+  return apiClient.get<QuizAttempt[]>(`/assessments/attempts/me/${quizId}`);
 }
 
 export async function submitQuizAttempt(quizId: string, answers: Record<string, string | number>): Promise<QuizAttempt> {
-  return apiClient.post<QuizAttempt>(`/api/assessments/attempts`, {
+  return apiClient.post<QuizAttempt>(`/assessments/attempts`, {
     quizId,
     answers,
   });
@@ -51,7 +51,7 @@ export async function upsertQuizWithQuestions(payload: {
     orderIndex?: number;
   }>;
 }): Promise<Quiz> {
-  return apiClient.post<Quiz>(`/api/assessments/quizzes/upsert`, payload);
+  return apiClient.post<Quiz>(`/assessments/quizzes/upsert`, payload);
 }
 
 export async function generateAndSaveAiQuiz(payload: {
@@ -66,5 +66,18 @@ export async function generateAndSaveAiQuiz(payload: {
   description?: string;
   onlyIfMissing?: boolean;
 }): Promise<Quiz> {
-  return apiClient.post<Quiz>(`/api/assessments/ai/generate-quiz-and-save`, payload);
+  return apiClient.post<Quiz>(`/assessments/ai/generate-quiz-and-save`, payload);
+}
+
+export interface GradeResult {
+  total: number;
+  correct: number;
+  score: number;
+  results: Array<{ questionId: string; isCorrect: boolean; graded: boolean; explanation?: string | null }>;
+}
+
+export async function gradeQuestions(
+  items: Array<{ questionId: string; answer: string | number }>,
+): Promise<GradeResult> {
+  return apiClient.post<GradeResult>(`/assessments/grade`, { items });
 }

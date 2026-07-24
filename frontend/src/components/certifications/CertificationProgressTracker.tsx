@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircleIcon, ClockIcon, AcademicCapIcon, TrophyIcon } from '@heroicons/react/24/solid';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
+import { getAuthHeaders } from '@/lib/auth';
 
 export interface CertificationProgress {
   id: string;
@@ -61,9 +62,7 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
     try {
       setLoading(true);
       const response = await fetch('/api/certifications/progress', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: getAuthHeaders(),
       });
 
       if (!response.ok) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import {
   getTrainerSessions,
   createSession,
@@ -77,7 +78,7 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
       });
     } catch (error) {
       console.error('Error creating session:', error);
-      alert('Failed to create session. Please try again.');
+      toast('Failed to create session. Please try again.');
     }
   };
 

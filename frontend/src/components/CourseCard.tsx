@@ -75,8 +75,8 @@ export default function CourseCard({ course }: CourseCardProps) {
         {/* Course Stats */}
         <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
-            <StarIcon className="w-4 h-4 text-yellow-400" />
-            <span className="font-medium">{course.rating}</span>
+            <StarIcon className={`w-4 h-4 ${course.rating ? 'text-yellow-400' : 'text-gray-300'}`} />
+            <span className="font-medium">{course.rating ? course.rating.toFixed(1) : 'New'}</span>
           </div>
           <div className="flex items-center gap-1">
             <UserGroupIcon className="w-4 h-4" />
@@ -95,7 +95,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           href={`/courses/${course.id}`}
           className="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
         >
-          Enroll Now
+          View course
         </Link>
       </div>
     </div>

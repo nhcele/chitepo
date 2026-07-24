@@ -78,8 +78,8 @@ export default function AdminDashboard() {
   return (
     <>
       <Head>
-        <title>Admin Dashboard - Mindelta</title>
-        <meta name="description" content="Admin dashboard for managing Mindelta platform - users, courses, analytics and settings." />
+        <title>Admin Dashboard - Chitepo</title>
+        <meta name="description" content="Admin dashboard for managing Chitepo platform - users, courses, analytics and settings." />
       </Head>
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>

@@ -2,11 +2,14 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getAuthHeaders, removeAuthToken } from '../auth';
 
 const normalizeApiBase = (raw?: string) => {
-  const fallback = 'http://localhost:3001';
+  const fallback = 'http://localhost:3001/api';
   let base = (raw || fallback).trim();
-  // Strip trailing /api and any trailing slash to avoid /api/api paths.
-  base = base.replace(/\/api\/?$/i, '');
+  // Strip trailing slash
   base = base.replace(/\/$/, '');
+  // If it doesn't end with /api, add it (backend uses global prefix)
+  if (!base.endsWith('/api')) {
+    base = `${base}/api`;
+  }
   return base;
 };
 

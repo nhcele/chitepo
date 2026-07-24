@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import {
   AcademicCapIcon,
@@ -163,7 +164,7 @@ export default function CertificateManagement({
       default:
         // Copy to clipboard
         navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-        alert('Certificate link copied to clipboard!');
+        toast('Certificate link copied to clipboard!');
         return;
     }
     

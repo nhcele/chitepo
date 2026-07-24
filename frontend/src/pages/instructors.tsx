@@ -176,7 +176,7 @@ export default function InstructorsPage() {
   return (
     <>
       <Head>
-        <title>Instructors - Mindelta</title>
+        <title>Instructors - Chitepo</title>
         <meta name="description" content="Meet our world-class instructors - industry experts who create engaging, professional courses for mid-career tech professionals." />
       </Head>
       <Layout>

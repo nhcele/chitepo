@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import Head from 'next/head';
 import {
   UserGroupIcon,
@@ -142,39 +143,39 @@ export default function RoleManagement() {
       await roleManagementApi.downloadExport(exportResult);
     } catch (error) {
       console.error('Failed to export data:', error);
-      alert('Failed to export data. Please try again.');
+      toast('Failed to export data. Please try again.');
     }
   };
 
   const handleCsvUpload = async (csvData: string, notifyUsers: boolean) => {
     try {
       const result = await roleManagementApi.uploadRoleAssignmentCsv(csvData, notifyUsers);
-      alert(`CSV processed successfully! ${result.bulkResult.success} assignments completed, ${result.bulkResult.errors.length} errors.`);
+      toast(`CSV processed successfully! ${result.bulkResult.success} assignments completed, ${result.bulkResult.errors.length} errors.`);
       setShowCsvModal(false);
       loadRoleData(); // Refresh data
     } catch (error) {
       console.error('Failed to upload CSV:', error);
-      alert('Failed to process CSV. Please check the format and try again.');
+      toast('Failed to process CSV. Please check the format and try again.');
     }
   };
 
   const handleRoleAssignment = async (userId: string, newRole: string, notifyUser: boolean) => {
     try {
       await roleManagementApi.updateUserRole(userId, newRole, notifyUser);
-      alert('Role assigned successfully!');
+      toast('Role assigned successfully!');
       setShowAssignmentModal(false);
       loadRoleData(); // Refresh data
       if (selectedRole) loadRoleUsers();
       if (searchQuery) searchUsers();
     } catch (error) {
       console.error('Failed to assign role:', error);
-      alert('Failed to assign role. Please try again.');
+      toast('Failed to assign role. Please try again.');
     }
   };
 
   const handleCreateRole = () => {
     if (!newRoleName.trim()) {
-      alert('Please enter a role name');
+      toast('Please enter a role name');
       return;
     }
     const formattedRoleName = newRoleName.trim().toUpperCase().replace(/\s+/g, '_');
@@ -182,12 +183,12 @@ export default function RoleManagement() {
     setShowCreateRoleModal(false);
     setNewRoleName('');
     setNewRoleDescription('');
-    alert(`Role "${formattedRoleName}" created successfully!`);
+    toast(`Role "${formattedRoleName}" created successfully!`);
   };
 
   const handleEditRole = () => {
     if (!newRoleName.trim()) {
-      alert('Please enter a role name');
+      toast('Please enter a role name');
       return;
     }
     const formattedRoleName = newRoleName.trim().toUpperCase().replace(/\s+/g, '_');
@@ -197,7 +198,7 @@ export default function RoleManagement() {
     setSelectedRoleForEdit('');
     setNewRoleName('');
     setNewRoleDescription('');
-    alert(`Role updated successfully!`);
+    toast(`Role updated successfully!`);
   };
 
   const handleDeleteRole = () => {
@@ -205,7 +206,7 @@ export default function RoleManagement() {
     setCustomRoles(updatedRoles);
     setShowDeleteRoleModal(false);
     setSelectedRoleForEdit('');
-    alert('Role deleted successfully!');
+    toast('Role deleted successfully!');
   };
 
   const openEditRoleModal = (roleName: string) => {
@@ -237,7 +238,7 @@ export default function RoleManagement() {
   return (
     <AdminLayout>
       <Head>
-        <title>Roles & Learning - Mindelta Admin</title>
+        <title>Roles & Learning - Chitepo Admin</title>
       </Head>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

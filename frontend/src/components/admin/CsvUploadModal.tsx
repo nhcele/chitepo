@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import toast from 'react-hot-toast';
 import {
   XMarkIcon,
   ArrowUpTrayIcon,
@@ -30,7 +31,7 @@ export default function CsvUploadModal({ onClose, onUpload }: CsvUploadModalProp
       };
       reader.readAsText(file);
     } else {
-      alert('Please select a valid CSV file');
+      toast('Please select a valid CSV file');
     }
   };
 
@@ -62,7 +63,7 @@ export default function CsvUploadModal({ onClose, onUpload }: CsvUploadModalProp
 
   const handleUpload = async () => {
     if (!csvData.trim()) {
-      alert('Please select a CSV file');
+      toast('Please select a CSV file');
       return;
     }
 

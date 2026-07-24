@@ -28,9 +28,9 @@ export class NotificationsService {
   }
 
   async sendWelcomeEmail(userEmail: string, userName: string): Promise<void> {
-    const subject = 'Welcome to Mindelta!';
+    const subject = 'Welcome to Chitepo!';
     const html = `
-      <h1>Welcome to Mindelta, ${userName}!</h1>
+      <h1>Welcome to Chitepo, ${userName}!</h1>
       <p>Thank you for joining our professional learning platform.</p>
       <p>Get started by exploring our courses and building your skills.</p>
       <a href="${this.configService.get('FRONTEND_URL')}/courses">Browse Courses</a>
@@ -64,12 +64,25 @@ export class NotificationsService {
     await this.sendEmail(userEmail, subject, html);
   }
 
+  async sendVerificationEmail(userEmail: string, token: string): Promise<void> {
+    const subject = 'Verify your email address';
+    const verifyUrl = `${this.configService.get('FRONTEND_URL')}/auth/verify-email?token=${token}`;
+    const html = `
+      <h1>Confirm your email</h1>
+      <p>Thanks for registering. Please confirm your email address to activate your account.</p>
+      <a href="${verifyUrl}">Verify Email</a>
+      <p>If you did not create this account, you can ignore this email.</p>
+    `;
+
+    await this.sendEmail(userEmail, subject, html);
+  }
+
   async sendPasswordResetEmail(userEmail: string, resetToken: string): Promise<void> {
     const subject = 'Password Reset Request';
-    const resetUrl = `${this.configService.get('FRONTEND_URL')}/reset-password?token=${resetToken}`;
+    const resetUrl = `${this.configService.get('FRONTEND_URL')}/auth/reset-password?token=${resetToken}`;
     const html = `
       <h1>Password Reset Request</h1>
-      <p>You requested a password reset for your Mindelta account.</p>
+      <p>You requested a password reset for your Chitepo account.</p>
       <p>Click the link below to reset your password:</p>
       <a href="${resetUrl}">Reset Password</a>
       <p>This link will expire in 1 hour.</p>

@@ -35,10 +35,10 @@ export class Quiz {
   @Column({ name: 'randomize_questions', default: false })
   randomizeQuestions: boolean;
 
-  @Column({ name: 'max_attempts', default: 3 })
+  @Column({ name: 'max_attempts', default: 0 }) // 0 => unlimited
   maxAttempts: number;
 
-  @Column({ name: 'retake_cooldown_hours', default: 24 })
+  @Column({ name: 'retake_cooldown_hours', default: 0 }) // 0 => no cooldown
   retakeCooldownHours: number;
 
   @Column({ name: 'is_published', default: false })

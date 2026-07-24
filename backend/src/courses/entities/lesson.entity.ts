@@ -40,6 +40,18 @@ export class Lesson {
   @Column({ name: 'transcript', type: 'text', nullable: true })
   transcript: string;
 
+  @Column({ name: 'resource_links', type: 'json', nullable: true })
+  resourceLinks: Array<{ title: string; url: string }> | null;
+
+  @Column({ name: 'completion_mode', nullable: true, default: 'required' })
+  completionMode: 'required' | 'optional' | 'manual';
+
+  @Column({ name: 'minimum_watch_percent', type: 'int', nullable: true })
+  minimumWatchPercent: number | null;
+
+  @Column({ name: 'minimum_quiz_score', type: 'int', nullable: true })
+  minimumQuizScore: number | null;
+
   @Column({ name: 'order_index' })
   orderIndex: number;
 

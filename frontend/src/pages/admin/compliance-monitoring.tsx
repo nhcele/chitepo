@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import toast from 'react-hot-toast';
 import Layout from '@/components/Layout';
 import { useState, useEffect } from 'react';
 import {
@@ -116,10 +117,10 @@ export default function ComplianceMonitoringPage() {
         },
       });
 
-      alert('Compliance check completed successfully');
+      toast('Compliance check completed successfully');
       fetchComplianceData(); // Refresh data
     } catch (err) {
-      alert('Failed to run compliance check');
+      toast('Failed to run compliance check');
     }
   };
 

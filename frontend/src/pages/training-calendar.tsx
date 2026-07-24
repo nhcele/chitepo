@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import toast from 'react-hot-toast';
 import Layout from '@/components/Layout';
 import { useState, useEffect } from 'react';
 import {
@@ -168,14 +169,14 @@ export default function TrainingCalendarPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        alert(error.message || 'Failed to enroll');
+        toast(error.message || 'Failed to enroll');
         return;
       }
 
-      alert('Successfully enrolled! Check your email for details.');
+      toast('Successfully enrolled! Check your email for details.');
       fetchCalendar(); // Refresh data
     } catch (err) {
-      alert('Failed to enroll. Please try again.');
+      toast('Failed to enroll. Please try again.');
     } finally {
       setEnrolling(null);
     }

@@ -235,8 +235,8 @@ export default function LessonEditor() {
   return (
     <>
       <Head>
-        <title>Lesson Editor - Mindelta</title>
-        <meta name="description" content="Create and edit lesson content for your courses on Mindelta." />
+        <title>Lesson Editor - Chitepo</title>
+        <meta name="description" content="Create and edit lesson content for your courses on Chitepo." />
       </Head>
       
       <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>

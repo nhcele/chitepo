@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 import {
   UserGroupIcon,
@@ -90,10 +91,10 @@ export default function RoleLearningManagement() {
       ];
 
       await messagingApi.sendBulkComplianceReminders({ overdueUsers, dueSoonUsers });
-      alert('Bulk compliance reminders sent successfully!');
+      toast('Bulk compliance reminders sent successfully!');
     } catch (error) {
       console.error('Failed to send bulk reminders:', error);
-      alert('Failed to send reminders. Please try again.');
+      toast('Failed to send reminders. Please try again.');
     }
   };
 
@@ -458,7 +459,7 @@ export default function RoleLearningManagement() {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button 
-                  onClick={() => alert('Generating comprehensive compliance report...')}
+                  onClick={() => toast('Generating comprehensive compliance report...')}
                   className="px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center"
                 >
                   <ChartBarIcon className="h-5 w-5 mr-2" />
@@ -472,7 +473,7 @@ export default function RoleLearningManagement() {
                   Send Bulk Reminders
                 </button>
                 <button 
-                  onClick={() => alert('Exporting compliance data to CSV...')}
+                  onClick={() => toast('Exporting compliance data to CSV...')}
                   className="px-4 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center justify-center"
                 >
                   <ArrowPathIcon className="h-5 w-5 mr-2" />

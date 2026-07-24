@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   TrashIcon,
   XCircleIcon,
@@ -80,12 +81,12 @@ export default function RPLApplicationForm({
     e.preventDefault();
 
     if (!selectedPathway || !rationale || rationale.length < 100) {
-      alert('Please fill in all required fields. Rationale must be at least 100 characters.');
+      toast('Please fill in all required fields. Rationale must be at least 100 characters.');
       return;
     }
 
     if (evidenceItems.filter(item => item.title).length === 0) {
-      alert('Please add at least one evidence item.');
+      toast('Please add at least one evidence item.');
       return;
     }
 

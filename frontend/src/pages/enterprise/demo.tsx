@@ -171,8 +171,8 @@ export default function EnterpriseDemo() {
     return (
       <Layout>
         <Head>
-          <title>Demo Scheduled - Enterprise Demo | Mindelta</title>
-          <meta name="description" content="Your Mindelta enterprise demo has been scheduled. We'll be in touch soon." />
+          <title>Demo Scheduled - Enterprise Demo | Chitepo</title>
+          <meta name="description" content="Your Chitepo enterprise demo has been scheduled. We'll be in touch soon." />
         </Head>
 
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
@@ -191,7 +191,7 @@ export default function EnterpriseDemo() {
               </h1>
               
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                Thank you for scheduling a demo with Mindelta. We&apos;ve received your request and will send you a calendar invitation shortly.
+                Thank you for scheduling a demo with Chitepo. We&apos;ve received your request and will send you a calendar invitation shortly.
               </p>
               
               <div className="bg-white rounded-xl shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
@@ -249,8 +249,8 @@ export default function EnterpriseDemo() {
   return (
     <Layout>
       <Head>
-        <title>Schedule Enterprise Demo | Mindelta</title>
-        <meta name="description" content="Schedule a personalized demo of Mindelta's enterprise learning platform. See our AI-driven micro-pacing and blockchain credentials in action." />
+        <title>Schedule Enterprise Demo | Chitepo</title>
+        <meta name="description" content="Schedule a personalized demo of Chitepo's enterprise learning platform. See our AI-driven micro-pacing and blockchain credentials in action." />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
@@ -274,7 +274,7 @@ export default function EnterpriseDemo() {
               </div>
               
               <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                See Mindelta&apos;s enterprise learning platform in action. Get a personalized 30-minute demo 
+                See Chitepo&apos;s enterprise learning platform in action. Get a personalized 30-minute demo 
                 tailored to your organization&apos;s specific needs and use cases.
               </p>
 

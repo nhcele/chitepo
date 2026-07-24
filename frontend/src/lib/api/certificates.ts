@@ -13,7 +13,7 @@ export interface CertificateDTO {
 
 export async function listMyCertificates(): Promise<CertificateDTO[]> {
   // Backend returns an array of certificates (possibly with {success,data}); handle both
-  const res = await apiClient.get<any>('/api/certificates/me');
+  const res = await apiClient.get<any>('/certificates/me');
   return Array.isArray(res) ? res : res?.data ?? [];
 }
 

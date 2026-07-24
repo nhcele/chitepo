@@ -133,8 +133,8 @@ export default function EnterpriseContact() {
     return (
       <Layout>
         <Head>
-          <title>Thank You - Enterprise Contact | Mindelta</title>
-          <meta name="description" content="Thank you for contacting Mindelta Enterprise. We'll be in touch soon." />
+          <title>Thank You - Enterprise Contact | Chitepo</title>
+          <meta name="description" content="Thank you for contacting Chitepo Enterprise. We'll be in touch soon." />
         </Head>
 
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
@@ -154,7 +154,7 @@ export default function EnterpriseContact() {
               
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
                 We&apos;ve received your enterprise inquiry and our team will review your requirements. 
-                A Mindelta enterprise specialist will contact you within 24 hours.
+                A Chitepo enterprise specialist will contact you within 24 hours.
               </p>
               
               <div className="bg-white rounded-xl shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
@@ -212,8 +212,8 @@ export default function EnterpriseContact() {
   return (
     <Layout>
       <Head>
-        <title>Enterprise Contact | Mindelta</title>
-        <meta name="description" content="Contact Mindelta for enterprise learning solutions. Get custom pricing and implementation support." />
+        <title>Enterprise Contact | Chitepo</title>
+        <meta name="description" content="Contact Chitepo for enterprise learning solutions. Get custom pricing and implementation support." />
       </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">

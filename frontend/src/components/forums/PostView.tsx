@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import {
   getPost,
@@ -59,7 +60,7 @@ export default function PostView({ postId }: PostViewProps) {
       loadPost();
     } catch (error) {
       console.error('Error creating reply:', error);
-      alert('Failed to post reply. Please try again.');
+      toast('Failed to post reply. Please try again.');
     }
   };
 
@@ -73,7 +74,7 @@ export default function PostView({ postId }: PostViewProps) {
       loadPost();
     } catch (error) {
       console.error('Error updating post:', error);
-      alert('Failed to update post. Please try again.');
+      toast('Failed to update post. Please try again.');
     }
   };
 
@@ -85,7 +86,7 @@ export default function PostView({ postId }: PostViewProps) {
       router.push(`/forums/${post.forumId}`);
     } catch (error) {
       console.error('Error deleting post:', error);
-      alert('Failed to delete post. Please try again.');
+      toast('Failed to delete post. Please try again.');
     }
   };
 

@@ -128,8 +128,8 @@ export default function QuizBuilder() {
   return (
     <>
       <Head>
-        <title>Quiz Builder - Mindelta</title>
-        <meta name="description" content="Create and manage quizzes for your lessons on Mindelta." />
+        <title>Quiz Builder - Chitepo</title>
+        <meta name="description" content="Create and manage quizzes for your lessons on Chitepo." />
       </Head>
       
       <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>

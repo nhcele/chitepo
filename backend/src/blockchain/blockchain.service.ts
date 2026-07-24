@@ -89,7 +89,7 @@ export class BlockchainService {
         import "@openzeppelin/contracts/access/Ownable.sol";
         import "@openzeppelin/contracts/utils/Counters.sol";
 
-        contract MindeltaCertificate is ERC721, Ownable {
+        contract ChitepoCertificate is ERC721, Ownable {
             using Counters for Counters.Counter;
             Counters.Counter private _tokenIds;
 
@@ -105,7 +105,7 @@ export class BlockchainService {
             event CertificateMinted(uint256 indexed tokenId, address indexed to, string metadataURI);
             event CertificateVerified(uint256 indexed tokenId, bool verified);
 
-            constructor() ERC721("Mindelta Certificate", "MCERT") {}
+            constructor() ERC721("Chitepo Certificate", "MCERT") {}
 
             function mintCertificate(address to, string memory metadataURI) public onlyOwner returns (uint256) {
                 _tokenIds.increment();
@@ -208,7 +208,7 @@ export class BlockchainService {
         userName: user.name,
         courseName: course.title,
         completionDate: certificate.issuedAt?.toISOString() || new Date().toISOString(),
-        issuerName: 'Mindelta Learning Platform',
+        issuerName: 'Chitepo Learning Platform',
         issuerSignature: await this.generateIssuerSignature(certificateId),
         skills: course.tags || [],
         duration: course.estimatedDuration,
@@ -341,7 +341,7 @@ export class BlockchainService {
 
   private async generateIssuerSignature(certificateId: string): Promise<string> {
     // Generate a signature for the certificate
-    const message = `Certificate ID: ${certificateId} issued by Mindelta`;
+    const message = `Certificate ID: ${certificateId} issued by Chitepo`;
     const signature = await this.wallet.signMessage(message);
     return signature;
   }
@@ -384,7 +384,7 @@ export class BlockchainService {
       return false;
     }
     try {
-      const message = `Certificate ID: ${certificateId} issued by Mindelta`;
+      const message = `Certificate ID: ${certificateId} issued by Chitepo`;
       const recoveredAddress = ethers.verifyMessage(message, signature);
       
       // Check if the signature matches our issuer wallet

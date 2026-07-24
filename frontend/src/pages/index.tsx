@@ -55,7 +55,7 @@ export default function Home() {
     title: c.title,
     subtitle: c.subtitle || '',
     instructor: c.instructor?.name || 'Chitepo School Faculty',
-    rating: typeof (c as any).averageRating === 'number' ? (c as any).averageRating : 4.7,
+    rating: typeof (c as any).averageRating === 'number' ? (c as any).averageRating : 0,
     students: typeof (c as any).totalEnrollments === 'number' ? (c as any).totalEnrollments : 0,
     duration: c.estimatedDuration || 0,
     coverImage: getCourseCoverImage(c.title, (c as any).coverImageUrl) || placeholderCover,
@@ -114,20 +114,16 @@ export default function Home() {
                 Building leaders for African liberation and unity.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/courses">
-                  <Button size="lg" className="bg-yellow-500 text-gray-900 hover:bg-yellow-400 font-semibold">
+                <Button href="/courses" size="lg" className="bg-yellow-500 text-gray-900 hover:bg-yellow-400 font-semibold">
                     Explore Curriculum
                   </Button>
-                </Link>
-                <Link href="/about">
-                  <Button 
+                <Button href="/about" 
                     size="lg" 
                     className="border-2 border-white text-white hover:bg-white/10 bg-transparent"
                   >
                     <PlayIcon className="w-5 h-5 mr-2" />
                     About Herbert Chitepo
                   </Button>
-                </Link>
               </div>
             </motion.div>
           </div>
@@ -199,24 +195,38 @@ export default function Home() {
                 Explore our comprehensive curriculum in African political philosophy, revolutionary theory, and Pan-African thought.
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredCourses.map((course, index) => (
-                <motion.div
-                  key={course.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <CourseCard course={course} />
-                </motion.div>
-              ))}
-            </div>
+            {loading ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" aria-busy="true">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-xl shadow-md p-6 animate-pulse">
+                    <div className="h-40 bg-gray-200 rounded mb-4" />
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                    <div className="h-3 bg-gray-200 rounded w-1/2" />
+                  </div>
+                ))}
+              </div>
+            ) : error ? (
+              <div className="text-center text-gray-600" role="alert">{error}</div>
+            ) : featuredCourses.length === 0 ? (
+              <div className="text-center text-gray-600">No courses are available yet — please check back soon.</div>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredCourses.map((course, index) => (
+                  <motion.div
+                    key={course.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <CourseCard course={course} />
+                  </motion.div>
+                ))}
+              </div>
+            )}
             <div className="text-center mt-12">
-              <Link href="/courses">
-                <Button size="lg" className="bg-primary-600 text-white hover:bg-primary-700">
+              <Button href="/courses" size="lg" className="bg-primary-600 text-white hover:bg-primary-700">
                   View All Courses
                 </Button>
-              </Link>
             </div>
           </div>
         </section>
@@ -237,22 +247,18 @@ export default function Home() {
                 social justice, and the transformation of our continent.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/auth/register">
-                  <Button 
+                <Button href="/auth/register" 
                     size="lg" 
                     className="bg-yellow-500 text-gray-900 hover:bg-yellow-400 font-semibold"
                   >
                     Begin Your Journey
                   </Button>
-                </Link>
-                <Link href="/about">
-                  <Button 
+                <Button href="/about" 
                     size="lg" 
                     className="border-2 border-white text-white hover:bg-white/10 bg-transparent"
                   >
                     Learn More
                   </Button>
-                </Link>
               </div>
             </motion.div>
           </div>

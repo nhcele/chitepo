@@ -60,6 +60,44 @@ interface LearningStats {
 
 // basic computed stats based on enrollments
 
+const recommendationReasons = [
+  'Based on your interests',
+  'Trending in your field',
+  'Popular with similar learners'
+];
+
+type CourseRecommendationCard = {
+  id: string;
+  title: string;
+  instructor: string;
+  rating: number;
+  students: number;
+  coverImage: string;
+  category: string;
+  reason: string;
+};
+
+function getInstructorName(instructor: any) {
+  if (!instructor) return 'Chitepo Instructor';
+  if (typeof instructor === 'string') return instructor;
+  if (instructor.name) return instructor.name;
+  const fullName = [instructor.firstName, instructor.lastName].filter(Boolean).join(' ');
+  return fullName || 'Chitepo Instructor';
+}
+
+function mapCourseToRecommendation(course: Course & Record<string, any>, index: number): CourseRecommendationCard {
+  return {
+    id: course.id,
+    title: course.title,
+    instructor: getInstructorName(course.instructor),
+    rating: typeof course.averageRating === 'number' ? course.averageRating : 0,
+    students: typeof course.totalEnrollments === 'number' ? course.totalEnrollments : 0,
+    coverImage: getCourseCoverImage(course.title, course.coverImageUrl),
+    category: course.category || 'General',
+    reason: recommendationReasons[index % recommendationReasons.length]
+  };
+}
+
 function FeaturedCoursesSection() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -80,8 +118,8 @@ function FeaturedCoursesSection() {
             id: course.id,
             title: course.title,
             description: course.subtitle || course.description || '',
-            instructor: course.instructor?.name || 'Mindelta Instructor',
-            rating: course.averageRating || 4.7,
+            instructor: course.instructor?.name || 'Chitepo Instructor',
+            rating: course.averageRating || 0,
             students: course.totalEnrollments || 0,
             category: course.category || 'General',
             difficulty: course.difficulty || 'beginner',
@@ -156,7 +194,6 @@ function FeaturedCoursesSection() {
               course={course}
               variant="default"
               onEnroll={handleEnroll}
-              onBookmark={(courseId) => console.log('Bookmark course:', courseId)}
               loading={enrollingId === course.id}
             />
           </motion.div>
@@ -169,6 +206,7 @@ function FeaturedCoursesSection() {
 export default function MyLearningPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
+  const [recommendedCourses, setRecommendedCourses] = useState<CourseRecommendationCard[]>([]);
   const [learningStats, setLearningStats] = useState<LearningStats | null>(null);
   const [activeTab, setActiveTab] = useState<'in-progress' | 'completed' | 'bookmarked'>('in-progress');
 
@@ -176,41 +214,68 @@ export default function MyLearningPage() {
     const fetchData = async () => {
       if (!isAuthenticated || !user) {
         setEnrolledCourses([]);
+        setRecommendedCourses([]);
         setLearningStats(null);
         return;
       }
       try {
         const enrollments = await listMyEnrollments();
-        // Map enrollments to course cards
-        const cards: EnrolledCourse[] = [];
-        for (const enr of enrollments as any[]) {
-          try {
-            const course = await getCourse(enr.courseId as string);
-            const modules = ((course as any).modules || []) as (CourseModule & { lessons?: Lesson[] })[];
-            const totalLessons = modules.reduce((acc, m) => acc + (m.lessons?.length || 0), 0);
-            const flatLessons = modules
+        const enrolledCourseIds = new Set((enrollments as any[]).map((enr) => enr.courseId));
+        try {
+          const catalogCourses = await listCourses();
+          const publishedCourses = (catalogCourses as Array<Course & Record<string, any>>)
+            .filter((course) => course.status === 'published');
+          const coursesToRecommend = publishedCourses.filter((course) => !enrolledCourseIds.has(course.id));
+          const recommendationSource = coursesToRecommend.length > 0 ? coursesToRecommend : publishedCourses;
+
+          setRecommendedCourses(
+            recommendationSource
               .slice()
-              .sort((a, b) => a.orderIndex - b.orderIndex)
-              .flatMap((m) => (m.lessons || []).slice().sort((a, b) => a.orderIndex - b.orderIndex));
-            const firstLesson = flatLessons[0];
-            const completedLessons = Math.round(((enr.progressPercent || 0) / 100) * totalLessons);
-            cards.push({
-              id: course.id,
-              title: course.title,
-              instructor: (course as any).instructor?.name || 'Instructor',
-              progress: Math.round(enr.progressPercent || 0),
-              totalLessons,
-              completedLessons,
-              lastAccessed: (enr.updatedAt || enr.enrolledAt || new Date()).toString(),
-              nextLesson: firstLesson?.title || '',
-              nextLessonId: firstLesson?.id,
-              coverImage: getCourseCoverImage(course.title, (course as any).coverImageUrl) || '/api/placeholder/400/225',
-              difficulty: course.difficulty as CourseDifficulty,
-              estimatedTimeLeft: '',
-              certificate: enr.completedAt ? { issued: true, issueDate: new Date(enr.completedAt).toISOString() } : { issued: false },
-            });
-          } catch {}
+              .sort((a, b) => (b.totalEnrollments || 0) - (a.totalEnrollments || 0))
+              .slice(0, 3)
+              .map(mapCourseToRecommendation)
+          );
+        } catch (e) {
+          console.error('Failed to load course recommendations:', e);
+          setRecommendedCourses([]);
         }
+
+        // Map enrollments to course cards (fetched in parallel, not sequentially)
+        const cardResults = await Promise.all(
+          (enrollments as any[]).map(async (enr) => {
+            try {
+              const course = await getCourse(enr.courseId as string);
+              const modules = ((course as any).modules || []) as (CourseModule & { lessons?: Lesson[] })[];
+              const totalLessons = modules.reduce((acc, m) => acc + (m.lessons?.length || 0), 0);
+              const flatLessons = modules
+                .slice()
+                .sort((a, b) => a.orderIndex - b.orderIndex)
+                .flatMap((m) => (m.lessons || []).slice().sort((a, b) => a.orderIndex - b.orderIndex));
+              const completedLessons = Math.round(((enr.progressPercent || 0) / 100) * totalLessons);
+              // Resume at the next incomplete lesson (not always lesson 1).
+              const resumeIndex = flatLessons.length > 0 ? Math.min(completedLessons, flatLessons.length - 1) : 0;
+              const resumeLesson = flatLessons[resumeIndex];
+              return {
+                id: course.id,
+                title: course.title,
+                instructor: (course as any).instructor?.name || 'Instructor',
+                progress: Math.round(enr.progressPercent || 0),
+                totalLessons,
+                completedLessons,
+                lastAccessed: (enr.updatedAt || enr.enrolledAt || new Date()).toString(),
+                nextLesson: resumeLesson?.title || '',
+                nextLessonId: resumeLesson?.id,
+                coverImage: getCourseCoverImage(course.title, (course as any).coverImageUrl) || '/api/placeholder/400/225',
+                difficulty: course.difficulty as CourseDifficulty,
+                estimatedTimeLeft: '',
+                certificate: enr.completedAt ? { issued: true, issueDate: new Date(enr.completedAt).toISOString() } : { issued: false },
+              } as EnrolledCourse;
+            } catch {
+              return null;
+            }
+          }),
+        );
+        const cards: EnrolledCourse[] = cardResults.filter(Boolean) as EnrolledCourse[];
         setEnrolledCourses(cards);
         const stats: LearningStats = {
           totalCoursesEnrolled: cards.length,
@@ -224,6 +289,7 @@ export default function MyLearningPage() {
         setLearningStats(stats);
       } catch (e) {
         setEnrolledCourses([]);
+        setRecommendedCourses([]);
         setLearningStats(null);
       }
     };
@@ -274,7 +340,7 @@ export default function MyLearningPage() {
     return (
       <>
         <Head>
-          <title>My Courses - Mindelta</title>
+          <title>My Courses - Chitepo</title>
         </Head>
         <Layout>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -297,7 +363,7 @@ export default function MyLearningPage() {
   return (
     <>
       <Head>
-        <title>My Courses - Mindelta</title>
+        <title>My Courses - Chitepo</title>
         <meta name="description" content="Track your learning progress, view enrolled courses, and manage your professional development journey." />
       </Head>
       <Layout>
@@ -332,7 +398,7 @@ export default function MyLearningPage() {
                 description: 'Complete your first course',
                 icon: <TrophyIcon className="h-8 w-8" />,
                 earned: learningStats.coursesCompleted > 0,
-                earnedDate: learningStats.coursesCompleted > 0 ? '2023-10-01' : undefined
+                earnedDate: learningStats.coursesCompleted > 0 ? undefined : undefined
               },
               {
                 id: 'week-streak',
@@ -340,7 +406,7 @@ export default function MyLearningPage() {
                 description: 'Maintain a 7-day learning streak',
                 icon: <FireIcon className="h-8 w-8" />,
                 earned: learningStats.currentStreak >= 7,
-                earnedDate: learningStats.currentStreak >= 7 ? '2023-10-15' : undefined
+                earnedDate: learningStats.currentStreak >= 7 ? undefined : undefined
               },
               {
                 id: 'quick-learner',
@@ -355,7 +421,7 @@ export default function MyLearningPage() {
                 description: 'Complete 5 courses',
                 icon: <CheckCircleIconSolid className="h-8 w-8" />,
                 earned: learningStats.coursesCompleted >= 5,
-                earnedDate: learningStats.coursesCompleted >= 5 ? '2023-10-20' : undefined
+                earnedDate: learningStats.coursesCompleted >= 5 ? undefined : undefined
               },
               {
                 id: 'time-master',
@@ -363,7 +429,7 @@ export default function MyLearningPage() {
                 description: 'Spend 100 hours learning',
                 icon: <ClockIcon className="h-8 w-8" />,
                 earned: learningStats.totalLearningTime >= 6000,
-                earnedDate: learningStats.totalLearningTime >= 6000 ? '2023-10-25' : undefined
+                earnedDate: learningStats.totalLearningTime >= 6000 ? undefined : undefined
               },
               {
                 id: 'certified',
@@ -371,41 +437,10 @@ export default function MyLearningPage() {
                 description: 'Earn 3 certificates',
                 icon: <StarIconSolid className="h-8 w-8" />,
                 earned: learningStats.certificatesEarned >= 3,
-                earnedDate: learningStats.certificatesEarned >= 3 ? '2023-10-30' : undefined
+                earnedDate: learningStats.certificatesEarned >= 3 ? undefined : undefined
               }
             ]}
-            recommendations={[
-              {
-                id: '1',
-                title: 'Advanced React Patterns',
-                instructor: 'Sarah Johnson',
-                rating: 4.8,
-                students: 2341,
-                coverImage: '/api/placeholder/400/225?t=Advanced%20React%20Patterns',
-                category: 'Development',
-                reason: 'Based on your interests'
-              },
-              {
-                id: '2',
-                title: 'UX Design Fundamentals',
-                instructor: 'Michael Chen',
-                rating: 4.7,
-                students: 1876,
-                coverImage: '/api/placeholder/400/225?t=UX%20Design%20Fundamentals',
-                category: 'Design',
-                reason: 'Trending in your field'
-              },
-              {
-                id: '3',
-                title: 'Data Science Essentials',
-                instructor: 'Dr. Emily Rodriguez',
-                rating: 4.9,
-                students: 3209,
-                coverImage: '/api/placeholder/400/225?t=Data%20Science%20Essentials',
-                category: 'Data Science',
-                reason: 'Popular with similar learners'
-              }
-            ]}
+            recommendations={recommendedCourses}
           />
         ) : (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

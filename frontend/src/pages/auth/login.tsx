@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import {
   EyeIcon,
@@ -22,7 +21,6 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +29,6 @@ export default function LoginPage() {
 
     try {
       await login(formData.email, formData.password);
-      router.push('/my-learning');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in');
     } finally {
@@ -49,8 +46,8 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Sign In - Mindelta</title>
-        <meta name="description" content="Sign in to your Mindelta account to continue your professional learning journey." />
+        <title>Sign In - Chitepo School of Ideology</title>
+        <meta name="description" content="Sign in to your Chitepo School of Ideology account to continue your learning journey." />
       </Head>
       <Layout>
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -58,11 +55,11 @@ export default function LoginPage() {
             <div className="text-center">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/Mindelta_logo.png"
-                  alt="Mindelta"
-                  width={48}
-                  height={48}
-                  className="h-12 w-auto"
+                  src="/chitepo-logo.jpg"
+                  alt="Chitepo School of Ideology"
+                  width={64}
+                  height={64}
+                  className="h-16 w-auto"
                 />
               </div>
               <h2 className="text-3xl font-bold text-gray-900">Sign in to your account</h2>
@@ -233,7 +230,7 @@ export default function LoginPage() {
 
               <div className="mt-6">
                 <div className="text-center text-sm text-gray-600">
-                  New to Mindelta?{' '}
+                  New to Chitepo?{' '}
                   <Link href="/auth/register" className="font-medium text-primary-600 hover:text-primary-500">
                     Start your free trial
                   </Link>

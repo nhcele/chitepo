@@ -10,6 +10,7 @@ import {
   UserGroupIcon,
   TrophyIcon,
 } from '@heroicons/react/24/outline';
+import { getAuthHeaders } from '@/lib/auth';
 
 interface TrackAssignment {
   id: string;
@@ -56,9 +57,7 @@ export default function TrackWidgets({ userId }: TrackWidgetsProps) {
     try {
       setLoading(true);
       const response = await fetch('/api/tracks/my-tracks', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
+        headers: getAuthHeaders(),
       });
 
       if (response.ok) {

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import {
   EyeIcon,
@@ -44,7 +43,6 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Partial<RegistrationData>>({});
   const { register } = useAuth();
-  const router = useRouter();
 
   const validateForm = (): boolean => {
     const newErrors: Partial<RegistrationData> = {};
@@ -100,7 +98,6 @@ export default function RegisterPage() {
         password: formData.password,
         jobTitle: formData.jobTitle || undefined
       });
-      router.push('/my-learning');
     } catch (err: any) {
       setErrors({ email: err.message || 'Failed to create account' });
     } finally {
@@ -124,8 +121,8 @@ export default function RegisterPage() {
   return (
     <>
       <Head>
-        <title>Create Account - Mindelta</title>
-        <meta name="description" content="Join Mindelta and start your professional learning journey with AI-driven courses and blockchain certificates." />
+        <title>Create Account - Chitepo School of Ideology</title>
+        <meta name="description" content="Join Chitepo School of Ideology and start your learning journey." />
       </Head>
       <Layout>
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -133,11 +130,11 @@ export default function RegisterPage() {
             <div className="text-center">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/Mindelta_logo.png"
-                  alt="Mindelta"
-                  width={48}
-                  height={48}
-                  className="h-12 w-auto"
+                  src="/chitepo-logo.jpg"
+                  alt="Chitepo School of Ideology"
+                  width={64}
+                  height={64}
+                  className="h-16 w-auto"
                 />
               </div>
               <h2 className="text-3xl font-bold text-gray-900">Create your account</h2>

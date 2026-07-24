@@ -275,7 +275,7 @@ export default function NewCoursePage() {
   return (
     <>
       <Head>
-        <title>Create New Course - Mindelta</title>
+        <title>Create New Course - Chitepo</title>
         <meta name="description" content="Create a new course and share your expertise with learners worldwide." />
       </Head>
       

@@ -88,7 +88,7 @@ export default function ProfilePage() {
   return (
     <>
       <Head>
-        <title>Profile - Mindelta</title>
+        <title>Profile - Chitepo</title>
         <meta name="description" content="Manage your profile, update personal information, and customize your learning experience." />
       </Head>
       <Layout>
