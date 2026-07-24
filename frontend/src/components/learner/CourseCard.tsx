@@ -131,7 +131,7 @@ export default function CourseCard({
                 alt={course.title}
                 width={80}
                 height={80}
-                className="w-full h-full object-cover"
+                className={`w-full h-full ${course.coverImage.includes('chitepo-logo') ? 'object-contain bg-white p-2' : 'object-cover'}`}
                 onLoad={() => setImageLoaded(true)}
                 unoptimized={course.coverImage.startsWith('/api/')}
               />
@@ -204,7 +204,7 @@ export default function CourseCard({
               alt={course.title}
               width={400}
               height={225}
-              className="w-full h-full object-cover opacity-90"
+              className={`w-full h-full opacity-90 ${course.coverImage.includes('chitepo-logo') ? 'object-contain bg-white p-2' : 'object-cover'}`}
               onLoad={() => setImageLoaded(true)}
               unoptimized={course.coverImage.startsWith('/api/')}
             />
@@ -300,7 +300,7 @@ export default function CourseCard({
           alt={course.title}
           width={400}
           height={225}
-          className="w-full h-full object-cover"
+          className={`w-full h-full ${course.coverImage.includes('chitepo-logo') ? 'object-contain bg-white p-2' : 'object-cover'}`}
           onLoad={() => setImageLoaded(true)}
           unoptimized={course.coverImage.startsWith('/api/')}
         />

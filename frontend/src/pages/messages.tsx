@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import Layout from '../components/Layout';
-import MessagingInterface from '../components/messaging/MessagingInterface';
-import { useAuth } from '../contexts/AuthContext';
+import Layout from '@/components/Layout';
+import MessagingInterface from '@/components/messaging/MessagingInterface';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
 

@@ -3,7 +3,7 @@ import {
   getSession,
   ClassroomSession,
   SessionStatus,
-} from '../../lib/api/classroom-sessions';
+} from '@/lib/api/classroom-sessions';
 
 interface PresenterModeProps {
   sessionId: string;

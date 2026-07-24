@@ -1,7 +1,7 @@
 import React from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
-import ClassroomSessionView from '../../../components/trainer/ClassroomSessionView';
-import Layout from '../../../components/Layout';
+import { useAuth } from '@/contexts/AuthContext';
+import ClassroomSessionView from '@/components/trainer/ClassroomSessionView';
+import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
 
 export default function TrainerSessionPage() {
@@ -9,8 +9,13 @@ export default function TrainerSessionPage() {
   const router = useRouter();
   const { sessionId } = router.query;
 
+  React.useEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
+
   if (!user) {
-    router.push('/auth/login');
     return null;
   }
 

@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/basePath';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -286,7 +287,7 @@ export default function RoleLearningManagement() {
                   Upload a CSV file to assign roles to multiple users at once.
                 </p>
                 <button 
-                  onClick={() => window.location.href = '/admin/role-management'}
+                  onClick={() => window.location.href = withBasePath('/admin/role-management')}
                   className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
                 >
                   Go to Role Management
@@ -298,7 +299,7 @@ export default function RoleLearningManagement() {
                   Search for a user and assign their job role manually.
                 </p>
                 <button 
-                  onClick={() => window.location.href = '/admin/role-management'}
+                  onClick={() => window.location.href = withBasePath('/admin/role-management')}
                   className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
                 >
                   Go to Role Management
@@ -309,7 +310,7 @@ export default function RoleLearningManagement() {
               <p className="text-sm text-blue-800">
                 <strong>💡 Pro Tip:</strong> For comprehensive role management features including bulk assignment, 
                 role analytics, and assignment history, visit the dedicated 
-                <a href="/admin/role-management" className="text-blue-600 hover:underline ml-1">Role Management page</a>.
+                <a href={withBasePath('/admin/role-management')} className="text-blue-600 hover:underline ml-1">Role Management page</a>.
               </p>
             </div>
           </div>

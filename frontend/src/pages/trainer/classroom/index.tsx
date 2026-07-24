@@ -1,15 +1,20 @@
 import React from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
-import TrainerDashboard from '../../../components/trainer/TrainerDashboard';
-import Layout from '../../../components/Layout';
+import { useAuth } from '@/contexts/AuthContext';
+import TrainerDashboard from '@/components/trainer/TrainerDashboard';
+import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
 
 export default function TrainerClassroomPage() {
   const { user } = useAuth();
   const router = useRouter();
 
+  React.useEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
+
   if (!user) {
-    router.push('/auth/login');
     return null;
   }
 

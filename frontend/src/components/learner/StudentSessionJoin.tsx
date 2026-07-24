@@ -7,7 +7,7 @@ import {
   updateProgress,
   ClassroomSession,
   SessionStatus,
-} from '../../lib/api/classroom-sessions';
+} from '@/lib/api/classroom-sessions';
 
 export default function StudentSessionJoin() {
   const router = useRouter();

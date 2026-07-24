@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import AILearningCompanion from '../../../components/learner/AILearningCompanion';
-import LearningDashboard from '../../../components/learner/LearningDashboard';
-import { type ProgressInsight } from '../../../lib/api/ai';
-import { getCourse } from '../../../lib/api/courses';
-import { getMyEnrollmentForCourse, listMyEnrollments } from '../../../lib/api/enrollments';
-import { getCourseCoverImage } from '../../../lib/cover-image';
-import { useAuth } from '../../../contexts/AuthContext';
+import AILearningCompanion from '@/components/learner/AILearningCompanion';
+import LearningDashboard from '@/components/learner/LearningDashboard';
+import { type ProgressInsight } from '@/lib/api/ai';
+import { getCourse } from '@/lib/api/courses';
+import { getMyEnrollmentForCourse, listMyEnrollments } from '@/lib/api/enrollments';
+import { getCourseCoverImage } from '@/lib/cover-image';
+import { useAuth } from '@/contexts/AuthContext';
 import { Course, Enrollment, Lesson, Module as CourseModule } from '@mindelta/shared';
 
 type CourseWithModules = Course & {

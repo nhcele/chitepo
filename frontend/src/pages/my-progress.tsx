@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import Layout from '../components/Layout';
-import StudentProgressDashboard from '../components/learner/StudentProgressDashboard';
-import { useAuth } from '../contexts/AuthContext';
+import Layout from '@/components/Layout';
+import StudentProgressDashboard from '@/components/learner/StudentProgressDashboard';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
 
 export default function MyProgressPage() {

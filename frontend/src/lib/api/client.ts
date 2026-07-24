@@ -1,3 +1,4 @@
+import { withBasePath } from '../basePath';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getAuthHeaders, removeAuthToken } from '../auth';
 
@@ -66,7 +67,7 @@ class ApiClient {
         if (error.response?.status === 401) {
           removeAuthToken();
           if (typeof window !== 'undefined') {
-            window.location.href = '/auth/login';
+            window.location.href = withBasePath('/auth/login');
           }
         }
         return Promise.reject(error);

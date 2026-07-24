@@ -25,7 +25,7 @@ import {
   adaptDifficulty,
   type LearningRecommendation,
   type ProgressInsight
-} from '../../lib/api/ai';
+} from '@/lib/api/ai';
 
 interface Message {
   id: string;

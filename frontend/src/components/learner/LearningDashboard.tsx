@@ -31,7 +31,7 @@ import {
   getPersonalizedRecommendations,
   type ProgressInsight,
   type LearningRecommendation
-} from '../../lib/api/ai'
+} from '@/lib/api/ai'
 
 interface LearningDashboardProps {
   userId: string

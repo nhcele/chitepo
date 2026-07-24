@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/basePath';
 import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -55,7 +56,7 @@ export default function LoginPage() {
             <div className="text-center">
               <div className="flex justify-center mb-6">
                 <Image
-                  src="/chitepo-logo.jpg"
+                  src={withBasePath("/chitepo-logo.jpg")}
                   alt="Chitepo School of Ideology"
                   width={64}
                   height={64}

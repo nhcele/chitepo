@@ -8,8 +8,8 @@ import {
   updatePost,
   deletePost,
   ForumPost,
-} from '../../lib/api/forums';
-import { useAuth } from '../../contexts/AuthContext';
+} from '@/lib/api/forums';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 
 interface PostViewProps {

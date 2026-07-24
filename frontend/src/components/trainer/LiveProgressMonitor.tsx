@@ -4,7 +4,7 @@ import {
   getSessionStats,
   ClassroomSessionParticipant,
   SessionStats,
-} from '../../lib/api/classroom-sessions';
+} from '@/lib/api/classroom-sessions';
 
 interface LiveProgressMonitorProps {
   sessionId: string;

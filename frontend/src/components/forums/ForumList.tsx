@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getForums, Forum, ForumType, ForumStatus } from '../../lib/api/forums';
+import { getForums, Forum, ForumType, ForumStatus } from '@/lib/api/forums';
 import Link from 'next/link';
 
 interface ForumListProps {

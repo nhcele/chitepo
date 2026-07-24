@@ -5,7 +5,7 @@ import {
   ArchiveBoxIcon,
   CheckIcon,
 } from '@heroicons/react/24/outline';
-import { messagingApi, Message, ConversationSummary } from '../../lib/api/messaging';
+import { messagingApi, Message, ConversationSummary } from '@/lib/api/messaging';
 import toast from 'react-hot-toast';
 import { formatDistanceToNow } from 'date-fns';
 

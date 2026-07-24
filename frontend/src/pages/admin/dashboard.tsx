@@ -1,17 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@mindelta/shared';
-import {
-  UsersIcon,
-  Cog6ToothIcon,
-  AcademicCapIcon,
-  DocumentTextIcon,
-  UserGroupIcon,
-  ClockIcon,
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import Button from '@/components/ui/Button';
-import AdminLayout from '@/components/admin/AdminLayout';
 
-
+// The admin dashboard lives at /admin (see pages/admin/index.tsx). This route
+// redirects there so the "Dashboard" nav link (/admin/dashboard) works.
+export default function AdminDashboardRedirect() {
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/admin');
+  }, [router]);
+  return null;
+}

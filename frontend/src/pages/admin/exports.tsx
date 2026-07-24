@@ -12,13 +12,13 @@ export default function AdminExports() {
 
   const usersHref = `${apiBase}/api/admin/exports/users.csv`;
   const engagementHref = useMemo(() => {
-    const url = new URL(`${apiBase}/api/admin/exports/engagement.csv`);
+    const url = new URL(`${apiBase}/api/admin/exports/engagement.csv`, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
     if (courseId) url.searchParams.set('courseId', courseId);
     return url.toString();
   }, [apiBase, courseId]);
 
   const quizHref = useMemo(() => {
-    const url = new URL(`${apiBase}/api/admin/exports/quiz-outcomes.csv`);
+    const url = new URL(`${apiBase}/api/admin/exports/quiz-outcomes.csv`, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
     if (quizId) url.searchParams.set('quizId', quizId);
     if (!quizId && lessonId) url.searchParams.set('lessonId', lessonId);
     return url.toString();

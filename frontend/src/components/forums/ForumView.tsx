@@ -10,8 +10,8 @@ import {
   addMember,
   Forum,
   ForumPost,
-} from '../../lib/api/forums';
-import { useAuth } from '../../contexts/AuthContext';
+} from '@/lib/api/forums';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface ForumViewProps {
   forumId: string;

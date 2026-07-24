@@ -1,3 +1,4 @@
+import { withBasePath } from '@/lib/basePath';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,7 +36,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center">
             <Image
-              src="/chitepo-logo.jpg"
+              src={withBasePath("/chitepo-logo.jpg")}
               alt="Chitepo School of Ideology"
               width={64}
               height={64}
@@ -120,7 +121,7 @@ export default function Header() {
               <div className="flex items-center justify-between">
                 <Link href="/" className="-m-1.5 p-1.5 flex items-center">
                   <Image
-                    src="/chitepo-logo.jpg"
+                    src={withBasePath("/chitepo-logo.jpg")}
                     alt="Chitepo School of Ideology"
                     width={64}
                     height={64}

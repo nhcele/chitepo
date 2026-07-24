@@ -8,7 +8,15 @@
 // so nothing here is exposed to the internet directly.
 
 const path = require('path');
+const fs = require('fs');
 const ROOT = path.resolve(__dirname, '..');
+
+// Resolve a bin path from wherever npm put it (workspaces hoist to root node_modules).
+function resolveBin(rel) {
+  const cands = [path.join(ROOT, 'node_modules', rel), path.join(ROOT, 'frontend', 'node_modules', rel)];
+  for (const c of cands) { try { fs.accessSync(c); return c; } catch (e) {} }
+  return cands[0];
+}
 
 module.exports = {
   apps: [
@@ -30,12 +38,14 @@ module.exports = {
     {
       name: 'chitepo-frontend',
       cwd: path.join(ROOT, 'frontend'),
-      script: path.join(ROOT, 'frontend', 'node_modules', 'next', 'dist', 'bin', 'next'),
+      script: resolveBin('next/dist/bin/next'),
       args: 'start -H 127.0.0.1 -p 4000',  // change 4000 if taken; match Apache
       exec_mode: 'fork',
       instances: 1,
       env: {
         NODE_ENV: 'production',
+        NEXT_PUBLIC_BASE_PATH: '/chitepo',
+        NEXT_PUBLIC_API_URL: '/chitepo',
       },
       max_memory_restart: '700M',
       error_file: path.join(ROOT, 'logs', 'frontend-error.log'),

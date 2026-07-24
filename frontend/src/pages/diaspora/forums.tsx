@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Layout from '../../components/Layout';
-import ForumList from '../../components/forums/ForumList';
-import { getDiasporaForums, Forum } from '../../lib/api/forums';
+import Layout from '@/components/Layout';
+import ForumList from '@/components/forums/ForumList';
+import { getDiasporaForums, Forum } from '@/lib/api/forums';
 
 const REGIONS = [
   { value: 'south_africa', label: 'South Africa' },

@@ -7,8 +7,8 @@ import {
   SessionStatus,
   SessionType,
   CreateSessionDto,
-} from '../../lib/api/classroom-sessions';
-import { listCourses } from '../../lib/api/courses';
+} from '@/lib/api/classroom-sessions';
+import { listCourses } from '@/lib/api/courses';
 import { Course } from '@mindelta/shared';
 
 interface TrainerDashboardProps {

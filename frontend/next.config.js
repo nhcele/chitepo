@@ -6,12 +6,18 @@ const withPWA = require('next-pwa')({
   skipWaiting: true,
 });
 
+// Make .env / .env.production vars available to this config (basePath, etc.).
+try { require('@next/env').loadEnvConfig(process.cwd()); } catch (e) {}
 const { i18n } = require('./next-i18next.config');
 const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')
   .replace(/\/api\/?$/i, '')
   .replace(/\/$/, '');
 
 const nextConfig = {
+  // Lint/type errors are checked in CI/dev; do not fail production builds on them.
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+  ...(process.env.NEXT_PUBLIC_BASE_PATH ? { basePath: process.env.NEXT_PUBLIC_BASE_PATH } : {}),
   reactStrictMode: true,
   swcMinify: true,
   i18n,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import ForumView from '../../components/forums/ForumView';
-import { getCohortForum } from '../../lib/api/forums';
+import Layout from '@/components/Layout';
+import ForumView from '@/components/forums/ForumView';
+import { getCohortForum } from '@/lib/api/forums';
 
 export default function CohortForumPage() {
   const router = useRouter();

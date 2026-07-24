@@ -1,10 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
-import Layout from '../../../../components/Layout';
-import StudentManagement from '../../../../components/instructor/StudentManagement';
-import { useAuth } from '../../../../contexts/AuthContext';
+import Layout from '@/components/Layout';
+import StudentManagement from '@/components/instructor/StudentManagement';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/router';
-import RoleGuard from '../../../../components/RoleGuard';
+import RoleGuard from '@/components/RoleGuard';
 import { UserRole } from '@mindelta/shared';
 
 export default function CourseStudentsPage() {

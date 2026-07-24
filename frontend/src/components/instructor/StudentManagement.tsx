@@ -9,8 +9,8 @@ import {
   ArrowRightIcon,
   EnvelopeIcon,
 } from '@heroicons/react/24/outline';
-import { studentProgressApi, CourseStudentsResponse, StudentProgressDetails } from '../../lib/api/student-progress';
-import { messagingApi } from '../../lib/api/messaging';
+import { studentProgressApi, CourseStudentsResponse, StudentProgressDetails } from '@/lib/api/student-progress';
+import { messagingApi } from '@/lib/api/messaging';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 

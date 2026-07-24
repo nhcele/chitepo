@@ -22,7 +22,9 @@ async function bootstrap() {
   });
 
   // Security middleware
-  const frontendOrigin = (configService.get('FRONTEND_URL') as string) || 'http://localhost:3000';
+  const frontendOrigins = ((configService.get('FRONTEND_URL') as string) || 'http://localhost:3000')
+    .split(',').map((s) => s.trim()).filter(Boolean);
+  const frontendOrigin = frontendOrigins[0];
   const apiOrigin = `http://localhost:${configService.get('PORT') || 3001}`;
   
   // Enhanced helmet configuration
@@ -69,7 +71,7 @@ async function bootstrap() {
       if (!origin) return callback(null, true);
       
       const allowedOrigins = [
-        frontendOrigin, 
+        ...frontendOrigins, 
         'http://127.0.0.1:3000', 
         'http://localhost:3000',
         'http://localhost:5173', // Vite dev server

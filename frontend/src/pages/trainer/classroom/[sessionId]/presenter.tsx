@@ -1,5 +1,5 @@
 import React from 'react';
-import PresenterMode from '../../../../components/trainer/PresenterMode';
+import PresenterMode from '@/components/trainer/PresenterMode';
 import { useRouter } from 'next/router';
 
 export default function PresenterModePage() {

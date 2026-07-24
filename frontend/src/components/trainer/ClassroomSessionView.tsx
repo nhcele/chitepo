@@ -8,7 +8,7 @@ import {
   updateCurrentLesson,
   ClassroomSession,
   SessionStatus,
-} from '../../lib/api/classroom-sessions';
+} from '@/lib/api/classroom-sessions';
 import LiveProgressMonitor from './LiveProgressMonitor';
 import { useRouter } from 'next/router';
 

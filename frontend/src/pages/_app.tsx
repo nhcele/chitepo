@@ -7,6 +7,24 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import '@/styles/globals.css';
 
+declare global { interface Window { __chitepoFetchPatched?: boolean } }
+
+// Sub-path support: Next prefixes <Link>/router/next-image automatically, but
+// NOT raw fetch('/api/...'). Rewrite those to include basePath. No-op at root.
+if (typeof window !== 'undefined' && !window.__chitepoFetchPatched) {
+  const bp = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  if (bp) {
+    const orig = window.fetch.bind(window);
+    window.fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+      if (typeof input === 'string' && input.startsWith('/api') && !input.startsWith(bp + '/api')) {
+        input = bp + input;
+      }
+      return orig(input, init);
+    };
+  }
+  window.__chitepoFetchPatched = true;
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

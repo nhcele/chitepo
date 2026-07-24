@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import ForumView from '../../components/forums/ForumView';
+import Layout from '@/components/Layout';
+import ForumView from '@/components/forums/ForumView';
 
 export default function ForumPage() {
   const router = useRouter();

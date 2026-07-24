@@ -1,4 +1,5 @@
-import Layout from '../components/Layout';
+import { withBasePath } from '@/lib/basePath';
+import Layout from '@/components/Layout';
 
 export default function Cookies() {
   return (
@@ -176,9 +177,9 @@ export default function Cookies() {
                 For more information about how we protect your privacy, please review our:
               </p>
               <ul className="list-disc pl-6 text-gray-700 mb-4">
-                <li><a href="/privacy" className="text-primary-600 hover:text-primary-700">Privacy Policy</a></li>
-                <li><a href="/terms" className="text-primary-600 hover:text-primary-700">Terms of Service</a></li>
-                <li><a href="/gdpr" className="text-primary-600 hover:text-primary-700">GDPR Compliance</a></li>
+                <li><a href={withBasePath('/privacy')} className="text-primary-600 hover:text-primary-700">Privacy Policy</a></li>
+                <li><a href={withBasePath('/terms')} className="text-primary-600 hover:text-primary-700">Terms of Service</a></li>
+                <li><a href={withBasePath('/gdpr')} className="text-primary-600 hover:text-primary-700">GDPR Compliance</a></li>
               </ul>
             </section>
 

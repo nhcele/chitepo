@@ -11,7 +11,7 @@ import {
   TrophyIcon,
   ClockIcon,
   StarIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   DocumentTextIcon,
   CurrencyDollarIcon,
   BuildingOfficeIcon,
@@ -252,7 +252,7 @@ export default function SuccessMetricsPage() {
               {[
                 { id: 'enrollment', label: 'Enrollment Metrics', icon: UserGroupIcon },
                 { id: 'quality', label: 'Quality Metrics', icon: StarIcon },
-                { id: 'impact', label: 'Impact Metrics', icon: TrendingUpIcon },
+                { id: 'impact', label: 'Impact Metrics', icon: ArrowTrendingUpIcon },
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -614,7 +614,7 @@ export default function SuccessMetricsPage() {
 
                     <div className="bg-white rounded-lg shadow p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <TrendingUpIcon className="h-8 w-8 text-orange-600" />
+                        <ArrowTrendingUpIcon className="h-8 w-8 text-orange-600" />
                       </div>
                       <h3 className="text-sm font-medium text-gray-600 mb-1">Community Projects</h3>
                       <p className="text-3xl font-bold text-gray-900">{formatNumber(impactMetrics.communityProjects)}</p>
