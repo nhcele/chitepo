@@ -195,14 +195,18 @@ export default function LessonPage() {
     }
     setLessonProgressLoading(true);
     try {
-      const progress = await getLessonProgress(lessonId);
+      const [progress, progressMap] = await Promise.all([
+        getLessonProgress(lessonId),
+        courseId ? getCourseLessonProgress(courseId) : Promise.resolve(null),
+      ]);
       setLessonProgress(progress);
+      if (progressMap) setCourseProgress(progressMap);
     } catch {
       setLessonProgress(null);
     } finally {
       setLessonProgressLoading(false);
     }
-  }, [lessonId, isAuthenticated]);
+  }, [lessonId, courseId, isAuthenticated]);
 
   useEffect(() => {
     refreshLessonProgress();
@@ -398,22 +402,13 @@ export default function LessonPage() {
     return { prev, next, isLastInModule, nextLocked };
   }, [structure, courseProgress, isAuthenticated, enrollmentId, course]);
 
-  // Compute linear progress based on lesson index among all lessons in the course
   const computedProgress = useMemo(() => {
     if (!course || !lesson) return null;
-    const flatLessons: Lesson[] = [];
-    const modulesSorted = (course.modules || []).slice().sort((a, b) => a.orderIndex - b.orderIndex);
-    modulesSorted.forEach((m) => {
-      (m.lessons || [])
-        .slice()
-        .sort((a, b) => a.orderIndex - b.orderIndex)
-        .forEach((l) => flatLessons.push(l));
-    });
-    const idx = flatLessons.findIndex((l) => l.id === lesson.id);
-    if (idx === -1 || flatLessons.length === 0) return null;
-    const percent = Math.round(((idx + 1) / flatLessons.length) * 100);
-    return Math.max(0, Math.min(100, percent));
-  }, [course, lesson]);
+    const lessons = (course.modules || []).flatMap((module) => module.lessons || []);
+    if (lessons.length === 0) return null;
+    const completedLessons = lessons.filter((item) => courseProgress[item.id]?.isCompleted).length;
+    return Math.round((completedLessons / lessons.length) * 100);
+  }, [course, lesson, courseProgress]);
 
   // Estimate remaining minutes in course from current lesson to end
   const estimatedRemainingMinutes = useMemo(() => {
@@ -975,6 +970,15 @@ export default function LessonPage() {
         watchPercent: lastProgressRef.current.percent,
       });
       setLessonProgress(progress);
+      setCourseProgress((current) => ({
+        ...current,
+        [lesson.id]: {
+          isCompleted: progress.isCompleted,
+          watchPercent: progress.watchPercent,
+          lastPositionSeconds: progress.lastPositionSeconds,
+          watchedSeconds: progress.watchedSeconds,
+        },
+      }));
       setProgressSaveState('idle');
     } catch {
       setProgressSaveState('error');

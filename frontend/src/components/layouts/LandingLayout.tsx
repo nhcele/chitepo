@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface LandingLayoutProps {
   children: ReactNode;
@@ -17,6 +18,8 @@ const navLinks = [
 ];
 
 export default function LandingLayout({ children }: LandingLayoutProps) {
+  const { isAuthenticated, isLoading } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <a
@@ -64,18 +67,37 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
             </nav>
 
             <div className="flex items-center gap-4">
-              <Link
-                href="/auth/login"
-                className="hidden sm:inline-flex text-sm font-medium text-charcoal hover:text-forest-600 transition-colors"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/auth/register"
-                className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-ochre-400 focus:ring-offset-2"
-              >
-                Get started
-              </Link>
+              {!isLoading && isAuthenticated ? (
+                <>
+                  <Link
+                    href="/my-learning"
+                    className="hidden sm:inline-flex text-sm font-medium text-charcoal hover:text-forest-600 transition-colors"
+                  >
+                    My courses
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-ochre-400 focus:ring-offset-2"
+                  >
+                    Dashboard
+                  </Link>
+                </>
+              ) : !isLoading ? (
+                <>
+                  <Link
+                    href="/auth/login"
+                    className="hidden sm:inline-flex text-sm font-medium text-charcoal hover:text-forest-600 transition-colors"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-ochre-400 focus:ring-offset-2"
+                  >
+                    Get started
+                  </Link>
+                </>
+              ) : null}
             </div>
           </div>
         </div>
@@ -143,13 +165,13 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
               </h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/auth/login" className="text-sm text-cream/80 hover:text-ochre-400 transition-colors">
-                    Sign in
+                  <Link href={isAuthenticated ? '/dashboard' : '/auth/login'} className="text-sm text-cream/80 hover:text-ochre-400 transition-colors">
+                    {isAuthenticated ? 'Dashboard' : 'Sign in'}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/auth/register" className="text-sm text-cream/80 hover:text-ochre-400 transition-colors">
-                    Create account
+                  <Link href={isAuthenticated ? '/my-learning' : '/auth/register'} className="text-sm text-cream/80 hover:text-ochre-400 transition-colors">
+                    {isAuthenticated ? 'My courses' : 'Create account'}
                   </Link>
                 </li>
               </ul>

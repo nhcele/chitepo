@@ -1011,12 +1011,11 @@ export class CoursesService {
     });
     const percent = Math.round((completed / lessons.length) * 100);
 
-    const currentPercent = Number((enrollment as any).progressPercent ?? (enrollment as any).progressPercentage ?? 0);
-    const nextPercent = Math.max(currentPercent, percent);
-
-    enrollment.progressPercent = nextPercent;
-    if (nextPercent >= 100 && !enrollment.completedAt) {
+    enrollment.progressPercent = percent;
+    if (percent >= 100 && !enrollment.completedAt) {
       enrollment.completedAt = new Date();
+    } else if (percent < 100) {
+      enrollment.completedAt = null;
     }
     await this.enrollmentRepo.save(enrollment);
   }

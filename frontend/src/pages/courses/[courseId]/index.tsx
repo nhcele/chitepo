@@ -15,7 +15,7 @@ import {
 import AppLayout from '@/components/layouts/AppLayout';
 import CourseKnowledgeSpine from '@/components/ui/CourseKnowledgeSpine';
 import { useAuth } from '@/contexts/AuthContext';
-import { getCourse } from '@/lib/api/courses';
+import { getCourse, getCourseLessonProgress } from '@/lib/api/courses';
 import { enrollInCourse, getMyEnrollmentForCourse } from '@/lib/api/enrollments';
 import { Course, Module as CourseModule, Lesson } from '@mindelta/shared';
 import { getCourseCoverImage } from '@/lib/cover-image';
@@ -60,9 +60,14 @@ export default function CourseDetailPage() {
         setCourse(data);
         if (isAuthenticated) {
           try {
-            const enr = await getMyEnrollmentForCourse(courseId);
+            const [enr, lessonProgress] = await Promise.all([
+              getMyEnrollmentForCourse(courseId),
+              getCourseLessonProgress(courseId),
+            ]);
             setIsEnrolled(!!enr);
-            setProgress((enr as any)?.progressPercent || 0);
+            const lessons = (data.modules || []).flatMap((module) => module.lessons || []);
+            const completedLessons = lessons.filter((lesson) => lessonProgress[lesson.id]?.isCompleted).length;
+            setProgress(lessons.length > 0 ? Math.round((completedLessons / lessons.length) * 100) : 0);
           } catch (_) {}
         }
       } catch (e: any) {
