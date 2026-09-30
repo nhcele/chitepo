@@ -1,4 +1,6 @@
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { withBasePath } from '@/lib/basePath';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Toaster } from 'react-hot-toast';
@@ -60,10 +62,14 @@ const queryClient = new QueryClient({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <MotionConfig reducedMotion="user">
-          <AuthProvider>
+    <>
+      <Head>
+        <link rel="icon" href={withBasePath('/favicon.ico')} sizes="any" />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <MotionConfig reducedMotion="user">
+            <AuthProvider>
             <div>
               <Component {...pageProps} />
               <Toaster
@@ -91,10 +97,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 }}
               />
             </div>
-          </AuthProvider>
-        </MotionConfig>
-      </ThemeProvider>
-      {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
-    </QueryClientProvider>
+            </AuthProvider>
+          </MotionConfig>
+        </ThemeProvider>
+        {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+      </QueryClientProvider>
+    </>
   );
 }
