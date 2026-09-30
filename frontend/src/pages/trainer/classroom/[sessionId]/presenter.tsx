@@ -8,8 +8,8 @@ export default function PresenterModePage() {
 
   if (!sessionId || typeof sessionId !== 'string') {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-red-500 text-xl">Invalid session ID</div>
+      <div className="min-h-screen bg-ink-950 flex items-center justify-center">
+        <div className="text-terracotta-500 text-xl">Invalid session ID</div>
       </div>
     );
   }

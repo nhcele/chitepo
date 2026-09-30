@@ -19,7 +19,7 @@ describe('Courses API (Integration)', () => {
   const testUser = {
     email: 'instructor@test.com',
     password: 'password123',
-    name: 'Test Instructor',
+    name: 'Tendai Moyo',
   };
 
   const testCourse = {

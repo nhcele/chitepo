@@ -180,11 +180,11 @@ export default function CertificateManagement({
   const getStatusIcon = (status: Certificate['status']) => {
     switch (status) {
       case 'earned':
-        return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
+        return <CheckCircleIcon className="h-5 w-5 text-forest-500" />;
       case 'in-progress':
-        return <ClockIcon className="h-5 w-5 text-yellow-500" />;
+        return <ClockIcon className="h-5 w-5 text-ochre-500" />;
       case 'not-available':
-        return <DocumentTextIcon className="h-5 w-5 text-gray-400" />;
+        return <DocumentTextIcon className="h-5 w-5 text-pewter" />;
     }
   };
 
@@ -202,11 +202,11 @@ export default function CertificateManagement({
   const getStatusColor = (status: Certificate['status']) => {
     switch (status) {
       case 'earned':
-        return 'text-green-600 bg-green-50';
+        return 'text-forest-600 bg-forest-50';
       case 'in-progress':
-        return 'text-yellow-600 bg-yellow-50';
+        return 'text-ochre-600 bg-ochre-50';
       case 'not-available':
-        return 'text-gray-600 bg-gray-50';
+        return 'text-stone bg-paper';
     }
   };
 
@@ -226,13 +226,13 @@ export default function CertificateManagement({
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-12"
       >
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-purple-600 rounded-full mb-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-terracotta-600 rounded-full mb-4">
           <AcademicCapIcon className="h-8 w-8 text-white" />
         </div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold text-charcoal mb-4">
           Your Certificates
         </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-xl text-stone max-w-2xl mx-auto">
           Showcase your achievements and share your accomplishments with the world.
         </p>
       </motion.div>
@@ -244,44 +244,44 @@ export default function CertificateManagement({
         transition={{ delay: 0.1 }}
         className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
       >
-        <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-3">
-            <AwardIcon className="h-6 w-6 text-green-600" />
+        <div className="bg-white border border-border/60 rounded-md p-6 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-forest-100 rounded-full mb-3">
+            <AwardIcon className="h-6 w-6 text-forest-600" />
           </div>
-          <div className="text-2xl font-bold text-gray-900">
+          <div className="text-2xl font-bold text-charcoal">
             {certificates.filter(c => c.status === 'earned').length}
           </div>
-          <div className="text-sm text-gray-500">Certificates Earned</div>
+          <div className="text-sm text-stone">Certificates Earned</div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-yellow-100 rounded-full mb-3">
-            <ClockIcon className="h-6 w-6 text-yellow-600" />
+        <div className="bg-white border border-border/60 rounded-md p-6 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-ochre-100 rounded-full mb-3">
+            <ClockIcon className="h-6 w-6 text-ochre-600" />
           </div>
-          <div className="text-2xl font-bold text-gray-900">
+          <div className="text-2xl font-bold text-charcoal">
             {certificates.filter(c => c.status === 'in-progress').length}
           </div>
-          <div className="text-sm text-gray-500">In Progress</div>
+          <div className="text-sm text-stone">In Progress</div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
+        <div className="bg-white border border-border/60 rounded-md p-6 text-center">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-100 rounded-full mb-3">
             <StarIcon className="h-6 w-6 text-primary-600" />
           </div>
-          <div className="text-2xl font-bold text-gray-900">
+          <div className="text-2xl font-bold text-charcoal">
             {certificates.filter(c => c.status === 'earned').reduce((sum, c) => sum + c.totalHours, 0)}
           </div>
-          <div className="text-sm text-gray-500">Learning Hours</div>
+          <div className="text-sm text-stone">Learning Hours</div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 rounded-full mb-3">
-            <UserGroupIcon className="h-6 w-6 text-purple-600" />
+        <div className="bg-white border border-border/60 rounded-md p-6 text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-terracotta-100 rounded-full mb-3">
+            <UserGroupIcon className="h-6 w-6 text-terracotta-600" />
           </div>
-          <div className="text-2xl font-bold text-gray-900">
+          <div className="text-2xl font-bold text-charcoal">
             {certificates.filter(c => c.status === 'earned').reduce((sum, c) => sum + c.skills.length, 0)}
           </div>
-          <div className="text-sm text-gray-500">Skills Acquired</div>
+          <div className="text-sm text-stone">Skills Acquired</div>
         </div>
       </motion.div>
 
@@ -293,10 +293,10 @@ export default function CertificateManagement({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+            className="bg-white border border-border/60 rounded-md overflow-hidden hover:shadow-sm transition-shadow"
           >
             {/* Certificate Header */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6">
+            <div className="bg-gradient-to-r from-forest-50 to-terracotta-50 p-6">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-2">
@@ -305,18 +305,18 @@ export default function CertificateManagement({
                       {getStatusText(certificate.status)}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
+                  <h3 className="text-xl font-bold text-charcoal mb-1">
                     {certificate.courseTitle}
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-stone">
                     Instructor: {certificate.instructorName}
                   </p>
                 </div>
                 
                 {certificate.status === 'earned' && (
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-green-600">{certificate.score}%</div>
-                    <div className="text-xs text-gray-500">Final Score</div>
+                    <div className="text-2xl font-bold text-forest-600">{certificate.score}%</div>
+                    <div className="text-xs text-stone">Final Score</div>
                   </div>
                 )}
               </div>
@@ -327,26 +327,26 @@ export default function CertificateManagement({
               {certificate.status === 'earned' ? (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Completed on</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="text-stone">Completed on</span>
+                    <span className="font-medium text-charcoal">
                       {certificate.completionDate.toLocaleDateString()}
                     </span>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Duration</span>
-                    <span className="font-medium text-gray-900">{certificate.totalHours} hours</span>
+                    <span className="text-stone">Duration</span>
+                    <span className="font-medium text-charcoal">{certificate.totalHours} hours</span>
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500">Verification Code</span>
-                    <span className="font-mono text-xs text-gray-900">
+                    <span className="text-stone">Verification Code</span>
+                    <span className="font-mono text-xs text-charcoal">
                       {certificate.verificationCode}
                     </span>
                   </div>
 
                   <div>
-                    <div className="text-sm text-gray-500 mb-2">Skills Acquired</div>
+                    <div className="text-sm text-stone mb-2">Skills Acquired</div>
                     <div className="flex flex-wrap gap-2">
                       {certificate.skills.map((skill, skillIndex) => (
                         <span
@@ -359,10 +359,10 @@ export default function CertificateManagement({
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-3 pt-4 border-t border-gray-100">
+                  <div className="flex items-center space-x-3 pt-4 border-t border-border/60">
                     <button
                       onClick={() => handleDownloadCertificate(certificate)}
-                      className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                      className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 mr-1" />
                       Download
@@ -370,7 +370,7 @@ export default function CertificateManagement({
                     
                     <button
                       onClick={() => handleShareCertificate(certificate, 'linkedin')}
-                      className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="flex-1 inline-flex items-center justify-center px-3 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
                     >
                       <ShareIcon className="h-4 w-4 mr-1" />
                       Share
@@ -378,7 +378,7 @@ export default function CertificateManagement({
                     
                     <button
                       onClick={() => handleVerifyCertificate(certificate)}
-                      className="inline-flex items-center justify-center p-2 text-gray-600 hover:text-gray-800 transition-colors"
+                      className="inline-flex items-center justify-center p-2 text-stone hover:text-charcoal transition-colors"
                     >
                       <QrCodeIcon className="h-4 w-4" />
                     </button>
@@ -387,9 +387,9 @@ export default function CertificateManagement({
               ) : certificate.status === 'in-progress' ? (
                 <div className="space-y-4">
                   <div className="text-center py-4">
-                    <ClockIcon className="h-12 w-12 text-yellow-500 mx-auto mb-3" />
-                    <h4 className="font-medium text-gray-900 mb-1">Almost There!</h4>
-                    <p className="text-sm text-gray-500">
+                    <ClockIcon className="h-12 w-12 text-ochre-500 mx-auto mb-3" />
+                    <h4 className="font-medium text-charcoal mb-1">Almost There!</h4>
+                    <p className="text-sm text-stone">
                       Keep going to earn your certificate
                     </p>
                   </div>
@@ -398,12 +398,12 @@ export default function CertificateManagement({
                     <div className="space-y-3">
                       <div>
                         <div className="flex items-center justify-between text-sm mb-1">
-                          <span className="text-gray-500">Lessons</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="text-stone">Lessons</span>
+                          <span className="font-medium text-charcoal">
                             {certificate.progress.completedLessons}/{certificate.progress.totalLessons}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-forest-100 rounded-full h-2">
                           <div 
                             className="bg-primary-600 h-2 rounded-full transition-all duration-500"
                             style={{ 
@@ -415,14 +415,14 @@ export default function CertificateManagement({
 
                       <div>
                         <div className="flex items-center justify-between text-sm mb-1">
-                          <span className="text-gray-500">Quizzes</span>
-                          <span className="font-medium text-gray-900">
+                          <span className="text-stone">Quizzes</span>
+                          <span className="font-medium text-charcoal">
                             {certificate.progress.completedQuizzes}/{certificate.progress.totalQuizzes}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-forest-100 rounded-full h-2">
                           <div 
-                            className="bg-green-600 h-2 rounded-full transition-all duration-500"
+                            className="bg-forest-600 h-2 rounded-full transition-all duration-500"
                             style={{ 
                               width: `${(certificate.progress.completedQuizzes / certificate.progress.totalQuizzes) * 100}%` 
                             }}
@@ -432,18 +432,18 @@ export default function CertificateManagement({
                     </div>
                   )}
 
-                  <button className="w-full px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">
+                  <button className="w-full px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors">
                     Continue Learning
                   </button>
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <DocumentTextIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-                  <h4 className="font-medium text-gray-900 mb-1">Not Started</h4>
-                  <p className="text-sm text-gray-500 mb-4">
+                  <DocumentTextIcon className="h-12 w-12 text-pewter mx-auto mb-3" />
+                  <h4 className="font-medium text-charcoal mb-1">Not Started</h4>
+                  <p className="text-sm text-stone mb-4">
                     Begin this course to start earning your certificate
                   </p>
-                  <button className="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">
+                  <button className="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors">
                     Start Course
                   </button>
                 </div>
@@ -482,14 +482,14 @@ function VerificationModal({ certificate, onClose }: VerificationModalProps) {
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-xl shadow-xl max-w-md w-full"
+        className="bg-white rounded-md shadow-sm max-w-md w-full"
       >
         <div className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Verify Certificate</h3>
+            <h3 className="text-lg font-semibold text-charcoal">Verify Certificate</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-pewter hover:text-stone"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -499,26 +499,26 @@ function VerificationModal({ certificate, onClose }: VerificationModalProps) {
 
           <div className="space-y-4">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <CheckCircleIcon className="h-8 w-8 text-green-600" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-forest-100 rounded-full mb-4">
+                <CheckCircleIcon className="h-8 w-8 text-forest-600" />
               </div>
-              <h4 className="font-medium text-gray-900 mb-2">
+              <h4 className="font-medium text-charcoal mb-2">
                 {certificate.courseTitle}
               </h4>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-stone">
                 Successfully completed on {certificate.completionDate.toLocaleDateString()}
               </p>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-2">Verification Code</div>
-              <div className="font-mono text-lg text-gray-900 text-center">
+            <div className="bg-paper rounded-md p-4">
+              <div className="text-sm text-stone mb-2">Verification Code</div>
+              <div className="font-mono text-lg text-charcoal text-center">
                 {certificate.verificationCode}
               </div>
             </div>
 
-            <div className="bg-gray-50 rounded-lg p-4">
-              <div className="text-sm text-gray-600 mb-2">Verification URL</div>
+            <div className="bg-paper rounded-md p-4">
+              <div className="text-sm text-stone mb-2">Verification URL</div>
               <div className="text-xs text-primary-600 break-all">
                 {verificationUrl}
               </div>
@@ -527,7 +527,7 @@ function VerificationModal({ certificate, onClose }: VerificationModalProps) {
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => navigator.clipboard.writeText(verificationUrl)}
-                className="flex-1 px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                className="flex-1 px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
               >
                 <LinkIcon className="h-4 w-4 inline mr-1" />
                 Copy Link
@@ -535,7 +535,7 @@ function VerificationModal({ certificate, onClose }: VerificationModalProps) {
               
               <button
                 onClick={() => window.open(verificationUrl, '_blank')}
-                className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex-1 px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
               >
                 <GlobeAltIcon className="h-4 w-4 inline mr-1" />
                 Open URL

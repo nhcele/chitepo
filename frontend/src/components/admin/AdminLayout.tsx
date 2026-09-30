@@ -46,35 +46,35 @@ export default function AdminLayout({ children, title, subtitle }: AdminLayoutPr
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-paper">
       {/* Main Header */}
       <Header />
       
       {/* Admin Breadcrumb/Title Bar */}
       {!isDashboard && (
-        <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="bg-white shadow-sm border-b border-border/60">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center py-4">
               <div className="flex items-center space-x-4">
                 <Link
                   href="/admin/dashboard"
-                  className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
+                  className="inline-flex items-center text-sm text-stone hover:text-charcoal"
                 >
                   <ArrowLeftIcon className="h-4 w-4 mr-1" />
                   Back to Dashboard
                 </Link>
                 {title && (
-                  <div className="border-l border-gray-300 h-6"></div>
+                  <div className="border-l border-border/60 h-6"></div>
                 )}
                 <div>
-                  {title && <h1 className="text-lg font-semibold text-gray-900">{title}</h1>}
-                  {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+                  {title && <h1 className="text-lg font-semibold text-charcoal">{title}</h1>}
+                  {subtitle && <p className="text-sm text-stone">{subtitle}</p>}
                 </div>
               </div>
               <div className="flex items-center space-x-4">
                 <Link
                   href="/admin/exports"
-                  className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  className="inline-flex items-center px-3 py-2 border border-border/60 shadow-sm text-sm leading-4 font-medium rounded-md text-charcoal bg-white hover:bg-paper"
                 >
                   <DocumentTextIcon className="h-4 w-4 mr-2" />
                   Export Data
@@ -96,13 +96,13 @@ export default function AdminLayout({ children, title, subtitle }: AdminLayoutPr
         {/* Hamburger button - always visible */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="fixed top-20 left-4 z-50 p-2 bg-white border border-gray-300 rounded-md shadow-md hover:bg-gray-50 transition-colors"
+          className="fixed top-20 left-4 z-50 p-2 bg-white border border-border/60 rounded-md shadow-sm hover:bg-paper transition-colors"
           aria-label="Toggle sidebar"
         >
           {sidebarOpen ? (
-            <XMarkIcon className="h-5 w-5 text-gray-600" />
+            <XMarkIcon className="h-5 w-5 text-stone" />
           ) : (
-            <Bars3Icon className="h-5 w-5 text-gray-600" />
+            <Bars3Icon className="h-5 w-5 text-stone" />
           )}
         </button>
 
@@ -116,7 +116,7 @@ export default function AdminLayout({ children, title, subtitle }: AdminLayoutPr
                 onClick={() => setSidebarOpen(false)}
               />
               {/* Sidebar content */}
-              <div className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-lg p-4 overflow-y-auto z-50 lg:relative lg:w-64 lg:flex-shrink-0 lg:shadow-none lg:rounded-lg transition-transform duration-300 ease-in-out">
+              <div className="fixed left-0 top-0 bottom-0 w-64 bg-white shadow-sm p-4 overflow-y-auto z-50 lg:relative lg:w-64 lg:flex-shrink-0 lg:shadow-none lg:rounded-md transition-transform duration-300 ease-in-out">
               <nav className="space-y-1">
                 {adminNavigation.map((item) => {
                   const isActive = router.pathname === item.href;
@@ -128,11 +128,11 @@ export default function AdminLayout({ children, title, subtitle }: AdminLayoutPr
                       className={`group flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                         isActive
                           ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-700'
-                          : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                          : 'text-stone hover:bg-paper hover:text-charcoal'
                       }`}
                     >
                       <Icon className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                        isActive ? 'text-primary-700' : 'text-gray-400 group-hover:text-gray-500'
+                        isActive ? 'text-primary-700' : 'text-pewter group-hover:text-stone'
                       }`} />
                       {item.name}
                     </Link>

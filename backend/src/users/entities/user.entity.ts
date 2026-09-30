@@ -10,7 +10,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { UserRole, JobRole, RoleCategory, RoleLevel } from '@mindelta/shared';
 import { Course } from '../../courses/entities/course.entity';
-import { Enrollment } from '../../courses/entities/enrollment.entity';
+import { Enrollment } from '../../enrollments/entities/enrollment.entity';
 import { QuizAttempt } from '../../assessments/entities/quiz-attempt.entity';
 import { Certificate } from '../../certificates/entities/certificate.entity';
 import { AnalyticsEvent } from '../../analytics/entities/analytics-event.entity';

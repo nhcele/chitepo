@@ -131,7 +131,7 @@ export default function MessagingInterface({
   if (loading && messages.length === 0) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600"></div>
       </div>
     );
   }
@@ -139,40 +139,40 @@ export default function MessagingInterface({
   // Instructor view with conversation list
   if (isInstructor && courseId && !selectedConversation) {
     return (
-      <div className="bg-white rounded-lg shadow h-[600px] flex">
-        <div className="w-1/3 border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
+      <div className="bg-white rounded-md shadow h-[600px] flex">
+        <div className="w-1/3 border-r border-border/60 flex flex-col">
+          <div className="p-4 border-b border-border/60">
+            <h2 className="text-lg font-semibold text-charcoal">Conversations</h2>
             {unreadCount > 0 && (
-              <span className="ml-2 px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">
+              <span className="ml-2 px-2 py-1 text-xs font-medium bg-terracotta-100 text-terracotta-800 rounded">
                 {unreadCount} unread
               </span>
             )}
           </div>
           <div className="flex-1 overflow-y-auto">
             {conversations.length === 0 ? (
-              <p className="text-gray-500 text-center py-8">No conversations yet</p>
+              <p className="text-stone text-center py-8">No conversations yet</p>
             ) : (
               conversations.map((conv) => (
                 <button
                   key={conv.studentId}
                   onClick={() => setSelectedConversation(conv.studentId)}
-                  className="w-full p-4 text-left hover:bg-gray-50 border-b border-gray-100"
+                  className="w-full p-4 text-left hover:bg-paper border-b border-border/60"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-medium text-gray-900">{conv.student.name}</p>
-                      <p className="text-sm text-gray-500 truncate max-w-[200px]">
+                      <p className="font-medium text-charcoal">{conv.student.name}</p>
+                      <p className="text-sm text-stone truncate max-w-[200px]">
                         {conv.lastMessage.content}
                       </p>
                     </div>
                     {conv.unreadCount > 0 && (
-                      <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                      <span className="ml-2 px-2 py-1 text-xs font-medium bg-forest-100 text-forest-800 rounded-full">
                         {conv.unreadCount}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-400 mt-1">
+                  <p className="text-xs text-pewter mt-1">
                     {formatDistanceToNow(new Date(conv.lastMessage.createdAt), { addSuffix: true })}
                   </p>
                 </button>
@@ -181,8 +181,8 @@ export default function MessagingInterface({
           </div>
         </div>
         <div className="flex-1 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
-            <p className="text-sm text-gray-500">Select a conversation to start messaging</p>
+          <div className="p-4 border-b border-border/60">
+            <p className="text-sm text-stone">Select a conversation to start messaging</p>
           </div>
         </div>
       </div>
@@ -191,30 +191,30 @@ export default function MessagingInterface({
 
   // Conversation view
   return (
-    <div className="bg-white rounded-lg shadow h-[600px] flex flex-col">
+    <div className="bg-white rounded-md shadow h-[600px] flex flex-col">
       {isInstructor && conversations.length > 0 && (
-        <div className="w-1/3 border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
+        <div className="w-1/3 border-r border-border/60 flex flex-col">
+          <div className="p-4 border-b border-border/60">
+            <h2 className="text-lg font-semibold text-charcoal">Conversations</h2>
           </div>
           <div className="flex-1 overflow-y-auto">
             {conversations.map((conv) => (
               <button
                 key={conv.studentId}
                 onClick={() => setSelectedConversation(conv.studentId)}
-                className={`w-full p-4 text-left hover:bg-gray-50 border-b border-gray-100 ${
-                  selectedConversation === conv.studentId ? 'bg-blue-50' : ''
+                className={`w-full p-4 text-left hover:bg-paper border-b border-border/60 ${
+                  selectedConversation === conv.studentId ? 'bg-forest-50' : ''
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-gray-900">{conv.student.name}</p>
-                    <p className="text-sm text-gray-500 truncate max-w-[200px]">
+                    <p className="font-medium text-charcoal">{conv.student.name}</p>
+                    <p className="text-sm text-stone truncate max-w-[200px]">
                       {conv.lastMessage.content}
                     </p>
                   </div>
                   {conv.unreadCount > 0 && (
-                    <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                    <span className="ml-2 px-2 py-1 text-xs font-medium bg-forest-100 text-forest-800 rounded-full">
                       {conv.unreadCount}
                     </span>
                   )}
@@ -230,7 +230,7 @@ export default function MessagingInterface({
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
-              <p className="text-gray-500">No messages yet. Start a conversation!</p>
+              <p className="text-stone">No messages yet. Start a conversation!</p>
             </div>
           ) : (
             messages.map((message) => {
@@ -246,10 +246,10 @@ export default function MessagingInterface({
                   }}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-md ${
                       isOwn
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        ? 'bg-forest-600 text-white'
+                        : 'bg-forest-100 text-charcoal'
                     }`}
                   >
                     <p className="text-sm">{message.content}</p>
@@ -271,7 +271,7 @@ export default function MessagingInterface({
 
         {/* Input */}
         {selectedConversation && (
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-border/60 p-4">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -284,12 +284,12 @@ export default function MessagingInterface({
                   }
                 }}
                 placeholder="Type a message..."
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="flex-1 px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
               />
               <button
                 onClick={sendMessage}
                 disabled={!newMessage.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                className="px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
               >
                 <PaperAirplaneIcon className="h-5 w-5" />
               </button>

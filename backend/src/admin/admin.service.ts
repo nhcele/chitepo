@@ -7,7 +7,7 @@ import { Course } from '../courses/entities/course.entity';
 import { User } from '../users/entities/user.entity';
 import { AnalyticsEvent } from '../analytics/entities/analytics-event.entity';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { Quiz } from '../assessments/entities/quiz.entity';
 import { ExportJob, ExportJobStatus, ExportJobType } from './entities/export-job.entity';

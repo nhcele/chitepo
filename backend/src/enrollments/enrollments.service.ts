@@ -139,18 +139,32 @@ export class EnrollmentsService {
     return this.enrollmentRepo.findOne({ where: { userId, courseId } });
   }
 
-  async updateProgress(enrollmentId: string, userId: string, progressPercent: number, lastLessonSeenAt?: Date) {
+  async updateProgress(enrollmentId: string, userId: string, lastLessonSeenAt?: Date) {
     const enrollment = await this.enrollmentRepo.findOne({ where: { id: enrollmentId } });
     if (!enrollment || enrollment.userId !== userId) {
       throw new HttpException('Enrollment not found', HttpStatus.NOT_FOUND);
     }
 
-    const now = new Date();
-    const clamped = Math.max(0, Math.min(100, progressPercent));
-    const becameComplete = !enrollment.completedAt && clamped >= 100;
-
-    enrollment.progressPercent = clamped;
     if (lastLessonSeenAt) enrollment.lastLessonSeenAt = lastLessonSeenAt;
+
+    const [totals] = await this.dataSource.query(
+      `SELECT
+         COUNT(l.id) AS totalLessons,
+         COALESCE(SUM(CASE WHEN lp.is_completed = 1 THEN 1 ELSE 0 END), 0) AS completedLessons
+       FROM lessons l
+       INNER JOIN modules m ON m.id = l.module_id
+       LEFT JOIN lesson_progress lp ON lp.lesson_id = l.id AND lp.user_id = ?
+       WHERE m.course_id = ?`,
+      [userId, enrollment.courseId],
+    );
+
+    const totalLessons = Number(totals?.totalLessons || 0);
+    const completedLessons = Number(totals?.completedLessons || 0);
+    const progressPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+    const now = new Date();
+    const becameComplete = !enrollment.completedAt && progressPercent >= 100;
+
+    enrollment.progressPercent = progressPercent;
     if (becameComplete) enrollment.completedAt = now;
 
     const saved = await this.enrollmentRepo.save(enrollment);
@@ -163,7 +177,7 @@ export class EnrollmentsService {
           userId,
           courseId: enrollment.courseId,
           sessionId: 'server',
-          metadata: { progressPercent: clamped },
+          metadata: { progressPercent },
         };
         await this.analyticsService.trackEvent(event);
       }
@@ -185,5 +199,65 @@ export class EnrollmentsService {
     }
 
     return saved;
+  }
+
+  async getContinuePoint(userId: string, enrollmentId: string): Promise<{
+    courseId: string;
+    moduleId: string | null;
+    moduleTitle: string | null;
+    lessonId: string | null;
+    lessonTitle: string | null;
+    videoPositionSeconds: number;
+    isCompleted: boolean;
+  }> {
+    const enrollment = await this.enrollmentRepo.findOne({ where: { id: enrollmentId } });
+    if (!enrollment || enrollment.userId !== userId) {
+      throw new HttpException('Enrollment not found', HttpStatus.NOT_FOUND);
+    }
+
+    const courseId = enrollment.courseId;
+    const rows = await this.dataSource.query(
+      `SELECT
+        l.id AS lessonId,
+        l.title AS lessonTitle,
+        l.module_id AS moduleId,
+        m.title AS moduleTitle,
+        m.order_index AS moduleOrder,
+        l.order_index AS lessonOrder,
+        lp.is_completed AS isCompleted,
+        lp.last_position_seconds AS lastPositionSeconds,
+        lp.watch_percent AS watchPercent
+      FROM modules m
+      INNER JOIN lessons l ON l.module_id = m.id
+      LEFT JOIN lesson_progress lp ON lp.lesson_id = l.id AND lp.user_id = ?
+      WHERE m.course_id = ?
+      ORDER BY m.order_index ASC, l.order_index ASC`,
+      [userId, courseId],
+    );
+
+    if (!rows || rows.length === 0) {
+      return {
+        courseId,
+        moduleId: null,
+        moduleTitle: null,
+        lessonId: null,
+        lessonTitle: null,
+        videoPositionSeconds: 0,
+        isCompleted: false,
+      };
+    }
+
+    const firstIncomplete = rows.find((r: any) => !r.isCompleted);
+    const row = firstIncomplete || rows[rows.length - 1];
+
+    return {
+      courseId,
+      moduleId: row.moduleId || null,
+      moduleTitle: row.moduleTitle || null,
+      lessonId: row.lessonId || null,
+      lessonTitle: row.lessonTitle || null,
+      videoPositionSeconds: row.isCompleted ? 0 : Number(row.lastPositionSeconds || 0),
+      isCompleted: Boolean(row.isCompleted),
+    };
   }
 }

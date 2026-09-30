@@ -4,19 +4,46 @@
 
 
 :root {
-  /* Chitepo School of Ideology Color Scheme */
+  /* Legacy Chitepo School of Ideology Color Scheme — retained for existing screens during migration */
   --chitepo-green: 22, 163, 74;    /* #16a34a - Primary brand color */
   --chitepo-gold: 255, 199, 44;    /* #FFC72C - Secondary/accent color */
   --chitepo-red: 220, 38, 38;      /* #DC2626 - Accent/call-to-action */
   --chitepo-black: 26, 26, 26;     /* #1A1A1A - Text and contrast */
   --chitepo-white: 255, 255, 255;  /* #FFFFFF - Background and text */
-  
+
   --foreground-rgb: var(--chitepo-black);
   --background-start-rgb: var(--chitepo-white);
   --background-end-rgb: 250, 250, 250;
   --primary-rgb: var(--chitepo-green);
   --secondary-rgb: var(--chitepo-gold);
   --accent-rgb: var(--chitepo-red);
+
+  /* New design-token palette — Chitepo logo colours refined for UI */
+  --color-ink-950: #0B1A13;
+  --color-ink-900: #132921;
+  --color-ink-800: #1C3830;
+  --color-forest-700: #1B5E3B;
+  --color-forest-600: #227A4D;
+  --color-forest-500: #2E9A67;
+  --color-forest-100: #E6F1EE;
+  --color-ochre-600: #9A7206;
+  --color-ochre-500: #B8860B;
+  --color-ochre-400: #D4A020;
+  --color-ochre-100: #FDF6E3;
+  --color-terracotta-700: #7A2716;
+  --color-terracotta-600: #9C341F;
+  --color-terracotta-500: #B83D25;
+  --color-terracotta-100: #FCEAE7;
+  --color-cream: #FAF9F6;
+  --color-paper: #FFFFFF;
+  --color-charcoal: #1A1A1A;
+  --color-stone: #5E5E5E;
+  --color-pewter: #8A8A8A;
+  --color-border: #E5E5E5;
+
+  /* Typography */
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,17 +64,14 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Inter', system-ui, sans-serif;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {

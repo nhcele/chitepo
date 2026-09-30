@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { UserTrackAssignment } from '../tracks/entities/user-track-assignment.entity';
 import { TracksService, TrackAssignmentSource } from '../tracks/tracks.service';
 import { PathwayType } from '../certifications/entities/certification-pathway.entity';

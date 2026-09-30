@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { withBasePath } from '@/lib/basePath';
 import { 
-  AcademicCapIcon,
   EnvelopeIcon,
   PhoneIcon,
   MapPinIcon
@@ -41,27 +42,35 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-ink-950 text-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="flex items-center mb-4">
-              <AcademicCapIcon className="h-8 w-8 text-primary-400 mr-2" />
-              <span className="text-2xl font-bold">Chitepo</span>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="relative block h-10 w-10 flex-shrink-0">
+                <Image
+                  src={withBasePath('/chitepo-logo.jpg')}
+                  alt="Chitepo School of Ideology"
+                  fill
+                  className="object-contain"
+                  sizes="2.5rem"
+                />
+              </span>
+              <span className="font-serif text-xl font-semibold">Chitepo</span>
             </div>
-            <p className="text-gray-400 text-sm mb-6">
-              Empowering Zimbabweans with world-class skills for professional growth and national development.
+            <p className="text-cream/60 text-sm mb-6">
+              Decolonising the Mind — Pan-African political education for professional growth and national development.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-cream/60 hover:text-cream transition-colors"
                 >
                   <span className="sr-only">{item.name}</span>
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                   </svg>
                 </a>
@@ -71,11 +80,11 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Platform</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-ochre-400 mb-4">Platform</h3>
             <ul className="space-y-3">
               {navigation.platform.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href={item.href} className="text-cream/60 hover:text-cream transition-colors text-sm">
                     {item.name}
                   </Link>
                 </li>
@@ -84,11 +93,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Support</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-ochre-400 mb-4">Support</h3>
             <ul className="space-y-3">
               {navigation.support.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href={item.href} className="text-cream/60 hover:text-cream transition-colors text-sm">
                     {item.name}
                   </Link>
                 </li>
@@ -97,11 +106,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Company</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-ochre-400 mb-4">Company</h3>
             <ul className="space-y-3">
               {navigation.company.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href={item.href} className="text-cream/60 hover:text-cream transition-colors text-sm">
                     {item.name}
                   </Link>
                 </li>
@@ -110,11 +119,11 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4">Legal</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-ochre-400 mb-4">Legal</h3>
             <ul className="space-y-3">
               {navigation.legal.map((item) => (
                 <li key={item.name}>
-                  <Link href={item.href} className="text-gray-400 hover:text-white transition-colors text-sm">
+                  <Link href={item.href} className="text-cream/60 hover:text-cream transition-colors text-sm">
                     {item.name}
                   </Link>
                 </li>
@@ -124,32 +133,31 @@ export default function Footer() {
         </div>
 
         {/* Contact Info */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
+        <div className="mt-12 pt-8 border-t border-cream/10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex items-center">
-              <EnvelopeIcon className="h-5 w-5 text-primary-400 mr-3" />
-              <span className="text-gray-400 text-sm">info@chitepo.co.zw</span>
+              <EnvelopeIcon className="h-5 w-5 text-ochre-400 mr-3 flex-shrink-0" />
+              <span className="text-cream/60 text-sm">info@chitepo.co.zw</span>
             </div>
             <div className="flex items-center">
-              <PhoneIcon className="h-5 w-5 text-primary-400 mr-3" />
-              <span className="text-gray-400 text-sm">+263 (0) 242 48 331</span>
+              <PhoneIcon className="h-5 w-5 text-ochre-400 mr-3 flex-shrink-0" />
+              <span className="text-cream/60 text-sm">+263 (0) 242 48 331</span>
             </div>
             <div className="flex items-center">
-              <MapPinIcon className="h-5 w-5 text-primary-400 mr-3" />
-              <span className="text-gray-400 text-sm">Samora Machel Avenue & Simon Vengayi Muzenda Street, Harare</span>
+              <MapPinIcon className="h-5 w-5 text-ochre-400 mr-3 flex-shrink-0" />
+              <span className="text-cream/60 text-sm">Samora Machel Avenue & Simon Vengayi Muzenda Street, Harare</span>
             </div>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            © 2025 Chitepo Platform. All rights reserved.
+        <div className="mt-8 pt-8 border-t border-cream/10 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-cream/50 text-sm">
+            © {new Date().getFullYear()} Chitepo School of Ideology. All rights reserved.
           </p>
-          <div className="mt-4 md:mt-0 flex items-center">
-            <span className="text-gray-400 text-sm mr-2">Carbon-aware streaming enabled</span>
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-          </div>
+          <p className="mt-4 md:mt-0 text-cream/50 text-sm italic">
+            Decolonising the Mind
+          </p>
         </div>
       </div>
     </footer>

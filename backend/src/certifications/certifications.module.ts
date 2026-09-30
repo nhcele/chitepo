@@ -5,7 +5,7 @@ import { CertificationsService } from './certifications.service';
 import { CertificationPathway } from './entities/certification-pathway.entity';
 import { UserCertification } from './entities/user-certification.entity';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 
 @Module({
   imports: [

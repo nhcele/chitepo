@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { formatDistanceToNow } from 'date-fns';
 import RoleGuard from '@/components/RoleGuard';
-import Layout from '@/components/Layout';
+import AppLayout from '@/components/layouts/AppLayout';
 import { UserRole } from '@mindelta/shared';
 import { instructorGetMetrics, type InstructorMetricsDTO } from '@/lib/api/instructor';
 import InstructorStatsCard from '@/components/instructor/InstructorStatsCard';
@@ -17,9 +17,6 @@ import {
   UserGroupIcon,
   PlusIcon,
   ChartBarIcon,
-  Cog6ToothIcon,
-  ArrowTrendingUpIcon,
-  ClockIcon,
   StarIcon
 } from '@heroicons/react/24/outline';
 
@@ -55,107 +52,113 @@ export default function InstructorDashboard() {
   return (
     <>
       <Head>
-        <title>Instructor Dashboard - Chitepo</title>
-        <meta name="description" content="Instructor dashboard for managing courses, tracking revenue, and viewing analytics on Chitepo." />
+        <title>Studio — Chitepo</title>
+        <meta name="description" content="Instructor studio for managing courses, tracking revenue, and viewing analytics on Chitepo." />
       </Head>
-      <Layout>
+      <AppLayout>
         <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
-          {/* Enhanced Hero Section */}
-          <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center">
+          {/* Hero */}
+          <section className="relative overflow-hidden border-b border-border/60 bg-paper">
+            <div className="absolute top-0 right-0 w-1/3 h-full bg-terracotta-100/60 -skew-x-6 origin-top-right translate-x-1/4" />
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+              <div className="max-w-3xl">
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                  className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary-600 to-accent-500 rounded-full mb-4"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex items-center gap-3 mb-5"
                 >
-                  <AcademicCapIcon className="h-8 w-8 text-white" />
+                  <div className="w-12 h-12 bg-terracotta-600 rounded-md flex items-center justify-center">
+                    <AcademicCapIcon className="h-6 w-6 text-cream" />
+                  </div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-terracotta-600">
+                    Instructor studio
+                  </p>
                 </motion.div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                  Welcome back, Instructor!
-                </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                  Track your teaching performance, manage courses, and grow your impact.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.h1
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal leading-tight mb-4"
+                >
+                  Your teaching, at a glance
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-lg text-stone leading-relaxed mb-8"
+                >
+                  Track performance, manage courses, and grow your impact.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
                   <Link
                     href="/instructor/courses/new"
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-accent-500 hover:from-blue-700 hover:to-accent-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
                   >
-                    <PlusIcon className="h-5 w-5 mr-2" />
-                    Create New Course
+                    <PlusIcon className="h-5 w-5" />
+                    Create new course
                   </Link>
                   <Link
                     href="/instructor/analytics"
-                    className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-charcoal border border-border/60 rounded-md hover:bg-forest-100 transition-colors"
                   >
-                    <ChartBarIcon className="h-5 w-5 mr-2" />
-                    View Analytics
+                    <ChartBarIcon className="h-5 w-5" />
+                    View analytics
                   </Link>
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </section>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {error && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg"
-              >
+              <div className="mb-6 p-4 border-l-4 border-terracotta-600 bg-terracotta-100/50 text-terracotta-700 rounded-r-md">
                 {error}
-              </motion.div>
+              </div>
             )}
 
-            {/* Enhanced Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <InstructorStatsCard
-                title="Monthly Revenue"
+                title="Monthly revenue"
                 value={loading ? '—' : metrics ? `$${metrics.monthlyRevenue.toFixed(2)}` : '—'}
                 icon={CurrencyDollarIcon}
-                color="text-emerald-600"
-                bgColor="bg-emerald-50"
                 loading={loading}
               />
               <InstructorStatsCard
-                title="Published Courses"
+                title="Published courses"
                 value={loading ? '—' : metrics ? metrics.publishedCourses : '—'}
                 icon={AcademicCapIcon}
-                color="text-primary-600"
-                bgColor="bg-primary-50"
                 loading={loading}
               />
               <InstructorStatsCard
-                title="Total Learners"
+                title="Total learners"
                 value={loading ? '—' : metrics ? metrics.totalLearners : '—'}
                 icon={UserGroupIcon}
-                color="text-purple-600"
-                bgColor="bg-purple-50"
                 loading={loading}
               />
               <InstructorStatsCard
-                title="Avg. Rating"
+                title="Avg. rating"
                 value={loading ? '—' : ((metrics as any)?.averageRating ? (metrics as any).averageRating.toFixed(1) : 'New')}
                 icon={StarIcon}
-                color="text-yellow-600"
-                bgColor="bg-yellow-50"
                 loading={loading}
               />
             </div>
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Course Performance Chart */}
               <div className="lg:col-span-2">
                 <CoursePerformanceChart
                   data={metrics?.coursePerformance || []}
                   loading={loading}
                 />
               </div>
-
-              {/* Recent Activity */}
               <div>
                 <RecentActivity
                   activities={(metrics?.recentActivity || []).map((a) => ({ ...a, timestamp: formatActivityTime(a.timestamp) }))}
@@ -170,7 +173,7 @@ export default function InstructorDashboard() {
             </div>
           </div>
         </RoleGuard>
-      </Layout>
+      </AppLayout>
     </>
   );
 }

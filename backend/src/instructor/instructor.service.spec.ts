@@ -6,8 +6,8 @@ import { Course } from '../courses/entities/course.entity';
 import { InstructorApplication, InstructorApplicationStatus } from './entities/instructor-application.entity';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { NotificationsService } from '../notifications/notifications.service';
-import { Enrollment } from '../courses/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
 import { User } from '../users/entities/user.entity';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
@@ -20,7 +20,7 @@ describe('InstructorService', () => {
   let analyticsService: jest.Mocked<AnalyticsService>;
   let notificationsService: jest.Mocked<NotificationsService>;
   let enrollmentRepository: jest.Mocked<Repository<Enrollment>>;
-  let progressRepository: jest.Mocked<Repository<Progress>>;
+  let progressRepository: jest.Mocked<Repository<LessonProgress>>;
   let lessonRepository: jest.Mocked<Repository<Lesson>>;
   let userRepository: jest.Mocked<Repository<User>>;
 
@@ -38,9 +38,9 @@ describe('InstructorService', () => {
   const mockApplication = {
     id: 'app-123',
     userId: 'user-123',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@example.com',
+    firstName: 'Simbarashe',
+    lastName: 'Mumbengegwi',
+    email: 'simbarashe.mumbengegwi@chitepo.co.zw',
     phone: '+1234567890',
     expertise: ['Test Expertise'],
     experience: '5 years',
@@ -123,7 +123,7 @@ describe('InstructorService', () => {
         { provide: AnalyticsService, useValue: mockAnalyticsService },
         { provide: NotificationsService, useValue: mockNotificationsService },
         { provide: getRepositoryToken(Enrollment), useValue: mockEnrollmentRepository },
-        { provide: getRepositoryToken(Progress), useValue: mockProgressRepository },
+        { provide: getRepositoryToken(LessonProgress), useValue: mockProgressRepository },
         { provide: getRepositoryToken(Lesson), useValue: mockLessonRepository },
         { provide: getRepositoryToken(User), useValue: mockUserRepository },
       ],
@@ -135,7 +135,7 @@ describe('InstructorService', () => {
     analyticsService = module.get(AnalyticsService) as jest.Mocked<AnalyticsService>;
     notificationsService = module.get(NotificationsService) as jest.Mocked<NotificationsService>;
     enrollmentRepository = module.get(getRepositoryToken(Enrollment)) as jest.Mocked<Repository<Enrollment>>;
-    progressRepository = module.get(getRepositoryToken(Progress)) as jest.Mocked<Repository<Progress>>;
+    progressRepository = module.get(getRepositoryToken(LessonProgress)) as jest.Mocked<Repository<LessonProgress>>;
     lessonRepository = module.get(getRepositoryToken(Lesson)) as jest.Mocked<Repository<Lesson>>;
     userRepository = module.get(getRepositoryToken(User)) as jest.Mocked<Repository<User>>;
   });
@@ -314,9 +314,9 @@ describe('InstructorService', () => {
 
   describe('createApplication', () => {
     const createApplicationDto = {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@example.com',
+      firstName: 'Simbarashe',
+      lastName: 'Mumbengegwi',
+      email: 'simbarashe.mumbengegwi@chitepo.co.zw',
       phone: '+1234567890',
       expertise: ['Test Expertise'],
       experience: '5 years',

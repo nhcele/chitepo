@@ -56,13 +56,13 @@ export default function AdminInstructorApplications() {
     <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <div className="p-6 space-y-4">
         <h1 className="text-2xl font-semibold">Instructor Applications</h1>
-        {toast && <div className="text-green-600 text-sm">{toast}</div>}
-        {error && <div className="text-sm text-red-600">{error}</div>}
+        {toast && <div className="text-forest-600 text-sm">{toast}</div>}
+        {error && <div className="text-sm text-terracotta-600">{error}</div>}
 
         <div className="flex gap-2">
           {(['PENDING','APPROVED','REJECTED','ALL'] as const).map(s => (
             <button key={s} onClick={() => setStatus(s)}
-              className={`px-3 py-1 rounded border ${status===s ? 'bg-gray-800 text-white' : ''}`}>
+              className={`px-3 py-1 rounded border ${status===s ? 'bg-ink-900 text-white' : ''}`}>
               {s}
             </button>
           ))}
@@ -71,7 +71,7 @@ export default function AdminInstructorApplications() {
         <div className="rounded border overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-left">
+              <tr className="bg-paper text-left">
                 <th className="p-2">Name</th>
                 <th className="p-2">Email</th>
                 <th className="p-2">Bio</th>
@@ -93,7 +93,7 @@ export default function AdminInstructorApplications() {
                     <td className="p-2">{app.email}</td>
                     <td className="p-2 max-w-xs whitespace-pre-wrap">{app.bio || '-'}</td>
                     <td className="p-2">
-                      {app.sampleVideoUrl ? <a className="text-indigo-600" href={app.sampleVideoUrl} target="_blank" rel="noreferrer">View</a> : '-'}
+                      {app.sampleVideoUrl ? <a className="text-forest-600" href={app.sampleVideoUrl} target="_blank" rel="noreferrer">View</a> : '-'}
                     </td>
                     <td className="p-2">{app.status}</td>
                     <td className="p-2">{app.createdAt ? new Date(app.createdAt).toLocaleString() : '-'}</td>
@@ -102,14 +102,14 @@ export default function AdminInstructorApplications() {
                         <div className="space-y-2">
                           <textarea value={rejectComment} onChange={e => setRejectComment(e.target.value)} rows={3} className="w-full border rounded p-2" placeholder="Reviewer comment (optional)" />
                           <div className="flex gap-2">
-                            <button onClick={confirmReject} className="px-3 py-1 rounded bg-red-600 text-white">Reject</button>
+                            <button onClick={confirmReject} className="px-3 py-1 rounded bg-terracotta-600 text-white">Reject</button>
                             <button onClick={cancelReject} className="px-3 py-1 rounded border">Cancel</button>
                           </div>
                         </div>
                       ) : (
                         <div className="flex gap-2">
-                          <button onClick={() => approve(app.id)} disabled={app.status !== 'PENDING'} className="px-3 py-1 rounded bg-green-600 text-white disabled:opacity-50">Approve</button>
-                          <button onClick={() => beginReject(app.id)} disabled={app.status !== 'PENDING'} className="px-3 py-1 rounded bg-red-600 text-white disabled:opacity-50">Reject</button>
+                          <button onClick={() => approve(app.id)} disabled={app.status !== 'PENDING'} className="px-3 py-1 rounded bg-forest-600 text-white disabled:opacity-50">Approve</button>
+                          <button onClick={() => beginReject(app.id)} disabled={app.status !== 'PENDING'} className="px-3 py-1 rounded bg-terracotta-600 text-white disabled:opacity-50">Reject</button>
                         </div>
                       )}
                     </td>

@@ -35,7 +35,7 @@ test.describe('Authentication E2E Tests', () => {
 
   test('should login successfully with valid credentials', async ({ page }) => {
     // Fill in valid credentials
-    await page.fill('input[name="email"]', 'instructor@mindelta.com');
+    await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     
@@ -77,7 +77,7 @@ test.describe('Authentication E2E Tests', () => {
     
     // Try to register with existing email
     await page.fill('input[name="name"]', 'Test User');
-    await page.fill('input[name="email"]', 'instructor@mindelta.com');
+    await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.fill('input[name="confirmPassword"]', 'password123');
     
@@ -90,7 +90,7 @@ test.describe('Authentication E2E Tests', () => {
 
   test('should logout successfully', async ({ page }) => {
     // Login first
-    await page.fill('input[name="email"]', 'instructor@mindelta.com');
+    await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     

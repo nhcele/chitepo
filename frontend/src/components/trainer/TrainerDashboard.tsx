@@ -85,25 +85,25 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
   const getStatusColor = (status: SessionStatus) => {
     switch (status) {
       case SessionStatus.ACTIVE:
-        return 'bg-green-100 text-green-800';
+        return 'bg-forest-100 text-forest-800';
       case SessionStatus.SCHEDULED:
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-forest-100 text-forest-800';
       case SessionStatus.PAUSED:
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-ochre-100 text-ochre-800';
       case SessionStatus.COMPLETED:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-forest-100 text-charcoal';
       case SessionStatus.CANCELLED:
-        return 'bg-red-100 text-red-800';
+        return 'bg-terracotta-100 text-terracotta-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-forest-100 text-charcoal';
     }
   };
 
   const getTypeBadge = (type: SessionType) => {
     const badges = {
-      [SessionType.PHYSICAL]: { label: 'Physical', color: 'bg-purple-100 text-purple-800' },
-      [SessionType.HYBRID]: { label: 'Hybrid', color: 'bg-indigo-100 text-indigo-800' },
-      [SessionType.VIRTUAL]: { label: 'Virtual', color: 'bg-cyan-100 text-cyan-800' },
+      [SessionType.PHYSICAL]: { label: 'Physical', color: 'bg-terracotta-100 text-terracotta-800' },
+      [SessionType.HYBRID]: { label: 'Hybrid', color: 'bg-forest-100 text-forest-800' },
+      [SessionType.VIRTUAL]: { label: 'Virtual', color: 'bg-forest-100 text-forest-800' },
     };
     return badges[type];
   };
@@ -111,7 +111,7 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">Loading sessions...</div>
+        <div className="text-stone">Loading sessions...</div>
       </div>
     );
   }
@@ -120,12 +120,12 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Classroom Sessions</h1>
-          <p className="text-gray-600 mt-1">Manage your physical and hybrid training sessions</p>
+          <h1 className="text-3xl font-bold text-charcoal">Classroom Sessions</h1>
+          <p className="text-stone mt-1">Manage your physical and hybrid training sessions</p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="bg-forest-600 text-white px-4 py-2 rounded-md hover:bg-forest-700 transition"
         >
           + Create Session
         </button>
@@ -137,10 +137,10 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-4 py-2 rounded-lg transition ${
+            className={`px-4 py-2 rounded-md transition ${
               filter === f
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-forest-600 text-white'
+                : 'bg-forest-100 text-charcoal hover:bg-forest-100'
             }`}
           >
             {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -153,45 +153,45 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
         {sessions.map((session) => (
           <div
             key={session.id}
-            className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60 hover:shadow-sm transition"
           >
             <div className="flex justify-between items-start mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">{session.title}</h3>
+              <h3 className="text-lg font-semibold text-charcoal">{session.title}</h3>
               <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusColor(session.status)}`}>
                 {session.status}
               </span>
             </div>
 
             {session.description && (
-              <p className="text-gray-600 text-sm mb-3 line-clamp-2">{session.description}</p>
+              <p className="text-stone text-sm mb-3 line-clamp-2">{session.description}</p>
             )}
 
             <div className="space-y-2 mb-4">
-              <div className="flex items-center text-sm text-gray-600">
+              <div className="flex items-center text-sm text-stone">
                 <span className="font-medium mr-2">Code:</span>
-                <span className="font-mono bg-gray-100 px-2 py-1 rounded">{session.sessionCode}</span>
+                <span className="font-mono bg-forest-100 px-2 py-1 rounded">{session.sessionCode}</span>
               </div>
 
-              <div className="flex items-center text-sm text-gray-600">
+              <div className="flex items-center text-sm text-stone">
                 <span className="font-medium mr-2">Type:</span>
                 <span className={`px-2 py-1 rounded text-xs ${getTypeBadge(session.type).color}`}>
                   {getTypeBadge(session.type).label}
                 </span>
               </div>
 
-              <div className="flex items-center text-sm text-gray-600">
+              <div className="flex items-center text-sm text-stone">
                 <span className="font-medium mr-2">Start:</span>
                 <span>{new Date(session.scheduledStart).toLocaleString()}</span>
               </div>
 
               {session.venue && (
-                <div className="flex items-center text-sm text-gray-600">
+                <div className="flex items-center text-sm text-stone">
                   <span className="font-medium mr-2">Venue:</span>
                   <span>{session.venue}</span>
                 </div>
               )}
 
-              <div className="flex items-center text-sm text-gray-600">
+              <div className="flex items-center text-sm text-stone">
                 <span className="font-medium mr-2">Participants:</span>
                 <span>
                   {session.participants?.length || 0} / {session.maxParticipants}
@@ -202,7 +202,7 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
             <div className="flex gap-2">
               <a
                 href={`/trainer/classroom/${session.id}`}
-                className="flex-1 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm"
+                className="flex-1 bg-forest-600 text-white text-center px-4 py-2 rounded-md hover:bg-forest-700 transition text-sm"
               >
                 {session.status === SessionStatus.ACTIVE ? 'View Live' : 'Manage'}
               </a>
@@ -212,20 +212,20 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
       </div>
 
       {sessions.length === 0 && (
-        <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-          <p className="text-gray-500">No sessions found. Create your first session to get started.</p>
+        <div className="text-center py-12 bg-white rounded-md border border-border/60">
+          <p className="text-stone">No sessions found. Create your first session to get started.</p>
         </div>
       )}
 
       {/* Create Session Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-md p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold mb-4">Create New Session</h2>
             <form onSubmit={handleCreateSession}>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     Title *
                   </label>
                   <input
@@ -233,32 +233,32 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                     required
                     value={newSession.title}
                     onChange={(e) => setNewSession({ ...newSession, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     Description
                   </label>
                   <textarea
                     value={newSession.description}
                     onChange={(e) => setNewSession({ ...newSession, description: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-charcoal mb-1">
                       Session Type *
                     </label>
                     <select
                       required
                       value={newSession.type}
                       onChange={(e) => setNewSession({ ...newSession, type: e.target.value as SessionType })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                     >
                       <option value={SessionType.PHYSICAL}>Physical</option>
                       <option value={SessionType.HYBRID}>Hybrid</option>
@@ -267,7 +267,7 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-charcoal mb-1">
                       Max Participants
                     </label>
                     <input
@@ -277,14 +277,14 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                       onChange={(e) =>
                         setNewSession({ ...newSession, maxParticipants: parseInt(e.target.value) })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-charcoal mb-1">
                       Start Date & Time *
                     </label>
                     <input
@@ -292,25 +292,25 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                       required
                       value={newSession.scheduledStart}
                       onChange={(e) => setNewSession({ ...newSession, scheduledStart: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-medium text-charcoal mb-1">
                       End Date & Time
                     </label>
                     <input
                       type="datetime-local"
                       value={newSession.scheduledEnd || ''}
                       onChange={(e) => setNewSession({ ...newSession, scheduledEnd: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     Venue / Location
                   </label>
                   <input
@@ -318,18 +318,18 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                     value={newSession.venue || ''}
                     onChange={(e) => setNewSession({ ...newSession, venue: e.target.value })}
                     placeholder="e.g., Training Center Room 101"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     Course (Optional)
                   </label>
                   <select
                     value={newSession.courseId || ''}
                     onChange={(e) => setNewSession({ ...newSession, courseId: e.target.value || undefined })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
                   >
                     <option value="">Select a course...</option>
                     {courses.map((course) => (
@@ -348,7 +348,7 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
                     onChange={(e) => setNewSession({ ...newSession, allowRemoteJoin: e.target.checked })}
                     className="mr-2"
                   />
-                  <label htmlFor="allowRemote" className="text-sm text-gray-700">
+                  <label htmlFor="allowRemote" className="text-sm text-charcoal">
                     Allow remote students to join
                   </label>
                 </div>
@@ -357,14 +357,14 @@ export default function TrainerDashboard({ trainerId }: TrainerDashboardProps) {
               <div className="flex gap-3 mt-6">
                 <button
                   type="submit"
-                  className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                  className="flex-1 bg-forest-600 text-white px-4 py-2 rounded-md hover:bg-forest-700 transition"
                 >
                   Create Session
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+                  className="flex-1 bg-forest-100 text-charcoal px-4 py-2 rounded-md hover:bg-stone transition"
                 >
                   Cancel
                 </button>

@@ -40,6 +40,9 @@ export class Lesson {
   @Column({ name: 'transcript', type: 'text', nullable: true })
   transcript: string;
 
+  @Column({ name: 'captions_url', type: 'varchar', length: 500, nullable: true })
+  captionsUrl: string | null;
+
   @Column({ name: 'resource_links', type: 'json', nullable: true })
   resourceLinks: Array<{ title: string; url: string }> | null;
 

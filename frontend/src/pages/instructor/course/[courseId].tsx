@@ -547,16 +547,16 @@ export default function CourseBuilder() {
     <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <Layout>
         <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-pink-50 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-50 via-white to-terracotta-50 pointer-events-none" />
           <div className="relative px-6 pt-8 pb-4">
             <div className="max-w-6xl mx-auto">
               <div className="flex items-center justify-between mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-forest-600 to-terracotta-600 bg-clip-text text-transparent">
                   Course Builder
                 </h1>
                 <button
                   onClick={() => router.push('/instructor/courses')}
-                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
                 >
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -564,12 +564,12 @@ export default function CourseBuilder() {
                   Close
                 </button>
               </div>
-              <p className="mt-2 text-sm text-gray-500">Structure modules and lessons, edit content, and submit for review.</p>
+              <p className="mt-2 text-sm text-stone">Structure modules and lessons, edit content, and submit for review.</p>
               <div className="mt-4 flex flex-col md:flex-row md:items-end gap-3">
                 <div className="flex items-center gap-2">
-                  <span className={`text-xs px-2 py-1 rounded-lg ${aiMode ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  <span className={`text-xs px-2 py-1 rounded-md ${aiMode ? 'bg-forest-600 text-white' : 'bg-forest-100 text-charcoal'}`}
                         onClick={() => setAiMode(true)} role="button">AI Copilot</span>
-                  <span className={`text-xs px-2 py-1 rounded-lg ${!aiMode ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  <span className={`text-xs px-2 py-1 rounded-md ${!aiMode ? 'bg-forest-600 text-white' : 'bg-forest-100 text-charcoal'}`}
                         onClick={() => setAiMode(false)} role="button">Manual</span>
                 </div>
                 <div className="flex-1 flex items-center gap-2">
@@ -577,9 +577,9 @@ export default function CourseBuilder() {
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     placeholder="Describe your course (e.g., 2-hour crash course on Prompt Engineering for marketers)"
-                    className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                    className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500"
                   />
-                  <button onClick={generateAiOutline} disabled={aiGenerating || !aiPrompt.trim()} className={`px-4 py-2 rounded-lg text-white ${aiGenerating || !aiPrompt.trim() ? 'bg-gray-300' : 'bg-indigo-600 hover:bg-indigo-700'}`}>{aiGenerating ? 'Generating…' : 'Instant outline'}</button>
+                  <button onClick={generateAiOutline} disabled={aiGenerating || !aiPrompt.trim()} className={`px-4 py-2 rounded-md text-white ${aiGenerating || !aiPrompt.trim() ? 'bg-stone' : 'bg-forest-600 hover:bg-forest-700'}`}>{aiGenerating ? 'Generating…' : 'Instant outline'}</button>
                 </div>
               </div>
             </div>
@@ -588,41 +588,41 @@ export default function CourseBuilder() {
 
         <div className="px-6 pb-12">
           <div className="max-w-6xl mx-auto space-y-4">
-            {toast && <div className="text-green-700 text-sm">{toast}</div>}
-            {error && <div className="text-sm text-red-600">{error}</div>}
+            {toast && <div className="text-forest-700 text-sm">{toast}</div>}
+            {error && <div className="text-sm text-terracotta-600">{error}</div>}
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {/* Sidebar: course meta + modules tree */}
               <aside className="lg:col-span-1 space-y-6">
-                <div className="bg-white/70 backdrop-blur rounded-xl border shadow-sm p-4 space-y-3">
-                  <div className="text-sm font-semibold text-gray-900">Course details</div>
+                <div className="bg-white/70 backdrop-blur rounded-md border shadow-sm p-4 space-y-3">
+                  <div className="text-sm font-semibold text-charcoal">Course details</div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Title</label>
-                    <input value={title} onChange={e => setTitle(e.target.value)} className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" placeholder="e.g. Root Cause Analysis in Food Safety" />
+                    <label className="block text-xs text-stone mb-1">Title</label>
+                    <input value={title} onChange={e => setTitle(e.target.value)} className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" placeholder="e.g. Root Cause Analysis in Food Safety" />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-600 mb-1">Description</label>
-                    <textarea value={description} onChange={e => setDescription(e.target.value)} className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" rows={4} placeholder="Short overview" />
+                    <label className="block text-xs text-stone mb-1">Description</label>
+                    <textarea value={description} onChange={e => setDescription(e.target.value)} className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" rows={4} placeholder="Short overview" />
                   </div>
                 </div>
 
-                <div className="bg-white/70 backdrop-blur rounded-xl border shadow-sm p-4">
+                <div className="bg-white/70 backdrop-blur rounded-md border shadow-sm p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="text-sm font-semibold text-gray-900">Outline</div>
+                    <div className="text-sm font-semibold text-charcoal">Outline</div>
                     <div className="flex items-center gap-2">
-                      <button onClick={() => setAiMode(!aiMode)} className={`text-xs px-2 py-1 rounded-lg ${aiMode ? 'bg-purple-100 text-purple-700' : 'border bg-white hover:bg-gray-50'}`}>AI</button>
-                      <button onClick={() => { setLibraryOpen(true); loadLibraryModules(''); }} className="text-xs px-2 py-1 rounded-lg border bg-white hover:bg-gray-50">Browse library</button>
-                      <button onClick={addModule} className="text-xs px-2 py-1 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700">Add module</button>
+                      <button onClick={() => setAiMode(!aiMode)} className={`text-xs px-2 py-1 rounded-md ${aiMode ? 'bg-terracotta-100 text-terracotta-700' : 'border bg-white hover:bg-paper'}`}>AI</button>
+                      <button onClick={() => { setLibraryOpen(true); loadLibraryModules(''); }} className="text-xs px-2 py-1 rounded-md border bg-white hover:bg-paper">Browse library</button>
+                      <button onClick={addModule} className="text-xs px-2 py-1 rounded-md bg-forest-600 text-white hover:bg-forest-700">Add module</button>
                     </div>
                   </div>
                   
                   {aiMode && (
-                    <div className="mb-4 p-3 bg-purple-50 rounded-lg space-y-3">
-                      <div className="text-xs font-medium text-purple-900">AI Course Generation</div>
+                    <div className="mb-4 p-3 bg-terracotta-50 rounded-md space-y-3">
+                      <div className="text-xs font-medium text-terracotta-900">AI Course Generation</div>
                       
                       {/* PDF Upload */}
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">Upload PDF</label>
+                        <label className="block text-xs text-stone mb-1">Upload PDF</label>
                         <input 
                           type="file" 
                           accept=".pdf"
@@ -636,25 +636,25 @@ export default function CourseBuilder() {
                           className="w-full text-xs"
                           disabled={pdfUploading}
                         />
-                        {pdfUploading && <div className="text-xs text-gray-500 mt-1">Processing PDF...</div>}
+                        {pdfUploading && <div className="text-xs text-stone mt-1">Processing PDF...</div>}
                       </div>
                       
-                      <div className="text-xs text-gray-500 text-center">or</div>
+                      <div className="text-xs text-stone text-center">or</div>
                       
                       {/* Text Prompt */}
                       <div>
-                        <label className="block text-xs text-gray-600 mb-1">Describe your course</label>
+                        <label className="block text-xs text-stone mb-1">Describe your course</label>
                         <textarea 
                           value={aiPrompt} 
                           onChange={e => setAiPrompt(e.target.value)} 
-                          className="w-full text-xs rounded border-gray-300 focus:border-purple-500 focus:ring-purple-500" 
+                          className="w-full text-xs rounded border-border/60 focus:border-terracotta-500 focus:ring-terracotta-500" 
                           rows={3} 
                           placeholder="e.g. A course about food safety management for restaurant owners"
                         />
                         <button 
                           onClick={generateAiOutline} 
                           disabled={aiGenerating || !aiPrompt.trim()} 
-                          className={`mt-2 w-full text-xs px-3 py-1.5 rounded ${(aiGenerating || !aiPrompt.trim()) ? 'bg-gray-300' : 'bg-purple-600 hover:bg-purple-700'} text-white`}
+                          className={`mt-2 w-full text-xs px-3 py-1.5 rounded ${(aiGenerating || !aiPrompt.trim()) ? 'bg-stone' : 'bg-terracotta-600 hover:bg-terracotta-700'} text-white`}
                         >
                           {aiGenerating ? 'Generating...' : 'Generate Outline'}
                         </button>
@@ -663,37 +663,37 @@ export default function CourseBuilder() {
                   )}
                   <ul className="space-y-2 text-sm">
                     {modules.length === 0 && (
-                      <li className="text-xs text-gray-500">No modules yet. Start by adding one.</li>
+                      <li className="text-xs text-stone">No modules yet. Start by adding one.</li>
                     )}
                     {modules.map((m, i) => (
-                      <li key={m.id} className="border rounded-lg" draggable onDragStart={() => onDragStart(i)} onDragOver={onDragOver} onDrop={() => onDrop(i)}>
-                        <div className={`flex items-center justify-between px-3 py-2 rounded-t-lg ${selected.type==='module' && selected.moduleId===m.id ? 'bg-indigo-50' : 'bg-white'}`}
+                      <li key={m.id} className="border rounded-md" draggable onDragStart={() => onDragStart(i)} onDragOver={onDragOver} onDrop={() => onDrop(i)}>
+                        <div className={`flex items-center justify-between px-3 py-2 rounded-t-lg ${selected.type==='module' && selected.moduleId===m.id ? 'bg-forest-50' : 'bg-white'}`}
                              onClick={() => setSelected({ type: 'module', moduleId: m.id })}>
                           <div className="flex-1 flex items-center gap-2">
                             <input
                               value={m.title}
                               onChange={e => renameModule(m.id, e.target.value)}
-                              className="flex-1 rounded border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                              className="flex-1 rounded border-border/60 focus:border-forest-500 focus:ring-forest-500 text-sm"
                             />
                             {m.reused && (
-                              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded bg-amber-100 text-amber-800" title={`Reused module${m.usageCount ? ` • used ${m.usageCount} times` : ''}`}>Reused</span>
+                              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded bg-ochre-100 text-ochre-800" title={`Reused module${m.usageCount ? ` • used ${m.usageCount} times` : ''}`}>Reused</span>
                             )}
                           </div>
                           <div className="flex items-center gap-1">
-                            <button onClick={(ev) => { ev.stopPropagation(); moveModule(m.id, -1); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-gray-50" title="Move up">↑</button>
-                            <button onClick={(ev) => { ev.stopPropagation(); moveModule(m.id, 1); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-gray-50" title="Move down">↓</button>
-                            <button onClick={(ev) => { ev.stopPropagation(); removeModule(m.id); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-gray-50">Remove</button>
+                            <button onClick={(ev) => { ev.stopPropagation(); moveModule(m.id, -1); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-paper" title="Move up">↑</button>
+                            <button onClick={(ev) => { ev.stopPropagation(); moveModule(m.id, 1); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-paper" title="Move down">↓</button>
+                            <button onClick={(ev) => { ev.stopPropagation(); removeModule(m.id); }} className="text-xs px-2 py-1 rounded border bg-white hover:bg-paper">Remove</button>
                           </div>
                         </div>
                         <div className="p-2">
                           <div className="flex items-center justify-between">
-                            <div className="text-xs text-gray-500">Lessons</div>
-                            <button onClick={() => addLesson(m.id)} className="text-xs px-2 py-1 rounded-lg bg-gray-800 text-white hover:bg-gray-900">Add lesson</button>
+                            <div className="text-xs text-stone">Lessons</div>
+                            <button onClick={() => addLesson(m.id)} className="text-xs px-2 py-1 rounded-md bg-ink-900 text-white hover:bg-ink-950">Add lesson</button>
                           </div>
                           <ul className="mt-2 space-y-1">
                             {m.lessons.map((l, lessonIdx) => (
                               <li key={l.id} 
-                                  className={`flex items-center justify-between px-2 py-1 rounded ${selected.type==='lesson' && selected.lessonId===l.id ? 'bg-indigo-50' : 'bg-white'}`}
+                                  className={`flex items-center justify-between px-2 py-1 rounded ${selected.type==='lesson' && selected.lessonId===l.id ? 'bg-forest-50' : 'bg-white'}`}
                                   draggable 
                                   onDragStart={() => onLessonDragStart(m.id, lessonIdx)} 
                                   onDragOver={onLessonDragOver} 
@@ -702,12 +702,12 @@ export default function CourseBuilder() {
                                 <input
                                   value={l.title}
                                   onChange={e => updateLesson(m.id, l.id, e.target.value)}
-                                  className="mr-2 flex-1 rounded border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                                  className="mr-2 flex-1 rounded border-border/60 focus:border-forest-500 focus:ring-forest-500 text-sm"
                                 />
                                 <div className="flex items-center gap-1">
-                                  <button onClick={(ev) => { ev.stopPropagation(); moveLesson(m.id, l.id, -1); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-gray-50" title="Move up">↑</button>
-                                  <button onClick={(ev) => { ev.stopPropagation(); moveLesson(m.id, l.id, 1); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-gray-50" title="Move down">↓</button>
-                                  <button onClick={(ev) => { ev.stopPropagation(); removeLesson(m.id, l.id); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-gray-50">Remove</button>
+                                  <button onClick={(ev) => { ev.stopPropagation(); moveLesson(m.id, l.id, -1); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-paper" title="Move up">↑</button>
+                                  <button onClick={(ev) => { ev.stopPropagation(); moveLesson(m.id, l.id, 1); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-paper" title="Move down">↓</button>
+                                  <button onClick={(ev) => { ev.stopPropagation(); removeLesson(m.id, l.id); }} className="text-[11px] px-2 py-0.5 rounded border bg-white hover:bg-paper">Remove</button>
                                 </div>
                               </li>
                             ))}
@@ -721,30 +721,33 @@ export default function CourseBuilder() {
 
               {/* Main editor */}
               <section className="lg:col-span-3 space-y-4">
-                <div className="bg-white/70 backdrop-blur rounded-xl border shadow-sm p-6">
+                <div className="bg-white/70 backdrop-blur rounded-md border shadow-sm p-6">
                   {selected.type === 'course' && (
-                    <div className="text-sm text-gray-600">Select a module or lesson from the outline to edit its content. Start by adding a module.</div>
+                    <div className="text-sm text-stone">Select a module or lesson from the outline to edit its content. Start by adding a module.</div>
                   )}
                   {selected.type === 'module' && (
                     <div>
                       <div className="text-lg font-semibold">Module content</div>
-                      <div className="mt-2 text-sm text-gray-500">Add lessons to this module in the sidebar. Rich module-level content editor — TODO.</div>
+                      <div className="mt-2 text-sm text-stone">Add lessons to this module in the sidebar. Rich module-level content editor — TODO.</div>
                     </div>
                   )}
                   {selected.type === 'lesson' && (() => {
                     const foundModule = modules.find(m => m.id === selected.moduleId);
                     const lesson = foundModule?.lessons.find(l => l.id === selected.lessonId);
+                    if (!foundModule || !lesson) {
+                      return <div className="text-sm text-stone">Select a lesson from the outline to edit its content.</div>;
+                    }
                     return (
                       <div className="space-y-4">
                         <div className="text-lg font-semibold">Lesson editor</div>
                         
                         {/* Video Section */}
-                        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                          <div className="text-sm font-medium text-gray-700">Video Content</div>
+                        <div className="bg-paper rounded-md p-4 space-y-3">
+                          <div className="text-sm font-medium text-charcoal">Video Content</div>
                           
                           {/* Video Upload */}
                           <div>
-                            <label className="block text-xs text-gray-600 mb-2">Upload Video</label>
+                            <label className="block text-xs text-stone mb-2">Upload Video</label>
                             <div className="flex items-center gap-3">
                               <input 
                                 type="file"
@@ -756,18 +759,18 @@ export default function CourseBuilder() {
                                   }
                                 }}
                                 disabled={videoUploading}
-                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 disabled:opacity-50"
+                                className="block w-full text-sm text-stone file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-forest-50 file:text-forest-700 hover:file:bg-forest-100 disabled:opacity-50"
                               />
                             </div>
                             {videoUploading && (
                               <div className="mt-2">
-                                <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                                <div className="flex items-center justify-between text-xs text-stone mb-1">
                                   <span>Uploading video...</span>
                                   <span>{uploadProgress}%</span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="w-full bg-forest-100 rounded-full h-2">
                                   <div 
-                                    className="bg-indigo-600 h-2 rounded-full transition-all duration-300" 
+                                    className="bg-forest-600 h-2 rounded-full transition-all duration-300" 
                                     style={{ width: `${uploadProgress}%` }}
                                   />
                                 </div>
@@ -777,32 +780,32 @@ export default function CourseBuilder() {
                           
                           {/* OR Divider */}
                           <div className="flex items-center gap-3">
-                            <div className="flex-1 border-t border-gray-300"></div>
-                            <span className="text-xs text-gray-500 font-medium">OR</span>
-                            <div className="flex-1 border-t border-gray-300"></div>
+                            <div className="flex-1 border-t border-border/60"></div>
+                            <span className="text-xs text-stone font-medium">OR</span>
+                            <div className="flex-1 border-t border-border/60"></div>
                           </div>
                           
                           {/* Video URL */}
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">Video URL (HLS/MP4)</label>
+                            <label className="block text-xs text-stone mb-1">Video URL (HLS/MP4)</label>
                             <input 
-                              className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                              className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" 
                               placeholder="https://..." 
                               value={lesson?.contentUrl || ''} 
                               onChange={e => lesson && updateLessonContentUrl(selected.moduleId!, selected.lessonId!, e.target.value)}
                               disabled={videoUploading}
                             />
-                            <p className="mt-1 text-xs text-gray-500">Enter a direct video URL or upload a video file above</p>
+                            <p className="mt-1 text-xs text-stone">Enter a direct video URL or upload a video file above</p>
                           </div>
                           
                           {/* Video Preview */}
                           {lesson?.contentUrl && (
                             <div className="mt-3">
-                              <div className="text-xs text-gray-600 mb-2">Video Preview</div>
+                              <div className="text-xs text-stone mb-2">Video Preview</div>
                               <video 
                                 src={lesson.contentUrl} 
                                 controls 
-                                className="w-full rounded-lg border border-gray-300 max-h-64"
+                                className="w-full rounded-md border border-border/60 max-h-64"
                               >
                                 Your browser does not support the video tag.
                               </video>
@@ -812,10 +815,10 @@ export default function CourseBuilder() {
                         
                         {/* Lesson Content */}
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">Lesson content (Markdown)</label>
+                          <label className="block text-xs text-stone mb-1">Lesson content (Markdown)</label>
                           <textarea 
                             rows={10} 
-                            className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                            className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" 
                             placeholder="Write lesson content..."
                             value={lesson?.content || ''}
                             onChange={e => lesson && updateLessonContent(selected.moduleId!, selected.lessonId!, e.target.value)}
@@ -823,38 +826,38 @@ export default function CourseBuilder() {
                         </div>
                         
                         {/* Lesson Settings */}
-                        <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                          <div className="text-sm font-medium text-gray-700">Lesson Settings</div>
+                        <div className="bg-paper rounded-md p-4 space-y-4">
+                          <div className="text-sm font-medium text-charcoal">Lesson Settings</div>
                           
                           {/* Basic Settings Row */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Estimated duration (min)</label>
+                              <label className="block text-xs text-stone mb-1">Estimated duration (min)</label>
                               <input 
                                 type="number" 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" 
                                 placeholder="10"
                                 value={lessonSettings[lesson.id]?.duration || ''}
                                 onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { duration: e.target.value })}
                               />
                             </div>
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Has quiz?</label>
+                              <label className="block text-xs text-stone mb-1">Has quiz?</label>
                               <select 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500"
                                 value={lessonSettings[lesson.id]?.hasQuiz || 'No'}
-                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { hasQuiz: e.target.value })}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { hasQuiz: e.target.value as 'Yes' | 'No' })}
                               >
                                 <option>No</option>
                                 <option>Yes</option>
                               </select>
                             </div>
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Visibility</label>
+                              <label className="block text-xs text-stone mb-1">Visibility</label>
                               <select 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500"
                                 value={lessonSettings[lesson.id]?.visibility || 'Draft'}
-                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { visibility: e.target.value })}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { visibility: e.target.value as 'Draft' | 'Published' })}
                               >
                                 <option>Draft</option>
                                 <option>Published</option>
@@ -865,25 +868,25 @@ export default function CourseBuilder() {
                           {/* Completion Settings Row */}
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Completion mode</label>
+                              <label className="block text-xs text-stone mb-1">Completion mode</label>
                               <select 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500"
                                 value={lessonSettings[lesson.id]?.completionMode || 'required'}
-                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { completionMode: e.target.value })}
+                                onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { completionMode: e.target.value as 'required' | 'optional' | 'manual' })}
                               >
                                 <option value="required">Required</option>
                                 <option value="optional">Optional</option>
                                 <option value="manual">Manual</option>
                               </select>
-                              <p className="mt-1 text-xs text-gray-500">How students complete this lesson</p>
+                              <p className="mt-1 text-xs text-stone">How students complete this lesson</p>
                             </div>
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Min. watch % (0-100)</label>
+                              <label className="block text-xs text-stone mb-1">Min. watch % (0-100)</label>
                               <input 
                                 type="number" 
                                 min="0" 
                                 max="100" 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" 
                                 placeholder="80"
                                 value={lessonSettings[lesson.id]?.minimumWatchPercent || ''}
                                 onChange={e => {
@@ -893,15 +896,15 @@ export default function CourseBuilder() {
                                   }
                                 }}
                               />
-                              <p className="mt-1 text-xs text-gray-500">Video watch requirement</p>
+                              <p className="mt-1 text-xs text-stone">Video watch requirement</p>
                             </div>
                             <div>
-                              <label className="block text-xs text-gray-600 mb-1">Min. quiz score % (0-100)</label>
+                              <label className="block text-xs text-stone mb-1">Min. quiz score % (0-100)</label>
                               <input 
                                 type="number" 
                                 min="0" 
                                 max="100" 
-                                className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" 
+                                className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500" 
                                 placeholder="70"
                                 value={lessonSettings[lesson.id]?.minimumQuizScore || ''}
                                 onChange={e => {
@@ -911,34 +914,34 @@ export default function CourseBuilder() {
                                   }
                                 }}
                               />
-                              <p className="mt-1 text-xs text-gray-500">Quiz pass requirement</p>
+                              <p className="mt-1 text-xs text-stone">Quiz pass requirement</p>
                             </div>
                           </div>
                           
                           {/* Transcript */}
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">Transcript (optional)</label>
+                            <label className="block text-xs text-stone mb-1">Transcript (optional)</label>
                             <textarea 
                               rows={4} 
-                              className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm" 
+                              className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500 text-sm" 
                               placeholder="Enter video transcript for accessibility..."
                               value={lessonSettings[lesson.id]?.transcript || ''}
                               onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { transcript: e.target.value })}
                             />
-                            <p className="mt-1 text-xs text-gray-500">Improves accessibility and SEO</p>
+                            <p className="mt-1 text-xs text-stone">Improves accessibility and SEO</p>
                           </div>
                           
                           {/* Resource Links */}
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">Resource links (one per line)</label>
+                            <label className="block text-xs text-stone mb-1">Resource links (one per line)</label>
                             <textarea 
                               rows={4} 
-                              className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm font-mono" 
+                              className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500 text-sm font-mono" 
                               placeholder="Title | https://example.com&#10;Documentation | https://docs.example.com"
                               value={lessonSettings[lesson.id]?.resources || ''}
                               onChange={e => updateLessonSettings(selected.moduleId!, selected.lessonId!, { resources: e.target.value })}
                             />
-                            <p className="mt-1 text-xs text-gray-500">Format: Title | URL (one per line)</p>
+                            <p className="mt-1 text-xs text-stone">Format: Title | URL (one per line)</p>
                           </div>
                         </div>
                       </div>
@@ -947,17 +950,17 @@ export default function CourseBuilder() {
                 </div>
 
                 <div className="flex flex-wrap gap-3 justify-end">
-                  <button onClick={() => setPreview(p => !p)} className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white hover:bg-gray-50 shadow-sm transition-colors">{preview ? 'Close preview' : 'Preview'}</button>
-                  <button onClick={onSave} disabled={saving} className={`px-5 py-2.5 rounded-lg text-white shadow-sm transition-colors ${saving ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>{saving ? 'Saving…' : 'Save Course'}</button>
-                  <button onClick={onSubmitForReview} disabled={saving || isNew} className={`px-5 py-2.5 rounded-lg text-white shadow-sm transition-colors ${(saving || isNew) ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}`}>Submit for Review</button>
+                  <button onClick={() => setPreview(p => !p)} className="px-5 py-2.5 rounded-md border border-border/60 bg-white hover:bg-paper shadow-sm transition-colors">{preview ? 'Close preview' : 'Preview'}</button>
+                  <button onClick={onSave} disabled={saving} className={`px-5 py-2.5 rounded-md text-white shadow-sm transition-colors ${saving ? 'bg-stone cursor-not-allowed' : 'bg-forest-600 hover:bg-forest-700'}`}>{saving ? 'Saving…' : 'Save Course'}</button>
+                  <button onClick={onSubmitForReview} disabled={saving || isNew} className={`px-5 py-2.5 rounded-md text-white shadow-sm transition-colors ${(saving || isNew) ? 'bg-stone cursor-not-allowed' : 'bg-forest-600 hover:bg-forest-700'}`}>Submit for Review</button>
                 </div>
 
                 {preview && (
-                  <div className="mt-4 bg-white/70 backdrop-blur rounded-xl border shadow-sm p-6">
+                  <div className="mt-4 bg-white/70 backdrop-blur rounded-md border shadow-sm p-6">
                     <div className="text-sm font-semibold mb-2">Preview</div>
                     <div className="prose max-w-none">
                       <h1 className="text-xl font-bold">{title || 'Untitled course'}</h1>
-                      <p className="text-gray-600">{description || 'No description yet.'}</p>
+                      <p className="text-stone">{description || 'No description yet.'}</p>
                       <ol className="list-decimal ml-5 mt-3">
                         {modules.map((m, mi) => (
                           <li key={m.id} className="mb-2">
@@ -982,13 +985,13 @@ export default function CourseBuilder() {
         {libraryOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40" onClick={() => setLibraryOpen(false)} />
-            <div className="relative bg-white rounded-xl shadow-xl border w-[92vw] max-w-3xl p-6">
+            <div className="relative bg-white rounded-md shadow-sm border w-[92vw] max-w-3xl p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-lg font-semibold text-gray-900">Module library</div>
-                  <p className="mt-1 text-xs text-gray-500">Reuse approved modules or search by title, tag, or topic.</p>
+                  <div className="text-lg font-semibold text-charcoal">Module library</div>
+                  <p className="mt-1 text-xs text-stone">Reuse approved modules or search by title, tag, or topic.</p>
                 </div>
-                <button onClick={() => setLibraryOpen(false)} className="text-xs px-3 py-1.5 rounded-lg border bg-white hover:bg-gray-50">Close</button>
+                <button onClick={() => setLibraryOpen(false)} className="text-xs px-3 py-1.5 rounded-md border bg-white hover:bg-paper">Close</button>
               </div>
 
               <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -1000,14 +1003,14 @@ export default function CourseBuilder() {
                       if (e.key === 'Enter') loadLibraryModules(librarySearch);
                     }}
                     placeholder="Search modules..."
-                    className="w-full rounded-lg border-gray-300 pl-3 pr-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                    className="w-full rounded-md border-border/60 pl-3 pr-3 py-2 text-sm focus:border-forest-500 focus:ring-forest-500" 
                   />
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => loadLibraryModules(librarySearch)}
                     disabled={libraryLoading}
-                    className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm hover:bg-indigo-700 disabled:opacity-60"
+                    className="px-3 py-2 rounded-md bg-forest-600 text-white text-sm hover:bg-forest-700 disabled:opacity-60"
                   >
                     Search
                   </button>
@@ -1016,39 +1019,39 @@ export default function CourseBuilder() {
                       setLibrarySearch('');
                       loadLibraryModules('');
                     }}
-                    className="px-3 py-2 rounded-lg border text-sm text-gray-600 hover:bg-gray-50"
+                    className="px-3 py-2 rounded-md border text-sm text-stone hover:bg-paper"
                   >
                     Clear
                   </button>
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
+              <div className="mt-3 flex items-center justify-between text-xs text-stone">
                 <span>{libraryLoading ? 'Searching...' : `${libraryItems.length} results`}</span>
                 <span>Tip: leave search empty to see latest modules.</span>
               </div>
 
-              <div className="mt-4 max-h-[360px] overflow-auto border rounded-lg divide-y bg-white">
+              <div className="mt-4 max-h-[360px] overflow-auto border rounded-md divide-y bg-white">
                 {libraryLoading && (
                   <div className="p-4 space-y-3 animate-pulse">
                     {[0, 1, 2].map((i) => (
                       <div key={i} className="space-y-2">
-                        <div className="h-4 bg-gray-100 rounded w-2/3" />
-                        <div className="h-3 bg-gray-100 rounded w-5/6" />
-                        <div className="h-3 bg-gray-100 rounded w-1/2" />
+                        <div className="h-4 bg-forest-100 rounded w-2/3" />
+                        <div className="h-3 bg-forest-100 rounded w-5/6" />
+                        <div className="h-3 bg-forest-100 rounded w-1/2" />
                       </div>
                     ))}
                   </div>
                 )}
                 {!libraryLoading && libraryItems.length === 0 && (
-                  <div className="p-10 text-center text-sm text-gray-500">
-                    <svg className="h-8 w-8 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="p-10 text-center text-sm text-stone">
+                    <svg className="h-8 w-8 text-pewter mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <p>No modules found. Try a different search.</p>
                     <button
                       onClick={() => loadLibraryModules('')}
-                      className="mt-3 inline-flex items-center justify-center rounded-lg border px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50"
+                      className="mt-3 inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-xs text-stone hover:bg-paper"
                     >
                       Show all modules
                     </button>
@@ -1059,25 +1062,25 @@ export default function CourseBuilder() {
                   const visibility = m.visibility || 'private';
                   const visibilityStyles =
                     visibility === 'public'
-                      ? 'bg-green-50 text-green-700'
+                      ? 'bg-forest-50 text-forest-700'
                       : visibility === 'shared'
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'bg-gray-100 text-gray-600';
+                      ? 'bg-forest-50 text-forest-700'
+                      : 'bg-forest-100 text-stone';
 
                   return (
-                    <div key={m.id} className="p-4 hover:bg-gray-50 transition-colors">
+                    <div key={m.id} className="p-4 hover:bg-paper transition-colors">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h4 className="text-sm font-medium text-gray-900 truncate">{m.title}</h4>
+                            <h4 className="text-sm font-medium text-charcoal truncate">{m.title}</h4>
                             <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${visibilityStyles}`}>
                               {visibility}
                             </span>
                           </div>
                           {m.summary && (
-                            <p className="text-xs text-gray-600 line-clamp-2 mb-2">{m.summary}</p>
+                            <p className="text-xs text-stone line-clamp-2 mb-2">{m.summary}</p>
                           )}
-                          <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <div className="flex items-center gap-3 text-xs text-stone">
                             {m.estimatedDurationMin && (
                               <span className="flex items-center gap-1">
                                 <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1098,7 +1101,7 @@ export default function CourseBuilder() {
                         </div>
                         <div className="flex items-center gap-2 flex-shrink-0">
                           {alreadyAdded ? (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1.5 text-xs font-medium text-green-700">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-forest-50 px-3 py-1.5 text-xs font-medium text-forest-700">
                               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                               </svg>
@@ -1107,7 +1110,7 @@ export default function CourseBuilder() {
                           ) : (
                             <button 
                               onClick={() => addLibraryModule(m)} 
-                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-800 text-white text-xs font-medium hover:bg-gray-900 transition-colors"
+                              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-ink-900 text-white text-xs font-medium hover:bg-ink-950 transition-colors"
                             >
                               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -1129,16 +1132,16 @@ export default function CourseBuilder() {
         {showSuccessModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40" />
-            <div className="relative bg-white rounded-xl shadow-xl border max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in duration-200">
+            <div className="relative bg-white rounded-md shadow-sm border max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in duration-200">
               <div className="flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-forest-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
               </div>
-              <h3 className="text-lg font-semibold text-center text-gray-900 mb-2">Course Saved Successfully!</h3>
-              <p className="text-sm text-center text-gray-600">Your course has been saved and all changes are now stored.</p>
+              <h3 className="text-lg font-semibold text-center text-charcoal mb-2">Course Saved Successfully!</h3>
+              <p className="text-sm text-center text-stone">Your course has been saved and all changes are now stored.</p>
             </div>
           </div>
         )}
@@ -1147,20 +1150,20 @@ export default function CourseBuilder() {
         {showErrorModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="absolute inset-0 bg-black/40" onClick={() => setShowErrorModal(false)} />
-            <div className="relative bg-white rounded-xl shadow-xl border max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in duration-200">
+            <div className="relative bg-white rounded-md shadow-sm border max-w-md w-full mx-4 p-6 animate-in fade-in zoom-in duration-200">
               <div className="flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center">
-                  <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-16 h-16 bg-terracotta-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-terracotta-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
               </div>
-              <h3 className="text-lg font-semibold text-center text-gray-900 mb-2">Failed to Save Course</h3>
-              <p className="text-sm text-center text-gray-600 mb-4">{errorMessage}</p>
+              <h3 className="text-lg font-semibold text-center text-charcoal mb-2">Failed to Save Course</h3>
+              <p className="text-sm text-center text-stone mb-4">{errorMessage}</p>
               <div className="flex justify-center">
                 <button 
                   onClick={() => setShowErrorModal(false)}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="px-6 py-2 bg-terracotta-600 text-white rounded-md hover:bg-terracotta-700 transition-colors"
                 >
                   Close
                 </button>

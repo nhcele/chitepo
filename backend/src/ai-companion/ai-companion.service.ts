@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Lesson } from '../courses/entities/lesson.entity';
 import { User } from '../users/entities/user.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
 
@@ -19,7 +19,7 @@ export class AiCompanionService {
     private configService: ConfigService,
     @InjectRepository(Lesson) private readonly lessonRepo: Repository<Lesson>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
-    @InjectRepository(Progress) private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress) private readonly progressRepo: Repository<LessonProgress>,
     @Inject(CACHE_MANAGER) private cache: Cache,
   ) {
     this.provider = (this.configService.get<string>('AI_PROVIDER') || 'openai') as 'openai' | 'kimi';
@@ -323,7 +323,7 @@ export class AiCompanionService {
       jobTitle: user?.jobTitle || 'Professional'
     })}
     
-    Recent Progress: ${progress.map(p => `${p.courseId}: ${p.completed ? 'completed' : 'in progress'}`).join(', ')}
+    Recent Progress: ${progress.map(p => `${p.courseId}: ${p.isCompleted ? 'completed' : 'in progress'}`).join(', ')}
     
     Generate 3-5 personalized recommendations with this JSON structure:
     {
@@ -355,10 +355,10 @@ export class AiCompanionService {
     
     Progress Data: ${JSON.stringify(progress.map(p => ({
       course: p.course?.title,
-      completion: p.completed ? 100 : (p.score || 0),
-      timeSpent: Math.round((p.watchTime || 0) / 60), // Convert to minutes
-      lastAccessed: p.lastAccessed,
-      score: p.score || 0
+      completion: p.isCompleted ? 100 : (p.watchPercent || 0),
+      timeSpent: Math.round((p.watchedSeconds || 0) / 60), // Convert to minutes
+      lastAccessed: p.updatedAt,
+      score: p.bestQuizScore ?? p.watchPercent ?? 0
     })))}
     
     Generate 3-4 insights with this JSON structure:
@@ -381,8 +381,8 @@ export class AiCompanionService {
 
   async adaptDifficulty(userId: string, lessonId: string, performance: number): Promise<any> {
     const userHistory = await this.progressRepo.find({ where: { userId } });
-    const averagePerformance = userHistory.length > 0 
-      ? userHistory.reduce((sum, p) => sum + (p.score || 0), 0) / userHistory.length
+    const averagePerformance = userHistory.length > 0
+      ? userHistory.reduce((sum, p) => sum + (p.bestQuizScore ?? p.watchPercent ?? 0), 0) / userHistory.length
       : 50;
 
     let adjustedLevel = 15; // Default intermediate

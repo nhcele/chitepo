@@ -6,6 +6,7 @@ import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
+import { NotificationsService } from '../notifications/notifications.service';
 import * as bcryptjs from 'bcryptjs';
 
 describe('AuthService', () => {
@@ -52,6 +53,11 @@ describe('AuthService', () => {
       get: jest.fn(),
     };
 
+    const mockNotificationsService = {
+      sendEmail: jest.fn(),
+      sendVerificationEmail: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
@@ -66,6 +72,10 @@ describe('AuthService', () => {
         {
           provide: ConfigService,
           useValue: mockConfigService,
+        },
+        {
+          provide: NotificationsService,
+          useValue: mockNotificationsService,
         },
       ],
     }).compile();

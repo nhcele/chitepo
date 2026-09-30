@@ -83,7 +83,7 @@ export default function ChatModal({
           sender: {
             id: 'system',
             name: 'System',
-            email: 'system@mindelta.com',
+            email: 'system@chitepo.co.zw',
           },
         },
       ]);
@@ -115,7 +115,7 @@ export default function ChatModal({
         sender: {
           id: 'current-user',
           name: 'You',
-          email: 'admin@mindelta.com',
+          email: 'admin@chitepo.co.zw',
         },
       };
 
@@ -197,32 +197,32 @@ export default function ChatModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl h-[600px] flex flex-col">
+      <div className="bg-white rounded-md shadow-sm w-full max-w-2xl h-[600px] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-              <ChatBubbleLeftRightIcon className="w-6 h-6 text-gray-600" />
+            <div className="w-10 h-10 bg-forest-100 rounded-full flex items-center justify-center">
+              <ChatBubbleLeftRightIcon className="w-6 h-6 text-stone" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">{userName}</h3>
-              <p className="text-sm text-gray-500">{userRole}</p>
+              <h3 className="font-semibold text-charcoal">{userName}</h3>
+              <p className="text-sm text-stone">{userRole}</p>
               {courseName && (
-                <p className="text-xs text-blue-600">Regarding: {courseName}</p>
+                <p className="text-xs text-forest-600">Regarding: {courseName}</p>
               )}
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <button
               onClick={handleExport}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md"
+              className="p-2 text-stone hover:text-charcoal hover:bg-forest-100 rounded-md"
               title="Export conversation"
             >
               <ArrowDownTrayIcon className="w-5 h-5" />
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md"
+              className="p-2 text-stone hover:text-charcoal hover:bg-forest-100 rounded-md"
             >
               <XMarkIcon className="w-5 h-5" />
             </button>
@@ -236,8 +236,8 @@ export default function ChatModal({
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
             </div>
           ) : messages.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              <ChatBubbleLeftRightIcon className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+            <div className="text-center py-8 text-stone">
+              <ChatBubbleLeftRightIcon className="w-12 h-12 mx-auto mb-4 text-pewter" />
               <p>No messages yet. Start the conversation!</p>
             </div>
           ) : (
@@ -247,15 +247,15 @@ export default function ChatModal({
                 className={`flex ${message.senderId === 'current-user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-md ${
                     message.senderId === 'current-user'
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
+                      : 'bg-forest-100 text-charcoal'
                   }`}
                 >
                   <p className="text-sm">{message.content}</p>
                   <div className={`flex items-center justify-end mt-1 space-x-1 ${
-                    message.senderId === 'current-user' ? 'text-primary-100' : 'text-gray-500'
+                    message.senderId === 'current-user' ? 'text-primary-100' : 'text-stone'
                   }`}>
                     <span className="text-xs">
                       {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
@@ -284,7 +284,7 @@ export default function ChatModal({
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="flex-1 px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               disabled={isSending}
             />
             <button

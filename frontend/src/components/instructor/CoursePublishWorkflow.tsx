@@ -146,9 +146,9 @@ export default function CoursePublishWorkflow({
 
   const categoryColors = {
     content: 'bg-primary-50 text-primary-700 border-primary-200',
-    quality: 'bg-purple-50 text-purple-700 border-purple-200',
-    legal: 'bg-green-50 text-green-700 border-green-200',
-    technical: 'bg-orange-50 text-orange-700 border-orange-200'
+    quality: 'bg-terracotta-50 text-terracotta-700 border-terracotta-200',
+    legal: 'bg-forest-50 text-forest-700 border-forest-200',
+    technical: 'bg-ochre-50 text-ochre-700 border-ochre-200'
   }
 
   const StepContent = () => {
@@ -156,22 +156,22 @@ export default function CoursePublishWorkflow({
       case 0: // Review
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Course Overview</h3>
+            <div className="bg-white rounded-md border border-border/60 p-6">
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Course Overview</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Title</label>
-                  <p className="mt-1 text-gray-900">{course.title}</p>
+                  <label className="text-sm font-medium text-charcoal">Title</label>
+                  <p className="mt-1 text-charcoal">{course.title}</p>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Description</label>
-                  <p className="mt-1 text-gray-900">{course.description}</p>
+                  <label className="text-sm font-medium text-charcoal">Description</label>
+                  <p className="mt-1 text-charcoal">{course.description}</p>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Course Structure</label>
+                  <label className="text-sm font-medium text-charcoal">Course Structure</label>
                   <div className="mt-2 space-y-2">
                     {modules.map((module, index) => (
                       <div key={module.id} className="flex items-center space-x-3 text-sm">
@@ -179,30 +179,30 @@ export default function CoursePublishWorkflow({
                           {index + 1}
                         </div>
                         <span className="font-medium">{module.title}</span>
-                        <span className="text-gray-500">({module.lessons.length} lessons)</span>
+                        <span className="text-stone">({module.lessons.length} lessons)</span>
                       </div>
                     ))}
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border/60">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{modules.length}</div>
-                    <div className="text-sm text-gray-500">Modules</div>
+                    <div className="text-2xl font-bold text-charcoal">{modules.length}</div>
+                    <div className="text-sm text-stone">Modules</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-charcoal">
                       {modules.reduce((sum, m) => sum + m.lessons.length, 0)}
                     </div>
-                    <div className="text-sm text-gray-500">Lessons</div>
+                    <div className="text-sm text-stone">Lessons</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">
+                    <div className="text-2xl font-bold text-charcoal">
                       {modules.reduce((sum, m) => 
                         sum + m.lessons.filter(l => l.type === 'video').length, 0
                       )}
                     </div>
-                    <div className="text-sm text-gray-500">Videos</div>
+                    <div className="text-sm text-stone">Videos</div>
                   </div>
                 </div>
               </div>
@@ -211,7 +211,7 @@ export default function CoursePublishWorkflow({
             <div className="flex justify-center">
               <button
                 onClick={onPreview}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-lg hover:bg-gray-50"
+                className="inline-flex items-center px-4 py-2 border border-border/60 text-charcoal bg-white rounded-md hover:bg-paper"
               >
                 <EyeIcon className="h-4 w-4 mr-2" />
                 Preview Course
@@ -223,7 +223,7 @@ export default function CoursePublishWorkflow({
       case 1: // Checklist
         return (
           <div className="space-y-6">
-            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+            <div className="bg-primary-50 border border-primary-200 rounded-md p-4">
               <div className="flex items-center space-x-3">
                 <CheckCircleIcon className="h-5 w-5 text-primary-600" />
                 <div>
@@ -246,10 +246,10 @@ export default function CoursePublishWorkflow({
                   <motion.div
                     key={item.id}
                     whileHover={{ scale: 1.01 }}
-                    className={`border rounded-lg p-4 cursor-pointer transition-colors ${
+                    className={`border rounded-md p-4 cursor-pointer transition-colors ${
                       item.completed 
-                        ? 'bg-green-50 border-green-200' 
-                        : 'bg-white border-gray-200 hover:bg-gray-50'
+                        ? 'bg-forest-50 border-forest-200' 
+                        : 'bg-white border-border/60 hover:bg-paper'
                     }`}
                     onClick={() => !item.required && toggleChecklistItem(item.id)}
                   >
@@ -262,8 +262,8 @@ export default function CoursePublishWorkflow({
                         disabled={item.required}
                         className={`mt-0.5 h-5 w-5 rounded border-2 flex items-center justify-center transition-colors ${
                           item.completed 
-                            ? 'bg-green-600 border-green-600' 
-                            : 'border-gray-300 hover:border-gray-400'
+                            ? 'bg-forest-600 border-forest-600' 
+                            : 'border-border/60 hover:border-border/60'
                         } ${item.required ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                       >
                         {item.completed && (
@@ -274,25 +274,25 @@ export default function CoursePublishWorkflow({
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
                           <h4 className={`font-medium ${
-                            item.completed ? 'text-green-900' : 'text-gray-900'
+                            item.completed ? 'text-forest-900' : 'text-charcoal'
                           }`}>
                             {item.title}
                           </h4>
                           {item.required && (
-                            <span className="text-xs text-red-600 font-medium">Required</span>
+                            <span className="text-xs text-terracotta-600 font-medium">Required</span>
                           )}
                           <span className={`text-xs px-2 py-1 rounded-full border ${categoryColors[item.category]}`}>
                             {item.category}
                           </span>
                         </div>
                         <p className={`text-sm mt-1 ${
-                          item.completed ? 'text-green-700' : 'text-gray-600'
+                          item.completed ? 'text-forest-700' : 'text-stone'
                         }`}>
                           {item.description}
                         </p>
                       </div>
                       
-                      <CategoryIcon className="h-5 w-5 text-gray-400" />
+                      <CategoryIcon className="h-5 w-5 text-pewter" />
                     </div>
                   </motion.div>
                 )
@@ -304,19 +304,19 @@ export default function CoursePublishWorkflow({
       case 2: // Pricing
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Pricing Strategy</h3>
+            <div className="bg-white rounded-md border border-border/60 p-6">
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Pricing Strategy</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-charcoal mb-2">
                     Course Price
                   </label>
                   <div className="flex items-center space-x-2">
-                    <span className="text-gray-500">$</span>
+                    <span className="text-stone">$</span>
                     <input
                       type="number"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="flex-1 px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                       placeholder="99.99"
                       defaultValue="99.99"
                     />
@@ -324,7 +324,7 @@ export default function CoursePublishWorkflow({
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-charcoal mb-2">
                     Pricing Tier
                   </label>
                   <div className="grid grid-cols-3 gap-3">
@@ -335,10 +335,10 @@ export default function CoursePublishWorkflow({
                     ].map((tier) => (
                       <label key={tier.name} className="cursor-pointer">
                         <input type="radio" name="pricing" className="sr-only peer" />
-                        <div className="border-2 rounded-lg p-3 text-center peer-checked:border-primary-500 peer-checked:bg-primary-50">
-                          <div className="font-medium text-gray-900">{tier.name}</div>
-                          <div className="text-sm text-gray-500">{tier.price}</div>
-                          <div className="text-xs text-gray-400">{tier.desc}</div>
+                        <div className="border-2 rounded-md p-3 text-center peer-checked:border-primary-500 peer-checked:bg-primary-50">
+                          <div className="font-medium text-charcoal">{tier.name}</div>
+                          <div className="text-sm text-stone">{tier.price}</div>
+                          <div className="text-xs text-pewter">{tier.desc}</div>
                         </div>
                       </label>
                     ))}
@@ -347,10 +347,10 @@ export default function CoursePublishWorkflow({
                 
                 <div>
                   <label className="flex items-center space-x-3">
-                    <input type="checkbox" className="rounded border-gray-300 text-primary-600" />
+                    <input type="checkbox" className="rounded border-border/60 text-primary-600" />
                     <div>
-                      <span className="text-sm font-medium text-gray-700">Enable promotional pricing</span>
-                      <p className="text-xs text-gray-500">Offer limited-time discounts</p>
+                      <span className="text-sm font-medium text-charcoal">Enable promotional pricing</span>
+                      <p className="text-xs text-stone">Offer limited-time discounts</p>
                     </div>
                   </label>
                 </div>
@@ -365,8 +365,8 @@ export default function CoursePublishWorkflow({
             <div className="text-center py-8">
               <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
                 isReadyToPublish 
-                  ? 'bg-green-100 text-green-600' 
-                  : 'bg-yellow-100 text-yellow-600'
+                  ? 'bg-forest-100 text-forest-600' 
+                  : 'bg-ochre-100 text-ochre-600'
               }`}>
                 {isReadyToPublish ? (
                   <CheckCircleIcon className="h-8 w-8" />
@@ -375,11 +375,11 @@ export default function CoursePublishWorkflow({
                 )}
               </div>
               
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-charcoal mb-2">
                 {isReadyToPublish ? 'Ready to Publish!' : 'Almost Ready'}
               </h3>
               
-              <p className="text-gray-600 max-w-md mx-auto">
+              <p className="text-stone max-w-md mx-auto">
                 {isReadyToPublish 
                   ? 'Your course meets all quality standards and is ready for students.'
                   : `Complete ${totalRequired - completedRequired} more required items to publish.`
@@ -387,17 +387,17 @@ export default function CoursePublishWorkflow({
               </p>
             </div>
             
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h4 className="font-medium text-gray-900 mb-4">Publishing Options</h4>
+            <div className="bg-white rounded-md border border-border/60 p-6">
+              <h4 className="font-medium text-charcoal mb-4">Publishing Options</h4>
               
               <div className="space-y-3">
                 <button
                   onClick={onPublish}
                   disabled={!isReadyToPublish || loading}
-                  className={`w-full px-4 py-3 rounded-lg font-medium transition-colors ${
+                  className={`w-full px-4 py-3 rounded-md font-medium transition-colors ${
                     isReadyToPublish
-                      ? 'bg-green-600 text-white hover:bg-green-700'
-                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      ? 'bg-forest-600 text-white hover:bg-forest-700'
+                      : 'bg-forest-100 text-pewter cursor-not-allowed'
                   }`}
                 >
                   {loading ? 'Publishing...' : 'Publish Course Now'}
@@ -405,13 +405,13 @@ export default function CoursePublishWorkflow({
                 
                 <button
                   onClick={onSubmitForReview}
-                  className="w-full px-4 py-3 border border-gray-300 text-gray-700 bg-white rounded-lg font-medium hover:bg-gray-50"
+                  className="w-full px-4 py-3 border border-border/60 text-charcoal bg-white rounded-md font-medium hover:bg-paper"
                 >
                   Submit for Review
                 </button>
               </div>
               
-              <div className="mt-4 text-xs text-gray-500">
+              <div className="mt-4 text-xs text-stone">
                 <p>• Published courses are immediately available to students</p>
                 <p>• Review ensures quality standards are met</p>
                 <p>• You can unpublish or make changes anytime</p>
@@ -439,20 +439,20 @@ export default function CoursePublishWorkflow({
               <div key={step.id} className="flex items-center">
                 <button
                   onClick={() => setCurrentStep(index)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
                     isActive 
                       ? 'bg-primary-100 text-primary-700' 
                       : isCompleted 
-                        ? 'bg-green-100 text-green-700'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-forest-100 text-forest-700'
+                        : 'text-stone hover:text-charcoal'
                   }`}
                 >
                   <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
                     isActive 
                       ? 'bg-primary-600 border-primary-600 text-white'
                       : isCompleted 
-                        ? 'bg-green-600 border-green-600 text-white'
-                        : 'border-gray-300'
+                        ? 'bg-forest-600 border-forest-600 text-white'
+                        : 'border-border/60'
                   }`}>
                     {isCompleted ? (
                       <CheckCircleIcon className="h-4 w-4" />
@@ -465,7 +465,7 @@ export default function CoursePublishWorkflow({
                 
                 {index < steps.length - 1 && (
                   <div className={`w-8 h-0.5 mx-2 ${
-                    currentStep > index ? 'bg-green-600' : 'bg-gray-300'
+                    currentStep > index ? 'bg-forest-600' : 'bg-stone'
                   }`} />
                 )}
               </div>
@@ -492,7 +492,7 @@ export default function CoursePublishWorkflow({
         <button
           onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
           disabled={currentStep === 0}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ArrowLeftIcon className="h-4 w-4 mr-2" />
           Previous
@@ -501,7 +501,7 @@ export default function CoursePublishWorkflow({
         <button
           onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
           disabled={currentStep === steps.length - 1}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
           <ArrowRightIcon className="h-4 w-4 ml-2" />

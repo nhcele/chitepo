@@ -10,5 +10,5 @@ export function getCourseCoverImage(
   if (url.startsWith('/images/courses/') || url.startsWith('images/courses/')) {
     return placeholder;
   }
-  return url;
+  return url.includes('chitepo-logo') ? withBasePath('/chitepo-logo.jpg') : url;
 }

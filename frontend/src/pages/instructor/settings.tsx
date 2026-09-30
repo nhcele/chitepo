@@ -119,13 +119,13 @@ export default function InstructorSettings() {
     <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <Layout>
         <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-pink-50 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-50 via-white to-terracotta-50 pointer-events-none" />
           <div className="relative px-6 pt-8 pb-4">
             <div className="max-w-5xl mx-auto">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-forest-600 to-terracotta-600 bg-clip-text text-transparent">
                 Instructor Settings
               </h1>
-              <p className="mt-2 text-sm text-gray-500">Manage your public profile, payout info, and notifications.</p>
+              <p className="mt-2 text-sm text-stone">Manage your public profile, payout info, and notifications.</p>
             </div>
           </div>
         </div>
@@ -151,10 +151,10 @@ export default function InstructorSettings() {
             )}
 
             {/* Payout Settings - TODO for future implementation */}
-            <div className="bg-white/70 backdrop-blur rounded-xl border shadow-sm p-6 space-y-2">
+            <div className="bg-white/70 backdrop-blur rounded-md border shadow-sm p-6 space-y-2">
               <div className="text-lg font-semibold">Payout & Tax</div>
-              <div className="text-sm text-gray-600">PayPal/ACH details and tax form</div>
-              <div className="rounded-lg border border-dashed p-4 text-sm text-gray-500">
+              <div className="text-sm text-stone">PayPal/ACH details and tax form</div>
+              <div className="rounded-md border border-dashed p-4 text-sm text-stone">
                 Coming soon: Configure your payment methods and tax information
               </div>
             </div>

@@ -32,7 +32,7 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-ink-950 flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
       </div>
     );
@@ -40,8 +40,8 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-red-500 text-xl">Session not found</div>
+      <div className="min-h-screen bg-ink-950 flex items-center justify-center">
+        <div className="text-terracotta-500 text-xl">Session not found</div>
       </div>
     );
   }
@@ -49,18 +49,18 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
   const isActive = session.status === SessionStatus.ACTIVE;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-ink-950 text-white p-8">
       {/* Header Bar */}
-      <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-700">
+      <div className="flex justify-between items-center mb-8 pb-4 border-b border-border/60">
         <div>
           <h1 className="text-4xl font-bold mb-2">{session.title}</h1>
           {session.description && (
-            <p className="text-gray-400 text-lg">{session.description}</p>
+            <p className="text-pewter text-lg">{session.description}</p>
           )}
         </div>
         <div className="text-right">
-          <div className="text-sm text-gray-400 mb-2">Session Code</div>
-          <div className="text-5xl font-mono font-bold bg-gray-800 px-6 py-3 rounded-lg">
+          <div className="text-sm text-pewter mb-2">Session Code</div>
+          <div className="text-5xl font-mono font-bold bg-ink-900 px-6 py-3 rounded-md">
             {session.sessionCode}
           </div>
         </div>
@@ -71,32 +71,32 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
         {/* Left: Course Info */}
         <div className="col-span-2">
           {session.course ? (
-            <div className="bg-gray-800 rounded-lg p-8 mb-6">
-              <div className="text-sm text-gray-400 mb-2">Current Course</div>
+            <div className="bg-ink-900 rounded-md p-8 mb-6">
+              <div className="text-sm text-pewter mb-2">Current Course</div>
               <div className="text-3xl font-bold mb-4">{session.course.title}</div>
               {session.lesson && (
                 <>
-                  <div className="text-sm text-gray-400 mb-2">Current Lesson</div>
-                  <div className="text-2xl text-blue-400">{session.lesson.title}</div>
+                  <div className="text-sm text-pewter mb-2">Current Lesson</div>
+                  <div className="text-2xl text-forest-400">{session.lesson.title}</div>
                 </>
               )}
             </div>
           ) : (
-            <div className="bg-gray-800 rounded-lg p-8 mb-6">
-              <div className="text-2xl text-gray-400">No course selected</div>
+            <div className="bg-ink-900 rounded-md p-8 mb-6">
+              <div className="text-2xl text-pewter">No course selected</div>
             </div>
           )}
 
           {/* Status Indicator */}
-          <div className="bg-gray-800 rounded-lg p-6">
+          <div className="bg-ink-900 rounded-md p-6">
             <div className="flex items-center gap-4">
               <div
                 className={`w-4 h-4 rounded-full ${
-                  isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-500'
+                  isActive ? 'bg-forest-500 animate-pulse' : 'bg-stone'
                 }`}
               />
               <div>
-                <div className="text-sm text-gray-400">Session Status</div>
+                <div className="text-sm text-pewter">Session Status</div>
                 <div className="text-xl font-semibold">
                   {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
                 </div>
@@ -107,29 +107,29 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
 
         {/* Right: Stats */}
         <div className="col-span-1 space-y-6">
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-sm text-gray-400 mb-2">Type</div>
+          <div className="bg-ink-900 rounded-md p-6">
+            <div className="text-sm text-pewter mb-2">Type</div>
             <div className="text-xl font-semibold">
               {session.type.charAt(0).toUpperCase() + session.type.slice(1)}
             </div>
           </div>
 
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-sm text-gray-400 mb-2">Participants</div>
+          <div className="bg-ink-900 rounded-md p-6">
+            <div className="text-sm text-pewter mb-2">Participants</div>
             <div className="text-3xl font-bold">
               {session.participants?.length || 0} / {session.maxParticipants}
             </div>
           </div>
 
           {session.venue && (
-            <div className="bg-gray-800 rounded-lg p-6">
-              <div className="text-sm text-gray-400 mb-2">Venue</div>
+            <div className="bg-ink-900 rounded-md p-6">
+              <div className="text-sm text-pewter mb-2">Venue</div>
               <div className="text-lg font-semibold">{session.venue}</div>
             </div>
           )}
 
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="text-sm text-gray-400 mb-2">Scheduled Start</div>
+          <div className="bg-ink-900 rounded-md p-6">
+            <div className="text-sm text-pewter mb-2">Scheduled Start</div>
             <div className="text-lg font-semibold">
               {new Date(session.scheduledStart).toLocaleString()}
             </div>
@@ -138,8 +138,8 @@ export default function PresenterMode({ sessionId }: PresenterModeProps) {
       </div>
 
       {/* Footer Instructions */}
-      <div className="mt-8 pt-6 border-t border-gray-700">
-        <div className="text-center text-gray-400">
+      <div className="mt-8 pt-6 border-t border-border/60">
+        <div className="text-center text-pewter">
           Students can join using the session code above at{' '}
           <span className="text-white font-mono">/classroom/join</span>
         </div>

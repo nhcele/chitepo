@@ -4,7 +4,7 @@ import { IsNull, Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
 import { Enrollment } from '../enrollments/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { AiCompanionService } from '../ai-companion/ai-companion.service';
 
@@ -65,8 +65,8 @@ export class RecommendationsService {
     private readonly courseRepo: Repository<Course>,
     @InjectRepository(Enrollment)
     private readonly enrollmentRepo: Repository<Enrollment>,
-    @InjectRepository(Progress)
-    private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress)
+    private readonly progressRepo: Repository<LessonProgress>,
     @InjectRepository(QuizAttempt)
     private readonly quizAttemptRepo: Repository<QuizAttempt>,
     private readonly aiCompanionService: AiCompanionService,
@@ -214,8 +214,8 @@ export class RecommendationsService {
     // Identify struggling areas
     const lowScores = quizAttempts.filter((a) => a.score < 60);
     const slowProgress = progressRecords.filter(
-      (p) => p.watchTime > 0 && !p.completed && p.lastAccessed && 
-      new Date(p.lastAccessed) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      (p) => p.watchedSeconds > 0 && !p.isCompleted && p.updatedAt &&
+      new Date(p.updatedAt) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
     );
 
     // Recommend remedial or foundational courses
@@ -295,10 +295,10 @@ export class RecommendationsService {
 
     const progressRecords = await this.progressRepo.find({
       where: { userId, courseId: targetCourseId },
-      order: { lastAccessed: 'DESC' },
+      order: { updatedAt: 'DESC' },
     });
 
-    const progressByLessonId = new Map<string, Progress>();
+    const progressByLessonId = new Map<string, LessonProgress>();
     progressRecords.forEach((p) => {
       if (p.lessonId) {
         progressByLessonId.set(p.lessonId, p);
@@ -321,7 +321,7 @@ export class RecommendationsService {
 
     const moduleStats = modules.map((module) => {
       const lessons = module.lessons || [];
-      const completedLessons = lessons.filter((lesson) => progressByLessonId.get(lesson.id)?.completed).length;
+      const completedLessons = lessons.filter((lesson) => progressByLessonId.get(lesson.id)?.isCompleted).length;
       const totalLessons = lessons.length;
       return {
         module,
@@ -354,7 +354,7 @@ export class RecommendationsService {
     }
 
     const nextLesson = selected.lessons.find(
-      (lesson) => !progressByLessonId.get(lesson.id)?.completed,
+      (lesson) => !progressByLessonId.get(lesson.id)?.isCompleted,
     );
 
     const completionPercent =
@@ -409,7 +409,7 @@ export class RecommendationsService {
 
   // Helper methods
 
-  private calculateAverageScore(quizAttempts: any[], progressRecords: Progress[]): number {
+  private calculateAverageScore(quizAttempts: any[], progressRecords: LessonProgress[]): number {
     const scores: number[] = [];
 
     quizAttempts.forEach((attempt) => {
@@ -419,8 +419,8 @@ export class RecommendationsService {
     });
 
     progressRecords.forEach((progress) => {
-      if (progress.score !== null && progress.score !== undefined) {
-        scores.push(Number(progress.score));
+      if (progress.bestQuizScore !== null && progress.bestQuizScore !== undefined) {
+        scores.push(Number(progress.bestQuizScore));
       }
     });
 
@@ -428,7 +428,7 @@ export class RecommendationsService {
     return scores.reduce((sum, score) => sum + score, 0) / scores.length;
   }
 
-  private inferPreferredDifficulty(completedCourses: Course[], progressRecords: Progress[]): string {
+  private inferPreferredDifficulty(completedCourses: Course[], progressRecords: LessonProgress[]): string {
     if (completedCourses.length === 0) return 'beginner';
 
     const difficultyCounts: Record<string, number> = {};

@@ -8,31 +8,27 @@ import {
   MagnifyingGlassIcon,
   AcademicCapIcon,
   ClockIcon,
-  StarIcon,
-  UserGroupIcon,
   CheckBadgeIcon,
-  TrophyIcon,
-  SparklesIcon,
   ArrowRightIcon,
-  CurrencyDollarIcon,
   DocumentTextIcon,
+  UserGroupIcon,
+  TrophyIcon,
   GlobeAltIcon,
-  BriefcaseIcon
 } from '@heroicons/react/24/outline';
-import Layout from '@/components/Layout';
-import CourseCard from '@/components/learner/CourseCard';
+import AppLayout from '@/components/layouts/AppLayout';
+import CourseTile from '@/components/ui/CourseTile';
 import { CourseDifficulty, Course as ApiCourse } from '@mindelta/shared';
 import { listCourses } from '@/lib/api/courses';
 import { getCourseCoverImage } from '@/lib/cover-image';
-import { enrollInCourse } from '@/lib/api/enrollments';
+import { enrollInCourse, listMyEnrollments } from '@/lib/api/enrollments';
 import { useAuth } from '@/contexts/AuthContext';
 
 const categories = [
-  { id: 'all', name: 'All Courses', count: 26, icon: '🎓', color: 'bg-gradient-to-r from-blue-500 to-purple-600' },
-  { id: 'core_ideology', name: 'Core Ideological Courses', count: 8, icon: '🔥', color: 'bg-gradient-to-r from-red-500 to-orange-500', description: 'Foundation in Pan-Africanism and revolutionary theory' },
-  { id: 'contemporary_studies', name: 'Contemporary Studies', count: 8, icon: '🌍', color: 'bg-gradient-to-r from-green-500 to-teal-500', description: 'Modern issues: democracy, gender, environment' },
-  { id: 'practical_governance', name: 'Practical Governance Track', count: 6, icon: '🏛️', color: 'bg-gradient-to-r from-purple-500 to-pink-500', description: 'Training for government officials and party structures' },
-  { id: 'diaspora_program', name: 'Diaspora Engagement Program', count: 4, icon: '✈️', color: 'bg-gradient-to-r from-indigo-500 to-blue-500', description: 'Virtual training for Zimbabweans abroad' }
+  { id: 'all', name: 'All Courses', count: 26, icon: '🎓', color: 'bg-gradient-to-r from-forest-500 to-terracotta-600' },
+  { id: 'core_ideology', name: 'Core Ideological Courses', count: 8, icon: '🔥', color: 'bg-gradient-to-r from-terracotta-500 to-ochre-500', description: 'Foundation in Pan-Africanism and revolutionary theory' },
+  { id: 'contemporary_studies', name: 'Contemporary Studies', count: 8, icon: '🌍', color: 'bg-gradient-to-r from-forest-500 to-forest-500', description: 'Modern issues: democracy, gender, environment' },
+  { id: 'practical_governance', name: 'Practical Governance Track', count: 6, icon: '🏛️', color: 'bg-gradient-to-r from-terracotta-500 to-terracotta-500', description: 'Training for government officials and party structures' },
+  { id: 'diaspora_program', name: 'Diaspora Engagement Program', count: 4, icon: '✈️', color: 'bg-gradient-to-r from-forest-500 to-forest-500', description: 'Virtual training for Zimbabweans abroad' }
 ];
 
 const filters = {
@@ -43,7 +39,7 @@ const filters = {
 // Mapping between certification pathways and course categories
 const pathwayToCourseCategories: Record<string, string[]> = {
   general: ['core_ideology', 'contemporary_studies'],
-  officials: ['practical_governance', 'core_ideology'],
+  officials: ['practical_governance'],
   diaspora: ['diaspora_program', 'core_ideology'],
   youth: ['core_ideology', 'contemporary_studies'],
   women: ['contemporary_studies', 'core_ideology']
@@ -55,7 +51,7 @@ const pathways = [
     name: 'General Ideological Education',
     icon: '🎓',
     description: 'For party members, general public, youth, and interested citizens',
-    color: 'from-blue-500 to-blue-700',
+    color: 'from-forest-500 to-forest-700',
     courseCategories: ['core_ideology', 'contemporary_studies'],
     levels: [
       {
@@ -110,8 +106,8 @@ const pathways = [
     name: 'Government Officials Track',
     icon: '🏛️',
     description: 'For DCC members, councillors, mayors, traditional leaders, judges',
-    color: 'from-red-500 to-red-700',
-    courseCategories: ['practical_governance', 'core_ideology'],
+    color: 'from-terracotta-500 to-terracotta-700',
+    courseCategories: ['practical_governance'],
     levels: [
       {
         level: 1,
@@ -159,7 +155,7 @@ const pathways = [
     name: 'Diaspora Engagement Track',
     icon: '✈️',
     description: 'For diaspora members, international community',
-    color: 'from-purple-500 to-purple-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     courseCategories: ['diaspora_program', 'core_ideology'],
     levels: [
       {
@@ -205,7 +201,7 @@ const pathways = [
     name: 'Youth Leadership Track',
     icon: '🌟',
     description: 'For young leaders (18-35 years), students, young professionals',
-    color: 'from-green-500 to-green-700',
+    color: 'from-forest-500 to-forest-700',
     courseCategories: ['core_ideology', 'contemporary_studies'],
     levels: [
       {
@@ -242,7 +238,7 @@ const pathways = [
     name: 'Women\'s Leadership Track',
     icon: '👩‍💼',
     description: 'For women in party, government, and civil society',
-    color: 'from-pink-500 to-pink-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     courseCategories: ['contemporary_studies', 'core_ideology'],
     levels: [
       {
@@ -314,6 +310,7 @@ type CourseCardData = {
   estimatedDuration: number;
   coverImage: string;
   enrolled?: boolean;
+  progress?: number;
 };
 
 const coreIdeologyCourseTitles = new Set([
@@ -336,6 +333,22 @@ const contemporaryStudiesCourseTitles = new Set([
   'African Languages and Cultural Studies',
   'Security Studies and Conflict Resolution',
   'Human Rights and Social Movements'
+]);
+
+const practicalGovernanceCourseTitles = new Set([
+  'District Coordinating Committee (DCC) Training',
+  'Local Government Administration and Service Delivery',
+  'Electoral Campaign Management and Voter Mobilization',
+  'Rural Development and Community Engagement',
+  'Party-Government Coordination',
+  'Vision 2030 and National Development Strategy'
+]);
+
+const diasporaProgramCourseTitles = new Set([
+  'Virtual Political Engagement and Diaspora Mobilization',
+  'Cultural Heritage and Identity Preservation',
+  'Investment and Economic Participation',
+  'Advocacy and International Relations'
 ]);
 
 const legacyCategoryToCourseCategory: Record<string, string> = {
@@ -363,6 +376,9 @@ function normalizeCourseCategories(course: ApiCourse & { category?: string; tags
     const normalizedCategory = legacyCategoryToCourseCategory[course.category] || course.category;
     if (categories.some((category) => category.id === normalizedCategory)) {
       categoryIds.add(normalizedCategory);
+      if (normalizedCategory === 'practical_governance' || normalizedCategory === 'diaspora_program') {
+        return Array.from(categoryIds);
+      }
     }
   }
 
@@ -374,11 +390,24 @@ function normalizeCourseCategories(course: ApiCourse & { category?: string; tags
     categoryIds.add('contemporary_studies');
   }
 
-  const tags = course.tags || [];
-  if (tags.some((tag) => /diaspora/i.test(tag))) {
+  if (practicalGovernanceCourseTitles.has(course.title)) {
+    categoryIds.add('practical_governance');
+  }
+
+  if (diasporaProgramCourseTitles.has(course.title)) {
     categoryIds.add('diaspora_program');
   }
-  if (tags.some((tag) => /governance|local government|dcc|campaign|mobilization|rural development|vision 2030/i.test(tag))) {
+
+  const tags = course.tags || [];
+  const tagText = tags.join(' ');
+  const isDiaspora = tags.some((tag) => /diaspora/i.test(tag));
+  if (isDiaspora) {
+    categoryIds.add('diaspora_program');
+  }
+  if (
+    !isDiaspora
+    && /dcc|district coordinating|local government|municipal administration|service delivery|council management|devolution|rural development|party-government|vision 2030/i.test(tagText)
+  ) {
     categoryIds.add('practical_governance');
   }
 
@@ -405,6 +434,22 @@ export default function LearningPage() {
   const [selectedPathway, setSelectedPathway] = useState(pathways[0]);
   const [pathwayFilter, setPathwayFilter] = useState<string | null>(null);
 
+  const courseMatchesDuration = (course: CourseCardData, duration: string) => {
+    const hours = course.estimatedDuration / 60;
+    switch (duration) {
+      case '< 5 hours':
+        return hours < 5;
+      case '5-15 hours':
+        return hours >= 5 && hours <= 15;
+      case '15-30 hours':
+        return hours > 15 && hours <= 30;
+      case '30+ hours':
+        return hours > 30;
+      default:
+        return true;
+    }
+  };
+
   useEffect(() => {
     if (router.query.tab === 'certifications') {
       setActiveTab('certifications');
@@ -412,11 +457,19 @@ export default function LearningPage() {
       setActiveTab('courses');
     }
     
+    if (router.query.category && typeof router.query.category === 'string') {
+      const categoryExists = categories.some((category) => category.id === router.query.category);
+      if (categoryExists) {
+        setSelectedCategory(router.query.category);
+        setPathwayFilter(null);
+      }
+    }
+
     // Handle pathway filter from URL
     if (router.query.pathway && typeof router.query.pathway === 'string') {
       setPathwayFilter(router.query.pathway);
     }
-  }, [router.query.tab, router.query.pathway]);
+  }, [router.query.tab, router.query.pathway, router.query.category]);
 
   const mapApiToCard = (c: ApiCourse & { instructor?: { firstName?: string; lastName?: string; name?: string }; category?: string; tags?: string[] }) => {
     // Build instructor name from firstName and lastName, or use name field, or default
@@ -451,10 +504,26 @@ export default function LearningPage() {
     const load = async () => {
       try {
         setLoading(true);
-        const apiCourses = await listCourses();
+        const [apiCourses, enrollments] = await Promise.all([
+          listCourses(),
+          isAuthenticated ? listMyEnrollments().catch(() => []) : Promise.resolve([]),
+        ]);
+        const enrollmentByCourseId = new Map(
+          (enrollments as any[]).map((enrollment) => [enrollment.courseId, enrollment])
+        );
         const mapped = (apiCourses as any[]).map((c) => mapApiToCard(c));
-        setAllCourses(mapped);
-        setCourses(mapped);
+        setAllCourses(
+          mapped.map((course) => {
+            const enrollment = enrollmentByCourseId.get(course.id);
+            return enrollment
+              ? {
+                  ...course,
+                  enrolled: true,
+                  progress: Math.round(Number(enrollment.progressPercent ?? enrollment.progressPercentage ?? 0)),
+                }
+              : course;
+          })
+        );
       } catch (e: any) {
         console.error('Failed to load courses:', e?.message || e);
         setError('Failed to load courses');
@@ -463,56 +532,60 @@ export default function LearningPage() {
       }
     };
     load();
-  }, []);
+  }, [isAuthenticated]);
 
   // Filter courses when pathway filter changes
   useEffect(() => {
     if (pathwayFilter && pathwayFilter !== 'all') {
       const pathway = pathways.find(p => p.id === pathwayFilter);
       if (pathway && pathway.courseCategories) {
-        const filtered = allCourses.filter(course => 
-          pathway.courseCategories.some((categoryId) => course.categoryIds.includes(categoryId))
-        );
-        setCourses(filtered);
-        // Set the first matching category as selected
-        if (pathway.courseCategories.length > 0) {
-          setSelectedCategory(pathway.courseCategories[0]);
-        }
+        setSelectedCategory('all');
       }
     } else if (pathwayFilter === 'all' || !pathwayFilter) {
-      setCourses(allCourses);
       setSelectedCategory('all');
     }
-  }, [pathwayFilter, allCourses]);
+  }, [pathwayFilter]);
+
+  useEffect(() => {
+    const query = searchQuery.trim().toLowerCase();
+    const pathway = pathwayFilter && pathwayFilter !== 'all'
+      ? pathways.find((p) => p.id === pathwayFilter)
+      : null;
+
+    const filtered = allCourses.filter((course) => {
+      const matchesPathway = pathway?.courseCategories
+        ? pathway.courseCategories.some((categoryId) => course.categoryIds.includes(categoryId))
+        : true;
+
+      const matchesCategory = selectedCategory === 'all'
+        || course.categoryIds.includes(selectedCategory);
+
+      const matchesSearch = !query
+        || course.title.toLowerCase().includes(query)
+        || course.description.toLowerCase().includes(query)
+        || course.instructor.toLowerCase().includes(query);
+
+      const matchesDifficulty = selectedFilters.difficulty.length === 0
+        || selectedFilters.difficulty.some(
+          (difficulty) => difficulty.toLowerCase() === String(course.difficulty).toLowerCase()
+        );
+
+      const matchesDuration = selectedFilters.duration.length === 0
+        || selectedFilters.duration.some((duration) => courseMatchesDuration(course, duration));
+
+      return matchesPathway && matchesCategory && matchesSearch && matchesDifficulty && matchesDuration;
+    });
+
+    setCourses(filtered);
+  }, [allCourses, selectedCategory, searchQuery, selectedFilters, pathwayFilter]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    const filtered = courses.filter(course =>
-      course.title.toLowerCase().includes(query.toLowerCase()) ||
-      course.description.toLowerCase().includes(query.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(query.toLowerCase())
-    );
-    setCourses(filtered);
   };
 
-  const handleCategoryChange = async (categoryId: string) => {
+  const handleCategoryChange = (categoryId: string) => {
     setSelectedCategory(categoryId);
     setPathwayFilter(null); // Clear pathway filter when manually selecting category
-    setLoading(true);
-    try {
-      if (categoryId === 'all') {
-        setCourses(allCourses);
-      } else {
-        // Filter from allCourses instead of making API call
-        const filtered = allCourses.filter(course => course.categoryIds.includes(categoryId));
-        setCourses(filtered);
-      }
-    } catch (e: any) {
-      console.error('Failed to filter courses:', e?.message || e);
-      setError('Failed to filter courses');
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleBrowseCoursesFromPathway = (pathwayId: string) => {
@@ -561,25 +634,25 @@ export default function LearningPage() {
     ).length;
     
     return (
-      <div className="mb-6 bg-gradient-to-r from-primary-50 to-blue-50 border-l-4 border-primary-500 p-4 rounded-r-lg">
+      <div className="mb-6 bg-gradient-to-r from-primary-50 to-forest-50 border-l-4 border-primary-500 p-4 rounded-r-lg">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-charcoal">
                 {pathway.icon} {pathway.name}
               </h3>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
                 {pathwayCourseCount} {pathwayCourseCount === 1 ? 'course' : 'courses'}
               </span>
             </div>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-stone">
               {pathway.description}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               {pathway.courseCategories?.map((cat) => {
                 const category = categories.find(c => c.id === cat);
                 return category ? (
-                  <span key={cat} className="inline-flex items-center text-xs px-2 py-1 rounded-md bg-white border border-gray-200">
+                  <span key={cat} className="inline-flex items-center text-xs px-2 py-1 rounded-md bg-white border border-border/60">
                     {category.icon} {category.name}
                   </span>
                 ) : null;
@@ -590,7 +663,6 @@ export default function LearningPage() {
             onClick={() => {
               setPathwayFilter(null);
               setSelectedCategory('all');
-              setCourses(allCourses);
             }}
             className="ml-4 text-sm text-primary-600 hover:text-primary-700 font-medium whitespace-nowrap"
           >
@@ -601,127 +673,159 @@ export default function LearningPage() {
     );
   };
 
-  const getCategoryCourseCount = (categoryId: string) => {
+    const getCategoryCourseCount = (categoryId: string) => {
     if (categoryId === 'all') return allCourses.length;
     return allCourses.filter((course) => course.categoryIds.includes(categoryId)).length;
+  };
+
+  const categoryNameForId = (categoryId: string) => {
+    return categories.find((c) => c.id === categoryId)?.name || '';
   };
 
   return (
     <>
       <Head>
-        <title>Learning - Courses & Certifications | Chitepo School of Ideology</title>
-        <meta name="description" content="Explore courses and certification pathways at the Chitepo School of Ideology - Pan-Africanism, Revolutionary Theory, Leadership, and African Liberation Heritage." />
+        <title>Explore courses — Chitepo</title>
+        <meta name="description" content="Explore courses and certification pathways at the Chitepo School of Ideology." />
       </Head>
-      <Layout>
-        {/* Hero Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Chitepo School of Ideology
-              </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                Master Pan-Africanism, Revolutionary Theory, Leadership, and African Political Philosophy 
-                through our comprehensive curriculum and progressive certification pathways.
-              </p>
-              <div className="max-w-2xl mx-auto">
-                <div className="relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search courses, certifications, or topics..."
-                    value={searchQuery}
-                    onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
+      <AppLayout>
+        {/* Hero */}
+        <section className="relative overflow-hidden border-b border-border/60 bg-paper">
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-forest-100 -skew-x-6 origin-top-right translate-x-1/4" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+            <div className="max-w-3xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal leading-tight mb-4"
+              >
+                Explore the curriculum
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-lg text-stone leading-relaxed mb-8"
+              >
+                Courses and certification pathways in Pan-Africanism, revolutionary theory, governance, and African liberation heritage.
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="relative max-w-xl"
+              >
+                <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-pewter" />
+                <input
+                  type="text"
+                  placeholder="Search courses, certifications, or topics..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3.5 text-sm text-charcoal bg-cream border border-border/60 rounded-md focus:outline-none focus:ring-2 focus:ring-forest-600 focus:border-forest-600 transition-colors"
+                />
+              </motion.div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Tab Navigation */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        {/* Tabs */}
+        <section className="sticky top-16 z-30 bg-cream/95 backdrop-blur border-b border-border/60">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex space-x-8">
-              <button
-                onClick={() => setActiveTab('courses')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'courses'
-                    ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center space-x-2">
-                  <AcademicCapIcon className="h-5 w-5" />
-                  <span>Courses ({courses.length})</span>
-                </div>
-              </button>
-              <button
-                onClick={() => setActiveTab('certifications')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === 'certifications'
-                    ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center space-x-2">
-                  <TrophyIcon className="h-5 w-5" />
-                  <span>Certification Pathways ({pathways.length})</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Courses Tab Content */}
-        {activeTab === 'courses' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            {/* Pathway Filter Display */}
-            {getPathwayCoursesDescription()}
-            
-            {/* Categories */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Course Categories</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => handleCategoryChange(category.id)}
-                    className={`p-4 rounded-lg text-left transition-all ${
-                      selectedCategory === category.id
-                        ? `${category.color} text-white shadow-lg scale-105`
-                        : 'bg-white border-2 border-gray-200 hover:border-primary-300 hover:shadow-md'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">{category.icon}</div>
-                    <h3 className={`font-semibold mb-1 ${selectedCategory === category.id ? 'text-white' : 'text-gray-900'}`}>
-                      {category.name}
-                    </h3>
-                    {category.description && (
-                      <p className={`text-xs mb-2 ${selectedCategory === category.id ? 'text-white/90' : 'text-gray-600'}`}>
-                        {category.description}
-                      </p>
-                    )}
-                    <span className={`text-sm font-medium ${selectedCategory === category.id ? 'text-white' : 'text-primary-600'}`}>
-                      {getCategoryCourseCount(category.id)} courses
-                    </span>
-                  </button>
-                ))}
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <p className="text-gray-600">
-                  Showing {courses.length} courses
-                </p>
+            <nav className="flex items-center gap-1">
+              {(['courses', 'certifications'] as const).map((tab) => (
                 <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-3.5 text-sm font-semibold capitalize border-b-2 transition-colors ${
+                    activeTab === tab
+                      ? 'border-forest-600 text-forest-600'
+                      : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
+                  }`}
                 >
-                  <FunnelIcon className="h-4 w-4" />
-                  Filters
+                  {tab === 'courses' ? `Courses (${courses.length})` : `Certification pathways (${pathways.length})`}
                 </button>
+              ))}
+            </nav>
+          </div>
+        </section>
+
+        {/* Courses Tab */}
+        {activeTab === 'courses' && (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            {/* Pathway Filter */}
+            {pathwayFilter && pathwayFilter !== 'all' && (
+              <div className="mb-8 p-5 bg-forest-100 border-l-4 border-forest-600 rounded-r-md">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-charcoal mb-1">
+                      {pathways.find(p => p.id === pathwayFilter)?.name || 'Pathway'}
+                    </h3>
+                    <p className="text-sm text-stone">
+                      {pathways.find(p => p.id === pathwayFilter)?.description}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setPathwayFilter(null);
+                      setSelectedCategory('all');
+                    }}
+                    className="text-sm font-semibold text-forest-600 hover:text-forest-500 whitespace-nowrap transition-colors"
+                  >
+                    Clear filter
+                  </button>
+                </div>
               </div>
+            )}
+
+            {/* Categories */}
+            <div className="mb-10">
+              <h2 className="font-serif text-2xl font-semibold text-charcoal mb-5">Course categories</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                {categories.map((category) => {
+                  const count = getCategoryCourseCount(category.id);
+                  const isSelected = selectedCategory === category.id;
+                  return (
+                    <button
+                      key={category.id}
+                      onClick={() => handleCategoryChange(category.id)}
+                      className={`p-4 text-left rounded-md border transition-all ${
+                        isSelected
+                          ? 'bg-forest-600 border-forest-600 text-white'
+                          : 'bg-paper border-border/60 hover:border-forest-400'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between">
+                        <h3 className={`font-semibold text-sm mb-1 ${isSelected ? 'text-white' : 'text-charcoal'}`}>
+                          {category.name}
+                        </h3>
+                        <span className={`text-xs font-semibold ${isSelected ? 'text-cream/80' : 'text-pewter'}`}>
+                          {count}
+                        </span>
+                      </div>
+                      {category.description && (
+                        <p className={`text-xs ${isSelected ? 'text-cream/80' : 'text-stone'}`}>
+                          {category.description}
+                        </p>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Filters toggle */}
+            <div className="flex items-center justify-between mb-6">
+              <p className="text-sm text-stone">
+                Showing <span className="font-semibold text-charcoal">{courses.length}</span> courses
+              </p>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-charcoal border border-border/60 rounded-md hover:bg-forest-100 transition-colors"
+              >
+                <FunnelIcon className="h-4 w-4" />
+                Filters
+              </button>
             </div>
 
             {/* Filters Panel */}
@@ -730,24 +834,24 @@ export default function LearningPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="bg-gray-50 rounded-lg p-6 mb-8"
+                className="bg-paper border border-border/60 rounded-md p-6 mb-8"
               >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Object.entries(filters).map(([filterType, options]) => (
                     <div key={filterType}>
-                      <h3 className="font-medium text-gray-900 mb-3 capitalize">
+                      <h3 className="font-semibold text-charcoal mb-3 capitalize">
                         {filterType.replace('-', ' ')}
                       </h3>
                       <div className="space-y-2">
                         {options.map((option) => (
-                          <label key={option} className="flex items-center">
+                          <label key={option} className="flex items-center gap-3 cursor-pointer">
                             <input
                               type="checkbox"
                               checked={selectedFilters[filterType as keyof typeof selectedFilters].includes(option)}
                               onChange={() => toggleFilter(filterType as keyof typeof selectedFilters, option)}
-                              className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                              className="w-4 h-4 rounded border-stone/30 text-forest-600 focus:ring-forest-600"
                             />
-                            <span className="ml-2 text-sm text-gray-700">{option}</span>
+                            <span className="text-sm text-charcoal">{option}</span>
                           </label>
                         ))}
                       </div>
@@ -759,272 +863,291 @@ export default function LearningPage() {
 
             {/* Course Grid */}
             {enrollError && (
-              <div className="mb-4 text-sm text-red-600">{enrollError}</div>
+              <div className="mb-6 p-4 border-l-4 border-terracotta-600 bg-terracotta-100/50 rounded-r-md">
+                <p className="text-sm text-terracotta-700">{enrollError}</p>
+              </div>
             )}
             {loading ? (
-              <div className="flex justify-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+              <div className="flex justify-center py-16">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-forest-600" />
               </div>
             ) : error ? (
-              <div className="text-center py-12 text-red-600">{error}</div>
+              <div className="text-center py-16">
+                <p className="text-terracotta-600 mb-4">{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="text-sm font-semibold text-forest-600 hover:text-forest-500 transition-colors"
+                >
+                  Try again
+                </button>
+              </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {courses.map((course, index) => (
                   <motion.div
                     key={course.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.05, duration: 0.4 }}
                   >
-                    <CourseCard course={course} onEnroll={handleEnroll} loading={enrollingId === course.id} />
+                    <CourseTile
+                      id={course.id}
+                      title={course.title}
+                      description={course.description}
+                      instructor={course.instructor}
+                      category={categoryNameForId(course.categoryIds[0]) || course.category}
+                      difficulty={course.difficulty}
+                      estimatedDuration={course.estimatedDuration}
+                      students={course.students}
+                      coverImage={course.coverImage}
+                      enrolled={course.enrolled}
+                      progress={course.progress}
+                    />
                   </motion.div>
                 ))}
               </div>
             )}
 
             {courses.length === 0 && !loading && (
-              <div className="text-center py-12">
-                <AcademicCapIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No courses found</h3>
-                <p className="text-gray-600">Try adjusting your search or filters to find more courses.</p>
+              <div className="text-center py-16">
+                <p className="font-serif text-xl font-semibold text-charcoal mb-2">No courses found</p>
+                <p className="text-stone">Try adjusting your search or filters.</p>
               </div>
             )}
-          </div>
+          </section>
         )}
 
-        {/* Certifications Tab Content */}
+        {/* Certifications Tab */}
         {activeTab === 'certifications' && (
-          <>
-            {/* Benefits Grid */}
-            <div className="py-16 bg-gray-50">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <SparklesIcon className="h-12 w-12 mx-auto mb-4 text-primary-600" />
-                  <h2 className="text-3xl font-bold mb-4">Progressive Certification Pathways</h2>
-                  <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Progressive credentials for ideological education, governance excellence, diaspora leadership, 
-                    youth empowerment, and women&apos;s advancement.
-                  </p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {benefits.map((benefit, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      className="bg-white p-6 rounded-lg shadow-md text-center"
-                    >
-                      <benefit.icon className="h-10 w-10 mx-auto mb-3 text-primary-600" />
-                      <h3 className="font-bold mb-2">{benefit.title}</h3>
-                      <p className="text-sm text-gray-600">{benefit.description}</p>
-                    </motion.div>
-                  ))}
-                </div>
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            {/* Benefits */}
+            <div className="mb-16">
+              <h2 className="font-serif text-3xl font-semibold text-charcoal mb-4 text-center">
+                Progressive certification pathways
+              </h2>
+              <p className="text-stone text-center max-w-3xl mx-auto mb-10">
+                Credentials for ideological education, governance excellence, diaspora leadership, youth empowerment, and women&apos;s advancement.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {benefits.map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    className="bg-paper border border-border/60 rounded-md p-5 text-center"
+                  >
+                    <benefit.icon className="h-8 w-8 mx-auto mb-3 text-forest-600" />
+                    <h3 className="font-semibold text-charcoal mb-1">{benefit.title}</h3>
+                    <p className="text-sm text-stone">{benefit.description}</p>
+                  </motion.div>
+                ))}
               </div>
             </div>
 
-            {/* Pathway Selector */}
-            <div className="py-16">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold mb-4">Choose Your Pathway</h2>
-                  <p className="text-gray-600">Select the track that matches your role and goals</p>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-                  {pathways.map((pathway) => (
+            {/* Pathway selector */}
+            <div className="mb-10">
+              <h2 className="font-serif text-2xl font-semibold text-charcoal mb-5">Choose your pathway</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {pathways.map((pathway) => {
+                  const isSelected = selectedPathway.id === pathway.id;
+                  return (
                     <button
                       key={pathway.id}
                       onClick={() => setSelectedPathway(pathway)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
-                        selectedPathway.id === pathway.id
-                          ? 'border-primary-500 bg-primary-50 scale-105'
-                          : 'border-gray-200 hover:border-primary-300'
+                      className={`p-4 rounded-md border text-left transition-all ${
+                        isSelected
+                          ? 'bg-forest-600 border-forest-600 text-white'
+                          : 'bg-paper border-border/60 hover:border-forest-400'
                       }`}
                     >
-                      <div className="text-4xl mb-2">{pathway.icon}</div>
-                      <div className="text-sm font-semibold text-gray-900">{pathway.name.split(' ')[0]}</div>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mb-3 ${
+                        isSelected ? 'bg-white/20 text-white' : 'bg-forest-100 text-forest-600'
+                      }`}>
+                        {pathway.name.charAt(0)}
+                      </div>
+                      <div className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-charcoal'}`}>
+                        {pathway.name.split(' ')[0]}
+                      </div>
                     </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Selected Pathway Details */}
+            <motion.div
+              key={selectedPathway.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="bg-paper border border-border/60 rounded-md overflow-hidden mb-12"
+            >
+              <div className="bg-forest-700 p-8 text-cream">
+                <div className="flex items-start justify-between gap-6">
+                  <div className="flex-1">
+                    <h3 className="font-serif text-2xl font-semibold mb-2">{selectedPathway.name}</h3>
+                    <p className="text-cream/80 mb-5">{selectedPathway.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedPathway.courseCategories?.map((cat) => {
+                        const category = categories.find(c => c.id === cat);
+                        const courseCount = getCategoryCourseCount(cat);
+                        return category ? (
+                          <span
+                            key={cat}
+                            className="inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-cream/10 border border-cream/20"
+                          >
+                            {category.name} ({courseCount})
+                          </span>
+                        ) : null;
+                      })}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-serif text-3xl font-semibold">{selectedPathway.levels.length}</div>
+                    <div className="text-xs uppercase tracking-wider text-cream/60">Levels</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8">
+                <div className="space-y-6">
+                  {selectedPathway.levels.map((level, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.05 }}
+                      className="border-l-4 border-forest-600 pl-5 py-4"
+                    >
+                      <div className="flex items-start justify-between gap-4 mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 bg-forest-100 rounded-full flex items-center justify-center text-forest-600 font-bold text-sm">
+                            {level.level}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-charcoal">{level.title}</h4>
+                            {level.mandatory && (
+                              <span className="inline-block mt-1 px-2 py-0.5 bg-terracotta-100 text-terracotta-700 text-xs font-semibold rounded">
+                                Mandatory: {level.mandatory}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <div className="flex items-center text-sm text-stone mb-1">
+                            <ClockIcon className="h-4 w-4 mr-1" />
+                            {level.duration}
+                          </div>
+                          <div className="flex items-center text-sm font-semibold text-forest-600">
+                            {level.cost}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                          <span className="font-semibold text-charcoal">Courses:</span>
+                          <p className="text-stone">{level.courses}</p>
+                        </div>
+                        <div>
+                          <span className="font-semibold text-charcoal">Requirement:</span>
+                          <p className="text-stone">{level.requirement}</p>
+                        </div>
+                        <div>
+                          <span className="font-semibold text-charcoal">Outcome:</span>
+                          <p className="text-stone">{level.outcome}</p>
+                        </div>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
 
-                {/* Selected Pathway Details */}
-                <motion.div
-                  key={selectedPathway.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-white rounded-lg shadow-xl overflow-hidden"
-                >
-                  <div className={`bg-gradient-to-r ${selectedPathway.color} p-8 text-white`}>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="text-5xl mb-4">{selectedPathway.icon}</div>
-                        <h3 className="text-3xl font-bold mb-2">{selectedPathway.name}</h3>
-                        <p className="text-lg text-white/90 mb-4">{selectedPathway.description}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {selectedPathway.courseCategories?.map((cat) => {
-                            const category = categories.find(c => c.id === cat);
-                            const courseCount = getCategoryCourseCount(cat);
-                            return category ? (
-                              <span key={cat} className="inline-flex items-center text-xs px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30">
-                                {category.icon} {category.name} ({courseCount})
-                              </span>
-                            ) : null;
-                          })}
-                        </div>
-                      </div>
-                      <div className="text-right ml-4">
-                        <div className="text-4xl font-bold">{selectedPathway.levels.length}</div>
-                        <div className="text-sm">Levels</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-8">
-                    <div className="space-y-6">
-                      {selectedPathway.levels.map((level, index) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.5, delay: index * 0.1 }}
-                          className="border-l-4 border-primary-500 pl-6 py-4"
-                        >
-                          <div className="flex items-start justify-between mb-3">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center text-primary-600 font-bold">
-                                {level.level}
-                              </div>
-                              <div>
-                                <h4 className="text-lg font-bold text-gray-900">{level.title}</h4>
-                                {level.mandatory && (
-                                  <span className="inline-block mt-1 px-2 py-1 bg-red-100 text-red-700 text-xs rounded font-semibold">
-                                    MANDATORY: {level.mandatory}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <div className="flex items-center text-sm text-gray-600 mb-1">
-                                <ClockIcon className="h-4 w-4 mr-1" />
-                                {level.duration}
-                              </div>
-                              <div className="flex items-center text-sm font-semibold text-primary-600">
-                                <CurrencyDollarIcon className="h-4 w-4 mr-1" />
-                                {level.cost}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div>
-                              <span className="font-semibold text-gray-700">Courses:</span>
-                              <p className="text-gray-600">{level.courses}</p>
-                            </div>
-                            <div>
-                              <span className="font-semibold text-gray-700">Requirement:</span>
-                              <p className="text-gray-600">{level.requirement}</p>
-                            </div>
-                            <div>
-                              <span className="font-semibold text-gray-700">Outcome:</span>
-                              <p className="text-gray-600">{level.outcome}</p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    <div className="mt-8 flex gap-4">
-                      <button 
-                        onClick={() => handleBrowseCoursesFromPathway(selectedPathway.id)}
-                        className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
-                      >
-                        <AcademicCapIcon className="mr-2 h-5 w-5" />
-                        Browse Courses
-                      </button>
-                      <button className="flex-1 inline-flex items-center justify-center px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
-                        <DocumentTextIcon className="mr-2 h-5 w-5" />
-                        Download Guide
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-
-            {/* Recognition of Prior Learning */}
-            <div className="py-16 bg-gray-50">
-              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-white rounded-lg shadow-lg p-8">
-                  <div className="flex items-start">
-                    <CheckBadgeIcon className="h-12 w-12 text-green-600 mr-4 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-2xl font-bold mb-4">Recognition of Prior Learning (RPL)</h3>
-                      <p className="text-gray-700 mb-4">
-                        Have relevant work experience or previous qualifications? You may be eligible for credit toward your certification.
-                      </p>
-                      <ul className="space-y-2 mb-6">
-                        <li className="flex items-start text-gray-700">
-                          <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <span><strong>5+ years relevant experience</strong> may earn up to 50% program credit</span>
-                        </li>
-                        <li className="flex items-start text-gray-700">
-                          <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <span><strong>Previous academic qualifications</strong> from accredited institutions</span>
-                        </li>
-                        <li className="flex items-start text-gray-700">
-                          <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
-                          <span><strong>Demonstrated competencies</strong> through portfolio assessment</span>
-                        </li>
-                      </ul>
-                      <button className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
-                        Apply for RPL Assessment
-                        <ArrowRightIcon className="ml-2 h-5 w-5" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 className="text-3xl font-bold mb-4">
-                  Start Your Certification Journey Today
-                </h2>
-                <p className="text-xl text-primary-100 mb-8">
-                  Join thousands of certified members advancing their knowledge and careers
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button 
-                    onClick={() => {
-                      setActiveTab('courses');
-                      setPathwayFilter(null);
-                      setSelectedCategory('all');
-                      setCourses(allCourses);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className="inline-flex items-center px-8 py-3 bg-white text-primary-700 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+                <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={() => handleBrowseCoursesFromPathway(selectedPathway.id)}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
                   >
-                    <AcademicCapIcon className="mr-2 h-5 w-5" />
-                    Browse All Courses
+                    <AcademicCapIcon className="h-5 w-5" />
+                    Browse courses
                   </button>
-                  <button className="inline-flex items-center px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors">
-                    <UserGroupIcon className="mr-2 h-5 w-5" />
-                    Contact Advisor
+                  <button className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-forest-600 border border-forest-600 rounded-md hover:bg-forest-100 transition-colors">
+                    <DocumentTextIcon className="h-5 w-5" />
+                    Download guide
                   </button>
                 </div>
-                <p className="mt-6 text-sm text-primary-200">
-                  Questions? Email <a href="mailto:registrar@chitepo.edu.zw" className="underline font-semibold">registrar@chitepo.edu.zw</a>
-                </p>
+              </div>
+            </motion.div>
+
+            {/* RPL */}
+            <div className="bg-paper border border-border/60 rounded-md p-8 mb-12">
+              <div className="flex items-start gap-5">
+                <div className="w-12 h-12 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                  <CheckBadgeIcon className="h-6 w-6 text-forest-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-serif text-2xl font-semibold text-charcoal mb-3">
+                    Recognition of Prior Learning
+                  </h3>
+                  <p className="text-stone mb-5">
+                    Have relevant work experience or previous qualifications? You may be eligible for credit toward your certification.
+                  </p>
+                  <ul className="space-y-3 mb-6">
+                    {[
+                      '5+ years relevant experience may earn up to 50% program credit',
+                      'Previous academic qualifications from accredited institutions',
+                      'Demonstrated competencies through portfolio assessment',
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-3 text-stone">
+                        <CheckBadgeIcon className="h-5 w-5 text-forest-600 flex-shrink-0 mt-0.5" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors">
+                    Apply for RPL assessment
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
-          </>
+
+            {/* CTA */}
+            <div className="bg-forest-700 rounded-md p-8 lg:p-12 text-center">
+              <h2 className="font-serif text-3xl font-semibold text-cream mb-4">
+                Start your certification journey
+              </h2>
+              <p className="text-cream/80 mb-8 max-w-2xl mx-auto">
+                Join thousands of certified members advancing their knowledge and careers.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    setActiveTab('courses');
+                    setPathwayFilter(null);
+                    setSelectedCategory('all');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-semibold text-ink-950 bg-ochre-400 rounded-md hover:bg-ochre-300 transition-colors"
+                >
+                  <AcademicCapIcon className="h-5 w-5" />
+                  Browse all courses
+                </button>
+                <button className="inline-flex items-center justify-center gap-2 px-8 py-3 text-sm font-semibold text-cream border border-cream/30 rounded-md hover:bg-cream/10 transition-colors">
+                  <UserGroupIcon className="h-5 w-5" />
+                  Contact advisor
+                </button>
+              </div>
+              <p className="mt-6 text-sm text-cream/60">
+                Questions? Email{' '}
+                <a href="mailto:registrar@chitepo.co.zw" className="underline font-semibold">
+                  registrar@chitepo.co.zw
+                </a>
+              </p>
+            </div>
+          </section>
         )}
-      </Layout>
+      </AppLayout>
     </>
   );
 }

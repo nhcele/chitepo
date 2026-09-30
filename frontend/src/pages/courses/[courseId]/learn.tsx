@@ -1,12 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
+import { ArrowLeftIcon, PlayIcon, ChatBubbleLeftRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import AILearningCompanion from '@/components/learner/AILearningCompanion';
-import LearningDashboard from '@/components/learner/LearningDashboard';
+import AppLayout from '@/components/layouts/AppLayout';
+import CourseKnowledgeSpine, { SpineModule } from '@/components/ui/CourseKnowledgeSpine';
 import { type ProgressInsight } from '@/lib/api/ai';
 import { getCourse } from '@/lib/api/courses';
-import { getMyEnrollmentForCourse, listMyEnrollments } from '@/lib/api/enrollments';
-import { getCourseCoverImage } from '@/lib/cover-image';
+import { getMyEnrollmentForCourse } from '@/lib/api/enrollments';
 import { useAuth } from '@/contexts/AuthContext';
 import { Course, Enrollment, Lesson, Module as CourseModule } from '@mindelta/shared';
 
@@ -17,17 +20,6 @@ type CourseWithModules = Course & {
     name?: string;
   };
   modules?: (CourseModule & { lessons?: Lesson[] })[];
-};
-
-type RecentCourse = {
-  id: string;
-  title: string;
-  instructor: string;
-  progress: number;
-  lastAccessed: string;
-  coverImage: string;
-  nextLesson?: string;
-  nextLessonId?: string;
 };
 
 function getInstructorName(course?: CourseWithModules | null) {
@@ -55,7 +47,6 @@ export default function LearnPage() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [course, setCourse] = useState<CourseWithModules | null>(null);
   const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
-  const [recentCourses, setRecentCourses] = useState<RecentCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -66,44 +57,23 @@ export default function LearnPage() {
         router.push('/auth/login');
         return;
       }
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(courseId)) {
+        setError('This course link is not valid.');
+        setLoading(false);
+        return;
+      }
 
       setLoading(true);
       setError(null);
 
       try {
-        const [courseData, courseEnrollment, enrollments] = await Promise.all([
+        const [courseData, courseEnrollment] = await Promise.all([
           getCourse(courseId),
           getMyEnrollmentForCourse(courseId),
-          listMyEnrollments(),
         ]);
 
         setCourse(courseData as CourseWithModules);
         setEnrollment(courseEnrollment);
-
-        const enrollmentCards = await Promise.all(
-          (enrollments as Enrollment[]).slice(0, 6).map(async (item) => {
-            try {
-              const enrolledCourse = (item.courseId === courseId ? courseData : await getCourse(item.courseId)) as CourseWithModules;
-              const lessons = getOrderedLessons(enrolledCourse);
-              const nextLesson = lessons[0];
-
-              return {
-                id: enrolledCourse.id,
-                title: enrolledCourse.title,
-                instructor: getInstructorName(enrolledCourse),
-                progress: getEnrollmentProgress(item),
-                lastAccessed: ((item as any).updatedAt || (item as any).enrolledAt || new Date()).toString(),
-                coverImage: getCourseCoverImage(enrolledCourse.title, enrolledCourse.coverImageUrl),
-                nextLesson: nextLesson?.title,
-                nextLessonId: nextLesson?.id,
-              };
-            } catch {
-              return null;
-            }
-          }),
-        );
-
-        setRecentCourses(enrollmentCards.filter(Boolean) as RecentCourse[]);
       } catch (e: any) {
         setError(e?.message || 'Failed to load course learning data');
       } finally {
@@ -115,166 +85,200 @@ export default function LearnPage() {
   }, [authLoading, courseId, isAuthenticated, router]);
 
   const lessons = useMemo(() => getOrderedLessons(course), [course]);
-  const nextLesson = lessons[0];
   const progress = getEnrollmentProgress(enrollment);
-  const completedCourses = recentCourses.filter((item) => item.progress === 100).length;
-  const displayName = [user?.firstName, user?.lastName].filter(Boolean).join(' ') || (user as any)?.name || 'Learner';
+
+  const spineModules = useMemo<SpineModule[]>(() => {
+    const total = lessons.length;
+    const completedCount = Math.round((progress / 100) * total);
+    const sortedModules = (course?.modules || [])
+      .slice()
+      .sort((a, b) => a.orderIndex - b.orderIndex);
+
+    let lessonIndex = 0;
+    return sortedModules.map((module) => {
+      const moduleLessons = (module.lessons || [])
+        .slice()
+        .sort((a, b) => a.orderIndex - b.orderIndex)
+        .map((lesson) => {
+          const idx = lessonIndex++;
+          const status = idx < completedCount ? 'completed' : idx === completedCount ? 'current' : 'pending';
+          return {
+            id: lesson.id,
+            title: lesson.title,
+            type: lesson.type || 'video',
+            durationMinutes: (lesson as any).durationMinutes || (lesson as any).estimatedDuration,
+            isPreview: Boolean((lesson as any).isPreview),
+            status: status as 'completed' | 'current' | 'pending',
+            href: `/courses/${courseId}/lessons/${lesson.id}`,
+          };
+        });
+      return {
+        id: module.id,
+        orderIndex: module.orderIndex,
+        title: module.title,
+        description: (module as any).description || (module as any).summary,
+        lessons: moduleLessons,
+      };
+    });
+  }, [course, lessons.length, progress, courseId]);
+
+  // Resume at the next incomplete lesson (not always lesson 1)
+  const completedCount = Math.round((progress / 100) * lessons.length);
+  const resumeIndex = lessons.length > 0 ? Math.min(completedCount, lessons.length - 1) : 0;
+  const nextLesson = lessons[resumeIndex];
+  const isComplete = progress >= 100 && lessons.length > 0;
 
   if (loading || authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-      </div>
+      <AppLayout>
+        <div className="flex items-center justify-center py-32">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-forest-600" />
+        </div>
+      </AppLayout>
     );
   }
 
   if (error || !course) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-        <div className="bg-white rounded-xl shadow-sm p-8 max-w-md text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Course unavailable</h1>
-          <p className="text-gray-600 mb-6">{error || 'We could not find this course.'}</p>
-          <Link href="/courses" className="inline-flex px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
-            Browse Courses
-          </Link>
+      <AppLayout>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex justify-center">
+          <div className="bg-paper border border-border/60 rounded-md p-8 max-w-md text-center">
+            <h1 className="font-serif text-2xl font-semibold text-charcoal mb-2">Course unavailable</h1>
+            <p className="text-stone mb-6">{error || 'We could not find this course.'}</p>
+            <Link href="/courses" className="inline-flex px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors">
+              Browse courses
+            </Link>
+          </div>
         </div>
-      </div>
+      </AppLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">Learning: {course.title}</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome back, {displayName}</span>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <>
+      <Head>
+        <title>{course.title} — Chitepo</title>
+      </Head>
+      <AppLayout>
+        {/* Course hero */}
+        <section className="relative overflow-hidden border-b border-border/60 bg-paper">
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-forest-100 -skew-x-6 origin-top-right translate-x-1/4" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <Link
+              href={`/courses/${course.id}`}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-stone hover:text-forest-600 transition-colors mb-6"
+            >
+              <ArrowLeftIcon className="w-4 h-4" />
+              Back to course overview
+            </Link>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="font-serif text-3xl sm:text-4xl font-semibold text-charcoal leading-tight mb-2"
+            >
+              {course.title}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-lg text-stone mb-8"
+            >
+              {getInstructorName(course)}
+            </motion.p>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{course.title}</h2>
-              <p className="text-gray-600 mb-4">{course.description || course.subtitle || 'Continue your course materials.'}</p>
-
-              <div className="mb-4">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
-                  <span>Course Progress</span>
-                  <span>{progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-primary-600 h-2 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="max-w-xl"
+            >
+              <div className="flex items-center justify-between text-sm text-stone mb-2">
+                <span>Course progress</span>
+                <span className="font-semibold text-charcoal">{progress}%</span>
+              </div>
+              <div className="w-full bg-forest-100 rounded-full h-2.5 mb-6">
+                <div className="bg-forest-600 h-2.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
               </div>
 
-              <div className="bg-primary-50 rounded-lg p-4">
-                <h3 className="font-semibold text-primary-900 mb-2">
-                  {nextLesson ? `Current Lesson: ${nextLesson.title}` : 'Course content'}
+              {isComplete ? (
+                <div className="inline-flex items-center gap-3 bg-forest-100 border border-forest-400/40 rounded-md px-5 py-3">
+                  <span className="text-sm font-semibold text-forest-700">Course completed — well done.</span>
+                  <Link href="/my-certifications" className="text-sm font-semibold text-forest-600 underline">
+                    View certifications
+                  </Link>
+                </div>
+              ) : nextLesson ? (
+                <Link
+                  href={`/courses/${course.id}/lessons/${nextLesson.id}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
+                >
+                  <PlayIcon className="w-4 h-4" />
+                  Continue: {nextLesson.title}
+                </Link>
+              ) : (
+                <p className="text-sm text-stone">No lessons are available for this course yet.</p>
+              )}
+            </motion.div>
+          </div>
+        </section>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Knowledge Spine */}
+            <div className="lg:col-span-2">
+              <CourseKnowledgeSpine modules={spineModules} isEnrolled title="Your learning path" />
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-6">
+              <div className="bg-forest-700 rounded-md p-6">
+                <h3 className="font-serif text-lg font-semibold text-cream mb-2">
+                  <SparklesIcon className="inline h-5 w-5 text-ochre-400 mr-2 -mt-0.5" />
+                  AI learning assistant
                 </h3>
-                <p className="text-primary-700 text-sm mb-3">
-                  {nextLesson ? 'Continue with the next lesson in this course.' : 'No lessons are available for this course yet.'}
+                <p className="text-sm text-cream/80 mb-4">
+                  Get personalized help with course content, ask questions, and receive insights on your learning patterns.
                 </p>
-                {nextLesson ? (
+                <ul className="space-y-2 text-sm text-cream/80">
+                  <li className="flex gap-2"><span className="text-ochre-400">—</span>Smart explanations</li>
+                  <li className="flex gap-2"><span className="text-ochre-400">—</span>Adaptive difficulty</li>
+                  <li className="flex gap-2"><span className="text-ochre-400">—</span>Progress insights</li>
+                </ul>
+              </div>
+
+              <div className="bg-paper border border-border/60 rounded-md p-6">
+                <h3 className="font-serif text-lg font-semibold text-charcoal mb-4">Quick actions</h3>
+                <div className="space-y-2">
                   <Link
-                    href={`/courses/${course.id}/lessons/${nextLesson.id}`}
-                    className="inline-flex px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                    href={`/courses/${course.id}`}
+                    className="block w-full px-4 py-2.5 text-sm font-medium text-charcoal bg-forest-100/50 rounded-md hover:bg-forest-100 transition-colors"
                   >
-                    Continue Learning
+                    View course overview
                   </Link>
-                ) : (
-                  <button disabled className="px-4 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed">
-                    No Lessons Available
-                  </button>
-                )}
-              </div>
-            </div>
-
-            <LearningDashboard
-              userId={user?.id || ''}
-              stats={{
-                totalCoursesEnrolled: recentCourses.length,
-                coursesCompleted: completedCourses,
-                totalLearningTime: 0,
-                currentStreak: 0,
-                longestStreak: 0,
-                certificatesEarned: completedCourses,
-                averageCompletionRate:
-                  recentCourses.length > 0
-                    ? Math.round(recentCourses.reduce((sum, item) => sum + item.progress, 0) / recentCourses.length)
-                    : 0,
-              }}
-              recentCourses={recentCourses}
-              achievements={[]}
-              recommendations={[]}
-            />
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-sm p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">AI Learning Assistant</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Get personalized help with your course content, ask questions, and receive AI-powered insights.
-              </p>
-              <div className="space-y-3 mb-4">
-                <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
-                  <span className="text-2xl">AI</span>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Smart Explanations</p>
-                    <p className="text-xs text-gray-600">Get concepts explained your way</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                  <span className="text-2xl">AD</span>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Adaptive Difficulty</p>
-                    <p className="text-xs text-gray-600">Content adjusts to your level</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-primary-50 rounded-lg">
-                  <span className="text-2xl">PI</span>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Progress Insights</p>
-                    <p className="text-xs text-gray-600">AI analyzes your learning patterns</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Link href={`/courses/${course.id}`} className="block w-full px-4 py-2 text-left bg-gray-50 rounded-lg hover:bg-gray-100">
-                  View Course Materials
-                </Link>
-                {nextLesson && (
-                  <Link href={`/courses/${course.id}/lessons/${nextLesson.id}`} className="block w-full px-4 py-2 text-left bg-gray-50 rounded-lg hover:bg-gray-100">
-                    Take Practice Quiz
+                  <Link
+                    href="/forums"
+                    className="block w-full px-4 py-2.5 text-sm font-medium text-charcoal bg-forest-100/50 rounded-md hover:bg-forest-100 transition-colors"
+                  >
+                    <ChatBubbleLeftRightIcon className="inline h-4 w-4 mr-2 -mt-0.5" />
+                    Join discussion forum
                   </Link>
-                )}
-                <Link href="/forums" className="block w-full px-4 py-2 text-left bg-gray-50 rounded-lg hover:bg-gray-100">
-                  Join Discussion Forum
-                </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <AILearningCompanion
-        courseId={course.id}
-        lessonId={nextLesson?.id || ''}
-        userId={user?.id || ''}
-        onProgressUpdate={(insights: ProgressInsight[]) => {
-          console.log('Progress insights updated:', insights);
-        }}
-      />
-    </div>
+        <AILearningCompanion
+          courseId={course.id}
+          lessonId={nextLesson?.id || ''}
+          userId={user?.id || ''}
+          onProgressUpdate={(insights: ProgressInsight[]) => {
+            console.log('Progress insights updated:', insights);
+          }}
+        />
+      </AppLayout>
+    </>
   );
 }

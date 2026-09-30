@@ -69,7 +69,7 @@ export default function AdminSettings() {
       label: 'AI Companion',
       description: 'Enable AI-powered learning companion for personalized assistance',
       icon: SparklesIcon,
-      color: 'text-purple-600'
+      color: 'text-terracotta-600'
     },
     {
       key: 'feature.assessmentsEnabled',
@@ -83,14 +83,14 @@ export default function AdminSettings() {
       label: 'Analytics',
       description: 'Track user engagement and course performance metrics',
       icon: ChartBarIcon,
-      color: 'text-green-600'
+      color: 'text-forest-600'
     },
     {
       key: 'feature.preDownloadEnabled',
       label: 'Pre-download Lessons',
       description: 'Allow users to download lessons for offline viewing',
       icon: CloudArrowDownIcon,
-      color: 'text-indigo-600'
+      color: 'text-forest-600'
     }
   ];
 
@@ -103,12 +103,12 @@ export default function AdminSettings() {
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-gray-50 to-blue-100 py-12">
+          <div className="bg-gradient-to-br from-forest-100 to-forest-100 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
                 <Cog6ToothIcon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Platform Settings</h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                <h1 className="text-4xl font-bold text-charcoal mb-4">Platform Settings</h1>
+                <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                   Configure feature flags, system preferences, and platform behavior.
                 </p>
                 <div className="flex items-center justify-center gap-4">
@@ -116,7 +116,7 @@ export default function AdminSettings() {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center text-emerald-600"
+                      className="flex items-center text-forest-600"
                     >
                       <CheckCircleIcon className="h-5 w-5 mr-2" />
                       Settings Saved
@@ -127,7 +127,7 @@ export default function AdminSettings() {
                     disabled={saving}
                     className={`inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md transition-colors ${
                       saving
-                        ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                        ? 'bg-stone text-stone cursor-not-allowed'
                         : 'text-white bg-primary-600 hover:bg-primary-700'
                     }`}
                   >
@@ -143,7 +143,7 @@ export default function AdminSettings() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center"
+                className="mb-6 p-4 bg-terracotta-100 border border-terracotta-400 text-terracotta-700 rounded-md flex items-center"
               >
                 <ExclamationTriangleIcon className="h-5 w-5 mr-2" />
                 {error}
@@ -151,7 +151,7 @@ export default function AdminSettings() {
             )}
 
             {loading && (
-              <div className="mb-6 p-4 bg-primary-100 border border-blue-400 text-primary-700 rounded-lg">
+              <div className="mb-6 p-4 bg-primary-100 border border-forest-400 text-primary-700 rounded-md">
                 Loading settings...
               </div>
             )}
@@ -162,9 +162,9 @@ export default function AdminSettings() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-lg shadow-md p-6"
+                  className="bg-white rounded-md shadow-sm p-6"
                 >
-                  <h2 className="text-lg font-semibold text-gray-900 mb-6">Feature Flags</h2>
+                  <h2 className="text-lg font-semibold text-charcoal mb-6">Feature Flags</h2>
                   <div className="space-y-4">
                     {featureFlags.map((flag, index) => (
                       <motion.div
@@ -172,7 +172,7 @@ export default function AdminSettings() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg hover:border-gray-300 transition-colors"
+                        className="flex items-start space-x-4 p-4 border border-border/60 rounded-md hover:border-border/60 transition-colors"
                       >
                         <div className="flex-shrink-0">
                           <flag.icon className={`h-6 w-6 ${flag.color}`} />
@@ -180,8 +180,8 @@ export default function AdminSettings() {
                         <div className="flex-1">
                           <div className="flex items-center justify-between">
                             <div>
-                              <h3 className="text-sm font-medium text-gray-900">{flag.label}</h3>
-                              <p className="text-sm text-gray-600 mt-1">{flag.description}</p>
+                              <h3 className="text-sm font-medium text-charcoal">{flag.label}</h3>
+                              <p className="text-sm text-stone mt-1">{flag.description}</p>
                             </div>
                             <label className="relative inline-flex items-center cursor-pointer">
                               <input
@@ -190,14 +190,14 @@ export default function AdminSettings() {
                                 onChange={e => setFlag(flag.key, e.target.checked)}
                                 className="sr-only peer"
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                              <div className="w-11 h-6 bg-forest-100 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-border/60 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                             </label>
                           </div>
                         </div>
                       </motion.div>
                     ))}
                   </div>
-                  <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-lg">
+                  <div className="mt-6 p-4 bg-primary-50 border border-primary-200 rounded-md">
                     <p className="text-sm text-primary-800">
                       <strong>Note:</strong> Feature flag changes apply immediately for new user sessions. 
                       Existing sessions may need to refresh to see changes.
@@ -212,28 +212,28 @@ export default function AdminSettings() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="bg-white rounded-lg shadow-md p-6"
+                  className="bg-white rounded-md shadow-sm p-6"
                 >
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4">General Settings</h2>
+                  <h2 className="text-lg font-semibold text-charcoal mb-4">General Settings</h2>
                   <div className="space-y-4">
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-900 mb-2">Email Configuration</h3>
-                      <p className="text-sm text-gray-600">SMTP settings and email templates</p>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mt-2">
+                    <div className="p-4 border border-border/60 rounded-md">
+                      <h3 className="text-sm font-medium text-charcoal mb-2">Email Configuration</h3>
+                      <p className="text-sm text-stone">SMTP settings and email templates</p>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ochre-100 text-ochre-800 mt-2">
                         Coming Soon
                       </span>
                     </div>
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-900 mb-2">Usage Quotas</h3>
-                      <p className="text-sm text-gray-600">Set limits for courses, users, and storage</p>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mt-2">
+                    <div className="p-4 border border-border/60 rounded-md">
+                      <h3 className="text-sm font-medium text-charcoal mb-2">Usage Quotas</h3>
+                      <p className="text-sm text-stone">Set limits for courses, users, and storage</p>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ochre-100 text-ochre-800 mt-2">
                         Coming Soon
                       </span>
                     </div>
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-900 mb-2">Certificate Templates</h3>
-                      <p className="text-sm text-gray-600">Customize completion certificates</p>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 mt-2">
+                    <div className="p-4 border border-border/60 rounded-md">
+                      <h3 className="text-sm font-medium text-charcoal mb-2">Certificate Templates</h3>
+                      <p className="text-sm text-stone">Customize completion certificates</p>
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-ochre-100 text-ochre-800 mt-2">
                         Coming Soon
                       </span>
                     </div>

@@ -195,38 +195,38 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white rounded-xl shadow-lg max-w-4xl mx-auto"
+        className="bg-white rounded-md shadow-sm max-w-4xl mx-auto"
       >
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900">Order Summary</h2>
-          <p className="text-gray-600 mt-1">Review your license purchase order</p>
+        <div className="p-6 border-b border-border/60">
+          <h2 className="text-xl font-bold text-charcoal">Order Summary</h2>
+          <p className="text-stone mt-1">Review your license purchase order</p>
         </div>
 
         <div className="p-6">
           <div className="space-y-4">
             {licenses.map((license, index) => (
-              <div key={license.id} className="bg-gray-50 rounded-lg p-4">
+              <div key={license.id} className="bg-paper rounded-md p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-medium text-gray-900 capitalize">
+                    <h4 className="font-medium text-charcoal capitalize">
                       {license.type.replace('_', ' ')}
                     </h4>
                     {license.courseId && (
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-stone mt-1">
                         Course: {availableCourses.find(c => c.id === license.courseId)?.title || 'Selected Course'}
                       </p>
                     )}
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-stone">
                       Quantity: {license.quantity} × ${calculatePrice(license).toFixed(2)}
                     </p>
                     {license.type === 'subscription' && (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-stone">
                         Duration: {license.durationMonths} months
                       </p>
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-lg font-bold text-charcoal">
                       ${calculateTotalPrice(license).toFixed(2)}
                     </p>
                   </div>
@@ -242,7 +242,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                 <span>${licenses.reduce((sum, l) => sum + (calculatePrice(l) * l.quantity), 0).toFixed(2)}</span>
               </div>
               {getAppliedDiscount() > 0 && (
-                <div className="flex justify-between text-sm text-green-600">
+                <div className="flex justify-between text-sm text-forest-600">
                   <span>Bulk Discount ({getAppliedDiscount()}%):</span>
                   <span>-${(licenses.reduce((sum, l) => sum + (calculatePrice(l) * l.quantity), 0) * getAppliedDiscount() / 100).toFixed(2)}</span>
                 </div>
@@ -255,20 +255,20 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
           </div>
 
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center">
-              <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
-              <p className="text-sm text-red-700">{error}</p>
+            <div className="mt-4 p-3 bg-terracotta-50 border border-terracotta-200 rounded-md flex items-center">
+              <AlertCircle className="w-4 h-4 text-terracotta-600 mr-2" />
+              <p className="text-sm text-terracotta-700">{error}</p>
             </div>
           )}
         </div>
 
-        <div className="p-6 border-t border-gray-200 flex items-center justify-between">
+        <div className="p-6 border-t border-border/60 flex items-center justify-between">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setShowSummary(false)}
             disabled={submitting}
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+            className="px-4 py-2 border border-border/60 rounded-md hover:bg-paper disabled:opacity-50"
           >
             Back to Edit
           </motion.button>
@@ -280,7 +280,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                 whileTap={{ scale: 0.98 }}
                 onClick={onCancel}
                 disabled={submitting}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+                className="px-4 py-2 border border-border/60 rounded-md hover:bg-paper disabled:opacity-50"
               >
                 Cancel
               </motion.button>
@@ -291,7 +291,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
               whileTap={{ scale: 0.98 }}
               onClick={handleSubmit}
               disabled={submitting}
-              className="flex items-center space-x-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="flex items-center space-x-2 px-6 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -315,15 +315,15 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-lg max-w-6xl mx-auto"
+      className="bg-white rounded-md shadow-sm max-w-6xl mx-auto"
     >
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-border/60">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Bulk License Purchase</h2>
-            <p className="text-gray-600 mt-1">Purchase licenses for your team members</p>
+            <h2 className="text-xl font-bold text-charcoal">Bulk License Purchase</h2>
+            <p className="text-stone mt-1">Purchase licenses for your team members</p>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
+          <div className="flex items-center space-x-2 text-sm text-stone">
             <ShoppingCart className="w-4 h-4" />
             <span>{licenses.length} items</span>
             <span>•</span>
@@ -335,7 +335,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
       <div className="p-6">
         {/* Add License Section */}
         <div className="mb-6">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">Add Licenses</h3>
+          <h3 className="text-lg font-medium text-charcoal mb-4">Add Licenses</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {licenseTypes.map(type => (
               <motion.button
@@ -343,13 +343,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => addLicense(type.value as any)}
-                className="p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50 text-left"
+                className="p-4 border border-border/60 rounded-md hover:border-primary-300 hover:bg-primary-50 text-left"
               >
                 <div className="flex items-center mb-2">
                   <BookOpen className="w-5 h-5 text-primary-600 mr-2" />
-                  <span className="font-medium text-gray-900">{type.label}</span>
+                  <span className="font-medium text-charcoal">{type.label}</span>
                 </div>
-                <p className="text-sm text-gray-600">{type.description}</p>
+                <p className="text-sm text-stone">{type.description}</p>
               </motion.button>
             ))}
           </div>
@@ -358,7 +358,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
         {/* License Items */}
         {licenses.length > 0 && (
           <div className="mb-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">License Items</h3>
+            <h3 className="text-lg font-medium text-charcoal mb-4">License Items</h3>
             <div className="space-y-4">
               {licenses.map((license, index) => (
                 <motion.div
@@ -366,17 +366,17 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-lg p-4"
+                  className="bg-paper rounded-md p-4"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h4 className="font-medium text-gray-900 capitalize">
+                    <h4 className="font-medium text-charcoal capitalize">
                       {license.type.replace('_', ' ')} License
                     </h4>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => removeLicense(license.id)}
-                      className="text-red-500 hover:text-red-700"
+                      className="text-terracotta-500 hover:text-terracotta-700"
                     >
                       <Trash2 className="w-4 h-4" />
                     </motion.button>
@@ -386,13 +386,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                     {/* Course Selection */}
                     {license.type === 'course' && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-charcoal mb-1">
                           Course
                         </label>
                         <select
                           value={license.courseId || ''}
                           onChange={(e) => updateLicense(license.id, 'courseId', e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         >
                           <option value="">Select a course</option>
                           {availableCourses.map(course => (
@@ -406,7 +406,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
 
                     {/* Quantity */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-charcoal mb-1">
                         Quantity
                       </label>
                       <div className="flex items-center">
@@ -414,7 +414,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => updateLicense(license.id, 'quantity', Math.max(1, license.quantity - 1))}
-                          className="p-1 border border-gray-300 rounded-l-lg hover:bg-gray-100"
+                          className="p-1 border border-border/60 rounded-l-lg hover:bg-forest-100"
                         >
                           <Minus className="w-4 h-4" />
                         </motion.button>
@@ -424,13 +424,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                           max="1000"
                           value={license.quantity}
                           onChange={(e) => updateLicense(license.id, 'quantity', parseInt(e.target.value) || 1)}
-                          className="w-20 px-2 py-1 border-t border-b border-gray-300 text-center focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          className="w-20 px-2 py-1 border-t border-b border-border/60 text-center focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         />
                         <motion.button
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => updateLicense(license.id, 'quantity', Math.min(1000, license.quantity + 1))}
-                          className="p-1 border border-gray-300 rounded-r-lg hover:bg-gray-100"
+                          className="p-1 border border-border/60 rounded-r-lg hover:bg-forest-100"
                         >
                           <Plus className="w-4 h-4" />
                         </motion.button>
@@ -440,13 +440,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
                     {/* Duration */}
                     {license.type === 'subscription' && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-charcoal mb-1">
                           Duration
                         </label>
                         <select
                           value={license.durationMonths}
                           onChange={(e) => updateLicense(license.id, 'durationMonths', parseInt(e.target.value))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         >
                           <option value={3}>3 months</option>
                           <option value={6}>6 months</option>
@@ -458,13 +458,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
 
                     {/* Price */}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-charcoal mb-1">
                         Price
                       </label>
-                      <div className="text-lg font-bold text-gray-900">
+                      <div className="text-lg font-bold text-charcoal">
                         ${calculateTotalPrice(license).toFixed(2)}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-stone">
                         ${calculatePrice(license).toFixed(2)} × {license.quantity}
                       </div>
                     </div>
@@ -477,7 +477,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
 
         {/* Bulk Discount Info */}
         {getTotalQuantity() > 0 && (
-          <div className="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-lg">
+          <div className="mb-6 p-4 bg-primary-50 border border-primary-200 rounded-md">
             <div className="flex items-center mb-2">
               <TrendingUp className="w-5 h-5 text-primary-600 mr-2" />
               <h4 className="font-medium text-primary-900">Bulk Discount Applied</h4>
@@ -499,13 +499,13 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
         {licenses.length > 0 && (
           <div className="border-t pt-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Order Summary</h3>
+              <h3 className="text-lg font-medium text-charcoal">Order Summary</h3>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-charcoal">
                   ${calculateOrderTotal().toFixed(2)}
                 </div>
                 {getAppliedDiscount() > 0 && (
-                  <div className="text-sm text-green-600">
+                  <div className="text-sm text-forest-600">
                     {getAppliedDiscount()}% discount applied
                   </div>
                 )}
@@ -513,9 +513,9 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
             </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center">
-                <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
-                <p className="text-sm text-red-700">{error}</p>
+              <div className="mb-4 p-3 bg-terracotta-50 border border-terracotta-200 rounded-md flex items-center">
+                <AlertCircle className="w-4 h-4 text-terracotta-600 mr-2" />
+                <p className="text-sm text-terracotta-700">{error}</p>
               </div>
             )}
           </div>
@@ -523,7 +523,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
       </div>
 
       {/* Actions */}
-      <div className="p-6 border-t border-gray-200 flex items-center justify-between">
+      <div className="p-6 border-t border-border/60 flex items-center justify-between">
         <div>
           {onCancel && (
             <motion.button
@@ -531,7 +531,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
               whileTap={{ scale: 0.98 }}
               onClick={onCancel}
               disabled={submitting}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              className="px-4 py-2 border border-border/60 rounded-md hover:bg-paper disabled:opacity-50"
             >
               Cancel
             </motion.button>
@@ -545,7 +545,7 @@ export default function BulkLicensePurchase({ teamId, onSuccess, onCancel }: Bul
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowSummary(true)}
               disabled={submitting}
-              className="flex items-center space-x-2 px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+              className="flex items-center space-x-2 px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50"
             >
               <Calculator className="w-4 h-4" />
               <span>Review Order</span>

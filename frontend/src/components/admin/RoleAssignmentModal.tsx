@@ -56,13 +56,13 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+      <div className="bg-white rounded-md shadow-sm w-full max-w-md">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
-          <h3 className="text-lg font-semibold text-gray-900">Assign Role</h3>
+          <h3 className="text-lg font-semibold text-charcoal">Assign Role</h3>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md"
+            className="p-2 text-pewter hover:text-stone hover:bg-forest-100 rounded-md"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
@@ -71,17 +71,17 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
         {/* Content */}
         <div className="p-6">
           {/* User Info */}
-          <div className="flex items-center space-x-3 mb-6 p-4 bg-gray-50 rounded-lg">
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-              <UserIcon className="w-5 h-5 text-gray-600" />
+          <div className="flex items-center space-x-3 mb-6 p-4 bg-paper rounded-md">
+            <div className="w-10 h-10 bg-forest-100 rounded-full flex items-center justify-center">
+              <UserIcon className="w-5 h-5 text-stone" />
             </div>
             <div className="flex-1">
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-charcoal">
                 {user.firstName} {user.lastName}
               </p>
-              <p className="text-sm text-gray-500">{user.email}</p>
+              <p className="text-sm text-stone">{user.email}</p>
               {user.jobRole && (
-                <p className="text-xs text-blue-600 mt-1">
+                <p className="text-xs text-forest-600 mt-1">
                   Current role: {user.jobRole}
                 </p>
               )}
@@ -90,13 +90,13 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
 
           {/* Role Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-charcoal mb-2">
               Select New Role
             </label>
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Choose a role...</option>
               {ALL_ROLES.map((role) => (
@@ -114,9 +114,9 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
                 type="checkbox"
                 checked={notifyUser}
                 onChange={(e) => setNotifyUser(e.target.checked)}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-border/60 rounded"
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-charcoal">
                 Send notification to user about role assignment
               </span>
             </label>
@@ -124,12 +124,12 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
 
           {/* Role Description */}
           {selectedRole && (
-            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+            <div className="mb-6 p-4 bg-forest-50 rounded-md">
               <div className="flex items-start space-x-2">
-                <ShieldCheckIcon className="w-5 h-5 text-blue-600 mt-0.5" />
+                <ShieldCheckIcon className="w-5 h-5 text-forest-600 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium text-blue-900">Role: {selectedRole}</p>
-                  <p className="text-sm text-blue-700 mt-1">
+                  <p className="text-sm font-medium text-forest-900">Role: {selectedRole}</p>
+                  <p className="text-sm text-forest-700 mt-1">
                     This assignment will provide the user with access to role-specific learning paths and compliance requirements.
                   </p>
                 </div>
@@ -139,10 +139,10 @@ export default function RoleAssignmentModal({ user, onClose, onAssign }: RoleAss
         </div>
 
         {/* Actions */}
-        <div className="flex justify-end space-x-3 p-6 border-t bg-gray-50">
+        <div className="flex justify-end space-x-3 p-6 border-t bg-paper">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper"
             disabled={isAssigning}
           >
             Cancel

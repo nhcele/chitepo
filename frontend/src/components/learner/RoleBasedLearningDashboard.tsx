@@ -76,20 +76,20 @@ export default function RoleBasedLearningDashboard() {
   if (!learningPath) {
     return (
       <div className="text-center py-12">
-        <AcademicCapIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No Learning Path Available</h3>
-        <p className="text-gray-600">Please contact your administrator to set up your job role.</p>
+        <AcademicCapIcon className="h-16 w-16 text-pewter mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-charcoal mb-2">No Learning Path Available</h3>
+        <p className="text-stone">Please contact your administrator to set up your job role.</p>
       </div>
     );
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in_progress': return 'text-blue-600 bg-blue-100';
-      case 'not_started': return 'text-gray-600 bg-gray-100';
-      case 'overdue': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed': return 'text-forest-600 bg-forest-100';
+      case 'in_progress': return 'text-forest-600 bg-forest-100';
+      case 'not_started': return 'text-stone bg-forest-100';
+      case 'overdue': return 'text-terracotta-600 bg-terracotta-100';
+      default: return 'text-stone bg-forest-100';
     }
   };
 
@@ -107,7 +107,7 @@ export default function RoleBasedLearningDashboard() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-lg p-6 text-white">
+        <div className="bg-gradient-to-r from-primary-500 to-primary-700 rounded-md p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold mb-2">
@@ -129,9 +129,9 @@ export default function RoleBasedLearningDashboard() {
             </div>
             <div className="text-right">
               <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-medium ${
-                complianceStatus?.status === 'compliant' ? 'bg-green-100 text-green-800' :
-                complianceStatus?.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800'
+                complianceStatus?.status === 'compliant' ? 'bg-forest-100 text-forest-800' :
+                complianceStatus?.status === 'in_progress' ? 'bg-ochre-100 text-ochre-800' :
+                'bg-terracotta-100 text-terracotta-800'
               }`}>
                 {complianceStatus?.status === 'compliant' ? '✓ Compliant' :
                  complianceStatus?.status === 'in_progress' ? '⏳ In Progress' :
@@ -143,7 +143,7 @@ export default function RoleBasedLearningDashboard() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-200 mb-8">
+      <div className="border-b border-border/60 mb-8">
         <nav className="-mb-px flex space-x-8">
           {[
             { id: 'path', name: 'Learning Path', icon: AcademicCapIcon },
@@ -156,7 +156,7 @@ export default function RoleBasedLearningDashboard() {
               className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === tab.id
                   ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
               }`}
             >
               <tab.icon className="mr-2 h-5 w-5" />
@@ -174,17 +174,17 @@ export default function RoleBasedLearningDashboard() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-lg"
+              className="bg-forest-50 border-l-4 border-forest-400 p-6 rounded-md"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-blue-900 mb-2">Next Recommended Course</h3>
-                  <p className="text-blue-800 font-medium">{learningPath.learningPath.nextRecommendedCourse.title}</p>
-                  <p className="text-blue-600 text-sm mt-1">
+                  <h3 className="text-lg font-semibold text-forest-900 mb-2">Next Recommended Course</h3>
+                  <p className="text-forest-800 font-medium">{learningPath.learningPath.nextRecommendedCourse.title}</p>
+                  <p className="text-forest-600 text-sm mt-1">
                     Priority: {learningPath.learningPath.nextRecommendedCourse.priority}
                   </p>
                 </div>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <button className="bg-forest-600 text-white px-4 py-2 rounded-md hover:bg-forest-700 transition-colors">
                   Start Learning
                 </button>
               </div>
@@ -193,7 +193,7 @@ export default function RoleBasedLearningDashboard() {
 
           {/* Required Courses */}
           <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Required Courses</h3>
+            <h3 className="text-xl font-bold text-charcoal mb-4">Required Courses</h3>
             <div className="grid gap-4">
               {learningPath.learningPath.requiredCourses.map((course, index) => {
                 const StatusIcon = getStatusIcon(course.status);
@@ -203,14 +203,14 @@ export default function RoleBasedLearningDashboard() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                    className="bg-white border border-border/60 rounded-md p-4 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <StatusIcon className={`h-6 w-6 ${getStatusColor(course.status).split(' ')[0]}`} />
                         <div>
-                          <h4 className="font-semibold text-gray-900">{course.title}</h4>
-                          <p className="text-sm text-gray-600">
+                          <h4 className="font-semibold text-charcoal">{course.title}</h4>
+                          <p className="text-sm text-stone">
                             {course.status === 'completed' ? `Completed on ${new Date(course.completedAt).toLocaleDateString()}` :
                              course.status === 'in_progress' ? `Started on ${new Date(course.enrollmentDate).toLocaleDateString()}` :
                              'Not started'}
@@ -219,11 +219,11 @@ export default function RoleBasedLearningDashboard() {
                       </div>
                       <div className="flex items-center gap-2">
                         {course.deadlineDays && (
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-stone">
                             Due: {course.deadlineDays} days after hire
                           </span>
                         )}
-                        <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                        <button className="px-3 py-1 text-sm border border-border/60 rounded-md hover:bg-paper">
                           {course.status === 'completed' ? 'Review' : 
                            course.status === 'in_progress' ? 'Continue' : 'Start'}
                         </button>
@@ -238,7 +238,7 @@ export default function RoleBasedLearningDashboard() {
           {/* Recommended Courses */}
           {learningPath.learningPath.recommendedCourses.length > 0 && (
             <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Recommended Courses</h3>
+              <h3 className="text-xl font-bold text-charcoal mb-4">Recommended Courses</h3>
               <div className="grid gap-4">
                 {learningPath.learningPath.recommendedCourses.map((course, index) => (
                   <motion.div
@@ -246,14 +246,14 @@ export default function RoleBasedLearningDashboard() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 + 0.2 }}
-                    className="bg-gray-50 border border-gray-200 rounded-lg p-4"
+                    className="bg-paper border border-border/60 rounded-md p-4"
                   >
                     <div className="flex items-center justify-between">
                       <div>
-                        <h4 className="font-semibold text-gray-900">{course.title}</h4>
-                        <p className="text-sm text-gray-600">Recommended for your career development</p>
+                        <h4 className="font-semibold text-charcoal">{course.title}</h4>
+                        <p className="text-sm text-stone">Recommended for your career development</p>
                       </div>
-                      <button className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-100">
+                      <button className="px-3 py-1 text-sm border border-border/60 rounded-md hover:bg-forest-100">
                         View Details
                       </button>
                     </div>
@@ -269,43 +269,43 @@ export default function RoleBasedLearningDashboard() {
       {activeTab === 'compliance' && complianceStatus && (
         <div className="space-y-6">
           {/* Compliance Summary */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Compliance Overview</h3>
+          <div className="bg-white border border-border/60 rounded-md p-6">
+            <h3 className="text-lg font-semibold text-charcoal mb-4">Compliance Overview</h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="text-center">
                 <div className={`text-2xl font-bold ${
-                  complianceStatus.complianceScore >= 90 ? 'text-green-600' :
-                  complianceStatus.complianceScore >= 70 ? 'text-yellow-600' :
-                  'text-red-600'
+                  complianceStatus.complianceScore >= 90 ? 'text-forest-600' :
+                  complianceStatus.complianceScore >= 70 ? 'text-ochre-600' :
+                  'text-terracotta-600'
                 }`}>
                   {complianceStatus.complianceScore}%
                 </div>
-                <div className="text-sm text-gray-600">Compliance Score</div>
+                <div className="text-sm text-stone">Compliance Score</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-forest-600">
                   {complianceStatus.summary.completed}
                 </div>
-                <div className="text-sm text-gray-600">Completed</div>
+                <div className="text-sm text-stone">Completed</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-yellow-600">
+                <div className="text-2xl font-bold text-ochre-600">
                   {complianceStatus.summary.pending}
                 </div>
-                <div className="text-sm text-gray-600">In Progress</div>
+                <div className="text-sm text-stone">In Progress</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">
+                <div className="text-2xl font-bold text-terracotta-600">
                   {complianceStatus.summary.overdue}
                 </div>
-                <div className="text-sm text-gray-600">Overdue</div>
+                <div className="text-sm text-stone">Overdue</div>
               </div>
             </div>
           </div>
 
           {/* Compliance Items */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Compliance Requirements</h3>
+            <h3 className="text-lg font-semibold text-charcoal mb-4">Compliance Requirements</h3>
             <div className="space-y-3">
               {complianceStatus.complianceItems.map((item: any, index: number) => (
                 <motion.div
@@ -313,35 +313,35 @@ export default function RoleBasedLearningDashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`border rounded-lg p-4 ${
-                    item.isOverdue ? 'border-red-200 bg-red-50' :
-                    item.isCompleted ? 'border-green-200 bg-green-50' :
-                    'border-gray-200 bg-white'
+                  className={`border rounded-md p-4 ${
+                    item.isOverdue ? 'border-terracotta-200 bg-terracotta-50' :
+                    item.isCompleted ? 'border-forest-200 bg-forest-50' :
+                    'border-border/60 bg-white'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-semibold text-gray-900">{item.courseTitle}</h4>
-                      <p className="text-sm text-gray-600">
+                      <h4 className="font-semibold text-charcoal">{item.courseTitle}</h4>
+                      <p className="text-sm text-stone">
                         Due: {item.dueDate.toLocaleDateString()} ({item.daysUntilDue} days remaining)
                       </p>
                       {item.isRecurring && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-forest-100 text-forest-800 mt-1">
                           Recurring Requirement
                         </span>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
                       {item.isCompleted ? (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-forest-100 text-forest-800">
                           ✓ Completed
                         </span>
                       ) : item.isOverdue ? (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-terracotta-100 text-terracotta-800">
                           ⚠️ Overdue
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-ochre-100 text-ochre-800">
                           ⏳ Pending
                         </span>
                       )}
@@ -357,11 +357,11 @@ export default function RoleBasedLearningDashboard() {
       {/* Progress Analytics Tab */}
       {activeTab === 'progress' && (
         <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Analytics</h3>
+          <div className="bg-white border border-border/60 rounded-md p-6">
+            <h3 className="text-lg font-semibold text-charcoal mb-4">Progress Analytics</h3>
             <div className="text-center py-8">
-              <ChartBarIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">Detailed analytics coming soon...</p>
+              <ChartBarIcon className="h-16 w-16 text-pewter mx-auto mb-4" />
+              <p className="text-stone">Detailed analytics coming soon...</p>
             </div>
           </div>
         </div>

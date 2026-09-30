@@ -140,8 +140,8 @@ async function printSeedSummary(dataSource: DataSource) {
     console.log(`   🏆 Certificates: ${certificateCount[0]?.count || 0}`);
     console.log(`   📈 Analytics Events: ${analyticsCount[0]?.count || 0}`);
     console.log('\n🔑 Test Accounts:');
-    console.log('   Admin: admin@mindelta.com');
-    console.log('   Instructor: instructor@mindelta.com');
+    console.log('   Admin: admin@chitepo.co.zw');
+    console.log('   Instructor: simbarashe.mumbengegwi@chitepo.co.zw');
     console.log('   Learner: alice.wilson@example.com');
     console.log('\n🚀 Development environment is ready!');
     

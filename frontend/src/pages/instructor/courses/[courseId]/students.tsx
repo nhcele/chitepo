@@ -16,7 +16,7 @@ export default function CourseStudentsPage() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600"></div>
         </div>
       </Layout>
     );
@@ -26,7 +26,7 @@ export default function CourseStudentsPage() {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-gray-500">Invalid course ID</p>
+          <p className="text-stone">Invalid course ID</p>
         </div>
       </Layout>
     );

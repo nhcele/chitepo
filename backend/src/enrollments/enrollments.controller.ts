@@ -64,11 +64,32 @@ export class EnrollmentsController {
   async updateProgress(
     @Param('id') enrollmentId: string,
     @Req() req: any,
-    @Body() body: { progressPercent: number; lastLessonSeenAt?: string },
+    @Body() body: { lastLessonSeenAt?: string },
   ) {
     const userId = req.user?.id;
-    const { progressPercent, lastLessonSeenAt } = body;
-    const lastSeen = lastLessonSeenAt ? new Date(lastLessonSeenAt) : undefined;
-    return this.enrollmentsService.updateProgress(enrollmentId, userId, progressPercent, lastSeen);
+    const lastSeen = body.lastLessonSeenAt ? new Date(body.lastLessonSeenAt) : undefined;
+    return this.enrollmentsService.updateProgress(enrollmentId, userId, lastSeen);
+  }
+
+  // GET /me/enrollments/:id/continue
+  @Get('me/enrollments/:id/continue')
+  @UseGuards(JwtAuthGuard)
+  async getContinuePoint(@Param('id') enrollmentId: string, @Req() req: any) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+    }
+    try {
+      return await this.enrollmentsService.getContinuePoint(userId, enrollmentId);
+    } catch (error: any) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      console.error('Continue point error:', error);
+      throw new HttpException(
+        error?.message || 'Failed to retrieve continue point',
+        error?.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

@@ -203,6 +203,9 @@ export class ForumsService {
   async getPosts(forumId: string, filters?: {
     parentId?: string | null;
     authorId?: string;
+    q?: string;
+    sort?: 'new' | 'top' | 'active';
+    tag?: string;
     limit?: number;
     offset?: number;
   }): Promise<ForumPost[]> {
@@ -211,8 +214,18 @@ export class ForumsService {
       .where('post.forumId = :forumId', { forumId })
       .leftJoinAndSelect('post.author', 'author')
       .leftJoinAndSelect('post.likes', 'likes')
-      .orderBy('post.isPinned', 'DESC')
-      .addOrderBy('post.createdAt', 'DESC');
+      .orderBy('post.isPinned', 'DESC');
+
+    switch (filters?.sort) {
+      case 'top':
+        query.addOrderBy('post.likeCount', 'DESC').addOrderBy('post.createdAt', 'DESC');
+        break;
+      case 'active':
+        query.addOrderBy('post.replyCount', 'DESC').addOrderBy('post.updatedAt', 'DESC');
+        break;
+      default:
+        query.addOrderBy('post.createdAt', 'DESC');
+    }
 
     if (filters?.parentId !== undefined) {
       query.andWhere('post.parentId = :parentId', { parentId: filters.parentId });
@@ -222,6 +235,16 @@ export class ForumsService {
 
     if (filters?.authorId) {
       query.andWhere('post.authorId = :authorId', { authorId: filters.authorId });
+    }
+
+    if (filters?.q && filters.q.trim()) {
+      const q = `%${filters.q.trim()}%`;
+      query.andWhere('(post.title LIKE :q OR post.content LIKE :q)', { q });
+    }
+
+    if (filters?.tag && filters.tag.trim()) {
+      // tags is a json array column — match the JSON text representation
+      query.andWhere('post.tags LIKE :tag', { tag: `%"${filters.tag.trim()}"%` });
     }
 
     if (filters?.limit) {
@@ -307,6 +330,45 @@ export class ForumsService {
 
     await this.postRepository.remove(post);
     await this.updateForumStats(post.forumId);
+  }
+
+  async canModerate(forumId: string, userId: string, userRole?: string): Promise<boolean> {
+    if (userRole === 'admin' || userRole === 'super_admin') return true;
+    const member = await this.memberRepository.findOne({
+      where: { forumId, userId },
+    });
+    return member?.role === 'moderator' || member?.role === 'admin';
+  }
+
+  async setPostFlag(
+    postId: string,
+    flag: 'isPinned' | 'isLocked',
+    value: boolean,
+    userId: string,
+    userRole?: string,
+  ): Promise<ForumPost> {
+    const post = await this.postRepository.findOne({ where: { id: postId } });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const allowed = await this.canModerate(post.forumId, userId, userRole);
+    if (!allowed) {
+      throw new HttpException(
+        'Only forum moderators or admins can perform this action',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+
+    post[flag] = value;
+    return this.postRepository.save(post);
+  }
+
+  async isMember(forumId: string, userId: string): Promise<boolean> {
+    const member = await this.memberRepository.findOne({
+      where: { forumId, userId },
+    });
+    return !!member;
   }
 
   // ========== Member Management ==========

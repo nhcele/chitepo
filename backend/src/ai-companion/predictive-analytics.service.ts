@@ -4,8 +4,8 @@ import { OpenAI } from 'openai';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
@@ -77,7 +77,7 @@ export class PredictiveAnalyticsService {
     private configService: ConfigService,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     @InjectRepository(Enrollment) private readonly enrollmentRepo: Repository<Enrollment>,
-    @InjectRepository(Progress) private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress) private readonly progressRepo: Repository<LessonProgress>,
     @InjectRepository(QuizAttempt) private readonly attemptRepo: Repository<QuizAttempt>,
     @Inject(CACHE_MANAGER) private cache: Cache,
   ) {
@@ -108,7 +108,7 @@ export class PredictiveAnalyticsService {
       throw new Error('Enrollment not found');
     }
 
-    const progress = await this.progressRepo.findOne({
+    const progressRecords = await this.progressRepo.find({
       where: { userId, courseId }
     });
 
@@ -122,17 +122,21 @@ export class PredictiveAnalyticsService {
     const daysSinceEnrollment = Math.floor(
       (Date.now() - enrollment.enrolledAt.getTime()) / (1000 * 60 * 60 * 24)
     );
-    
-    const daysSinceLastAccess = progress?.lastAccessed
-      ? Math.floor((Date.now() - progress.lastAccessed.getTime()) / (1000 * 60 * 60 * 24))
+
+    const lastAccessedAt = progressRecords.length
+      ? new Date(Math.max(...progressRecords.map(p => p.updatedAt?.getTime() || 0)))
+      : null;
+    const daysSinceLastAccess = lastAccessedAt
+      ? Math.floor((Date.now() - lastAccessedAt.getTime()) / (1000 * 60 * 60 * 24))
       : daysSinceEnrollment;
 
-    const completionRate = progress?.completed ? 100 : (progress?.score || 0);
+    // Course-level completion is authoritative on the enrollment record.
+    const completionRate = enrollment.progressPercentage || 0;
     const avgQuizScore = quizAttempts.length > 0
       ? quizAttempts.reduce((sum, a) => sum + a.score, 0) / quizAttempts.length
       : 0;
 
-    const watchTime = progress?.watchTime || 0;
+    const watchTime = progressRecords.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0);
     const totalLessons = enrollment.course?.modules?.reduce(
       (sum, m) => sum + (m.lessons?.length || 0), 0
     ) || 1;
@@ -290,9 +294,9 @@ export class PredictiveAnalyticsService {
     let riskScore = 0;
 
     // Engagement risk
-    const recentActivity = progressRecords.filter(p => 
-      p.lastAccessed && 
-      (Date.now() - p.lastAccessed.getTime()) < 7 * 24 * 60 * 60 * 1000
+    const recentActivity = progressRecords.filter(p =>
+      p.updatedAt &&
+      (Date.now() - p.updatedAt.getTime()) < 7 * 24 * 60 * 60 * 1000
     ).length;
 
     if (recentActivity === 0 && enrollments.length > 0) {
@@ -356,12 +360,12 @@ export class PredictiveAnalyticsService {
 
     // Motivation risk (declining engagement pattern)
     const sortedProgress = progressRecords
-      .filter(p => p.lastAccessed)
-      .sort((a, b) => b.lastAccessed!.getTime() - a.lastAccessed!.getTime());
+      .filter(p => p.updatedAt)
+      .sort((a, b) => b.updatedAt!.getTime() - a.updatedAt!.getTime());
 
     if (sortedProgress.length >= 3) {
-      const recentGap = sortedProgress[0].lastAccessed!.getTime() - sortedProgress[1].lastAccessed!.getTime();
-      const olderGap = sortedProgress[1].lastAccessed!.getTime() - sortedProgress[2].lastAccessed!.getTime();
+      const recentGap = sortedProgress[0].updatedAt!.getTime() - sortedProgress[1].updatedAt!.getTime();
+      const olderGap = sortedProgress[1].updatedAt!.getTime() - sortedProgress[2].updatedAt!.getTime();
       
       if (recentGap > olderGap * 2) {
         riskScore += 20;
@@ -405,7 +409,7 @@ export class PredictiveAnalyticsService {
   ): Promise<SkillMasteryForecast> {
     const progressRecords = await this.progressRepo.find({
       where: { userId },
-      order: { lastAccessed: 'DESC' }
+      order: { updatedAt: 'DESC' }
     });
 
     const quizAttempts = await this.attemptRepo.find({
@@ -481,10 +485,6 @@ export class PredictiveAnalyticsService {
       throw new Error('Enrollment not found');
     }
 
-    const progress = await this.progressRepo.findOne({
-      where: { userId, courseId }
-    });
-
     const daysUntilTarget = Math.ceil(
       (targetCompletionDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
     );
@@ -493,7 +493,7 @@ export class PredictiveAnalyticsService {
       (sum, m) => sum + (m.lessons?.length || 0), 0
     ) || 0;
 
-    const completionRate = progress?.score || 0;
+    const completionRate = enrollment.progressPercentage || 0;
     const remainingLessons = Math.ceil(totalLessons * (1 - completionRate / 100));
 
     const lessonsPerDay = Math.ceil(remainingLessons / Math.max(1, daysUntilTarget));

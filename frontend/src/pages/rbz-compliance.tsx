@@ -102,26 +102,26 @@ export default function RBZComplianceDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'excellent':
-        return 'bg-green-100 text-green-800 border-green-300';
+        return 'bg-forest-100 text-forest-800 border-forest-300';
       case 'good':
-        return 'bg-blue-100 text-blue-800 border-blue-300';
+        return 'bg-forest-100 text-forest-800 border-forest-300';
       case 'warning':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-300';
+        return 'bg-ochre-100 text-ochre-800 border-ochre-300';
       case 'critical':
-        return 'bg-red-100 text-red-800 border-red-300';
+        return 'bg-terracotta-100 text-terracotta-800 border-terracotta-300';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-300';
+        return 'bg-forest-100 text-charcoal border-border/60';
     }
   };
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
       case 'critical':
-        return <XCircleIcon className="h-5 w-5 text-red-600" />;
+        return <XCircleIcon className="h-5 w-5 text-terracotta-600" />;
       case 'warning':
-        return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-600" />;
+        return <ExclamationTriangleIcon className="h-5 w-5 text-ochre-600" />;
       default:
-        return <BellAlertIcon className="h-5 w-5 text-blue-600" />;
+        return <BellAlertIcon className="h-5 w-5 text-forest-600" />;
     }
   };
 
@@ -136,69 +136,69 @@ export default function RBZComplianceDashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">RBZ Compliance Dashboard</h1>
-            <p className="text-gray-600">Real-time tracking of mandatory training compliance across all roles</p>
+            <h1 className="text-3xl font-bold text-charcoal mb-2">RBZ Compliance Dashboard</h1>
+            <p className="text-stone">Real-time tracking of mandatory training compliance across all roles</p>
           </div>
 
           {/* Overall Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+            <div className="bg-white rounded-md shadow-sm p-6 border-l-4 border-forest-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Overall Compliance</p>
-                  <p className="text-3xl font-bold text-gray-900">{complianceStats.overallCompliance}%</p>
+                  <p className="text-sm text-stone mb-1">Overall Compliance</p>
+                  <p className="text-3xl font-bold text-charcoal">{complianceStats.overallCompliance}%</p>
                 </div>
-                <ShieldCheckIcon className="h-12 w-12 text-green-500" />
+                <ShieldCheckIcon className="h-12 w-12 text-forest-500" />
               </div>
               <div className="mt-4">
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-forest-100 rounded-full h-2">
                   <div
-                    className="bg-green-500 h-2 rounded-full"
+                    className="bg-forest-500 h-2 rounded-full"
                     style={{ width: `${complianceStats.overallCompliance}%` }}
                   ></div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+            <div className="bg-white rounded-md shadow-sm p-6 border-l-4 border-forest-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Compliant Staff</p>
-                  <p className="text-3xl font-bold text-gray-900">{complianceStats.compliantEmployees}</p>
-                  <p className="text-xs text-gray-500">of {complianceStats.totalEmployees} total</p>
+                  <p className="text-sm text-stone mb-1">Compliant Staff</p>
+                  <p className="text-3xl font-bold text-charcoal">{complianceStats.compliantEmployees}</p>
+                  <p className="text-xs text-stone">of {complianceStats.totalEmployees} total</p>
                 </div>
-                <CheckCircleIcon className="h-12 w-12 text-blue-500" />
+                <CheckCircleIcon className="h-12 w-12 text-forest-500" />
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+            <div className="bg-white rounded-md shadow-sm p-6 border-l-4 border-ochre-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Upcoming Deadlines</p>
-                  <p className="text-3xl font-bold text-gray-900">{complianceStats.upcomingDeadlines}</p>
-                  <p className="text-xs text-gray-500">next 30 days</p>
+                  <p className="text-sm text-stone mb-1">Upcoming Deadlines</p>
+                  <p className="text-3xl font-bold text-charcoal">{complianceStats.upcomingDeadlines}</p>
+                  <p className="text-xs text-stone">next 30 days</p>
                 </div>
-                <ClockIcon className="h-12 w-12 text-yellow-500" />
+                <ClockIcon className="h-12 w-12 text-ochre-500" />
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+            <div className="bg-white rounded-md shadow-sm p-6 border-l-4 border-terracotta-500">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Critical Alerts</p>
-                  <p className="text-3xl font-bold text-gray-900">{complianceStats.criticalAlerts}</p>
-                  <p className="text-xs text-gray-500">requires action</p>
+                  <p className="text-sm text-stone mb-1">Critical Alerts</p>
+                  <p className="text-3xl font-bold text-charcoal">{complianceStats.criticalAlerts}</p>
+                  <p className="text-xs text-stone">requires action</p>
                 </div>
-                <ExclamationTriangleIcon className="h-12 w-12 text-red-500" />
+                <ExclamationTriangleIcon className="h-12 w-12 text-terracotta-500" />
               </div>
             </div>
           </div>
 
           {/* Critical Alerts */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="bg-white rounded-md shadow-sm p-6 mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center">
-                <BellAlertIcon className="h-6 w-6 mr-2 text-red-600" />
+              <h2 className="text-xl font-bold text-charcoal flex items-center">
+                <BellAlertIcon className="h-6 w-6 mr-2 text-terracotta-600" />
                 Critical Alerts
               </h2>
               <button className="text-sm text-primary-600 hover:text-primary-700 font-semibold">
@@ -209,23 +209,23 @@ export default function RBZComplianceDashboard() {
               {criticalAlerts.map((alert) => (
                 <div
                   key={alert.id}
-                  className={`p-4 rounded-lg border-l-4 ${
+                  className={`p-4 rounded-md border-l-4 ${
                     alert.severity === 'critical'
-                      ? 'bg-red-50 border-red-500'
+                      ? 'bg-terracotta-50 border-terracotta-500'
                       : alert.severity === 'warning'
-                      ? 'bg-yellow-50 border-yellow-500'
-                      : 'bg-blue-50 border-blue-500'
+                      ? 'bg-ochre-50 border-ochre-500'
+                      : 'bg-forest-50 border-forest-500'
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start">
                       {getSeverityIcon(alert.severity)}
                       <div className="ml-3">
-                        <p className="font-semibold text-gray-900">{alert.type}</p>
-                        <p className="text-sm text-gray-700 mt-1">{alert.message}</p>
+                        <p className="font-semibold text-charcoal">{alert.type}</p>
+                        <p className="text-sm text-charcoal mt-1">{alert.message}</p>
                       </div>
                     </div>
-                    <button className="text-sm bg-white px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 font-medium">
+                    <button className="text-sm bg-white px-4 py-2 rounded-md border border-border/60 hover:bg-paper font-medium">
                       {alert.action}
                     </button>
                   </div>
@@ -235,70 +235,70 @@ export default function RBZComplianceDashboard() {
           </div>
 
           {/* Role-Based Compliance */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="bg-white rounded-md shadow-sm p-6 mb-8">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center">
+              <h2 className="text-xl font-bold text-charcoal flex items-center">
                 <UserGroupIcon className="h-6 w-6 mr-2 text-primary-600" />
                 Compliance by Role
               </h2>
-              <button className="flex items-center text-sm bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 font-semibold">
+              <button className="flex items-center text-sm bg-primary-600 text-white px-4 py-2 rounded-md hover:bg-primary-700 font-semibold">
                 <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
                 Export RBZ Report
               </button>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-border/60">
+                <thead className="bg-paper">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Total Staff
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Compliant
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Compliance Rate
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Action
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-border/60">
                   {roleComplianceData.map((roleData) => (
-                    <tr key={roleData.role} className="hover:bg-gray-50">
+                    <tr key={roleData.role} className="hover:bg-paper">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{roleData.role}</div>
+                        <div className="text-sm font-medium text-charcoal">{roleData.role}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{roleData.total}</div>
+                        <div className="text-sm text-charcoal">{roleData.total}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-charcoal">
                           {roleData.compliant} / {roleData.total}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-3">
+                          <div className="w-24 bg-forest-100 rounded-full h-2 mr-3">
                             <div
                               className={`h-2 rounded-full ${
                                 roleData.percentage >= 90
-                                  ? 'bg-green-500'
+                                  ? 'bg-forest-500'
                                   : roleData.percentage >= 75
-                                  ? 'bg-blue-500'
-                                  : 'bg-yellow-500'
+                                  ? 'bg-forest-500'
+                                  : 'bg-ochre-500'
                               }`}
                               style={{ width: `${roleData.percentage}%` }}
                             ></div>
                           </div>
-                          <span className="text-sm font-semibold text-gray-900">{roleData.percentage}%</span>
+                          <span className="text-sm font-semibold text-charcoal">{roleData.percentage}%</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -332,42 +332,42 @@ export default function RBZComplianceDashboard() {
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Upcoming Deadlines */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                <ClockIcon className="h-6 w-6 mr-2 text-yellow-600" />
+            <div className="bg-white rounded-md shadow-sm p-6">
+              <h2 className="text-xl font-bold text-charcoal mb-4 flex items-center">
+                <ClockIcon className="h-6 w-6 mr-2 text-ochre-600" />
                 Upcoming Deadlines (30 Days)
               </h2>
               <div className="space-y-4">
                 {upcomingDeadlines.map((deadline) => (
                   <div
                     key={deadline.id}
-                    className={`p-4 rounded-lg border ${
+                    className={`p-4 rounded-md border ${
                       deadline.status === 'critical'
-                        ? 'bg-red-50 border-red-200'
+                        ? 'bg-terracotta-50 border-terracotta-200'
                         : deadline.status === 'warning'
-                        ? 'bg-yellow-50 border-yellow-200'
-                        : 'bg-green-50 border-green-200'
+                        ? 'bg-ochre-50 border-ochre-200'
+                        : 'bg-forest-50 border-forest-200'
                     }`}
                   >
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{deadline.employee}</p>
-                        <p className="text-sm text-gray-600">{deadline.role}</p>
+                        <p className="font-semibold text-charcoal">{deadline.employee}</p>
+                        <p className="text-sm text-stone">{deadline.role}</p>
                       </div>
                       <span
                         className={`text-xs font-bold px-2 py-1 rounded ${
                           deadline.status === 'critical'
-                            ? 'bg-red-200 text-red-800'
+                            ? 'bg-terracotta-200 text-terracotta-800'
                             : deadline.status === 'warning'
-                            ? 'bg-yellow-200 text-yellow-800'
-                            : 'bg-green-200 text-green-800'
+                            ? 'bg-ochre-200 text-ochre-800'
+                            : 'bg-forest-200 text-forest-800'
                         }`}
                       >
                         {deadline.daysLeft} days left
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700 mb-2">{deadline.course}</p>
-                    <p className="text-xs text-gray-500">Deadline: {deadline.deadline}</p>
+                    <p className="text-sm text-charcoal mb-2">{deadline.course}</p>
+                    <p className="text-xs text-stone">Deadline: {deadline.deadline}</p>
                   </div>
                 ))}
               </div>
@@ -377,25 +377,25 @@ export default function RBZComplianceDashboard() {
             </div>
 
             {/* Recent Certifications */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-                <CheckCircleIcon className="h-6 w-6 mr-2 text-green-600" />
+            <div className="bg-white rounded-md shadow-sm p-6">
+              <h2 className="text-xl font-bold text-charcoal mb-4 flex items-center">
+                <CheckCircleIcon className="h-6 w-6 mr-2 text-forest-600" />
                 Recent Certifications
               </h2>
               <div className="space-y-4">
                 {recentCertifications.map((cert, idx) => (
-                  <div key={idx} className="p-4 bg-green-50 rounded-lg border border-green-200">
+                  <div key={idx} className="p-4 bg-forest-50 rounded-md border border-forest-200">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{cert.employee}</p>
-                        <p className="text-sm text-gray-600">{cert.role}</p>
+                        <p className="font-semibold text-charcoal">{cert.employee}</p>
+                        <p className="text-sm text-stone">{cert.role}</p>
                       </div>
-                      <span className="text-xs font-bold px-2 py-1 rounded bg-green-200 text-green-800">
+                      <span className="text-xs font-bold px-2 py-1 rounded bg-forest-200 text-forest-800">
                         Score: {cert.score}%
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700 mb-1">{cert.course}</p>
-                    <p className="text-xs text-gray-500">Completed: {cert.date}</p>
+                    <p className="text-sm text-charcoal mb-1">{cert.course}</p>
+                    <p className="text-xs text-stone">Completed: {cert.date}</p>
                   </div>
                 ))}
               </div>
@@ -406,7 +406,7 @@ export default function RBZComplianceDashboard() {
           </div>
 
           {/* RBZ Audit Report Section */}
-          <div className="mt-8 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg shadow-lg p-8 text-white">
+          <div className="mt-8 bg-gradient-to-r from-primary-600 to-primary-700 rounded-md shadow-sm p-8 text-white">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-2">Generate RBZ Audit Report</h2>
@@ -414,7 +414,7 @@ export default function RBZComplianceDashboard() {
                   One-click compliance report with 5-year training records, completion rates, and certificates
                 </p>
               </div>
-              <button className="bg-white text-primary-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center">
+              <button className="bg-white text-primary-600 px-6 py-3 rounded-md font-semibold hover:bg-forest-100 transition-colors flex items-center">
                 <DocumentTextIcon className="h-5 w-5 mr-2" />
                 Generate Report
               </button>

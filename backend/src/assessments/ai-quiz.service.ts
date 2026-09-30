@@ -100,6 +100,13 @@ export class AIQuizService {
   /**
    * Generate quiz questions using AI based on lesson content
    */
+  getProvenance() {
+    return {
+      provider: this.provider,
+      model: this.model,
+    };
+  }
+
   async generateAdaptiveQuiz(options: AIQuizGenerationOptions): Promise<any[]> {
     if (!this.openai) {
       throw new Error('AI quiz generation is not configured');

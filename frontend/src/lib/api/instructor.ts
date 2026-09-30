@@ -14,9 +14,11 @@ export interface Paginated<T> { items: T[]; total: number }
 export interface ModuleDTO {
   id: string;
   title: string;
+  summary?: string;
   description?: string;
   thumbnail?: string;
   estimated_duration_min?: number;
+  estimatedDurationMin?: number;
   tags?: string[];
   author_id?: string;
   visibility?: 'public' | 'private' | 'shared';

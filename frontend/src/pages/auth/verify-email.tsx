@@ -38,11 +38,11 @@ export default function VerifyEmailPage() {
         <title>Verify Email - Chitepo School of Ideology</title>
       </Head>
       <Layout>
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-paper flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 text-center">
-              <h2 className="text-2xl font-bold text-gray-900">Email verification</h2>
-              <p className={`mt-4 text-sm ${status === 'success' ? 'text-green-700' : status === 'error' ? 'text-red-700' : 'text-gray-600'}`}>
+            <div className="bg-white py-8 px-4 shadow sm:rounded-md sm:px-10 text-center">
+              <h2 className="text-2xl font-bold text-charcoal">Email verification</h2>
+              <p className={`mt-4 text-sm ${status === 'success' ? 'text-forest-700' : status === 'error' ? 'text-terracotta-700' : 'text-stone'}`}>
                 {status === 'verifying' || status === 'pending' ? 'Verifying your email…' : message}
               </p>
               {(status === 'success' || status === 'error') && (

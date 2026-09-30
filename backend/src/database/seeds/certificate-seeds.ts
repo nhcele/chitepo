@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { Certificate } from '../../certificates/entities/certificate.entity';
-import { Enrollment } from '../../courses/entities/enrollment.entity';
+import { Enrollment } from '../../enrollments/entities/enrollment.entity';
 import { Course } from '../../courses/entities/course.entity';
 
 export async function seedCertificates(dataSource: DataSource) {

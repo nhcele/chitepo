@@ -49,9 +49,9 @@ describe('CourseCard Component', () => {
 
   it('renders as a link to course details', () => {
     render(<CourseCard course={mockCourse} />)
-    
-    const link = screen.getByRole('link')
-    expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/courses/1')
+
+    const links = screen.getAllByRole('link')
+    expect(links.length).toBeGreaterThan(0)
+    expect(links[0]).toHaveAttribute('href', '/courses/1')
   })
 })

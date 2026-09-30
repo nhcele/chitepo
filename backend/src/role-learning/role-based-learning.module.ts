@@ -6,7 +6,7 @@ import { LearningPathManagementController } from './learning-path-management.con
 import { LearningPathManagementService } from './learning-path-management.service';
 import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { UserTrackAssignment } from '../tracks/entities/user-track-assignment.entity';
 import { TracksModule } from '../tracks/tracks.module';
 

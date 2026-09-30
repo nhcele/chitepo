@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DiasporaImpactController } from './diaspora-impact.controller';
 import { DiasporaImpactService } from './diaspora-impact.service';
 import { User } from '../users/entities/user.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { Certificate } from '../certificates/entities/certificate.entity';
 import { CohortEnrollment } from '../cohorts/entities/training-cohort.entity';
 

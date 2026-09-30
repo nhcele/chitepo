@@ -5,26 +5,26 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import {
   PlayIcon,
-  ClockIcon,
-  CheckCircleIcon,
-  BookmarkIcon,
-  CalendarIcon,
-  TrophyIcon,
-  FireIcon,
-  ChartBarIcon
+  ArrowRightIcon,
+  BookOpenIcon,
 } from '@heroicons/react/24/outline';
-import {
-  CheckCircleIcon as CheckCircleIconSolid,
-  StarIcon as StarIconSolid
-} from '@heroicons/react/24/solid';
-import Layout from '@/components/Layout';
-import LearningDashboard from '@/components/learner/LearningDashboard';
-import CourseCard from '@/components/learner/CourseCard';
+import AppLayout from '@/components/layouts/AppLayout';
+import CourseTile from '@/components/ui/CourseTile';
+import CourseCover from '@/components/ui/CourseCover';
 import { useAuth } from '@/contexts/AuthContext';
 import { Course, CourseDifficulty, Lesson, Module as CourseModule } from '@mindelta/shared';
-import { enrollInCourse, listMyEnrollments } from '@/lib/api/enrollments';
+import { enrollInCourse, getEnrollmentContinuePoint, listMyEnrollments } from '@/lib/api/enrollments';
 import { getCourse, listCourses } from '@/lib/api/courses';
 import { getCourseCoverImage } from '@/lib/cover-image';
+
+function formatTime(totalSeconds: number): string {
+  if (!totalSeconds || totalSeconds <= 0) return '';
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  if (h > 0) return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
 
 interface EnrolledCourse {
   id: string;
@@ -36,29 +36,16 @@ interface EnrolledCourse {
   lastAccessed: string;
   nextLesson: string;
   nextLessonId?: string;
+  nextModule?: string;
+  resumePositionSeconds?: number;
   coverImage: string;
   difficulty: CourseDifficulty;
   estimatedTimeLeft: string;
   certificate?: {
     issued: boolean;
     issueDate?: string;
-    blockchainHash?: string;
   };
 }
-
-interface LearningStats {
-  totalCoursesEnrolled: number;
-  coursesCompleted: number;
-  totalLearningTime: number; // in minutes
-  currentStreak: number;
-  longestStreak: number;
-  certificatesEarned: number;
-  skillsAcquired: string[];
-}
-
-// removed mock courses; will fetch from API
-
-// basic computed stats based on enrollments
 
 const recommendationReasons = [
   'Based on your interests',
@@ -98,124 +85,90 @@ function mapCourseToRecommendation(course: Course & Record<string, any>, index: 
   };
 }
 
-function FeaturedCoursesSection() {
-  const router = useRouter();
-  const { isAuthenticated } = useAuth();
-  const [featuredCourses, setFeaturedCourses] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [enrollingId, setEnrollingId] = useState<string | null>(null);
-  const [enrollError, setEnrollError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadFeatured = async () => {
-      try {
-        const courses = await listCourses();
-        // Get first 3 published courses as featured
-        const featured = courses
-          .filter((c: any) => c.status === 'published')
-          .slice(0, 3)
-          .map((course: any) => ({
-            id: course.id,
-            title: course.title,
-            description: course.subtitle || course.description || '',
-            instructor: course.instructor?.name || 'Chitepo Instructor',
-            rating: course.averageRating || 0,
-            students: course.totalEnrollments || 0,
-            category: course.category || 'General',
-            difficulty: course.difficulty || 'beginner',
-            estimatedDuration: course.estimatedDuration || 0,
-            coverImage: getCourseCoverImage(course.title, course.coverImageUrl) || '/api/placeholder/400/225',
-            price: course.price || 0
-          }));
-        setFeaturedCourses(featured);
-      } catch (e) {
-        console.error('Failed to load featured courses:', e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadFeatured();
-  }, []);
-
-  const handleEnroll = async (courseId: string) => {
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-      return;
-    }
-    if (enrollingId) return;
-    setEnrollError(null);
-    setEnrollingId(courseId);
-    try {
-      await enrollInCourse(courseId);
-      setFeaturedCourses((prev) => prev.map((c) => (c.id === courseId ? { ...c, enrolled: true } : c)));
-    } catch (e: any) {
-      console.error('Failed to enroll:', e?.message || e);
-      setEnrollError(e?.message || 'Failed to enroll in course');
-    } finally {
-      setEnrollingId(null);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="mt-16">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Featured Courses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-white rounded-lg shadow p-6 animate-pulse">
-              <div className="h-4 bg-gray-200 rounded w-3/4 mb-4" />
-              <div className="h-3 bg-gray-200 rounded w-1/2" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (featuredCourses.length === 0) {
-    return null;
-  }
+function CourseRow({ course }: { course: EnrolledCourse }) {
+  const isComplete = course.progress >= 100;
+  const resumeHref = course.nextLessonId
+    ? `/courses/${course.id}/lessons/${course.nextLessonId}`
+    : `/courses/${course.id}/learn`;
 
   return (
-    <div className="mt-16">
-      <h2 className="text-xl font-semibold text-gray-900 mb-6">Featured Courses</h2>
-      {enrollError && (
-        <div className="mb-4 text-sm text-red-600">{enrollError}</div>
-      )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredCourses.map((course, index) => (
-          <motion.div
-            key={course.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            <CourseCard
-              course={course}
-              variant="default"
-              onEnroll={handleEnroll}
-              loading={enrollingId === course.id}
-            />
-          </motion.div>
-        ))}
+    <div className="bg-paper border border-border/60 rounded-md p-5 hover:border-forest-400 transition-colors">
+      <div className="flex flex-col sm:flex-row gap-5">
+        <div className="relative w-full sm:w-44 aspect-[16/10] sm:aspect-[4/3] bg-forest-100 rounded-md overflow-hidden flex-shrink-0">
+          <CourseCover title={course.title} src={course.coverImage} sizes="(max-width: 640px) 100vw, 11rem" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-3 mb-1">
+            <Link
+              href={`/courses/${course.id}`}
+              className="font-serif text-lg font-semibold text-charcoal hover:text-forest-600 transition-colors"
+            >
+              {course.title}
+            </Link>
+            {isComplete && (
+              <span className="flex-shrink-0 px-2 py-0.5 text-xs font-semibold bg-forest-100 text-forest-700 rounded">
+                Completed
+              </span>
+            )}
+          </div>
+          <p className="text-sm text-stone mb-3">{course.instructor}</p>
+
+          <div className="mb-3">
+            <div className="flex items-center justify-between text-xs text-stone mb-1.5">
+              <span>{course.completedLessons} of {course.totalLessons} lessons</span>
+              <span className="font-semibold text-charcoal">{course.progress}%</span>
+            </div>
+            <div className="w-full bg-forest-100 rounded-full h-2">
+              <div
+                className={`h-2 rounded-full transition-all ${isComplete ? 'bg-forest-600' : 'bg-forest-500'}`}
+                style={{ width: `${course.progress}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <p className="text-xs text-pewter">
+              {isComplete ? (
+                course.certificate?.issued ? 'Certificate earned' : 'Course completed'
+              ) : course.nextLesson ? (
+                <>Next: {course.nextModule ? `${course.nextModule} › ` : ''}{course.nextLesson}{course.resumePositionSeconds ? ` at ${formatTime(course.resumePositionSeconds)}` : ''}</>
+              ) : (
+                'Ready to continue'
+              )}
+            </p>
+            <Link
+              href={resumeHref}
+              className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-md transition-colors flex-shrink-0 ${
+                isComplete
+                  ? 'text-forest-600 border border-forest-600 hover:bg-forest-100'
+                  : 'text-white bg-forest-600 hover:bg-forest-500'
+              }`}
+            >
+              <PlayIcon className="w-4 h-4" />
+              {isComplete ? 'Review course' : 'Continue'}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
 export default function MyLearningPage() {
+  const router = useRouter();
   const { user, isAuthenticated, isLoading } = useAuth();
   const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
   const [recommendedCourses, setRecommendedCourses] = useState<CourseRecommendationCard[]>([]);
-  const [learningStats, setLearningStats] = useState<LearningStats | null>(null);
-  const [activeTab, setActiveTab] = useState<'in-progress' | 'completed' | 'bookmarked'>('in-progress');
+  const [activeTab, setActiveTab] = useState<'in-progress' | 'completed'>('in-progress');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!isAuthenticated || !user) {
         setEnrolledCourses([]);
         setRecommendedCourses([]);
-        setLearningStats(null);
+        setLoading(false);
         return;
       }
       try {
@@ -240,7 +193,6 @@ export default function MyLearningPage() {
           setRecommendedCourses([]);
         }
 
-        // Map enrollments to course cards (fetched in parallel, not sequentially)
         const cardResults = await Promise.all(
           (enrollments as any[]).map(async (enr) => {
             try {
@@ -252,19 +204,31 @@ export default function MyLearningPage() {
                 .sort((a, b) => a.orderIndex - b.orderIndex)
                 .flatMap((m) => (m.lessons || []).slice().sort((a, b) => a.orderIndex - b.orderIndex));
               const completedLessons = Math.round(((enr.progressPercent || 0) / 100) * totalLessons);
-              // Resume at the next incomplete lesson (not always lesson 1).
               const resumeIndex = flatLessons.length > 0 ? Math.min(completedLessons, flatLessons.length - 1) : 0;
-              const resumeLesson = flatLessons[resumeIndex];
+              const fallbackLesson = flatLessons[resumeIndex];
+
+              let continuePoint = null;
+              try {
+                continuePoint = await getEnrollmentContinuePoint(enr.id);
+              } catch {
+                continuePoint = null;
+              }
+
+              const nextLessonId = continuePoint?.lessonId || fallbackLesson?.id;
+              const nextLessonTitle = continuePoint?.lessonTitle || fallbackLesson?.title || '';
+
               return {
                 id: course.id,
                 title: course.title,
-                instructor: (course as any).instructor?.name || 'Instructor',
+                instructor: getInstructorName((course as any).instructor),
                 progress: Math.round(enr.progressPercent || 0),
                 totalLessons,
                 completedLessons,
                 lastAccessed: (enr.updatedAt || enr.enrolledAt || new Date()).toString(),
-                nextLesson: resumeLesson?.title || '',
-                nextLessonId: resumeLesson?.id,
+                nextLesson: nextLessonTitle,
+                nextLessonId,
+                nextModule: continuePoint?.moduleTitle || undefined,
+                resumePositionSeconds: continuePoint?.videoPositionSeconds || undefined,
                 coverImage: getCourseCoverImage(course.title, (course as any).coverImageUrl) || '/api/placeholder/400/225',
                 difficulty: course.difficulty as CourseDifficulty,
                 estimatedTimeLeft: '',
@@ -276,63 +240,29 @@ export default function MyLearningPage() {
           }),
         );
         const cards: EnrolledCourse[] = cardResults.filter(Boolean) as EnrolledCourse[];
+        cards.sort((a, b) => new Date(b.lastAccessed).getTime() - new Date(a.lastAccessed).getTime());
         setEnrolledCourses(cards);
-        const stats: LearningStats = {
-          totalCoursesEnrolled: cards.length,
-          coursesCompleted: cards.filter(c => c.progress === 100).length,
-          totalLearningTime: 0,
-          currentStreak: 0,
-          longestStreak: 0,
-          certificatesEarned: cards.filter(c => c.certificate?.issued).length,
-          skillsAcquired: [],
-        };
-        setLearningStats(stats);
       } catch (e) {
         setEnrolledCourses([]);
         setRecommendedCourses([]);
-        setLearningStats(null);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [isAuthenticated, user]);
 
-  const formatLearningTime = (minutes: number) => {
-    const hours = Math.floor(minutes / 60);
-    return hours > 0 ? `${hours}h` : `${minutes}m`;
-  };
+  const inProgressCourses = enrolledCourses.filter(c => c.progress < 100);
+  const completedCourses = enrolledCourses.filter(c => c.progress >= 100);
+  const displayedCourses = activeTab === 'in-progress' ? inProgressCourses : completedCourses;
 
-  const getProgressColor = (progress: number) => {
-    if (progress === 100) return 'bg-green-500';
-    if (progress >= 75) return 'bg-primary-500';
-    if (progress >= 50) return 'bg-yellow-500';
-    return 'bg-gray-400';
-  };
-
-  const filteredCourses = enrolledCourses.filter(course => {
-    switch (activeTab) {
-      case 'completed':
-        return course.progress === 100;
-      case 'bookmarked':
-        return false; // Would implement bookmarking logic
-      default:
-        return course.progress < 100;
-    }
-  });
-
-  if (isLoading) {
+  if (isLoading || loading) {
     return (
-      <Layout>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-24 bg-gray-200 rounded"></div>
-              ))}
-            </div>
-          </div>
+      <AppLayout>
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-forest-600" />
         </div>
-      </Layout>
+      </AppLayout>
     );
   }
 
@@ -340,22 +270,20 @@ export default function MyLearningPage() {
     return (
       <>
         <Head>
-          <title>My Courses - Chitepo</title>
+          <title>Learn — Chitepo</title>
         </Head>
-        <Layout>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">My Courses</h1>
-              <p className="text-gray-600 mb-8">Please sign in to view your learning progress.</p>
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
-              >
-                Sign In
-              </Link>
-            </div>
+        <AppLayout>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <h1 className="font-serif text-3xl font-semibold text-charcoal mb-3">Your courses</h1>
+            <p className="text-stone mb-8">Sign in to view your learning progress.</p>
+            <Link
+              href="/auth/login"
+              className="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
+            >
+              Sign in
+            </Link>
           </div>
-        </Layout>
+        </AppLayout>
       </>
     );
   }
@@ -363,121 +291,148 @@ export default function MyLearningPage() {
   return (
     <>
       <Head>
-        <title>My Courses - Chitepo</title>
-        <meta name="description" content="Track your learning progress, view enrolled courses, and manage your professional development journey." />
+        <title>Learn — Chitepo</title>
+        <meta name="description" content="Track your learning progress and continue your courses." />
       </Head>
-      <Layout>
-        {learningStats && enrolledCourses.length > 0 ? (
-          <LearningDashboard
-            userId="current-user"
-            stats={{
-              totalCoursesEnrolled: learningStats.totalCoursesEnrolled,
-              coursesCompleted: learningStats.coursesCompleted,
-              totalLearningTime: learningStats.totalLearningTime,
-              currentStreak: learningStats.currentStreak,
-              longestStreak: learningStats.longestStreak,
-              certificatesEarned: learningStats.certificatesEarned,
-              averageCompletionRate: enrolledCourses.length > 0 
-                ? Math.round(enrolledCourses.reduce((sum, course) => sum + course.progress, 0) / enrolledCourses.length)
-                : 0
-            }}
-            recentCourses={enrolledCourses.slice(0, 6).map(course => ({
-              id: course.id,
-              title: course.title,
-              instructor: course.instructor,
-              progress: course.progress,
-              lastAccessed: course.lastAccessed,
-              coverImage: course.coverImage,
-              nextLesson: course.nextLesson,
-              nextLessonId: course.nextLessonId
-            }))}
-            achievements={[
-              {
-                id: 'first-course',
-                title: 'First Steps',
-                description: 'Complete your first course',
-                icon: <TrophyIcon className="h-8 w-8" />,
-                earned: learningStats.coursesCompleted > 0,
-                earnedDate: learningStats.coursesCompleted > 0 ? undefined : undefined
-              },
-              {
-                id: 'week-streak',
-                title: 'Week Warrior',
-                description: 'Maintain a 7-day learning streak',
-                icon: <FireIcon className="h-8 w-8" />,
-                earned: learningStats.currentStreak >= 7,
-                earnedDate: learningStats.currentStreak >= 7 ? undefined : undefined
-              },
-              {
-                id: 'quick-learner',
-                title: 'Quick Learner',
-                description: 'Complete a course in under a week',
-                icon: <ChartBarIcon className="h-8 w-8" />,
-                earned: false
-              },
-              {
-                id: 'dedicated',
-                title: 'Dedicated Learner',
-                description: 'Complete 5 courses',
-                icon: <CheckCircleIconSolid className="h-8 w-8" />,
-                earned: learningStats.coursesCompleted >= 5,
-                earnedDate: learningStats.coursesCompleted >= 5 ? undefined : undefined
-              },
-              {
-                id: 'time-master',
-                title: 'Time Master',
-                description: 'Spend 100 hours learning',
-                icon: <ClockIcon className="h-8 w-8" />,
-                earned: learningStats.totalLearningTime >= 6000,
-                earnedDate: learningStats.totalLearningTime >= 6000 ? undefined : undefined
-              },
-              {
-                id: 'certified',
-                title: 'Certified Professional',
-                description: 'Earn 3 certificates',
-                icon: <StarIconSolid className="h-8 w-8" />,
-                earned: learningStats.certificatesEarned >= 3,
-                earnedDate: learningStats.certificatesEarned >= 3 ? undefined : undefined
-              }
-            ]}
-            recommendations={recommendedCourses}
-          />
-        ) : (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            {/* Header */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Welcome back, {user?.name || 'Learner'}!
-              </h1>
-              <p className="text-gray-600">
-                Start your professional development journey
-              </p>
-            </div>
-
-            {/* Empty State */}
-            <div className="text-center py-16">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 text-primary-600 rounded-full mb-6">
-                <PlayIcon className="h-10 w-10" />
+      <AppLayout>
+        {/* Hero */}
+        <section className="relative overflow-hidden border-b border-border/60 bg-paper">
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-forest-100 -skew-x-6 origin-top-right translate-x-1/4" />
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 mb-5"
+            >
+              <div className="w-12 h-12 bg-forest-600 rounded-md flex items-center justify-center">
+                <BookOpenIcon className="h-6 w-6 text-cream" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-forest-600">
+                Learn
+              </p>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal leading-tight mb-4"
+            >
+              Your courses
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-lg text-stone leading-relaxed max-w-2xl"
+            >
+              Pick up where you left off and keep the momentum going.
+            </motion.p>
+          </div>
+        </section>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {enrolledCourses.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                <PlayIcon className="h-8 w-8 text-forest-600" />
+              </div>
+              <h2 className="font-serif text-2xl font-semibold text-charcoal mb-3">
                 Ready to start learning?
               </h2>
-              <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                Enroll in your first course and begin your journey toward professional growth and new opportunities.
+              <p className="text-stone mb-8 max-w-md mx-auto">
+                Enroll in your first course and begin your journey toward new knowledge and opportunities.
               </p>
               <Link
                 href="/courses"
-                className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700"
+                className="inline-flex items-center gap-2 px-8 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
               >
-                Browse Courses
+                Browse courses
+                <ArrowRightIcon className="w-4 h-4" />
               </Link>
             </div>
+          ) : (
+            <>
+              {/* Tabs */}
+              <div className="flex items-center gap-1 border-b border-border/60 mb-8">
+                {([
+                  { id: 'in-progress', label: `In progress (${inProgressCourses.length})` },
+                  { id: 'completed', label: `Completed (${completedCourses.length})` },
+                ] as const).map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
+                      activeTab === tab.id
+                        ? 'border-forest-600 text-forest-600'
+                        : 'border-transparent text-stone hover:text-charcoal'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
 
-            {/* Featured Courses */}
-            <FeaturedCoursesSection />
-          </div>
-        )}
-      </Layout>
+              {/* Course list */}
+              <div className="space-y-4">
+                {displayedCourses.map((course, index) => (
+                  <motion.div
+                    key={course.id}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.4 }}
+                  >
+                    <CourseRow course={course} />
+                  </motion.div>
+                ))}
+                {displayedCourses.length === 0 && (
+                  <div className="text-center py-12 text-stone">
+                    {activeTab === 'in-progress'
+                      ? 'No courses in progress. Browse the catalogue to enroll.'
+                      : 'No completed courses yet. Keep going.'}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Recommendations */}
+          {recommendedCourses.length > 0 && (
+            <div className="mt-16">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="font-serif text-2xl font-semibold text-charcoal">
+                  Recommended for you
+                </h2>
+                <Link
+                  href="/courses"
+                  className="text-sm font-semibold text-forest-600 hover:text-forest-500 transition-colors"
+                >
+                  Browse all →
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {recommendedCourses.map((course, index) => (
+                  <motion.div
+                    key={course.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.4 }}
+                  >
+                    <CourseTile
+                      id={course.id}
+                      title={course.title}
+                      instructor={course.instructor}
+                      category={course.category}
+                      students={course.students}
+                      coverImage={course.coverImage}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </AppLayout>
     </>
   );
 }

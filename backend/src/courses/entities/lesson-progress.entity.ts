@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Course } from './course.entity';
 import { Lesson } from './lesson.entity';
 
 @Entity('lesson_progress')
@@ -14,18 +15,36 @@ export class LessonProgress {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ name: 'lesson_id' })
-  lessonId: string;
+  // Nullable to allow course-level progress rows (e.g. SCORM packages that are the whole course).
+  @Column({ name: 'lesson_id', nullable: true })
+  lessonId: string | null;
 
-  @ManyToOne(() => Lesson)
+  @ManyToOne(() => Lesson, { nullable: true })
   @JoinColumn({ name: 'lesson_id' })
-  lesson: Lesson;
+  lesson?: Lesson | null;
+
+  // Denormalized for course-level reporting queries (avoids a join through lessons/modules).
+  @Column({ name: 'course_id', nullable: true })
+  courseId?: string;
+
+  @ManyToOne(() => Course, { nullable: true })
+  @JoinColumn({ name: 'course_id' })
+  course?: Course;
 
   @Column({ name: 'is_completed', type: 'boolean', default: false })
   isCompleted: boolean;
 
   @Column({ name: 'watch_percent', type: 'int', default: 0 })
   watchPercent: number;
+
+  @Column({ name: 'last_position_seconds', type: 'int', default: 0 })
+  lastPositionSeconds: number;
+
+  @Column({ name: 'watched_seconds', type: 'int', default: 0 })
+  watchedSeconds: number;
+
+  @Column({ name: 'active_seconds', type: 'int', default: 0 })
+  activeSeconds: number;
 
   @Column({ name: 'best_quiz_score', type: 'int', nullable: true })
   bestQuizScore?: number;

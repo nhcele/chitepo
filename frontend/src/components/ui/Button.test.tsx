@@ -16,21 +16,21 @@ describe('Button Component', () => {
     render(<Button variant="secondary">Secondary Button</Button>)
     const button = screen.getByRole('button', { name: 'Secondary Button' })
     
-    expect(button).toHaveClass('bg-secondary-600', 'text-white')
+    expect(button).toHaveClass('bg-secondary-500', 'text-charcoal')
   })
 
   it('renders with variant outline', () => {
     render(<Button variant="outline">Outline Button</Button>)
     const button = screen.getByRole('button', { name: 'Outline Button' })
     
-    expect(button).toHaveClass('border', 'border-gray-300')
+    expect(button).toHaveClass('border', 'border-border/60')
   })
 
   it('renders with variant ghost', () => {
     render(<Button variant="ghost">Ghost Button</Button>)
     const button = screen.getByRole('button', { name: 'Ghost Button' })
     
-    expect(button).toHaveClass('hover:bg-gray-100')
+    expect(button).toHaveClass('hover:bg-forest-100')
   })
 
   it('renders with different sizes', () => {

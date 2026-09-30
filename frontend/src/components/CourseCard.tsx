@@ -18,9 +18,9 @@ interface CourseCardProps {
 }
 
 const difficultyColors = {
-  beginner: 'bg-green-100 text-green-800',
-  intermediate: 'bg-yellow-100 text-yellow-800',
-  advanced: 'bg-red-100 text-red-800',
+  beginner: 'bg-forest-100 text-forest-800',
+  intermediate: 'bg-ochre-100 text-ochre-800',
+  advanced: 'bg-terracotta-100 text-terracotta-800',
 };
 
 export default function CourseCard({ course }: CourseCardProps) {
@@ -38,10 +38,10 @@ export default function CourseCard({ course }: CourseCardProps) {
   };
 
   return (
-    <div className="course-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+    <div className="course-card bg-white rounded-md shadow-sm overflow-hidden hover:shadow-sm transition-all duration-300">
       {/* Course Image */}
       <Link href={`/courses/${course.id}`} className="block">
-        <div className="relative h-48 bg-gray-200">
+        <div className="relative h-48 bg-forest-100">
           <Image
             src={course.coverImage}
             alt={course.title}
@@ -60,22 +60,22 @@ export default function CourseCard({ course }: CourseCardProps) {
       {/* Course Content */}
       <div className="p-6">
         <Link href={`/courses/${course.id}`} className="block">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 hover:text-primary-600">
+          <h3 className="text-lg font-semibold text-charcoal mb-2 line-clamp-2 hover:text-primary-600">
             {course.title}
           </h3>
         </Link>
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+        <p className="text-sm text-stone mb-3 line-clamp-2">
           {course.subtitle}
         </p>
         
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-stone mb-4">
           by {course.instructor}
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+        <div className="flex items-center gap-4 mb-4 text-sm text-stone">
           <div className="flex items-center gap-1">
-            <StarIcon className={`w-4 h-4 ${course.rating ? 'text-yellow-400' : 'text-gray-300'}`} />
+            <StarIcon className={`w-4 h-4 ${course.rating ? 'text-ochre-400' : 'text-pewter'}`} />
             <span className="font-medium">{course.rating ? course.rating.toFixed(1) : 'New'}</span>
           </div>
           <div className="flex items-center gap-1">
@@ -93,7 +93,7 @@ export default function CourseCard({ course }: CourseCardProps) {
       <div className="px-6 pb-6 flex justify-end">
         <Link 
           href={`/courses/${course.id}`}
-          className="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
+          className="px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-md hover:bg-primary-700 transition-colors"
         >
           View course
         </Link>

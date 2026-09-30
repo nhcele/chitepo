@@ -5,7 +5,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { CertificationPathway, PathwayType } from './entities/certification-pathway.entity';
 import { UserCertification, CertificationStatus } from './entities/user-certification.entity';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('CertificationsService', () => {
@@ -55,7 +55,7 @@ describe('CertificationsService', () => {
     progressPercentage: 100,
     certificateIssued: false,
     lastLessonSeenAt: new Date(),
-  } as Enrollment;
+  } as unknown as Enrollment;
 
   beforeEach(async () => {
     const mockPathwayRepo = {

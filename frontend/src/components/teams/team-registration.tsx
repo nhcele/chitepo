@@ -160,42 +160,42 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Team Name *
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="Enter your team name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => handleInputChange('description', e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 placeholder="Brief description of your team or organization"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Website
               </label>
               <div className="relative">
-                <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pewter w-4 h-4" />
                 <input
                   type="url"
                   value={formData.website}
                   onChange={(e) => handleInputChange('website', e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="https://example.com"
                 />
               </div>
@@ -207,13 +207,13 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Industry *
               </label>
               <select
                 value={formData.industry}
                 onChange={(e) => handleInputChange('industry', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="">Select an industry</option>
                 {industries.map(industry => (
@@ -223,17 +223,17 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-4">
+              <label className="block text-sm font-medium text-charcoal mb-4">
                 Team Size *
               </label>
               <div className="grid grid-cols-1 gap-3">
                 {teamSizes.map(size => (
                   <label
                     key={size.value}
-                    className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
+                    className={`relative flex items-center p-4 border rounded-md cursor-pointer transition-colors ${
                       formData.size === size.value
                         ? 'border-primary-500 bg-primary-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        : 'border-border/60 hover:border-border/60'
                     }`}
                   >
                     <input
@@ -248,15 +248,15 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
                       <div className={`w-4 h-4 rounded-full border-2 mr-3 ${
                         formData.size === size.value
                           ? 'border-primary-500 bg-primary-500'
-                          : 'border-gray-300'
+                          : 'border-border/60'
                       }`}>
                         {formData.size === size.value && (
                           <div className="w-full h-full rounded-full bg-white scale-50"></div>
                         )}
                       </div>
                       <div>
-                        <div className="font-medium text-gray-900">{size.label}</div>
-                        <div className="text-sm text-gray-500">{size.description}</div>
+                        <div className="font-medium text-charcoal">{size.label}</div>
+                        <div className="text-sm text-stone">{size.description}</div>
                       </div>
                     </div>
                   </label>
@@ -270,75 +270,75 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Billing Email *
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pewter w-4 h-4" />
                 <input
                   type="email"
                   value={formData.billingEmail}
                   onChange={(e) => handleInputChange('billingEmail', e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="billing@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Contact Phone
               </label>
               <div className="relative">
-                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pewter w-4 h-4" />
                 <input
                   type="tel"
                   value={formData.contactPhone}
                   onChange={(e) => handleInputChange('contactPhone', e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
             </div>
 
             <div className="border-t pt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Team Settings</h3>
+              <h3 className="text-lg font-medium text-charcoal mb-4">Team Settings</h3>
               
               <div className="space-y-4">
                 <label className="flex items-center justify-between">
                   <div>
-                    <div className="font-medium text-gray-900">Allow Self-Enrollment</div>
-                    <div className="text-sm text-gray-500">Team members can enroll in courses without approval</div>
+                    <div className="font-medium text-charcoal">Allow Self-Enrollment</div>
+                    <div className="text-sm text-stone">Team members can enroll in courses without approval</div>
                   </div>
                   <input
                     type="checkbox"
                     checked={formData.settings?.allowSelfEnrollment}
                     onChange={(e) => handleSettingsChange('allowSelfEnrollment', e.target.checked)}
-                    className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                    className="w-4 h-4 text-primary-600 border-border/60 rounded focus:ring-primary-500"
                   />
                 </label>
 
                 <label className="flex items-center justify-between">
                   <div>
-                    <div className="font-medium text-gray-900">Require Approval</div>
-                    <div className="text-sm text-gray-500">Manager approval required for course enrollment</div>
+                    <div className="font-medium text-charcoal">Require Approval</div>
+                    <div className="text-sm text-stone">Manager approval required for course enrollment</div>
                   </div>
                   <input
                     type="checkbox"
                     checked={formData.settings?.requireApproval}
                     onChange={(e) => handleSettingsChange('requireApproval', e.target.checked)}
-                    className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                    className="w-4 h-4 text-primary-600 border-border/60 rounded focus:ring-primary-500"
                   />
                 </label>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-charcoal mb-2">
                     Reporting Frequency
                   </label>
                   <select
                     value={formData.settings?.reportingFrequency}
                     onChange={(e) => handleSettingsChange('reportingFrequency', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="weekly">Weekly</option>
                     <option value="monthly">Monthly</option>
@@ -353,70 +353,70 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
       case 4:
         return (
           <div className="space-y-6">
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-forest-50 border border-forest-200 rounded-md p-4">
               <div className="flex items-center">
-                <Check className="w-5 h-5 text-green-600 mr-2" />
-                <h3 className="text-lg font-medium text-green-900">Review Your Team Information</h3>
+                <Check className="w-5 h-5 text-forest-600 mr-2" />
+                <h3 className="text-lg font-medium text-forest-900">Review Your Team Information</h3>
               </div>
-              <p className="text-sm text-green-700 mt-1">
+              <p className="text-sm text-forest-700 mt-1">
                 Please review all details before creating your team
               </p>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Basic Information</h4>
+              <div className="bg-paper rounded-md p-4">
+                <h4 className="font-medium text-charcoal mb-3">Basic Information</h4>
                 <dl className="grid grid-cols-1 gap-2 text-sm">
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Team Name:</dt>
+                    <dt className="text-stone">Team Name:</dt>
                     <dd className="font-medium">{formData.name}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Description:</dt>
+                    <dt className="text-stone">Description:</dt>
                     <dd className="font-medium">{formData.description || 'Not provided'}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Website:</dt>
+                    <dt className="text-stone">Website:</dt>
                     <dd className="font-medium">{formData.website || 'Not provided'}</dd>
                   </div>
                 </dl>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Team Details</h4>
+              <div className="bg-paper rounded-md p-4">
+                <h4 className="font-medium text-charcoal mb-3">Team Details</h4>
                 <dl className="grid grid-cols-1 gap-2 text-sm">
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Industry:</dt>
+                    <dt className="text-stone">Industry:</dt>
                     <dd className="font-medium">{formData.industry}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Size:</dt>
+                    <dt className="text-stone">Size:</dt>
                     <dd className="font-medium">{teamSizes.find(s => s.value === formData.size)?.label}</dd>
                   </div>
                 </dl>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-medium text-gray-900 mb-3">Billing & Settings</h4>
+              <div className="bg-paper rounded-md p-4">
+                <h4 className="font-medium text-charcoal mb-3">Billing & Settings</h4>
                 <dl className="grid grid-cols-1 gap-2 text-sm">
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Billing Email:</dt>
+                    <dt className="text-stone">Billing Email:</dt>
                     <dd className="font-medium">{formData.billingEmail}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Contact Phone:</dt>
+                    <dt className="text-stone">Contact Phone:</dt>
                     <dd className="font-medium">{formData.contactPhone || 'Not provided'}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Self-Enrollment:</dt>
+                    <dt className="text-stone">Self-Enrollment:</dt>
                     <dd className="font-medium">{formData.settings?.allowSelfEnrollment ? 'Enabled' : 'Disabled'}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Require Approval:</dt>
+                    <dt className="text-stone">Require Approval:</dt>
                     <dd className="font-medium">{formData.settings?.requireApproval ? 'Enabled' : 'Disabled'}</dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-gray-600">Reporting:</dt>
+                    <dt className="text-stone">Reporting:</dt>
                     <dd className="font-medium capitalize">{formData.settings?.reportingFrequency}</dd>
                   </div>
                 </dl>
@@ -434,10 +434,10 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-lg max-w-4xl mx-auto"
+      className="bg-white rounded-md shadow-sm max-w-4xl mx-auto"
     >
       {/* Progress Steps */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-border/60">
         <div className="flex items-center justify-between">
           {steps.map((step, index) => {
             const Icon = step.icon;
@@ -450,21 +450,21 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
                   isActive
                     ? 'border-primary-500 bg-primary-500 text-white'
                     : isCompleted
-                    ? 'border-green-500 bg-green-500 text-white'
-                    : 'border-gray-300 bg-white text-gray-500'
+                    ? 'border-forest-500 bg-forest-500 text-white'
+                    : 'border-border/60 bg-white text-stone'
                 }`}>
                   <Icon className="w-5 h-5" />
                 </div>
                 <div className="ml-3">
                   <p className={`text-sm font-medium ${
-                    isActive ? 'text-primary-600' : isCompleted ? 'text-green-600' : 'text-gray-500'
+                    isActive ? 'text-primary-600' : isCompleted ? 'text-forest-600' : 'text-stone'
                   }`}>
                     {step.title}
                   </p>
                 </div>
                 {index < steps.length - 1 && (
                   <div className={`flex-1 h-px mx-4 ${
-                    isCompleted ? 'bg-green-500' : 'bg-gray-300'
+                    isCompleted ? 'bg-forest-500' : 'bg-stone'
                   }`}></div>
                 )}
               </div>
@@ -475,9 +475,9 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
 
       {/* Error Message */}
       {error && (
-        <div className="mx-6 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center">
-          <AlertCircle className="w-4 h-4 text-red-600 mr-2" />
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="mx-6 mt-4 p-3 bg-terracotta-50 border border-terracotta-200 rounded-md flex items-center">
+          <AlertCircle className="w-4 h-4 text-terracotta-600 mr-2" />
+          <p className="text-sm text-terracotta-700">{error}</p>
         </div>
       )}
 
@@ -494,7 +494,7 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
       </div>
 
       {/* Actions */}
-      <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+      <div className="px-6 py-4 border-t border-border/60 flex items-center justify-between">
         <div>
           {currentStep > 1 && (
             <motion.button
@@ -502,7 +502,7 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
               whileTap={{ scale: 0.98 }}
               onClick={handlePrevious}
               disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              className="flex items-center space-x-2 px-4 py-2 border border-border/60 rounded-md hover:bg-paper disabled:opacity-50"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Previous</span>
@@ -517,7 +517,7 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
               whileTap={{ scale: 0.98 }}
               onClick={onCancel}
               disabled={loading}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+              className="px-4 py-2 border border-border/60 rounded-md hover:bg-paper disabled:opacity-50"
             >
               Cancel
             </motion.button>
@@ -529,7 +529,7 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
               whileTap={{ scale: 0.98 }}
               onClick={handleNext}
               disabled={loading}
-              className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
+              className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 disabled:opacity-50"
             >
               <span>Next</span>
               <ArrowRight className="w-4 h-4" />
@@ -540,7 +540,7 @@ export default function TeamRegistration({ onSuccess, onCancel }: TeamRegistrati
               whileTap={{ scale: 0.98 }}
               onClick={handleSubmit}
               disabled={loading}
-              className="flex items-center space-x-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+              className="flex items-center space-x-2 px-6 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 disabled:opacity-50"
             >
               {loading ? (
                 <>

@@ -334,7 +334,7 @@ export default function ContentEditor({
             type="text"
             value={block.content}
             onChange={(e) => updateBlock(block.id, { content: e.target.value })}
-            className="w-full text-2xl font-bold bg-transparent border-none outline-none placeholder-gray-400"
+            className="w-full text-2xl font-bold bg-transparent border-none outline-none placeholder-pewter"
             placeholder="Enter heading..."
           />
         );
@@ -345,7 +345,7 @@ export default function ContentEditor({
             value={block.content}
             onChange={(e) => updateBlock(block.id, { content: e.target.value })}
             rows={4}
-            className="w-full bg-transparent border-none outline-none resize-none placeholder-gray-400"
+            className="w-full bg-transparent border-none outline-none resize-none placeholder-pewter"
             placeholder="Enter your content here..."
           />
         );
@@ -359,7 +359,7 @@ export default function ContentEditor({
                 onChange={(e) => updateBlock(block.id, { 
                   metadata: { ...block.metadata, language: e.target.value }
                 })}
-                className="text-sm border border-gray-300 rounded px-2 py-1"
+                className="text-sm border border-border/60 rounded px-2 py-1"
               >
                 <option value="javascript">JavaScript</option>
                 <option value="python">Python</option>
@@ -373,7 +373,7 @@ export default function ContentEditor({
               value={block.content}
               onChange={(e) => updateBlock(block.id, { content: e.target.value })}
               rows={6}
-              className="w-full font-mono text-sm bg-gray-50 border border-gray-200 rounded p-3"
+              className="w-full font-mono text-sm bg-paper border border-border/60 rounded p-3"
               placeholder="// Enter your code here..."
             />
           </div>
@@ -389,7 +389,7 @@ export default function ContentEditor({
                 metadata: { ...block.metadata, url: e.target.value }
               })}
               placeholder="Enter image URL..."
-              className="w-full px-3 py-2 border border-gray-300 rounded"
+              className="w-full px-3 py-2 border border-border/60 rounded"
             />
             <input
               type="text"
@@ -398,7 +398,7 @@ export default function ContentEditor({
                 metadata: { ...block.metadata, alt: e.target.value }
               })}
               placeholder="Alt text..."
-              className="w-full px-3 py-2 border border-gray-300 rounded"
+              className="w-full px-3 py-2 border border-border/60 rounded"
             />
             {block.metadata?.url && (
               <Image 
@@ -422,14 +422,14 @@ export default function ContentEditor({
                 metadata: { ...block.metadata, url: e.target.value }
               })}
               placeholder="Enter video URL..."
-              className="w-full px-3 py-2 border border-gray-300 rounded"
+              className="w-full px-3 py-2 border border-border/60 rounded"
             />
             <input
               type="text"
               value={block.content}
               onChange={(e) => updateBlock(block.id, { content: e.target.value })}
               placeholder="Video title..."
-              className="w-full px-3 py-2 border border-gray-300 rounded"
+              className="w-full px-3 py-2 border border-border/60 rounded"
             />
           </div>
         );
@@ -441,7 +441,7 @@ export default function ContentEditor({
               value={block.content}
               onChange={(e) => updateBlock(block.id, { content: e.target.value })}
               rows={3}
-              className="w-full font-mono text-sm bg-gray-50 border border-gray-200 rounded p-3"
+              className="w-full font-mono text-sm bg-paper border border-border/60 rounded p-3"
               placeholder="Enter embed code..."
             />
           </div>
@@ -449,12 +449,12 @@ export default function ContentEditor({
       
       case 'pdf':
         return (
-          <div className="border border-gray-200 rounded-lg p-4">
+          <div className="border border-border/60 rounded-md p-4">
             <div className="flex items-center space-x-3">
-              <DocumentArrowUpIcon className="h-8 w-8 text-red-500" />
+              <DocumentArrowUpIcon className="h-8 w-8 text-terracotta-500" />
               <div>
                 <p className="font-medium">{block.content}</p>
-                <p className="text-sm text-gray-500">PDF document</p>
+                <p className="text-sm text-stone">PDF document</p>
               </div>
             </div>
           </div>
@@ -497,31 +497,31 @@ export default function ContentEditor({
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6"
+        className="bg-white rounded-md shadow-sm border border-border/60 p-6 mb-6"
       >
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center space-x-3 mb-2">
-              <h2 className="text-2xl font-bold text-gray-900">Content Editor</h2>
+              <h2 className="text-2xl font-bold text-charcoal">Content Editor</h2>
               {hasUnsavedChanges && (
-                <span className="px-2 py-1 text-xs font-medium text-yellow-700 bg-yellow-100 rounded-full">
+                <span className="px-2 py-1 text-xs font-medium text-ochre-700 bg-ochre-100 rounded-full">
                   Unsaved changes
                 </span>
               )}
               {lastAutoSave && (
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-stone">
                   Auto-saved {lastAutoSave.toLocaleTimeString()}
                 </span>
               )}
             </div>
-            <p className="text-gray-600">Create rich, engaging content for your lesson</p>
+            <p className="text-stone">Create rich, engaging content for your lesson</p>
           </div>
           
           <div className="flex items-center space-x-3">
             {/* Version History */}
             <button
               onClick={() => setShowVersionHistory(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
               <CircleStackIcon className="h-4 w-4 mr-1" />
               v{currentVersion}
@@ -542,14 +542,14 @@ export default function ContentEditor({
                     </div>
                   ))}
                   {activeUsers.length > 3 && (
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-600">
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-forest-100 flex items-center justify-center text-xs font-medium text-stone">
                       +{activeUsers.length - 3}
                     </div>
                   )}
                 </div>
                 <button
                   onClick={() => setShowPresence(!showPresence)}
-                  className="ml-2 p-1 text-gray-400 hover:text-gray-600"
+                  className="ml-2 p-1 text-pewter hover:text-stone"
                 >
                   <UsersIcon className="h-4 w-4" />
                 </button>
@@ -559,12 +559,12 @@ export default function ContentEditor({
             {/* Comments */}
             <button
               onClick={() => setShowComments(!showComments)}
-              className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4 mr-1" />
               Comments
               {comments.filter(c => !c.resolved).length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-terracotta-500 text-white text-xs rounded-full flex items-center justify-center">
                   {comments.filter(c => !c.resolved).length}
                 </span>
               )}
@@ -573,7 +573,7 @@ export default function ContentEditor({
             <button
               onClick={handleAiGenerate}
               disabled={aiProcessing}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-purple-700 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors disabled:opacity-50"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-terracotta-700 bg-terracotta-50 rounded-md hover:bg-terracotta-100 transition-colors disabled:opacity-50"
             >
               {aiProcessing ? (
                 <ClockIcon className="h-4 w-4 mr-2 animate-spin" />
@@ -585,7 +585,7 @@ export default function ContentEditor({
             
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-700 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-700 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
             >
               <DocumentArrowUpIcon className="h-4 w-4 mr-2" />
               Upload PDF
@@ -593,7 +593,7 @@ export default function ContentEditor({
             
             <button
               onClick={onPreview}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
               <EyeIcon className="h-4 w-4 mr-2" />
               Preview
@@ -602,7 +602,7 @@ export default function ContentEditor({
             <button
               onClick={handleSave}
               disabled={isSaving || loading}
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors disabled:opacity-50"
             >
               {isSaving ? (
                 <ClockIcon className="h-4 w-4 mr-2 animate-spin" />
@@ -629,17 +629,17 @@ export default function ContentEditor({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ delay: index * 0.1 }}
-                className={`bg-white rounded-xl shadow-sm border ${
-                  isSelected ? 'border-primary-300 ring-2 ring-blue-100' : 'border-gray-200'
+                className={`bg-white rounded-md shadow-sm border ${
+                  isSelected ? 'border-primary-300 ring-2 ring-forest-100' : 'border-border/60'
                 } overflow-hidden`}
               >
                 {/* Block Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-100">
+                <div className="flex items-center justify-between p-4 border-b border-border/60">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-gray-50 rounded-lg">
-                      <Icon className="h-4 w-4 text-gray-600" />
+                    <div className="p-2 bg-paper rounded-md">
+                      <Icon className="h-4 w-4 text-stone" />
                     </div>
-                    <span className="text-sm font-medium text-gray-700">
+                    <span className="text-sm font-medium text-charcoal">
                       {getBlockTitle(block.type)}
                     </span>
                   </div>
@@ -648,26 +648,26 @@ export default function ContentEditor({
                     <button
                       onClick={() => moveBlock(block.id, 'up')}
                       disabled={index === 0}
-                      className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                      className="p-1 text-pewter hover:text-stone disabled:opacity-50"
                     >
                       <ArrowUpIcon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => moveBlock(block.id, 'down')}
                       disabled={index === blocks.length - 1}
-                      className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                      className="p-1 text-pewter hover:text-stone disabled:opacity-50"
                     >
                       <ArrowDownIcon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => setSelectedBlock(isSelected ? null : block.id)}
-                      className="p-1 text-gray-400 hover:text-primary-600"
+                      className="p-1 text-pewter hover:text-primary-600"
                     >
                       <PencilIcon className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => deleteBlock(block.id)}
-                      className="p-1 text-gray-400 hover:text-red-600"
+                      className="p-1 text-pewter hover:text-terracotta-600"
                     >
                       <TrashIcon className="h-4 w-4" />
                     </button>
@@ -691,55 +691,55 @@ export default function ContentEditor({
         transition={{ delay: blocks.length * 0.1 }}
         className="mt-6"
       >
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-700 mb-4">Add Content</h3>
+        <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+          <h3 className="text-sm font-medium text-charcoal mb-4">Add Content</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <button
               onClick={() => addBlock('heading')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <PencilIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Heading</span>
+              <PencilIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Heading</span>
             </button>
             
             <button
               onClick={() => addBlock('text')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <DocumentTextIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Text</span>
+              <DocumentTextIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Text</span>
             </button>
             
             <button
               onClick={() => addBlock('code')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <CodeBracketIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Code</span>
+              <CodeBracketIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Code</span>
             </button>
             
             <button
               onClick={() => addBlock('image')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <PhotoIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Image</span>
+              <PhotoIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Image</span>
             </button>
             
             <button
               onClick={() => addBlock('video')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <VideoCameraIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Video</span>
+              <VideoCameraIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Video</span>
             </button>
             
             <button
               onClick={() => addBlock('embed')}
-              className="flex flex-col items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex flex-col items-center p-3 border border-border/60 rounded-md hover:bg-paper transition-colors"
             >
-              <LinkIcon className="h-6 w-6 text-gray-600 mb-1" />
-              <span className="text-xs text-gray-600">Embed</span>
+              <LinkIcon className="h-6 w-6 text-stone mb-1" />
+              <span className="text-xs text-stone">Embed</span>
             </button>
           </div>
         </div>
@@ -805,14 +805,14 @@ function VersionHistoryModal({ versions, onRestore, onClose }: VersionHistoryMod
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+        className="bg-white rounded-md shadow-sm max-w-2xl w-full max-h-[80vh] overflow-y-auto"
       >
-        <div className="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white">
+        <div className="px-6 py-4 border-b border-border/60 sticky top-0 bg-white">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Version History</h3>
+            <h3 className="text-lg font-semibold text-charcoal">Version History</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-pewter hover:text-stone"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
@@ -821,7 +821,7 @@ function VersionHistoryModal({ versions, onRestore, onClose }: VersionHistoryMod
 
         <div className="p-6">
           {versions.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-stone">
               <DocumentIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p>No versions saved yet</p>
             </div>
@@ -830,22 +830,22 @@ function VersionHistoryModal({ versions, onRestore, onClose }: VersionHistoryMod
               {versions.map((version) => (
                 <div
                   key={version.id}
-                  className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  className="flex items-center justify-between p-4 border border-border/60 rounded-md hover:bg-paper"
                 >
                   <div className="flex-1">
                     <div className="flex items-center space-x-3">
-                      <span className="font-medium text-gray-900">v{version.version}</span>
+                      <span className="font-medium text-charcoal">v{version.version}</span>
                       {version.isAutoSave && (
-                        <span className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded">
+                        <span className="px-2 py-1 text-xs font-medium text-stone bg-forest-100 rounded">
                           Auto-save
                         </span>
                       )}
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-stone">
                         {version.timestamp.toLocaleString()}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">{version.changes}</p>
-                    <p className="text-xs text-gray-500 mt-1">by {version.author}</p>
+                    <p className="text-sm text-stone mt-1">{version.changes}</p>
+                    <p className="text-xs text-stone mt-1">by {version.author}</p>
                   </div>
                   <button
                     onClick={() => onRestore(version)}
@@ -891,14 +891,14 @@ function CommentsSidebar({ comments, blocks, onAddComment, onResolveComment, onC
       initial={{ x: 300 }}
       animate={{ x: 0 }}
       exit={{ x: 300 }}
-      className="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl border-l border-gray-200 z-50"
+      className="fixed right-0 top-0 h-full w-96 bg-white shadow-sm border-l border-border/60 z-50"
     >
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-border/60">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">Comments</h3>
+          <h3 className="text-lg font-semibold text-charcoal">Comments</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-pewter hover:text-stone"
           >
             <XMarkIcon className="h-6 w-6" />
           </button>
@@ -911,7 +911,7 @@ function CommentsSidebar({ comments, blocks, onAddComment, onResolveComment, onC
           <select
             value={selectedBlock}
             onChange={(e) => setSelectedBlock(e.target.value)}
-            className="w-full mb-3 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+            className="w-full mb-3 px-3 py-2 border border-border/60 rounded-md text-sm"
           >
             <option value="">Select a block to comment on...</option>
             {blocks.map(block => (
@@ -925,12 +925,12 @@ function CommentsSidebar({ comments, blocks, onAddComment, onResolveComment, onC
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none"
+            className="w-full px-3 py-2 border border-border/60 rounded-md text-sm resize-none"
           />
           <button
             onClick={handleAddComment}
             disabled={!selectedBlock || !newComment.trim()}
-            className="mt-2 w-full px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors disabled:opacity-50"
+            className="mt-2 w-full px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors disabled:opacity-50"
           >
             Add Comment
           </button>
@@ -939,7 +939,7 @@ function CommentsSidebar({ comments, blocks, onAddComment, onResolveComment, onC
         {/* Comments List */}
         <div className="space-y-4">
           {blockComments.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+            <div className="text-center py-8 text-stone">
               <ChatBubbleLeftRightIcon className="h-12 w-12 mx-auto mb-2 opacity-50" />
               <p>No comments yet</p>
             </div>
@@ -947,26 +947,26 @@ function CommentsSidebar({ comments, blocks, onAddComment, onResolveComment, onC
             blockComments.map(comment => {
               const block = blocks.find(b => b.id === comment.blockId);
               return (
-                <div key={comment.id} className="border border-gray-200 rounded-lg p-4">
+                <div key={comment.id} className="border border-border/60 rounded-md p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
                         <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center text-xs text-white font-medium">
                           {comment.userName.charAt(0)}
                         </div>
-                        <span className="text-sm font-medium text-gray-900">{comment.userName}</span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-sm font-medium text-charcoal">{comment.userName}</span>
+                        <span className="text-xs text-stone">
                           {comment.timestamp.toLocaleString()}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 mb-2">{comment.content}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-sm text-charcoal mb-2">{comment.content}</p>
+                      <p className="text-xs text-stone">
                         On: {block?.type} block - {block?.content.substring(0, 30)}...
                       </p>
                     </div>
                     <button
                       onClick={() => onResolveComment(comment.id)}
-                      className="ml-2 text-xs text-green-600 hover:text-green-800"
+                      className="ml-2 text-xs text-forest-600 hover:text-forest-800"
                     >
                       Resolve
                     </button>
@@ -994,14 +994,14 @@ function UserPresencePanel({ users, onClose }: UserPresencePanelProps) {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="fixed top-20 right-4 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-40"
+      className="fixed top-20 right-4 w-80 bg-white rounded-md shadow-sm border border-border/60 z-40"
     >
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-border/60">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-900">Active Users ({onlineUsers.length})</h3>
+          <h3 className="text-sm font-semibold text-charcoal">Active Users ({onlineUsers.length})</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-pewter hover:text-stone"
           >
             <XMarkIcon className="h-4 w-4" />
           </button>
@@ -1010,7 +1010,7 @@ function UserPresencePanel({ users, onClose }: UserPresencePanelProps) {
 
       <div className="p-4">
         {onlineUsers.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center">No active users</p>
+          <p className="text-sm text-stone text-center">No active users</p>
         ) : (
           <div className="space-y-3">
             {onlineUsers.map(user => (
@@ -1022,12 +1022,12 @@ function UserPresencePanel({ users, onClose }: UserPresencePanelProps) {
                   >
                     {user.name.charAt(0)}
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-forest-500 rounded-full border-2 border-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                  <p className="text-sm font-medium text-charcoal">{user.name}</p>
                   {user.cursor && (
-                    <p className="text-xs text-gray-500">Editing...</p>
+                    <p className="text-xs text-stone">Editing...</p>
                   )}
                 </div>
               </div>

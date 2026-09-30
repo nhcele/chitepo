@@ -4,7 +4,7 @@ import { Repository, Not, IsNull } from 'typeorm';
 import { CertificationPathway, PathwayType } from './entities/certification-pathway.entity';
 import { UserCertification, CertificationStatus } from './entities/user-certification.entity';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 
 @Injectable()
 export class CertificationsService {

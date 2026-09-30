@@ -168,7 +168,7 @@ test.describe('AI Content Generation E2E Tests', () => {
   test.beforeEach(async ({ page }) => {
     // Login as instructor
     await page.goto('/auth/login');
-    await page.fill('input[name="email"]', 'instructor@mindelta.com');
+    await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/dashboard');

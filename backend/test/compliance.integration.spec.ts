@@ -20,13 +20,13 @@ describe('Compliance API (Integration)', () => {
   const testUser = {
     email: 'official@test.com',
     password: 'password123',
-    name: 'Test Official',
+    name: 'Rudo Chirwa',
   };
 
   const adminUser = {
     email: 'admin@test.com',
     password: 'password123',
-    name: 'Test Admin',
+    name: 'Farai Mushonga',
     role: 'admin',
   };
 

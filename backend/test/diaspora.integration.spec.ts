@@ -7,7 +7,7 @@ import { AuthModule } from '../src/auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from '../src/users/entities/user.entity';
-import { Enrollment } from '../src/courses/entities/enrollment.entity';
+import { Enrollment } from '../src/enrollments/entities/enrollment.entity';
 import { Certificate } from '../src/certificates/entities/certificate.entity';
 import { CohortEnrollment } from '../src/cohorts/entities/training-cohort.entity';
 

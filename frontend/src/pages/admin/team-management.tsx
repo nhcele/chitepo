@@ -79,11 +79,11 @@ export default function TeamManagement() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      active: 'bg-green-100 text-green-800',
-      inactive: 'bg-gray-100 text-gray-800',
-      suspended: 'bg-red-100 text-red-800'
+      active: 'bg-forest-100 text-forest-800',
+      inactive: 'bg-forest-100 text-charcoal',
+      suspended: 'bg-terracotta-100 text-terracotta-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-forest-100 text-charcoal';
   };
 
   if (loading) {
@@ -99,13 +99,13 @@ export default function TeamManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team Management</h1>
-          <p className="text-gray-600">Manage enterprise teams and their licenses</p>
+          <h1 className="text-2xl font-bold text-charcoal">Team Management</h1>
+          <p className="text-stone">Manage enterprise teams and their licenses</p>
         </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
         >
           <Plus className="w-4 h-4" />
           <span>Create Team</span>
@@ -118,14 +118,14 @@ export default function TeamManagement() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Teams</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.overview.totalTeams}</p>
+                <p className="text-sm text-stone">Total Teams</p>
+                <p className="text-2xl font-bold text-charcoal">{analytics.overview.totalTeams}</p>
               </div>
-              <div className="p-3 bg-primary-100 rounded-lg">
+              <div className="p-3 bg-primary-100 rounded-md">
                 <Users className="w-6 h-6 text-primary-600" />
               </div>
             </div>
@@ -135,15 +135,15 @@ export default function TeamManagement() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Active Teams</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.overview.activeTeams}</p>
+                <p className="text-sm text-stone">Active Teams</p>
+                <p className="text-2xl font-bold text-charcoal">{analytics.overview.activeTeams}</p>
               </div>
-              <div className="p-3 bg-green-100 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-green-600" />
+              <div className="p-3 bg-forest-100 rounded-md">
+                <TrendingUp className="w-6 h-6 text-forest-600" />
               </div>
             </div>
           </motion.div>
@@ -152,15 +152,15 @@ export default function TeamManagement() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Members</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.overview.totalMembers}</p>
+                <p className="text-sm text-stone">Total Members</p>
+                <p className="text-2xl font-bold text-charcoal">{analytics.overview.totalMembers}</p>
               </div>
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <Users className="w-6 h-6 text-purple-600" />
+              <div className="p-3 bg-terracotta-100 rounded-md">
+                <Users className="w-6 h-6 text-terracotta-600" />
               </div>
             </div>
           </motion.div>
@@ -169,15 +169,15 @@ export default function TeamManagement() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Licenses</p>
-                <p className="text-2xl font-bold text-gray-900">{analytics.overview.totalLicenses}</p>
+                <p className="text-sm text-stone">Total Licenses</p>
+                <p className="text-2xl font-bold text-charcoal">{analytics.overview.totalLicenses}</p>
               </div>
-              <div className="p-3 bg-orange-100 rounded-lg">
-                <CreditCard className="w-6 h-6 text-orange-600" />
+              <div className="p-3 bg-ochre-100 rounded-md">
+                <CreditCard className="w-6 h-6 text-ochre-600" />
               </div>
             </div>
           </motion.div>
@@ -186,15 +186,15 @@ export default function TeamManagement() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+            className="bg-white rounded-md shadow-sm p-6 border border-border/60"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Revenue</p>
-                <p className="text-2xl font-bold text-gray-900">${analytics.overview.totalRevenue.toLocaleString()}</p>
+                <p className="text-sm text-stone">Total Revenue</p>
+                <p className="text-2xl font-bold text-charcoal">${analytics.overview.totalRevenue.toLocaleString()}</p>
               </div>
-              <div className="p-3 bg-emerald-100 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-emerald-600" />
+              <div className="p-3 bg-forest-100 rounded-md">
+                <TrendingUp className="w-6 h-6 text-forest-600" />
               </div>
             </div>
           </motion.div>
@@ -202,22 +202,22 @@ export default function TeamManagement() {
       )}
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pewter w-4 h-4" />
             <input
               type="text"
               placeholder="Search teams or owners..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="active">Active</option>
@@ -227,7 +227,7 @@ export default function TeamManagement() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+            className="flex items-center space-x-2 px-4 py-2 border border-border/60 rounded-md hover:bg-paper"
           >
             <Download className="w-4 h-4" />
             <span>Export</span>
@@ -236,75 +236,75 @@ export default function TeamManagement() {
       </div>
 
       {/* Teams Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-md shadow-sm border border-border/60 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-paper border-b border-border/60">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Team
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Owner
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Size
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Members
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Licenses
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Revenue
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-border/60">
               {filteredTeams.map((team, index) => (
                 <motion.tr
                   key={team.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className="hover:bg-gray-50"
+                  className="hover:bg-paper"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{team.name}</div>
-                      <div className="text-sm text-gray-500">{team.industry}</div>
+                      <div className="text-sm font-medium text-charcoal">{team.name}</div>
+                      <div className="text-sm text-stone">{team.industry}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-xs font-medium text-gray-600">
+                      <div className="w-8 h-8 bg-forest-100 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-xs font-medium text-stone">
                           {team.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{team.name}</div>
-                        <div className="text-sm text-gray-500">ID: {team.ownerId}</div>
+                        <div className="text-sm font-medium text-charcoal">{team.name}</div>
+                        <div className="text-sm text-stone">ID: {team.ownerId}</div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                     {getSizeLabel(team.size)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                     {team.memberCount}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                     {team.licenseCount}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                     $0.00
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -312,7 +312,7 @@ export default function TeamManagement() {
                       {team.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                     <div className="flex items-center space-x-2">
                       <motion.button
                         whileHover={{ scale: 1.1 }}
@@ -325,7 +325,7 @@ export default function TeamManagement() {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="text-gray-600 hover:text-gray-800"
+                        className="text-stone hover:text-charcoal"
                       >
                         <MoreHorizontal className="w-4 h-4" />
                       </motion.button>
@@ -349,15 +349,15 @@ export default function TeamManagement() {
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-md shadow-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-border/60">
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900">{selectedTeam.name}</h2>
+                <h2 className="text-xl font-bold text-charcoal">{selectedTeam.name}</h2>
                 <button
                   onClick={() => setSelectedTeam(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-pewter hover:text-stone"
                 >
                   ×
                 </button>
@@ -366,7 +366,7 @@ export default function TeamManagement() {
             <div className="p-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-2">Team Information</h3>
+                  <h3 className="text-sm font-medium text-stone mb-2">Team Information</h3>
                   <div className="space-y-2">
                     <p className="text-sm"><span className="font-medium">Industry:</span> {selectedTeam.industry}</p>
                     <p className="text-sm"><span className="font-medium">Size:</span> {getSizeLabel(selectedTeam.size)}</p>
@@ -375,24 +375,24 @@ export default function TeamManagement() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-500 mb-2">Owner Information</h3>
+                  <h3 className="text-sm font-medium text-stone mb-2">Owner Information</h3>
                   <div className="space-y-2">
                     <p className="text-sm"><span className="font-medium">Owner ID:</span> {selectedTeam.ownerId}</p>
                   </div>
                 </div>
               </div>
               <div className="mt-6 grid grid-cols-3 gap-4">
-                <div className="bg-primary-50 rounded-lg p-4">
+                <div className="bg-primary-50 rounded-md p-4">
                   <p className="text-sm text-primary-600 font-medium">Members</p>
                   <p className="text-2xl font-bold text-primary-900">{selectedTeam.memberCount}</p>
                 </div>
-                <div className="bg-green-50 rounded-lg p-4">
-                  <p className="text-sm text-green-600 font-medium">Licenses</p>
-                  <p className="text-2xl font-bold text-green-900">{selectedTeam.licenseCount}</p>
+                <div className="bg-forest-50 rounded-md p-4">
+                  <p className="text-sm text-forest-600 font-medium">Licenses</p>
+                  <p className="text-2xl font-bold text-forest-900">{selectedTeam.licenseCount}</p>
                 </div>
-                <div className="bg-purple-50 rounded-lg p-4">
-                  <p className="text-sm text-purple-600 font-medium">Revenue</p>
-                  <p className="text-2xl font-bold text-purple-900">$0.00</p>
+                <div className="bg-terracotta-50 rounded-md p-4">
+                  <p className="text-sm text-terracotta-600 font-medium">Revenue</p>
+                  <p className="text-2xl font-bold text-terracotta-900">$0.00</p>
                 </div>
               </div>
             </div>

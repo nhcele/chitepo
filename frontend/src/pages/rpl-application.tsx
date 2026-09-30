@@ -32,13 +32,13 @@ interface CertificationPathway {
 }
 
 const statusColors = {
-  draft: 'bg-gray-100 text-gray-800',
-  submitted: 'bg-blue-100 text-blue-800',
-  under_review: 'bg-yellow-100 text-yellow-800',
-  approved: 'bg-green-100 text-green-800',
-  partially_approved: 'bg-green-100 text-green-700',
-  rejected: 'bg-red-100 text-red-800',
-  requires_evidence: 'bg-orange-100 text-orange-800',
+  draft: 'bg-forest-100 text-charcoal',
+  submitted: 'bg-forest-100 text-forest-800',
+  under_review: 'bg-ochre-100 text-ochre-800',
+  approved: 'bg-forest-100 text-forest-800',
+  partially_approved: 'bg-forest-100 text-forest-700',
+  rejected: 'bg-terracotta-100 text-terracotta-800',
+  requires_evidence: 'bg-ochre-100 text-ochre-800',
 };
 
 const statusLabels = {
@@ -134,7 +134,7 @@ export default function RPLApplicationPage() {
     return (
       <Layout>
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-forest-600"></div>
         </div>
       </Layout>
     );
@@ -148,12 +148,12 @@ export default function RPLApplicationPage() {
       </Head>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-indigo-600 to-purple-700 py-12">
+      <div className="bg-gradient-to-br from-forest-600 to-terracotta-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2">Recognition of Prior Learning (RPL)</h1>
-              <p className="text-xl text-indigo-100">Apply for course credit based on your experience</p>
+              <p className="text-xl text-forest-100">Apply for course credit based on your experience</p>
             </div>
             <DocumentCheckIcon className="h-20 w-20 text-white/30" />
           </div>
@@ -162,19 +162,19 @@ export default function RPLApplicationPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Info Section */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">What is RPL?</h3>
-          <p className="text-gray-700 mb-4">
+        <div className="bg-forest-50 border border-forest-200 rounded-md p-6 mb-8">
+          <h3 className="text-lg font-semibold text-charcoal mb-3">What is RPL?</h3>
+          <p className="text-charcoal mb-4">
             Recognition of Prior Learning (RPL) allows you to receive credit for knowledge and skills you've already gained through:
           </p>
-          <ul className="list-disc list-inside text-gray-700 space-y-1 mb-4">
+          <ul className="list-disc list-inside text-charcoal space-y-1 mb-4">
             <li>Work experience in relevant fields</li>
             <li>Previous education and qualifications</li>
             <li>Professional certifications</li>
             <li>Leadership roles and community service</li>
             <li>Publications and research</li>
           </ul>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-stone">
             <strong>Requirements:</strong> Provide detailed evidence and justification for each claim. Applications are reviewed by qualified assessors.
           </p>
         </div>
@@ -182,29 +182,29 @@ export default function RPLApplicationPage() {
         {/* Applications List */}
         {applications.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Your Applications</h2>
+            <h2 className="text-2xl font-bold text-charcoal mb-4">Your Applications</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {applications.map((app) => (
-                <div key={app.id} className="bg-white rounded-lg shadow p-6">
+                <div key={app.id} className="bg-white rounded-md shadow p-6">
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="font-semibold text-gray-900">{app.pathway.levelTitle}</h3>
-                      <p className="text-sm text-gray-600">{app.pathway.name}</p>
+                      <h3 className="font-semibold text-charcoal">{app.pathway.levelTitle}</h3>
+                      <p className="text-sm text-stone">{app.pathway.name}</p>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[app.status as keyof typeof statusColors]}`}>
                       {statusLabels[app.status as keyof typeof statusLabels]}
                     </span>
                   </div>
                   <div className="space-y-2 text-sm">
-                    <p className="text-gray-600">
+                    <p className="text-stone">
                       <span className="font-medium">Credits Requested:</span> {app.creditsRequested}
                     </p>
                     {app.creditsApproved > 0 && (
-                      <p className="text-green-600">
+                      <p className="text-forest-600">
                         <span className="font-medium">Credits Approved:</span> {app.creditsApproved}
                       </p>
                     )}
-                    <p className="text-gray-600">
+                    <p className="text-stone">
                       <span className="font-medium">Submitted:</span> {new Date(app.submittedAt).toLocaleDateString()}
                     </p>
                   </div>
@@ -219,7 +219,7 @@ export default function RPLApplicationPage() {
           <div className="text-center mb-8">
             <button
               onClick={() => setShowForm(true)}
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-forest-600 text-white rounded-md font-medium hover:bg-forest-700 transition-colors"
             >
               <PlusIcon className="h-5 w-5 mr-2" />
               New RPL Application

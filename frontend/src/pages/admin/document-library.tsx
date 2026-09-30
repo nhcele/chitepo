@@ -257,37 +257,37 @@ export default function DocumentLibrary() {
               <motion.div
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
+                className="rounded-md border border-forest-200 bg-forest-50 px-4 py-3 text-sm text-forest-700"
               >
                 {toast}
               </motion.div>
             )}
 
             {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              <div className="rounded-md border border-terracotta-200 bg-terracotta-50 px-4 py-3 text-sm text-terracotta-700">
                 {error}
               </div>
             )}
 
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
               <div className="xl:col-span-1 space-y-6">
-                <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
+                <div className="bg-white rounded-md shadow-sm p-6 space-y-4">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-gray-900">Upload Intake</h2>
-                    <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                    <h2 className="text-lg font-semibold text-charcoal">Upload Intake</h2>
+                    <span className="inline-flex items-center gap-1 text-xs text-stone">
                       <DocumentCheckIcon className="h-4 w-4" />
                       OCR-ready
                     </span>
                   </div>
 
                   <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-lg p-5 text-center cursor-pointer hover:border-primary-300 transition">
+                    <label className="flex flex-col items-center justify-center border-2 border-dashed border-border/60 rounded-md p-5 text-center cursor-pointer hover:border-primary-300 transition">
                       <ArrowUpTrayIcon className="h-6 w-6 text-primary-600 mb-2" />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-stone">
                         {selectedFile ? selectedFile.name : 'Drop a PDF, image, or doc file here'}
                       </span>
-                      <span className="text-xs text-gray-400">Max 100MB per file</span>
-                      <span className="text-[11px] text-gray-400">PDF and images supported for OCR</span>
+                      <span className="text-xs text-pewter">Max 100MB per file</span>
+                      <span className="text-[11px] text-pewter">PDF and images supported for OCR</span>
                       <input
                         type="file"
                         className="hidden"
@@ -306,21 +306,21 @@ export default function DocumentLibrary() {
 
                     <div className="grid grid-cols-1 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Title</label>
+                        <label className="text-xs font-medium text-stone">Title</label>
                         <input
                           value={uploadForm.title}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, title: e.target.value }))}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="Document title"
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Description</label>
+                        <label className="text-xs font-medium text-stone">Description</label>
                         <textarea
                           value={uploadForm.description}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, description: e.target.value }))}
                           rows={3}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="Short summary for catalog search"
                         />
                       </div>
@@ -328,20 +328,20 @@ export default function DocumentLibrary() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Department</label>
+                        <label className="text-xs font-medium text-stone">Department</label>
                         <input
                           value={uploadForm.department}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, department: e.target.value }))}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="Risk, HR, Ops"
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Classification</label>
+                        <label className="text-xs font-medium text-stone">Classification</label>
                         <select
                           value={uploadForm.classification}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, classification: e.target.value }))}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                         >
                           {['Public', 'Internal', 'Confidential', 'Restricted'].map((level) => (
                             <option key={level} value={level}>
@@ -354,45 +354,45 @@ export default function DocumentLibrary() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Tags</label>
+                        <label className="text-xs font-medium text-stone">Tags</label>
                         <input
                           value={uploadForm.tags}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, tags: e.target.value }))}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="compliance, onboarding"
                         />
                       </div>
                       <div>
-                        <label className="text-xs font-medium text-gray-600">Retention Until</label>
+                        <label className="text-xs font-medium text-stone">Retention Until</label>
                         <input
                           type="date"
                           value={uploadForm.retentionUntil}
                           onChange={(e) => setUploadForm((prev) => ({ ...prev, retentionUntil: e.target.value }))}
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-xs font-medium text-gray-600">Access Departments</label>
+                      <label className="text-xs font-medium text-stone">Access Departments</label>
                       <input
                         value={uploadForm.accessDepartments}
                         onChange={(e) => setUploadForm((prev) => ({ ...prev, accessDepartments: e.target.value }))}
-                        className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                        className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                         placeholder="Comma separated departments"
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs font-medium text-gray-600">Access Roles</label>
+                      <label className="text-xs font-medium text-stone">Access Roles</label>
                       <div className="mt-2 grid grid-cols-2 gap-2">
                         {roleOptions.map((role) => (
-                          <label key={role.value} className="flex items-center gap-2 text-xs text-gray-600">
+                          <label key={role.value} className="flex items-center gap-2 text-xs text-stone">
                             <input
                               type="checkbox"
                               checked={uploadForm.accessRoles.includes(role.value)}
                               onChange={() => toggleRole(role.value)}
-                              className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                              className="rounded border-border/60 text-primary-600 focus:ring-primary-500"
                             />
                             {role.label}
                           </label>
@@ -400,24 +400,24 @@ export default function DocumentLibrary() {
                       </div>
                     </div>
 
-                    <label className="flex items-center gap-3 rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-600">
+                    <label className="flex items-center gap-3 rounded-md border border-border/60 px-3 py-2 text-sm text-stone">
                       <input
                         type="checkbox"
                         checked={scanIntake}
                         onChange={(e) => setScanIntake(e.target.checked)}
-                        className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                        className="rounded border-border/60 text-primary-600 focus:ring-primary-500"
                       />
                       Flag as scan intake (OCR indexing will run after upload)
                     </label>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-pewter">
                       OCR runs in the background. Status updates appear in the catalog.
                     </p>
 
                     <button
                       onClick={handleUpload}
                       disabled={uploading}
-                      className={`w-full inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition ${
-                        uploading ? 'bg-gray-400' : 'bg-primary-600 hover:bg-primary-700'
+                      className={`w-full inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition ${
+                        uploading ? 'bg-stone' : 'bg-primary-600 hover:bg-primary-700'
                       }`}
                     >
                       <ArrowUpTrayIcon className="h-4 w-4" />
@@ -426,35 +426,35 @@ export default function DocumentLibrary() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
-                  <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+                <div className="bg-white rounded-md shadow-sm p-6 space-y-4">
+                  <h2 className="text-lg font-semibold text-charcoal">Filters</h2>
 
                   <div className="space-y-3">
                     <div className="relative">
-                      <MagnifyingGlassIcon className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <MagnifyingGlassIcon className="h-4 w-4 text-pewter absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
                         value={filters.q}
                         onChange={(e) => setFilters((prev) => ({ ...prev, q: e.target.value }))}
-                        className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                        className="w-full rounded-md border border-border/60 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                         placeholder="Search title or extracted text"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="relative">
-                        <TagIcon className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <TagIcon className="h-4 w-4 text-pewter absolute left-3 top-1/2 -translate-y-1/2" />
                         <input
                           value={filters.tags}
                           onChange={(e) => setFilters((prev) => ({ ...prev, tags: e.target.value }))}
-                          className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="w-full rounded-md border border-border/60 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="Tags"
                         />
                       </div>
                       <div className="relative">
-                        <BuildingOfficeIcon className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                        <BuildingOfficeIcon className="h-4 w-4 text-pewter absolute left-3 top-1/2 -translate-y-1/2" />
                         <input
                           value={filters.department}
                           onChange={(e) => setFilters((prev) => ({ ...prev, department: e.target.value }))}
-                          className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                          className="w-full rounded-md border border-border/60 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                           placeholder="Department"
                         />
                       </div>
@@ -462,7 +462,7 @@ export default function DocumentLibrary() {
                     <select
                       value={filters.state}
                       onChange={(e) => setFilters((prev) => ({ ...prev, state: e.target.value as StateFilter }))}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                     >
                       <option value="ALL">All states</option>
                       <option value="ACTIVE">Active</option>
@@ -471,7 +471,7 @@ export default function DocumentLibrary() {
                     <select
                       value={filters.ocrStatus}
                       onChange={(e) => setFilters((prev) => ({ ...prev, ocrStatus: e.target.value as OcrFilter }))}
-                      className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                     >
                       <option value="ALL">All OCR states</option>
                       <option value="INDEXED">Indexed</option>
@@ -482,8 +482,8 @@ export default function DocumentLibrary() {
                     </select>
                     <div className="flex gap-2">
                       <button
-                        onClick={fetchDocuments}
-                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                        onClick={() => fetchDocuments()}
+                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
                       >
                         <ArrowPathIcon className="h-4 w-4" />
                         Apply Filters
@@ -494,7 +494,7 @@ export default function DocumentLibrary() {
                           setFilters(resetFilters);
                           fetchDocuments(resetFilters);
                         }}
-                        className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
+                        className="flex-1 rounded-md border border-border/60 px-3 py-2 text-sm text-stone hover:bg-paper"
                       >
                         Reset
                       </button>
@@ -505,82 +505,82 @@ export default function DocumentLibrary() {
 
               <div className="xl:col-span-2 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <DocumentTextIcon className="h-4 w-4" />
                       Total documents
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">
+                    <div className="mt-2 text-2xl font-bold text-charcoal">
                       {documents.length}
                     </div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <DocumentCheckIcon className="h-4 w-4" />
                       Indexed
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.indexed}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.indexed}</div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <ArrowUpTrayIcon className="h-4 w-4" />
                       Scan intake
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.scanIntake}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.scanIntake}</div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <ClockIcon className="h-4 w-4" />
                       OCR pending
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.ocrPending}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.ocrPending}</div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <ShieldCheckIcon className="h-4 w-4" />
                       Active
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.active}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.active}</div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <ArchiveBoxIcon className="h-4 w-4" />
                       Archived
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.archived}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.archived}</div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <DocumentTextIcon className="h-4 w-4" />
                       OCR failed
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.ocrFailed}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.ocrFailed}</div>
                   </div>
-                  <div className="bg-white rounded-lg shadow p-4">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="bg-white rounded-md shadow p-4">
+                    <div className="flex items-center gap-2 text-sm text-stone">
                       <ShieldCheckIcon className="h-4 w-4" />
                       OCR unavailable
                     </div>
-                    <div className="mt-2 text-2xl font-bold text-gray-900">{totals.ocrUnavailable}</div>
+                    <div className="mt-2 text-2xl font-bold text-charcoal">{totals.ocrUnavailable}</div>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="bg-white rounded-md shadow-sm p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-900">Document Catalog</h2>
-                    <div className="text-right text-xs text-gray-500">
+                    <h2 className="text-lg font-semibold text-charcoal">Document Catalog</h2>
+                    <div className="text-right text-xs text-stone">
                       <div>Storage used: {formatBytes(totals.totalBytes)}</div>
                       <div>Showing {filteredDocuments.length} of {documents.length}</div>
                     </div>
                   </div>
 
                   {loading ? (
-                    <div className="py-12 text-center text-gray-500">Loading documents...</div>
+                    <div className="py-12 text-center text-stone">Loading documents...</div>
                   ) : filteredDocuments.length === 0 ? (
-                    <div className="py-12 text-center text-gray-500">
+                    <div className="py-12 text-center text-stone">
                       {documents.length === 0
                         ? 'No documents yet. Upload a file to start your library.'
                         : 'No documents match the current filters.'}
@@ -596,16 +596,16 @@ export default function DocumentLibrary() {
                             key={doc.id}
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition"
+                            className="border border-border/60 rounded-md p-4 hover:shadow-sm transition"
                           >
                             <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                               <div className="space-y-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm font-semibold text-gray-900">{doc.title}</span>
+                                  <span className="text-sm font-semibold text-charcoal">{doc.title}</span>
                                   <span className={`text-xs px-2 py-0.5 rounded-full ${
                                     doc.state === 'ACTIVE'
-                                      ? 'bg-green-100 text-green-700'
-                                      : 'bg-gray-100 text-gray-600'
+                                      ? 'bg-forest-100 text-forest-700'
+                                      : 'bg-forest-100 text-stone'
                                   }`}>
                                     {doc.state}
                                   </span>
@@ -613,25 +613,25 @@ export default function DocumentLibrary() {
                                     {ocrInfo.label}
                                   </span>
                                   {doc.metadata?.scanIntake && (
-                                    <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700">Scan intake</span>
+                                    <span className="text-xs px-2 py-0.5 rounded-full bg-forest-50 text-forest-700">Scan intake</span>
                                   )}
                                 </div>
                                 {doc.description && (
-                                  <p className="text-sm text-gray-600">{doc.description}</p>
+                                  <p className="text-sm text-stone">{doc.description}</p>
                                 )}
                                 {doc.textContent && (
-                                  <p className="text-xs text-gray-500">
+                                  <p className="text-xs text-stone">
                                     {doc.textContent.length > 160 ? `${doc.textContent.slice(0, 160)}...` : doc.textContent}
                                   </p>
                                 )}
                                 <div className="flex flex-wrap gap-2">
                                   {doc.tags?.map((tag) => (
-                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+                                    <span key={tag} className="text-xs px-2 py-1 rounded-full bg-forest-100 text-stone">
                                       #{tag}
                                     </span>
                                   ))}
                                 </div>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-gray-500">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 text-xs text-stone">
                                   <div className="flex items-center gap-1">
                                     <BuildingOfficeIcon className="h-3.5 w-3.5" />
                                     {doc.department || 'Unassigned'}
@@ -650,21 +650,21 @@ export default function DocumentLibrary() {
                                   </div>
                                 </div>
                                 {(doc.accessRoles?.length || doc.accessDepartments?.length) && (
-                                  <div className="flex flex-wrap gap-2 text-xs text-gray-500">
+                                  <div className="flex flex-wrap gap-2 text-xs text-stone">
                                     {doc.accessDepartments?.map((dept) => (
-                                      <span key={dept} className="rounded-full bg-indigo-50 px-2 py-0.5 text-indigo-700">
+                                      <span key={dept} className="rounded-full bg-forest-50 px-2 py-0.5 text-forest-700">
                                         {dept}
                                       </span>
                                     ))}
                                     {doc.accessRoles?.map((role) => (
-                                      <span key={role} className="rounded-full bg-emerald-50 px-2 py-0.5 text-emerald-700">
+                                      <span key={role} className="rounded-full bg-forest-50 px-2 py-0.5 text-forest-700">
                                         {role.replace('_', ' ').toLowerCase()}
                                       </span>
                                     ))}
                                   </div>
                                 )}
                                 {retentionExpired && (
-                                  <p className="text-xs text-red-600">Retention date passed. Review for archival or deletion.</p>
+                                  <p className="text-xs text-terracotta-600">Retention date passed. Review for archival or deletion.</p>
                                 )}
                               </div>
 
@@ -673,22 +673,22 @@ export default function DocumentLibrary() {
                                   href={doc.fileUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                                  className="inline-flex items-center justify-center rounded-md border border-border/60 px-3 py-2 text-xs font-medium text-charcoal hover:bg-paper"
                                 >
                                   View file
                                 </a>
                                 <button
                                   type="button"
                                   onClick={() => handleDownload(doc)}
-                                  className="inline-flex items-center justify-center rounded-lg border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-medium text-primary-700 hover:bg-primary-100"
+                                  className="inline-flex items-center justify-center rounded-md border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-medium text-primary-700 hover:bg-primary-100"
                                 >
                                   Download
                                 </button>
                                 <button
                                   onClick={() => handleArchive(doc)}
-                                  className={`inline-flex items-center justify-center rounded-lg px-3 py-2 text-xs font-medium text-white ${
+                                  className={`inline-flex items-center justify-center rounded-md px-3 py-2 text-xs font-medium text-white ${
                                     doc.state === 'ACTIVE'
-                                      ? 'bg-gray-700 hover:bg-gray-800'
+                                      ? 'bg-ink-800 hover:bg-ink-900'
                                       : 'bg-primary-600 hover:bg-primary-700'
                                   }`}
                                 >
@@ -698,9 +698,9 @@ export default function DocumentLibrary() {
                                   <button
                                     onClick={() => handleReindex(doc)}
                                     disabled={reindexingId === doc.id}
-                                    className={`inline-flex items-center justify-center rounded-lg border px-3 py-2 text-xs font-medium ${
+                                    className={`inline-flex items-center justify-center rounded-md border px-3 py-2 text-xs font-medium ${
                                       reindexingId === doc.id
-                                        ? 'border-gray-300 text-gray-400'
+                                        ? 'border-border/60 text-pewter'
                                         : 'border-primary-300 text-primary-700 hover:bg-primary-50'
                                     }`}
                                   >
@@ -741,7 +741,7 @@ function formatBytes(bytes: number): string {
 
 function getOcrStatus(doc: DocumentResource): { status: string; label: string; badgeClass: string } {
   if (doc.textContent) {
-    return { status: 'succeeded', label: 'Indexed', badgeClass: 'bg-blue-50 text-blue-700' };
+    return { status: 'succeeded', label: 'Indexed', badgeClass: 'bg-forest-50 text-forest-700' };
   }
 
   const metadata = doc.metadata || {};
@@ -749,19 +749,19 @@ function getOcrStatus(doc: DocumentResource): { status: string; label: string; b
   const scanIntake = (metadata as any).scanIntake;
 
   if (!scanIntake) {
-    return { status: 'skipped', label: 'No OCR', badgeClass: 'bg-gray-100 text-gray-600' };
+    return { status: 'skipped', label: 'No OCR', badgeClass: 'bg-forest-100 text-stone' };
   }
 
   switch (ocr.status) {
     case 'failed':
-      return { status: 'failed', label: 'OCR failed', badgeClass: 'bg-red-50 text-red-700' };
+      return { status: 'failed', label: 'OCR failed', badgeClass: 'bg-terracotta-50 text-terracotta-700' };
     case 'unavailable':
-      return { status: 'unavailable', label: 'OCR unavailable', badgeClass: 'bg-yellow-50 text-yellow-700' };
+      return { status: 'unavailable', label: 'OCR unavailable', badgeClass: 'bg-ochre-50 text-ochre-700' };
     case 'queued':
-      return { status: 'queued', label: 'OCR queued', badgeClass: 'bg-yellow-50 text-yellow-700' };
+      return { status: 'queued', label: 'OCR queued', badgeClass: 'bg-ochre-50 text-ochre-700' };
     case 'processing':
-      return { status: 'processing', label: 'OCR processing', badgeClass: 'bg-yellow-50 text-yellow-700' };
+      return { status: 'processing', label: 'OCR processing', badgeClass: 'bg-ochre-50 text-ochre-700' };
     default:
-      return { status: 'pending', label: 'OCR pending', badgeClass: 'bg-yellow-50 text-yellow-700' };
+      return { status: 'pending', label: 'OCR pending', badgeClass: 'bg-ochre-50 text-ochre-700' };
   }
 }

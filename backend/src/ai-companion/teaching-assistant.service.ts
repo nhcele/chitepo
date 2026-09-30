@@ -4,8 +4,8 @@ import { OpenAI } from 'openai';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
 
@@ -86,7 +86,7 @@ export class TeachingAssistantService {
     private configService: ConfigService,
     @InjectRepository(Course) private readonly courseRepo: Repository<Course>,
     @InjectRepository(Enrollment) private readonly enrollmentRepo: Repository<Enrollment>,
-    @InjectRepository(Progress) private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress) private readonly progressRepo: Repository<LessonProgress>,
     @InjectRepository(QuizAttempt) private readonly attemptRepo: Repository<QuizAttempt>,
     @InjectRepository(Lesson) private readonly lessonRepo: Repository<Lesson>,
   ) {
@@ -150,19 +150,19 @@ export class TeachingAssistantService {
 
     // Calculate metrics
     const totalStudents = enrollments.length;
-    const activeStudents = progressRecords.filter(p => 
-      p.lastAccessed && 
-      (Date.now() - p.lastAccessed.getTime()) < 7 * 24 * 60 * 60 * 1000
+    const activeStudents = progressRecords.filter(p =>
+      p.updatedAt &&
+      (Date.now() - p.updatedAt.getTime()) < 7 * 24 * 60 * 60 * 1000
     ).length;
 
     const averagePerformance = progressRecords.length > 0
-      ? progressRecords.reduce((sum, p) => sum + (p.score || 0), 0) / progressRecords.length
+      ? progressRecords.reduce((sum, p) => sum + (p.bestQuizScore || p.watchPercent || 0), 0) / progressRecords.length
       : 0;
 
     const completionRate = enrollments.filter(e => e.completedAt).length / Math.max(1, totalStudents) * 100;
 
     const averageTimeSpent = progressRecords.length > 0
-      ? progressRecords.reduce((sum, p) => sum + (p.watchTime || 0), 0) / progressRecords.length / 60
+      ? progressRecords.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0) / progressRecords.length / 60
       : 0;
 
     // Identify struggling topics
@@ -173,12 +173,12 @@ export class TeachingAssistantService {
     const oneDayAgo = now - 24 * 60 * 60 * 1000;
     const oneWeekAgo = now - 7 * 24 * 60 * 60 * 1000;
 
-    const dailyActiveUsers = progressRecords.filter(p => 
-      p.lastAccessed && p.lastAccessed.getTime() > oneDayAgo
+    const dailyActiveUsers = progressRecords.filter(p =>
+      p.updatedAt && p.updatedAt.getTime() > oneDayAgo
     ).length;
 
-    const weeklyActiveUsers = progressRecords.filter(p => 
-      p.lastAccessed && p.lastAccessed.getTime() > oneWeekAgo
+    const weeklyActiveUsers = progressRecords.filter(p =>
+      p.updatedAt && p.updatedAt.getTime() > oneWeekAgo
     ).length;
 
     const engagementMetrics = {
@@ -190,12 +190,12 @@ export class TeachingAssistantService {
 
     // Identify top performers
     const topPerformers = progressRecords
-      .sort((a, b) => (b.score || 0) - (a.score || 0))
+      .sort((a, b) => (b.watchPercent || 0) - (a.watchPercent || 0))
       .slice(0, 5)
       .map(p => ({
         userId: p.userId,
-        score: p.score || 0,
-        completionRate: p.completed ? 100 : (p.score || 0)
+        score: p.bestQuizScore ?? p.watchPercent ?? 0,
+        completionRate: p.isCompleted ? 100 : (p.watchPercent || 0)
       }));
 
     // Identify at-risk students
@@ -376,7 +376,7 @@ Guidelines:
 
     // Calculate engagement metrics
     const avgWatchTime = progressRecords.length > 0
-      ? progressRecords.reduce((sum, p) => sum + (p.watchTime || 0), 0) / progressRecords.length
+      ? progressRecords.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0) / progressRecords.length
       : 0;
 
     const content = lesson.transcript || lesson.content || '';
@@ -551,18 +551,18 @@ Guidelines:
 
   private async identifyDropOffPoints(
     courseId: string,
-    progressRecords: Progress[]
+    progressRecords: LessonProgress[]
   ): Promise<string[]> {
     // Simplified - would analyze lesson completion patterns
     const dropOffPoints: string[] = [];
 
-    const incompleteCourses = progressRecords.filter(p => !p.completed && p.score < 50);
-    
+    const incompleteCourses = progressRecords.filter(p => !p.isCompleted && p.watchPercent < 50);
+
     if (incompleteCourses.length > progressRecords.length * 0.3) {
       dropOffPoints.push('Mid-course content appears to be a barrier');
     }
 
-    if (progressRecords.filter(p => p.score === 0).length > progressRecords.length * 0.2) {
+    if (progressRecords.filter(p => p.watchPercent === 0).length > progressRecords.length * 0.2) {
       dropOffPoints.push('Many students not starting the course');
     }
 
@@ -570,7 +570,7 @@ Guidelines:
   }
 
   private identifyAtRiskStudents(
-    progressRecords: Progress[],
+    progressRecords: LessonProgress[],
     quizAttempts: QuizAttempt[]
   ): ClassAnalytics['atRiskStudents'] {
     const atRisk: ClassAnalytics['atRiskStudents'] = [];
@@ -580,8 +580,8 @@ Guidelines:
       let riskLevel: 'high' | 'medium' | null = null;
 
       // Check inactivity
-      if (progress.lastAccessed) {
-        const daysSinceAccess = (Date.now() - progress.lastAccessed.getTime()) / (1000 * 60 * 60 * 24);
+      if (progress.updatedAt) {
+        const daysSinceAccess = (Date.now() - progress.updatedAt.getTime()) / (1000 * 60 * 60 * 24);
         if (daysSinceAccess > 14) {
           reasons.push('Inactive for over 2 weeks');
           riskLevel = 'high';
@@ -605,7 +605,7 @@ Guidelines:
       }
 
       // Check progress
-      if (progress.score < 25 && !progress.completed) {
+      if (progress.watchPercent < 25 && !progress.isCompleted) {
         reasons.push('Low course progress');
         riskLevel = riskLevel || 'medium';
       }

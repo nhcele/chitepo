@@ -148,13 +148,13 @@ export default function EnterprisePage() {
       </Head>
       <Layout>
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+        <div className="bg-gradient-to-br from-forest-50 to-forest-100 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-5xl font-bold text-charcoal mb-6">
                 Transform Your Team&apos;s Skills
               </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              <p className="text-xl text-stone mb-8 max-w-3xl mx-auto">
                 Empower your organization with AI-driven professional learning, blockchain certificates, 
                 and comprehensive analytics. Join 500+ companies already scaling their teams with Chitepo.
               </p>
@@ -191,7 +191,7 @@ export default function EnterprisePage() {
                   className="text-center"
                 >
                   <div className="text-4xl font-bold text-primary-600 mb-2">{stat.value}</div>
-                  <div className="text-gray-600">{stat.name}</div>
+                  <div className="text-stone">{stat.name}</div>
                 </motion.div>
               ))}
             </div>
@@ -199,7 +199,7 @@ export default function EnterprisePage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="bg-gray-50 py-4">
+        <div className="bg-paper py-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav className="flex space-x-8">
               <button
@@ -207,7 +207,7 @@ export default function EnterprisePage() {
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'features'
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 Features
@@ -217,7 +217,7 @@ export default function EnterprisePage() {
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'pricing'
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 Pricing
@@ -227,7 +227,7 @@ export default function EnterprisePage() {
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'case-studies'
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 Case Studies
@@ -241,8 +241,8 @@ export default function EnterprisePage() {
           <div className="bg-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Enterprise Features</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <h2 className="text-3xl font-bold text-charcoal mb-4">Enterprise Features</h2>
+                <p className="text-stone max-w-2xl mx-auto">
                   Everything you need to scale learning across your organization with enterprise-grade security and customization.
                 </p>
               </div>
@@ -254,13 +254,13 @@ export default function EnterprisePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-gray-50 rounded-lg p-6"
+                    className="bg-paper rounded-md p-6"
                   >
                     <div className="flex items-center mb-4">
                       <feature.icon className="h-8 w-8 text-primary-600 mr-3" />
-                      <h3 className="text-lg font-semibold text-gray-900">{feature.name}</h3>
+                      <h3 className="text-lg font-semibold text-charcoal">{feature.name}</h3>
                     </div>
-                    <p className="text-gray-600">{feature.description}</p>
+                    <p className="text-stone">{feature.description}</p>
                   </motion.div>
                 ))}
               </div>
@@ -273,8 +273,8 @@ export default function EnterprisePage() {
           <div className="bg-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Enterprise Pricing</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <h2 className="text-3xl font-bold text-charcoal mb-4">Enterprise Pricing</h2>
+                <p className="text-stone max-w-2xl mx-auto">
                   Flexible pricing options to fit organizations of all sizes. All plans include our core learning platform.
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function EnterprisePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className={`rounded-lg shadow-lg overflow-hidden ${
+                    className={`rounded-md shadow-sm overflow-hidden ${
                       plan.popular ? 'ring-2 ring-primary-500' : ''
                     }`}
                   >
@@ -296,21 +296,21 @@ export default function EnterprisePage() {
                       </div>
                     )}
                     <div className="bg-white p-6">
-                      <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                      <p className="text-gray-600 mb-4">{plan.description}</p>
+                      <h3 className="text-2xl font-bold text-charcoal mb-2">{plan.name}</h3>
+                      <p className="text-stone mb-4">{plan.description}</p>
                       <div className="mb-6">
-                        <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                        <span className="text-gray-600 ml-2">{plan.period}</span>
+                        <span className="text-4xl font-bold text-charcoal">{plan.price}</span>
+                        <span className="text-stone ml-2">{plan.period}</span>
                       </div>
                       <ul className="space-y-3 mb-6">
                         {plan.features.map((feature, i) => (
                           <li key={i} className="flex items-start">
-                            <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                            <span className="text-gray-600">{feature}</span>
+                            <CheckCircleIcon className="h-5 w-5 text-forest-500 mr-2 flex-shrink-0 mt-0.5" />
+                            <span className="text-stone">{feature}</span>
                           </li>
                         ))}
                       </ul>
-                      <button className="w-full bg-primary-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-primary-700 transition-colors">
+                      <button className="w-full bg-primary-600 text-white py-3 px-6 rounded-md font-medium hover:bg-primary-700 transition-colors">
                         {plan.cta}
                       </button>
                     </div>
@@ -326,8 +326,8 @@ export default function EnterprisePage() {
           <div className="bg-white py-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Success Stories</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <h2 className="text-3xl font-bold text-charcoal mb-4">Success Stories</h2>
+                <p className="text-stone max-w-2xl mx-auto">
                   See how leading organizations are transforming their teams with Chitepo.
                 </p>
               </div>
@@ -339,9 +339,9 @@ export default function EnterprisePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-gray-50 rounded-lg p-6"
+                    className="bg-paper rounded-md p-6"
                   >
-                    <p className="text-gray-600 mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
+                    <p className="text-stone mb-6 italic">&ldquo;{testimonial.content}&rdquo;</p>
                     <div className="flex items-center">
                       <Image
                         src={testimonial.avatar}
@@ -351,9 +351,9 @@ export default function EnterprisePage() {
                         className="w-12 h-12 rounded-full mr-4"
                       />
                       <div>
-                        <div className="font-semibold text-gray-900">{testimonial.author}</div>
-                        <div className="text-sm text-gray-600">{testimonial.role}</div>
-                        <div className="text-sm text-gray-500">{testimonial.company}</div>
+                        <div className="font-semibold text-charcoal">{testimonial.author}</div>
+                        <div className="text-sm text-stone">{testimonial.role}</div>
+                        <div className="text-sm text-stone">{testimonial.company}</div>
                       </div>
                     </div>
                   </motion.div>
@@ -369,14 +369,14 @@ export default function EnterprisePage() {
             <h2 className="text-3xl font-bold text-white mb-4">
               Ready to Transform Your Team?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-forest-100 mb-8 max-w-2xl mx-auto">
               Join hundreds of companies already using Chitepo to upskill their teams.
               Get started with a personalized demo today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/enterprise/demo"
-                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50"
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-paper"
               >
                 <PlayCircleIcon className="h-5 w-5 mr-2" />
                 Schedule Demo

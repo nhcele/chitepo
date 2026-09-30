@@ -83,7 +83,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-gray-500">Loading session...</div>
+        <div className="text-stone">Loading session...</div>
       </div>
     );
   }
@@ -91,7 +91,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
   if (!session) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="text-red-500">Session not found</div>
+        <div className="text-terracotta-500">Session not found</div>
       </div>
     );
   }
@@ -102,17 +102,17 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
   return (
     <div className="p-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
+      <div className="bg-white rounded-md shadow-sm p-6 mb-6 border border-border/60">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{session.title}</h1>
+            <h1 className="text-2xl font-bold text-charcoal">{session.title}</h1>
             {session.description && (
-              <p className="text-gray-600 mt-1">{session.description}</p>
+              <p className="text-stone mt-1">{session.description}</p>
             )}
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-500 mb-1">Session Code</div>
-            <div className="text-2xl font-mono font-bold bg-gray-100 px-4 py-2 rounded-lg">
+            <div className="text-sm text-stone mb-1">Session Code</div>
+            <div className="text-2xl font-mono font-bold bg-forest-100 px-4 py-2 rounded-md">
               {session.sessionCode}
             </div>
           </div>
@@ -121,26 +121,26 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
         {/* Session Info */}
         <div className="grid grid-cols-3 gap-4 mb-4">
           <div>
-            <div className="text-sm text-gray-500">Status</div>
+            <div className="text-sm text-stone">Status</div>
             <div
               className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                 isActive
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-gray-100 text-gray-800'
+                  ? 'bg-forest-100 text-forest-800'
+                  : 'bg-forest-100 text-charcoal'
               }`}
             >
               {session.status}
             </div>
           </div>
           <div>
-            <div className="text-sm text-gray-500">Type</div>
-            <div className="text-sm font-medium text-gray-900">
+            <div className="text-sm text-stone">Type</div>
+            <div className="text-sm font-medium text-charcoal">
               {session.type.charAt(0).toUpperCase() + session.type.slice(1)}
             </div>
           </div>
           <div>
-            <div className="text-sm text-gray-500">Venue</div>
-            <div className="text-sm font-medium text-gray-900">{session.venue || 'N/A'}</div>
+            <div className="text-sm text-stone">Venue</div>
+            <div className="text-sm font-medium text-charcoal">{session.venue || 'N/A'}</div>
           </div>
         </div>
 
@@ -150,7 +150,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
             <button
               onClick={handleStart}
               disabled={actionLoading}
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
+              className="bg-forest-600 text-white px-6 py-2 rounded-md hover:bg-forest-700 transition disabled:opacity-50"
             >
               Start Session
             </button>
@@ -160,14 +160,14 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
               <button
                 onClick={handlePause}
                 disabled={actionLoading}
-                className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition disabled:opacity-50"
+                className="bg-ochre-600 text-white px-6 py-2 rounded-md hover:bg-ochre-700 transition disabled:opacity-50"
               >
                 Pause
               </button>
               <button
                 onClick={handleEnd}
                 disabled={actionLoading}
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                className="bg-terracotta-600 text-white px-6 py-2 rounded-md hover:bg-terracotta-700 transition disabled:opacity-50"
               >
                 End Session
               </button>
@@ -176,7 +176,7 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
           <a
             href={`/classroom/join?code=${session.sessionCode}`}
             target="_blank"
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            className="bg-forest-600 text-white px-6 py-2 rounded-md hover:bg-forest-700 transition"
           >
             Open Presenter Mode
           </a>
@@ -188,18 +188,18 @@ export default function ClassroomSessionView({ sessionId }: ClassroomSessionView
         {/* Main Content Area */}
         <div className="lg:col-span-2">
           {session.course && (
-            <div className="bg-white rounded-lg p-6 border border-gray-200 mb-6">
+            <div className="bg-white rounded-md p-6 border border-border/60 mb-6">
               <h3 className="text-lg font-semibold mb-4">Course Content</h3>
-              <div className="text-gray-900 font-medium">{session.course.title}</div>
+              <div className="text-charcoal font-medium">{session.course.title}</div>
               {session.lesson && (
-                <div className="mt-2 text-gray-600">Current Lesson: {session.lesson.title}</div>
+                <div className="mt-2 text-stone">Current Lesson: {session.lesson.title}</div>
               )}
             </div>
           )}
 
-          <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <div className="bg-white rounded-md p-6 border border-border/60">
             <h3 className="text-lg font-semibold mb-4">Session Controls</h3>
-            <div className="text-gray-600">
+            <div className="text-stone">
               Use the controls above to start, pause, or end the session. Students can join using the
               session code displayed at the top.
             </div>

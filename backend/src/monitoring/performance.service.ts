@@ -116,7 +116,14 @@ export class PerformanceService implements OnModuleInit {
 
     // Alert on high error rate
     if (metrics.errorRate > 10) {
-      this.logger.warn(`High error rate detected: ${metrics.errorRate.toFixed(2)}%`);
+      const recentErrors = this.getMostFrequentErrors(
+        this.metrics.filter(m => now - m.timestamp.getTime() < 60000),
+        3,
+      );
+      const errorSummary = recentErrors.length
+        ? ` Top recent errors: ${recentErrors.map(e => `${e.error} x${e.count}`).join('; ')}`
+        : '';
+      this.logger.warn(`High error rate detected: ${metrics.errorRate.toFixed(2)}%.${errorSummary}`);
     }
   }
 

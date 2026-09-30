@@ -44,6 +44,31 @@ export class Quiz {
   @Column({ name: 'is_published', default: false })
   isPublished: boolean;
 
+  @Column({ default: 'manual' })
+  source: 'manual' | 'ai';
+
+  @Column({
+    type: 'enum',
+    enum: ['lesson', 'knowledge_check', 'module'],
+    default: 'lesson',
+  })
+  type: 'lesson' | 'knowledge_check' | 'module';
+
+  @Column({ name: 'ai_provider', nullable: true })
+  aiProvider: string;
+
+  @Column({ name: 'ai_model', nullable: true })
+  aiModel: string;
+
+  @Column({ name: 'ai_generated_at', nullable: true })
+  aiGeneratedAt: Date;
+
+  @Column({ name: 'reviewed_by_id', nullable: true })
+  reviewedById: string;
+
+  @Column({ name: 'reviewed_at', nullable: true })
+  reviewedAt: Date;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

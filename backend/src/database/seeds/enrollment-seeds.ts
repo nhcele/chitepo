@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Enrollment } from '../../courses/entities/enrollment.entity';
+import { Enrollment } from '../../enrollments/entities/enrollment.entity';
 import { Course } from '../../courses/entities/course.entity';
 import { User } from '../../users/entities/user.entity';
 

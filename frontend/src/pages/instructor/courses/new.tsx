@@ -80,7 +80,7 @@ export default function NewCoursePage() {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Course Title *
               </label>
               <input
@@ -88,15 +88,15 @@ export default function NewCoursePage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., Complete React Development Course"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-stone">
                 Choose a clear, descriptive title that tells students what they&apos;ll learn
               </p>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Course Description *
               </label>
               <textarea
@@ -104,17 +104,17 @@ export default function NewCoursePage() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe what students will learn, the skills they'll gain, and who this course is for..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
               <div className="mt-1 flex justify-between">
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-stone">
                   Write a compelling description that attracts your target audience
                 </p>
-                <span className="text-sm text-gray-400">{description.length}/500</span>
+                <span className="text-sm text-pewter">{description.length}/500</span>
               </div>
             </div>
 
-            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4">
+            <div className="bg-primary-50 border border-primary-200 rounded-md p-4">
               <div className="flex items-start space-x-3">
                 <SparklesIcon className="h-5 w-5 text-primary-600 mt-0.5" />
                 <div>
@@ -133,7 +133,7 @@ export default function NewCoursePage() {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-charcoal mb-3">
                 Course Category
               </label>
               <div className="grid grid-cols-2 gap-3">
@@ -147,9 +147,9 @@ export default function NewCoursePage() {
                       onChange={(e) => setCategory(e.target.value)}
                       className="sr-only peer"
                     />
-                    <div className="border-2 rounded-lg p-3 text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:bg-gray-50 transition-colors">
+                    <div className="border-2 rounded-md p-3 text-center peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:bg-paper transition-colors">
                       <div className="text-2xl mb-1">{cat.icon}</div>
-                      <div className="text-sm font-medium text-gray-900">{cat.name}</div>
+                      <div className="text-sm font-medium text-charcoal">{cat.name}</div>
                     </div>
                   </label>
                 ))}
@@ -157,7 +157,7 @@ export default function NewCoursePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-charcoal mb-3">
                 Difficulty Level
               </label>
               <div className="space-y-3">
@@ -171,11 +171,11 @@ export default function NewCoursePage() {
                       onChange={(e) => setLevel(e.target.value)}
                       className="sr-only peer"
                     />
-                    <div className="border-2 rounded-lg p-4 peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:bg-gray-50 transition-colors">
+                    <div className="border-2 rounded-md p-4 peer-checked:border-primary-500 peer-checked:bg-primary-50 hover:bg-paper transition-colors">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="font-medium text-gray-900">{lvl.name}</div>
-                          <div className="text-sm text-gray-500">{lvl.description}</div>
+                          <div className="font-medium text-charcoal">{lvl.name}</div>
+                          <div className="text-sm text-stone">{lvl.description}</div>
                         </div>
                         <div className={`w-5 h-5 rounded-full border-2 peer-checked:border-primary-500 peer-checked:bg-primary-500`}>
                           <div className="w-full h-full rounded-full flex items-center justify-center">
@@ -190,11 +190,11 @@ export default function NewCoursePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 Estimated Duration (hours)
               </label>
               <div className="flex items-center space-x-2">
-                <ClockIcon className="h-5 w-5 text-gray-400" />
+                <ClockIcon className="h-5 w-5 text-pewter" />
                 <input
                   type="number"
                   value={estimatedDuration}
@@ -202,11 +202,11 @@ export default function NewCoursePage() {
                   placeholder="e.g., 10"
                   min="1"
                   max="100"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
-                <span className="text-gray-500">hours</span>
+                <span className="text-stone">hours</span>
               </div>
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-stone">
                 Help students plan their learning time
               </p>
             </div>
@@ -216,49 +216,49 @@ export default function NewCoursePage() {
       case 2:
         return (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Course Preview</h3>
+            <div className="bg-white rounded-md border border-border/60 p-6">
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Course Preview</h3>
               
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Title</label>
-                  <p className="mt-1 text-lg font-semibold text-gray-900">{title || 'Untitled Course'}</p>
+                  <label className="text-sm font-medium text-charcoal">Title</label>
+                  <p className="mt-1 text-lg font-semibold text-charcoal">{title || 'Untitled Course'}</p>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium text-gray-700">Description</label>
-                  <p className="mt-1 text-gray-900">{description || 'No description provided'}</p>
+                  <label className="text-sm font-medium text-charcoal">Description</label>
+                  <p className="mt-1 text-charcoal">{description || 'No description provided'}</p>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border/60">
                   <div className="text-center">
-                    <div className="text-lg font-semibold text-gray-900">
+                    <div className="text-lg font-semibold text-charcoal">
                       {categories.find(c => c.id === category)?.name || 'Not set'}
                     </div>
-                    <div className="text-sm text-gray-500">Category</div>
+                    <div className="text-sm text-stone">Category</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg font-semibold text-gray-900">
+                    <div className="text-lg font-semibold text-charcoal">
                       {levels.find(l => l.id === level)?.name || 'Not set'}
                     </div>
-                    <div className="text-sm text-gray-500">Level</div>
+                    <div className="text-sm text-stone">Level</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg font-semibold text-gray-900">
+                    <div className="text-lg font-semibold text-charcoal">
                       {estimatedDuration ? `${estimatedDuration}h` : 'Not set'}
                     </div>
-                    <div className="text-sm text-gray-500">Duration</div>
+                    <div className="text-sm text-stone">Duration</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-forest-50 border border-forest-200 rounded-md p-4">
               <div className="flex items-start space-x-3">
-                <CheckCircleIcon className="h-5 w-5 text-green-600 mt-0.5" />
+                <CheckCircleIcon className="h-5 w-5 text-forest-600 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-medium text-green-900">Ready to Create</h4>
-                  <p className="text-sm text-green-700 mt-1">
+                  <h4 className="text-sm font-medium text-forest-900">Ready to Create</h4>
+                  <p className="text-sm text-forest-700 mt-1">
                     After creating your course, you can add modules, lessons, and publish when ready.
                   </p>
                 </div>
@@ -282,7 +282,7 @@ export default function NewCoursePage() {
       <RoleGuard allow={[UserRole.INSTRUCTOR, UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
         <Layout>
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12">
+          <div className="bg-gradient-to-br from-forest-50 via-forest-50 to-terracotta-50 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
                 <motion.div
@@ -293,8 +293,8 @@ export default function NewCoursePage() {
                 >
                   <AcademicCapIcon className="h-8 w-8 text-white" />
                 </motion.div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Create a New Course</h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                <h1 className="text-4xl font-bold text-charcoal mb-4">Create a New Course</h1>
+                <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                   Share your expertise and start teaching. Set up the basics and add content later.
                 </p>
               </div>
@@ -308,14 +308,14 @@ export default function NewCoursePage() {
                 {steps.map((stepItem, index) => (
                   <div key={stepItem.title} className="flex items-center">
                     <div className={`flex items-center space-x-3 ${
-                      step === index ? 'text-primary-600' : step > index ? 'text-green-600' : 'text-gray-500'
+                      step === index ? 'text-primary-600' : step > index ? 'text-forest-600' : 'text-stone'
                     }`}>
                       <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
                         step === index 
                           ? 'bg-primary-600 border-primary-600 text-white'
                           : step > index 
-                            ? 'bg-green-600 border-green-600 text-white'
-                            : 'border-gray-300'
+                            ? 'bg-forest-600 border-forest-600 text-white'
+                            : 'border-border/60'
                       }`}>
                         {step > index ? (
                           <CheckCircleIcon className="h-4 w-4" />
@@ -331,7 +331,7 @@ export default function NewCoursePage() {
                     
                     {index < steps.length - 1 && (
                       <div className={`w-12 h-0.5 mx-4 ${
-                        step > index ? 'bg-green-600' : 'bg-gray-300'
+                        step > index ? 'bg-forest-600' : 'bg-stone'
                       }`} />
                     )}
                   </div>
@@ -347,18 +347,18 @@ export default function NewCoursePage() {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white rounded-xl shadow-lg border border-gray-100 p-8"
+                  className="bg-white rounded-md shadow-sm border border-border/60 p-8"
                 >
                   <form onSubmit={onSubmit}>
                     {StepContent()}
                     
                     {/* Navigation Buttons */}
-                    <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex items-center justify-between mt-8 pt-6 border-t border-border/60">
                       <button
                         type="button"
                         onClick={() => setStep(Math.max(0, step - 1))}
                         disabled={step === 0}
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         Previous
                       </button>
@@ -368,7 +368,7 @@ export default function NewCoursePage() {
                           type="button"
                           onClick={() => setStep(step + 1)}
                           disabled={(step === 0 && !title.trim()) || (step === 1 && !category)}
-                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           Next
                         </button>
@@ -376,10 +376,10 @@ export default function NewCoursePage() {
                         <button
                           type="submit"
                           disabled={!canSubmit}
-                          className={`inline-flex items-center px-6 py-3 text-sm font-medium rounded-lg text-white transition-colors ${
+                          className={`inline-flex items-center px-6 py-3 text-sm font-medium rounded-md text-white transition-colors ${
                             canSubmit 
-                              ? 'bg-green-600 hover:bg-green-700' 
-                              : 'bg-gray-300 cursor-not-allowed'
+                              ? 'bg-forest-600 hover:bg-forest-700' 
+                              : 'bg-stone cursor-not-allowed'
                           }`}
                         >
                           {loading ? 'Creating...' : 'Create Course'}
@@ -393,34 +393,34 @@ export default function NewCoursePage() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Quick Tips */}
-                <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Tips</h3>
+                <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+                  <h3 className="text-lg font-semibold text-charcoal mb-4">Quick Tips</h3>
                   <div className="space-y-4">
                     <div className="flex items-start space-x-3">
                       <UsersIcon className="h-5 w-5 text-primary-600 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900">Know Your Audience</h4>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <h4 className="text-sm font-medium text-charcoal">Know Your Audience</h4>
+                        <p className="text-sm text-stone mt-1">
                           Define who your course is for and what they&apos;ll achieve
                         </p>
                       </div>
                     </div>
                     
                     <div className="flex items-start space-x-3">
-                      <VideoCameraIcon className="h-5 w-5 text-red-600 mt-0.5" />
+                      <VideoCameraIcon className="h-5 w-5 text-terracotta-600 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900">Quality Content</h4>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <h4 className="text-sm font-medium text-charcoal">Quality Content</h4>
+                        <p className="text-sm text-stone mt-1">
                           Mix video, text, and interactive elements for engagement
                         </p>
                       </div>
                     </div>
                     
                     <div className="flex items-start space-x-3">
-                      <CurrencyDollarIcon className="h-5 w-5 text-green-600 mt-0.5" />
+                      <CurrencyDollarIcon className="h-5 w-5 text-forest-600 mt-0.5" />
                       <div>
-                        <h4 className="text-sm font-medium text-gray-900">Pricing Strategy</h4>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <h4 className="text-sm font-medium text-charcoal">Pricing Strategy</h4>
+                        <p className="text-sm text-stone mt-1">
                           Research market rates and value you&apos;re providing
                         </p>
                       </div>
@@ -429,35 +429,35 @@ export default function NewCoursePage() {
                 </div>
 
                 {/* What's Next */}
-                <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">What&apos;s Next?</h3>
+                <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+                  <h3 className="text-lg font-semibold text-charcoal mb-4">What&apos;s Next?</h3>
                   <ol className="space-y-3 text-sm">
                     <li className="flex items-start gap-3">
                       <span className="mt-1 inline-block h-5 w-5 flex-none rounded-full bg-primary-600 text-white text-xs leading-5 text-center">1</span>
                       <div>
                         <div className="font-medium">Add Modules</div>
-                        <div className="text-xs text-gray-500">Structure your course into sections</div>
+                        <div className="text-xs text-stone">Structure your course into sections</div>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="mt-1 inline-block h-5 w-5 flex-none rounded-full bg-primary-600 text-white text-xs leading-5 text-center">2</span>
                       <div>
                         <div className="font-medium">Create Lessons</div>
-                        <div className="text-xs text-gray-500">Add videos, texts, and quizzes</div>
+                        <div className="text-xs text-stone">Add videos, texts, and quizzes</div>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="mt-1 inline-block h-5 w-5 flex-none rounded-full bg-primary-600 text-white text-xs leading-5 text-center">3</span>
                       <div>
                         <div className="font-medium">Set Pricing</div>
-                        <div className="text-xs text-gray-500">Choose your course price</div>
+                        <div className="text-xs text-stone">Choose your course price</div>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
                       <span className="mt-1 inline-block h-5 w-5 flex-none rounded-full bg-primary-600 text-white text-xs leading-5 text-center">4</span>
                       <div>
                         <div className="font-medium">Publish</div>
-                        <div className="text-xs text-gray-500">Launch your course to students</div>
+                        <div className="text-xs text-stone">Launch your course to students</div>
                       </div>
                     </li>
                   </ol>

@@ -72,10 +72,10 @@ export default function CourseCard({
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'beginner': return 'bg-green-100 text-green-800'
-      case 'intermediate': return 'bg-yellow-100 text-yellow-800'
-      case 'advanced': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+      case 'beginner': return 'bg-forest-100 text-forest-800'
+      case 'intermediate': return 'bg-ochre-100 text-ochre-800'
+      case 'advanced': return 'bg-terracotta-100 text-terracotta-800'
+      default: return 'bg-forest-100 text-charcoal'
     }
   }
 
@@ -105,12 +105,12 @@ export default function CourseCard({
             key={star}
             className={`h-4 w-4 ${
               star <= Math.floor(rating)
-                ? 'text-yellow-400'
-                : 'text-gray-300'
+                ? 'text-ochre-400'
+                : 'text-pewter'
             }`}
           />
         ))}
-        <span className="text-sm text-gray-600 ml-1">
+        <span className="text-sm text-stone ml-1">
           {rating > 0 ? rating.toFixed(1) : 'New'}
         </span>
       </div>
@@ -121,11 +121,11 @@ export default function CourseCard({
     return (
       <motion.div
         whileHover={{ y: -2 }}
-        className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"
+        className="bg-white rounded-md shadow-sm border border-border/60 p-4 hover:shadow-sm transition-shadow"
       >
         <div className="flex space-x-4">
           <div className="flex-shrink-0">
-            <div className="w-20 h-20 bg-gray-200 rounded-lg overflow-hidden">
+            <div className="w-20 h-20 bg-forest-100 rounded-md overflow-hidden">
               <Image
                 src={course.coverImage}
                 alt={course.title}
@@ -141,27 +141,27 @@ export default function CourseCard({
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
               <div className="min-w-0 flex-1">
-                <h3 className="text-sm font-semibold text-gray-900 truncate">
+                <h3 className="text-sm font-semibold text-charcoal truncate">
                   {course.title}
                 </h3>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-stone mt-1">
                   {course.instructor}
                 </p>
               </div>
               
               <button
                 onClick={handleBookmark}
-                className="ml-2 text-gray-400 hover:text-yellow-500"
+                className="ml-2 text-pewter hover:text-ochre-500"
               >
                 {bookmarked ? (
-                  <BookmarkIconSolid className="h-4 w-4 text-yellow-500" />
+                  <BookmarkIconSolid className="h-4 w-4 text-ochre-500" />
                 ) : (
                   <BookmarkIcon className="h-4 w-4" />
                 )}
               </button>
             </div>
             
-            <div className="flex items-center space-x-3 mt-2 text-xs text-gray-500">
+            <div className="flex items-center space-x-3 mt-2 text-xs text-stone">
               <span>{formatDuration(course.estimatedDuration)}</span>
               <span>•</span>
               <span>{course.students} students</span>
@@ -173,11 +173,11 @@ export default function CourseCard({
             
             {showProgress && course.progress !== undefined && (
               <div className="mt-3">
-                <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                <div className="flex items-center justify-between text-xs text-stone mb-1">
                   <span>Progress</span>
                   <span>{Math.round(course.progress)}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                <div className="w-full bg-forest-100 rounded-full h-1.5">
                   <div 
                     className="bg-primary-500 h-1.5 rounded-full"
                     style={{ width: `${course.progress}%` }}
@@ -195,7 +195,7 @@ export default function CourseCard({
     return (
       <motion.div
         whileHover={{ scale: 1.02 }}
-        className="bg-gradient-to-br from-primary-600 to-accent-600 rounded-xl shadow-xl overflow-hidden"
+        className="bg-gradient-to-br from-primary-600 to-accent-600 rounded-md shadow-sm overflow-hidden"
       >
         <div className="relative">
           <div className="aspect-video bg-black bg-opacity-20">
@@ -219,7 +219,7 @@ export default function CourseCard({
           <div className="absolute top-4 right-4">
             <button
               onClick={handleBookmark}
-              className="p-2 text-white bg-white bg-opacity-20 backdrop-blur-sm rounded-lg hover:bg-opacity-30"
+              className="p-2 text-white bg-white bg-opacity-20 backdrop-blur-sm rounded-md hover:bg-opacity-30"
             >
               {bookmarked ? (
                 <BookmarkIconSolid className="h-5 w-5" />
@@ -247,7 +247,7 @@ export default function CourseCard({
                 <span>{formatDuration(course.estimatedDuration)}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <StarIconSolid className="h-4 w-4 text-yellow-400" />
+                <StarIconSolid className="h-4 w-4 text-ochre-400" />
                 <span>{(typeof course.rating === 'number' && course.rating > 0) ? course.rating.toFixed(1) : 'New'}</span>
               </div>
             </div>
@@ -277,7 +277,7 @@ export default function CourseCard({
             
             <Link 
               href={`/courses/${course.id}`}
-              className="px-4 py-2 bg-white text-primary-600 rounded-lg font-medium hover:bg-gray-100 flex items-center space-x-2"
+              className="px-4 py-2 bg-white text-primary-600 rounded-md font-medium hover:bg-forest-100 flex items-center space-x-2"
             >
               <span>Start Learning</span>
               <ArrowRightIcon className="h-4 w-4" />
@@ -291,10 +291,10 @@ export default function CourseCard({
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-200"
+      className="bg-white rounded-md shadow-sm border border-border/60 overflow-hidden hover:shadow-sm transition-all duration-200"
     >
       {/* Course Image */}
-      <div className="relative aspect-video bg-gray-100">
+      <div className="relative aspect-video bg-forest-100">
         <Image
           src={course.coverImage}
           alt={course.title}
@@ -306,7 +306,7 @@ export default function CourseCard({
         />
         
         {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          <div className="absolute inset-0 bg-forest-100 animate-pulse" />
         )}
         
         <div className="absolute top-3 left-3">
@@ -318,12 +318,12 @@ export default function CourseCard({
         <div className="absolute top-3 right-3">
           <button
             onClick={handleBookmark}
-            className="p-2 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-sm hover:bg-opacity-100"
+            className="p-2 bg-white bg-opacity-90 backdrop-blur-sm rounded-md shadow-sm hover:bg-opacity-100"
           >
             {bookmarked ? (
-              <BookmarkIconSolid className="h-4 w-4 text-yellow-500" />
+              <BookmarkIconSolid className="h-4 w-4 text-ochre-500" />
             ) : (
-              <BookmarkIcon className="h-4 w-4 text-gray-600" />
+              <BookmarkIcon className="h-4 w-4 text-stone" />
             )}
           </button>
         </div>
@@ -346,7 +346,7 @@ export default function CourseCard({
         {!course.enrolled && (
           <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-200 flex items-center justify-center">
             <div className="opacity-0 hover:opacity-100 transition-opacity duration-200">
-              <div className="bg-white rounded-lg p-3 shadow-lg">
+              <div className="bg-white rounded-md p-3 shadow-sm">
                 <PlayIcon className="h-8 w-8 text-primary-600" />
               </div>
             </div>
@@ -358,30 +358,30 @@ export default function CourseCard({
       <div className="p-5">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+            <h3 className="text-lg font-semibold text-charcoal line-clamp-2">
               {course.title}
             </h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-stone mt-1">
               {course.instructor}
             </p>
           </div>
           
           {course.certificate && (
             <div className="ml-2">
-              <CheckCircleIcon className="h-5 w-5 text-green-500" title="Certificate available" />
+              <CheckCircleIcon className="h-5 w-5 text-forest-500" title="Certificate available" />
             </div>
           )}
         </div>
 
-        <p className="text-sm text-gray-600 line-clamp-2 mb-4">
+        <p className="text-sm text-stone line-clamp-2 mb-4">
           {course.description}
         </p>
 
         {/* Course Stats */}
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+        <div className="flex items-center justify-between text-sm text-stone mb-4">
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-1">
-              <StarIconSolid className="h-4 w-4 text-yellow-400" />
+              <StarIconSolid className="h-4 w-4 text-ochre-400" />
               <span>{(typeof course.rating === 'number' && course.rating > 0) ? course.rating.toFixed(1) : 'New'}</span>
             </div>
             
@@ -402,7 +402,7 @@ export default function CourseCard({
           {course.enrolled ? (
             <Link 
               href={`/courses/${course.id}/learn`}
-              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 flex items-center justify-center space-x-2"
+              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md font-medium hover:bg-primary-700 flex items-center justify-center space-x-2"
             >
               <PlayIcon className="h-4 w-4" />
               <span>Continue Learning</span>
@@ -411,7 +411,7 @@ export default function CourseCard({
             <button
               onClick={handleEnroll}
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+              className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
             >
               {loading ? (
                 <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -428,7 +428,7 @@ export default function CourseCard({
           
           <Link 
             href={`/courses/${course.id}`}
-            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+            className="px-4 py-2 border border-border/60 text-charcoal rounded-md font-medium hover:bg-paper"
           >
             View Details
           </Link>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { CheckCircleIcon, ClockIcon, AcademicCapIcon, TrophyIcon } from '@heroicons/react/24/solid';
-import { LockClosedIcon } from '@heroicons/react/24/outline';
+import { LockClosedIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { getAuthHeaders } from '@/lib/auth';
 
 export interface CertificationProgress {
@@ -34,11 +35,11 @@ const statusIcons = {
 };
 
 const statusColors = {
-  not_started: 'bg-gray-100 text-gray-600',
-  in_progress: 'bg-blue-100 text-blue-600',
-  completed: 'bg-green-100 text-green-600',
-  awarded: 'bg-yellow-100 text-yellow-600',
-  expired: 'bg-red-100 text-red-600',
+  not_started: 'bg-stone/10 text-stone',
+  in_progress: 'bg-ochre-100 text-ochre-600',
+  completed: 'bg-forest-100 text-forest-700',
+  awarded: 'bg-ochre-400 text-ink-950',
+  expired: 'bg-terracotta-100 text-terracotta-600',
 };
 
 const statusLabels = {
@@ -80,48 +81,51 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="flex justify-center items-center py-16">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-forest-600" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p className="text-red-600">{error}</p>
+      <div className="bg-terracotta-100 border border-terracotta-400/40 rounded-md p-4">
+        <p className="text-terracotta-700">{error}</p>
       </div>
     );
   }
 
   if (certifications.length === 0) {
     return (
-      <div className="text-center py-12">
-        <AcademicCapIcon className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 mb-2">No Certifications Yet</h3>
-        <p className="text-gray-600 mb-6">
+      <div className="text-center py-16">
+        <div className="w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <AcademicCapIcon className="h-8 w-8 text-forest-600" />
+        </div>
+        <h3 className="font-serif text-xl font-semibold text-charcoal mb-2">No certifications yet</h3>
+        <p className="text-stone mb-6">
           Start your learning journey by enrolling in a certification pathway.
         </p>
-        <a
-          href="/learning?tab=certifications"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+        <Link
+          href="/courses?tab=certifications"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
         >
-          Explore Certification Pathways
-        </a>
+          Explore certification pathways
+          <ArrowRightIcon className="w-4 h-4" />
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">My Certification Progress</h2>
-        <a
-          href="/learning?tab=certifications"
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+    <div className="space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h2 className="font-serif text-2xl font-semibold text-charcoal">Certification progress</h2>
+        <Link
+          href="/courses?tab=certifications"
+          className="text-sm font-semibold text-forest-600 hover:text-forest-500 transition-colors"
         >
-          Browse All Pathways →
-        </a>
+          Browse all pathways →
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,50 +137,50 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
           return (
             <div
               key={cert.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              className="bg-paper border border-border/60 rounded-md overflow-hidden hover:border-forest-400 transition-colors"
             >
               {/* Status Badge */}
-              <div className={`px-4 py-2 ${statusColor} flex items-center justify-between`}>
-                <div className="flex items-center space-x-2">
-                  <StatusIcon className="h-5 w-5" />
-                  <span className="text-sm font-medium">{statusLabel}</span>
+              <div className={`px-4 py-2.5 ${statusColor} flex items-center justify-between`}>
+                <div className="flex items-center gap-2">
+                  <StatusIcon className="h-4 w-4" />
+                  <span className="text-xs font-semibold uppercase tracking-wider">{statusLabel}</span>
                 </div>
                 <span className="text-xs font-semibold">Level {cert.pathway.level}</span>
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+              <div className="p-5">
+                <h3 className="font-serif text-lg font-semibold text-charcoal mb-1">
                   {cert.pathway.levelTitle}
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">{cert.pathway.name}</p>
+                <p className="text-sm text-stone mb-4">{cert.pathway.name}</p>
 
                 {/* Progress Bar */}
                 <div className="mb-4">
-                  <div className="flex justify-between text-sm text-gray-600 mb-1">
+                  <div className="flex justify-between text-sm text-stone mb-1.5">
                     <span>Progress</span>
-                    <span className="font-medium">{cert.progressPercentage.toFixed(0)}%</span>
+                    <span className="font-semibold text-charcoal">{cert.progressPercentage.toFixed(0)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-forest-100 rounded-full h-2">
                     <div
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-forest-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${cert.progressPercentage}%` }}
-                    ></div>
+                    />
                   </div>
                 </div>
 
                 {/* Course Stats */}
-                <div className="flex justify-between text-sm mb-4">
+                <div className="flex justify-between text-sm mb-5">
                   <div>
-                    <p className="text-gray-600">Courses Completed</p>
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-xs text-stone mb-0.5">Courses completed</p>
+                    <p className="text-2xl font-serif font-semibold text-charcoal">
                       {cert.coursesCompleted}
-                      <span className="text-lg text-gray-500">/{cert.coursesRequired}</span>
+                      <span className="text-base text-stone font-normal">/{cert.coursesRequired}</span>
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-gray-600">Remaining</p>
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-xs text-stone mb-0.5">Remaining</p>
+                    <p className="text-2xl font-serif font-semibold text-charcoal">
                       {cert.coursesRequired - cert.coursesCompleted}
                     </p>
                   </div>
@@ -188,25 +192,25 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
                     href={cert.certificateUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full text-center px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors font-medium"
+                    className="block w-full text-center px-4 py-2.5 text-sm font-semibold text-ink-950 bg-ochre-400 rounded-md hover:bg-ochre-300 transition-colors"
                   >
-                    <TrophyIcon className="inline h-5 w-5 mr-2" />
-                    View Certificate
+                    <TrophyIcon className="inline h-4 w-4 mr-2 -mt-0.5" />
+                    View certificate
                   </a>
                 )}
 
                 {cert.status === 'in_progress' && (
-                  <a
+                  <Link
                     href={`/courses?pathway=${cert.pathway.id}`}
-                    className="block w-full text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+                    className="block w-full text-center px-4 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
                   >
-                    Continue Learning
-                  </a>
+                    Continue learning
+                  </Link>
                 )}
 
                 {cert.status === 'completed' && !cert.certificateUrl && (
-                  <div className="bg-green-50 border border-green-200 rounded-md p-3 text-center">
-                    <p className="text-sm text-green-700 font-medium">
+                  <div className="bg-forest-100 border border-forest-400/40 rounded-md p-3 text-center">
+                    <p className="text-sm text-forest-700 font-medium">
                       Certificate being processed
                     </p>
                   </div>
@@ -215,9 +219,9 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
 
               {/* Certificate Number */}
               {cert.certificateNumber && (
-                <div className="px-6 py-3 bg-gray-50 border-t border-gray-200">
-                  <p className="text-xs text-gray-500">Certificate No.</p>
-                  <p className="text-sm font-mono font-medium text-gray-900">
+                <div className="px-5 py-3 bg-cream border-t border-border/60">
+                  <p className="text-xs text-pewter">Certificate no.</p>
+                  <p className="text-sm font-mono font-medium text-charcoal">
                     {cert.certificateNumber}
                   </p>
                 </div>
@@ -228,36 +232,35 @@ export default function CertificationProgressTracker({ userId }: CertificationPr
       </div>
 
       {/* Overall Stats */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Statistics</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="text-center">
-            <p className="text-3xl font-bold text-blue-600">
+      <div className="bg-forest-700 rounded-md p-6 lg:p-8">
+        <h3 className="font-serif text-lg font-semibold text-cream mb-5">Your statistics</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div>
+            <p className="text-3xl font-serif font-semibold text-ochre-400">
               {certifications.length}
             </p>
-            <p className="text-sm text-gray-600 mt-1">Active Pathways</p>
+            <p className="text-sm text-cream/70 mt-1">Active pathways</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-green-600">
+          <div>
+            <p className="text-3xl font-serif font-semibold text-ochre-400">
               {certifications.filter(c => c.status === 'awarded').length}
             </p>
-            <p className="text-sm text-gray-600 mt-1">Awarded</p>
+            <p className="text-sm text-cream/70 mt-1">Awarded</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-yellow-600">
+          <div>
+            <p className="text-3xl font-serif font-semibold text-ochre-400">
               {certifications.filter(c => c.status === 'in_progress').length}
             </p>
-            <p className="text-sm text-gray-600 mt-1">In Progress</p>
+            <p className="text-sm text-cream/70 mt-1">In progress</p>
           </div>
-          <div className="text-center">
-            <p className="text-3xl font-bold text-purple-600">
+          <div>
+            <p className="text-3xl font-serif font-semibold text-ochre-400">
               {certifications.reduce((sum, cert) => sum + cert.coursesCompleted, 0)}
             </p>
-            <p className="text-sm text-gray-600 mt-1">Courses Completed</p>
+            <p className="text-sm text-cream/70 mt-1">Courses completed</p>
           </div>
         </div>
       </div>
     </div>
   );
 }
-

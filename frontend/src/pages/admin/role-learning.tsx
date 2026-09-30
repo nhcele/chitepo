@@ -104,8 +104,8 @@ export default function RoleLearningManagement() {
       <AdminLayout title="Access Denied">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600">Access Denied</h1>
-            <p className="text-gray-600 mt-2">You do not have permission to access this page.</p>
+            <h1 className="text-2xl font-bold text-terracotta-600">Access Denied</h1>
+            <p className="text-stone mt-2">You do not have permission to access this page.</p>
           </div>
         </div>
       </AdminLayout>
@@ -117,12 +117,12 @@ export default function RoleLearningManagement() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Role-Based Learning Management</h1>
-          <p className="text-gray-600 mt-2">Manage learning paths, compliance, and user assignments</p>
+          <h1 className="text-3xl font-bold text-charcoal">Role-Based Learning Management</h1>
+          <p className="text-stone mt-2">Manage learning paths, compliance, and user assignments</p>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="border-b border-gray-200 mb-8">
+        <div className="border-b border-border/60 mb-8">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'overview', name: 'Overview', icon: ChartBarIcon },
@@ -136,7 +136,7 @@ export default function RoleLearningManagement() {
                 className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 <tab.icon className="mr-2 h-5 w-5" />
@@ -151,115 +151,115 @@ export default function RoleLearningManagement() {
           <div className="space-y-6">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-md shadow p-6">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                    <UserGroupIcon className="h-6 w-6 text-blue-600" />
+                  <div className="flex-shrink-0 bg-forest-100 rounded-md p-3">
+                    <UserGroupIcon className="h-6 w-6 text-forest-600" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Total Users</p>
-                    <p className="text-2xl font-bold text-gray-900">112</p>
+                    <p className="text-sm font-medium text-stone">Total Users</p>
+                    <p className="text-2xl font-bold text-charcoal">112</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-md shadow p-6">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                    <CheckCircleIcon className="h-6 w-6 text-green-600" />
+                  <div className="flex-shrink-0 bg-forest-100 rounded-md p-3">
+                    <CheckCircleIcon className="h-6 w-6 text-forest-600" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Compliant</p>
-                    <p className="text-2xl font-bold text-gray-900">96</p>
+                    <p className="text-sm font-medium text-stone">Compliant</p>
+                    <p className="text-2xl font-bold text-charcoal">96</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-md shadow p-6">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
-                    <ClockIcon className="h-6 w-6 text-yellow-600" />
+                  <div className="flex-shrink-0 bg-ochre-100 rounded-md p-3">
+                    <ClockIcon className="h-6 w-6 text-ochre-600" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">In Progress</p>
-                    <p className="text-2xl font-bold text-gray-900">12</p>
+                    <p className="text-sm font-medium text-stone">In Progress</p>
+                    <p className="text-2xl font-bold text-charcoal">12</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-md shadow p-6">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0 bg-red-100 rounded-md p-3">
-                    <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
+                  <div className="flex-shrink-0 bg-terracotta-100 rounded-md p-3">
+                    <ExclamationTriangleIcon className="h-6 w-6 text-terracotta-600" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-600">Overdue</p>
-                    <p className="text-2xl font-bold text-gray-900">4</p>
+                    <p className="text-sm font-medium text-stone">Overdue</p>
+                    <p className="text-2xl font-bold text-charcoal">4</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Role Compliance Table */}
-            <div className="bg-white rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Compliance by Role</h2>
+            <div className="bg-white rounded-md shadow">
+              <div className="px-6 py-4 border-b border-border/60">
+                <h2 className="text-lg font-semibold text-charcoal">Compliance by Role</h2>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-border/60">
+                  <thead className="bg-paper">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Job Role
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Total Users
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Compliant
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         In Progress
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Overdue
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Compliance Rate
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white divide-y divide-border/60">
                     {roleData.map((role) => (
-                      <tr key={role.jobRole} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <tr key={role.jobRole} className="hover:bg-paper">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-charcoal">
                           {role.jobRole}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                           {role.totalUsers}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-green-600">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-forest-600">
                           {role.compliant}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-yellow-600">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-ochre-600">
                           {role.inProgress}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-red-600">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-terracotta-600">
                           {role.overdue}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="flex-1 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="flex-1 bg-forest-100 rounded-full h-2 mr-2">
                               <div
                                 className={`h-2 rounded-full ${
-                                  role.complianceRate >= 90 ? 'bg-green-500' :
-                                  role.complianceRate >= 70 ? 'bg-yellow-500' :
-                                  'bg-red-500'
+                                  role.complianceRate >= 90 ? 'bg-forest-500' :
+                                  role.complianceRate >= 70 ? 'bg-ochre-500' :
+                                  'bg-terracotta-500'
                                 }`}
                                 style={{ width: `${role.complianceRate}%` }}
                               />
                             </div>
-                            <span className="text-sm font-medium text-gray-700">
+                            <span className="text-sm font-medium text-charcoal">
                               {role.complianceRate}%
                             </span>
                           </div>
@@ -275,15 +275,15 @@ export default function RoleLearningManagement() {
 
         {/* User Management Tab */}
         {activeTab === 'users' && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">User Role Assignment</h2>
-            <p className="text-gray-600 mb-4">
+          <div className="bg-white rounded-md shadow p-6">
+            <h2 className="text-lg font-semibold text-charcoal mb-4">User Role Assignment</h2>
+            <p className="text-stone mb-4">
               Assign job roles to users to automatically provide them with role-specific learning paths.
             </p>
             <div className="space-y-4">
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Bulk Role Assignment</h3>
-                <p className="text-sm text-gray-600 mb-4">
+              <div className="border border-border/60 rounded-md p-4">
+                <h3 className="font-medium text-charcoal mb-2">Bulk Role Assignment</h3>
+                <p className="text-sm text-stone mb-4">
                   Upload a CSV file to assign roles to multiple users at once.
                 </p>
                 <button 
@@ -293,24 +293,24 @@ export default function RoleLearningManagement() {
                   Go to Role Management
                 </button>
               </div>
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-2">Individual Assignment</h3>
-                <p className="text-sm text-gray-600 mb-4">
+              <div className="border border-border/60 rounded-md p-4">
+                <h3 className="font-medium text-charcoal mb-2">Individual Assignment</h3>
+                <p className="text-sm text-stone mb-4">
                   Search for a user and assign their job role manually.
                 </p>
                 <button 
                   onClick={() => window.location.href = withBasePath('/admin/role-management')}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                  className="px-4 py-2 bg-stone text-white rounded-md hover:bg-ink-800"
                 >
                   Go to Role Management
                 </button>
               </div>
             </div>
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">
+            <div className="mt-6 p-4 bg-forest-50 rounded-md">
+              <p className="text-sm text-forest-800">
                 <strong>💡 Pro Tip:</strong> For comprehensive role management features including bulk assignment, 
                 role analytics, and assignment history, visit the dedicated 
-                <a href={withBasePath('/admin/role-management')} className="text-blue-600 hover:underline ml-1">Role Management page</a>.
+                <a href={withBasePath('/admin/role-management')} className="text-forest-600 hover:underline ml-1">Role Management page</a>.
               </p>
             </div>
           </div>
@@ -320,13 +320,13 @@ export default function RoleLearningManagement() {
         {activeTab === 'paths' && (
           <div>
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">Learning Path Configuration</h2>
-              <p className="text-gray-600">
+              <h2 className="text-lg font-semibold text-charcoal mb-2">Learning Path Configuration</h2>
+              <p className="text-stone">
                 Configure required courses, deadlines, and progression paths for each job role.
               </p>
             </div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-600 mb-4">
+            <div className="bg-white rounded-md shadow p-6">
+              <p className="text-stone mb-4">
                 Select a job role from the list below to configure its learning path:
               </p>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -340,13 +340,13 @@ export default function RoleLearningManagement() {
                   <a
                     key={role}
                     href={`/admin/learning-paths?role=${role.toLowerCase().replace(/\s+/g, '_')}`}
-                    className="block px-4 py-3 border border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
+                    className="block px-4 py-3 border border-border/60 rounded-md hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
                   >
-                    <span className="text-sm font-medium text-gray-900">{role}</span>
+                    <span className="text-sm font-medium text-charcoal">{role}</span>
                   </a>
                 ))}
               </div>
-              <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="mt-6 pt-6 border-t border-border/60">
                 <a
                   href="/admin/learning-paths"
                   className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
@@ -362,25 +362,25 @@ export default function RoleLearningManagement() {
         {/* Compliance Tracking Tab */}
         {activeTab === 'compliance' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Compliance Tracking</h2>
-              <p className="text-gray-600 mb-4">
+            <div className="bg-white rounded-md shadow p-6">
+              <h2 className="text-lg font-semibold text-charcoal mb-4">Compliance Tracking</h2>
+              <p className="text-stone mb-4">
                 Monitor compliance deadlines and send reminders to users who are falling behind.
               </p>
               
               {/* Overdue Users */}
               <div className="mb-6">
-                <div className="border border-red-200 bg-red-50 rounded-lg p-4">
+                <div className="border border-terracotta-200 bg-terracotta-50 rounded-md p-4">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-medium text-red-900">⚠️ Overdue Users (4)</h3>
+                    <h3 className="font-medium text-terracotta-900">⚠️ Overdue Users (4)</h3>
                     <button 
                       onClick={() => handleSendBulkReminders()}
-                      className="px-3 py-1 bg-red-600 text-white text-sm rounded-md hover:bg-red-700"
+                      className="px-3 py-1 bg-terracotta-600 text-white text-sm rounded-md hover:bg-terracotta-700"
                     >
                       Send Reminders
                     </button>
                   </div>
-                  <p className="text-sm text-red-700 mb-3">
+                  <p className="text-sm text-terracotta-700 mb-3">
                     These users have missed their compliance deadlines.
                   </p>
                   <div className="space-y-2">
@@ -390,16 +390,16 @@ export default function RoleLearningManagement() {
                       { name: 'Michael Brown', role: 'Branch Manager', course: 'Information Security', daysOverdue: 2 },
                       { name: 'Emily Davis', role: 'Credit Analyst', course: 'Credit Risk Management', daysOverdue: 1 },
                     ].map((user, index) => (
-                      <div key={index} className="flex justify-between items-center bg-white p-3 rounded border border-red-200">
+                      <div key={index} className="flex justify-between items-center bg-white p-3 rounded border border-terracotta-200">
                         <div>
-                          <p className="font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-600">{user.role} • {user.course}</p>
+                          <p className="font-medium text-charcoal">{user.name}</p>
+                          <p className="text-sm text-stone">{user.role} • {user.course}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-medium text-red-600">{user.daysOverdue} days overdue</p>
+                          <p className="text-sm font-medium text-terracotta-600">{user.daysOverdue} days overdue</p>
                           <button 
                             onClick={() => openChatModal(user.name, user.role, user.course, true)}
-                            className="text-xs text-blue-600 hover:text-blue-800"
+                            className="text-xs text-forest-600 hover:text-forest-800"
                           >
                             Contact User
                           </button>
@@ -412,17 +412,17 @@ export default function RoleLearningManagement() {
 
               {/* Due Soon Users */}
               <div>
-                <div className="border border-yellow-200 bg-yellow-50 rounded-lg p-4">
+                <div className="border border-ochre-200 bg-ochre-50 rounded-md p-4">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-medium text-yellow-900">⏰ Due Soon (12)</h3>
+                    <h3 className="font-medium text-ochre-900">⏰ Due Soon (12)</h3>
                     <button 
                       onClick={() => handleSendBulkReminders()}
-                      className="px-3 py-1 bg-yellow-600 text-white text-sm rounded-md hover:bg-yellow-700"
+                      className="px-3 py-1 bg-ochre-600 text-white text-sm rounded-md hover:bg-ochre-700"
                     >
                       Send Reminders
                     </button>
                   </div>
-                  <p className="text-sm text-yellow-700 mb-3">
+                  <p className="text-sm text-ochre-700 mb-3">
                     These users have deadlines approaching within 7 days.
                   </p>
                   <div className="space-y-2">
@@ -434,16 +434,16 @@ export default function RoleLearningManagement() {
                       { name: 'Christopher Lee', role: 'Risk Analyst', course: 'Market Risk Analysis', daysUntilDue: 6 },
                       { name: 'Amanda White', role: 'Systems Administrator', course: 'System Administration', daysUntilDue: 7 },
                     ].map((user, index) => (
-                      <div key={index} className="flex justify-between items-center bg-white p-3 rounded border border-yellow-200">
+                      <div key={index} className="flex justify-between items-center bg-white p-3 rounded border border-ochre-200">
                         <div>
-                          <p className="font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-600">{user.role} • {user.course}</p>
+                          <p className="font-medium text-charcoal">{user.name}</p>
+                          <p className="text-sm text-stone">{user.role} • {user.course}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-medium text-yellow-600">{user.daysUntilDue} days until due</p>
+                          <p className="text-sm font-medium text-ochre-600">{user.daysUntilDue} days until due</p>
                           <button 
                             onClick={() => openChatModal(user.name, user.role, user.course, true)}
-                            className="text-xs text-blue-600 hover:text-blue-800"
+                            className="text-xs text-forest-600 hover:text-forest-800"
                           >
                             Contact User
                           </button>
@@ -456,26 +456,26 @@ export default function RoleLearningManagement() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div className="bg-white rounded-md shadow p-6">
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <button 
                   onClick={() => toast('Generating comprehensive compliance report...')}
-                  className="px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center justify-center"
+                  className="px-4 py-3 bg-forest-600 text-white rounded-md hover:bg-forest-700 flex items-center justify-center"
                 >
                   <ChartBarIcon className="h-5 w-5 mr-2" />
                   Generate Report
                 </button>
                 <button 
                   onClick={handleSendBulkReminders}
-                  className="px-4 py-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 flex items-center justify-center"
+                  className="px-4 py-3 bg-terracotta-600 text-white rounded-md hover:bg-terracotta-700 flex items-center justify-center"
                 >
                   <ClockIcon className="h-5 w-5 mr-2" />
                   Send Bulk Reminders
                 </button>
                 <button 
                   onClick={() => toast('Exporting compliance data to CSV...')}
-                  className="px-4 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center justify-center"
+                  className="px-4 py-3 bg-stone text-white rounded-md hover:bg-ink-800 flex items-center justify-center"
                 >
                   <ArrowPathIcon className="h-5 w-5 mr-2" />
                   Export Data

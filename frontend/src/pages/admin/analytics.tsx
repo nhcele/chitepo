@@ -105,26 +105,26 @@ export default function AdminAnalytics() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg shadow-md p-6"
+      className="bg-white rounded-md shadow-sm p-6"
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{value.toLocaleString()}</p>
+          <p className="text-sm font-medium text-stone">{title}</p>
+          <p className="text-3xl font-bold text-charcoal mt-2">{value.toLocaleString()}</p>
           {trendValue !== undefined && (
             <div className="flex items-center mt-2">
               {trend === 'up' ? (
-                <ArrowTrendingUpIcon className="h-4 w-4 text-green-500 mr-1" />
+                <ArrowTrendingUpIcon className="h-4 w-4 text-forest-500 mr-1" />
               ) : (
-                <ArrowTrendingDownIcon className="h-4 w-4 text-red-500 mr-1" />
+                <ArrowTrendingDownIcon className="h-4 w-4 text-terracotta-500 mr-1" />
               )}
-              <span className={`text-sm font-medium ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+              <span className={`text-sm font-medium ${trend === 'up' ? 'text-forest-600' : 'text-terracotta-600'}`}>
                 {trendValue}%
               </span>
             </div>
           )}
         </div>
-        <div className="p-3 bg-primary-100 rounded-lg">
+        <div className="p-3 bg-primary-100 rounded-md">
           <Icon className="h-8 w-8 text-primary-600" />
         </div>
       </div>
@@ -140,12 +140,12 @@ export default function AdminAnalytics() {
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-gray-50 to-blue-100 py-12">
+          <div className="bg-gradient-to-br from-forest-100 to-forest-100 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
                 <ChartBarIcon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Platform Analytics</h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                <h1 className="text-4xl font-bold text-charcoal mb-4">Platform Analytics</h1>
+                <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                   Monitor platform performance and user engagement metrics.
                 </p>
               </div>
@@ -156,10 +156,10 @@ export default function AdminAnalytics() {
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading analytics...</p>
+                <p className="text-stone">Loading analytics...</p>
               </div>
             ) : error ? (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              <div className="bg-terracotta-100 border border-terracotta-400 text-terracotta-700 px-4 py-3 rounded">
                 {error}
               </div>
             ) : metrics ? (
@@ -189,8 +189,8 @@ export default function AdminAnalytics() {
                 </div>
 
                 {/* Chart */}
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">30-Day Trend</h2>
+                <div className="bg-white rounded-md shadow-sm p-6">
+                  <h2 className="text-xl font-bold text-charcoal mb-6">30-Day Trend</h2>
                   <div style={{ height: '400px' }}>
                     <Line data={chartData} options={chartOptions} />
                   </div>

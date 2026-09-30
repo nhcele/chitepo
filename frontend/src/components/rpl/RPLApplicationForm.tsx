@@ -106,14 +106,14 @@ export default function RPLApplicationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
+    <form onSubmit={handleSubmit} className="bg-white rounded-md shadow-sm p-8">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900">New RPL Application</h2>
+        <h2 className="text-2xl font-bold text-charcoal">New RPL Application</h2>
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-stone hover:text-charcoal"
           >
             <XCircleIcon className="h-6 w-6" />
           </button>
@@ -122,13 +122,13 @@ export default function RPLApplicationForm({
 
       {/* Pathway Selection */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-charcoal mb-2">
           Select Certification Pathway *
         </label>
         <select
           value={selectedPathway}
           onChange={(e) => setSelectedPathway(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500"
           required
         >
           <option value="">Choose a pathway...</option>
@@ -142,45 +142,45 @@ export default function RPLApplicationForm({
 
       {/* Rationale */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-charcoal mb-2">
           Rationale * (minimum 100 characters)
         </label>
         <textarea
           value={rationale}
           onChange={(e) => setRationale(e.target.value)}
           rows={6}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500"
           placeholder="Explain why you believe you should receive credit for prior learning. Describe your relevant experience, qualifications, and how they align with the certification requirements..."
           required
           minLength={100}
         />
-        <p className="text-sm text-gray-500 mt-1">{rationale.length}/100 characters</p>
+        <p className="text-sm text-stone mt-1">{rationale.length}/100 characters</p>
       </div>
 
       {/* Evidence Items */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-charcoal">
             Evidence of Prior Learning *
           </label>
           <button
             type="button"
             onClick={addEvidence}
-            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="text-sm text-forest-600 hover:text-forest-800 font-medium"
           >
             + Add Evidence
           </button>
         </div>
 
         {evidenceItems.map((item, index) => (
-          <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+          <div key={index} className="border border-border/60 rounded-md p-4 mb-4">
             <div className="flex justify-between items-start mb-3">
-              <h4 className="font-medium text-gray-900">Evidence Item #{index + 1}</h4>
+              <h4 className="font-medium text-charcoal">Evidence Item #{index + 1}</h4>
               {evidenceItems.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeEvidence(index)}
-                  className="text-red-600 hover:text-red-800"
+                  className="text-terracotta-600 hover:text-terracotta-800"
                 >
                   <TrashIcon className="h-5 w-5" />
                 </button>
@@ -189,7 +189,7 @@ export default function RPLApplicationForm({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Type</label>
+                <label className="block text-sm text-stone mb-1">Type</label>
                 <select
                   value={item.type}
                   onChange={(e) => {
@@ -197,7 +197,7 @@ export default function RPLApplicationForm({
                     updated[index].type = e.target.value;
                     setEvidenceItems(updated);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                 >
                   {evidenceTypes.map((type) => (
                     <option key={type.value} value={type.value}>{type.label}</option>
@@ -205,7 +205,7 @@ export default function RPLApplicationForm({
                 </select>
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Title *</label>
+                <label className="block text-sm text-stone mb-1">Title *</label>
                 <input
                   type="text"
                   value={item.title}
@@ -214,13 +214,13 @@ export default function RPLApplicationForm({
                     updated[index].title = e.target.value;
                     setEvidenceItems(updated);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                   placeholder="e.g., Senior District Administrator"
                   required
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm text-gray-600 mb-1">Description *</label>
+                <label className="block text-sm text-stone mb-1">Description *</label>
                 <textarea
                   value={item.description}
                   onChange={(e) => {
@@ -229,13 +229,13 @@ export default function RPLApplicationForm({
                     setEvidenceItems(updated);
                   }}
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                   placeholder="Describe your role, responsibilities, and relevant skills gained..."
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Institution/Organization</label>
+                <label className="block text-sm text-stone mb-1">Institution/Organization</label>
                 <input
                   type="text"
                   value={item.institution}
@@ -244,11 +244,11 @@ export default function RPLApplicationForm({
                     updated[index].institution = e.target.value;
                     setEvidenceItems(updated);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Duration</label>
+                <label className="block text-sm text-stone mb-1">Duration</label>
                 <input
                   type="text"
                   value={item.duration}
@@ -257,7 +257,7 @@ export default function RPLApplicationForm({
                     updated[index].duration = e.target.value;
                     setEvidenceItems(updated);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                   placeholder="e.g., 5 years, 2015-2020"
                 />
               </div>
@@ -269,27 +269,27 @@ export default function RPLApplicationForm({
       {/* Requested Credits */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-3">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-charcoal">
             Requested Course Credits
           </label>
           <button
             type="button"
             onClick={addCredit}
-            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="text-sm text-forest-600 hover:text-forest-800 font-medium"
           >
             + Add Credit Request
           </button>
         </div>
 
         {requestedCredits.map((credit, index) => (
-          <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+          <div key={index} className="border border-border/60 rounded-md p-4 mb-4">
             <div className="flex justify-between items-start mb-3">
-              <h4 className="font-medium text-gray-900">Credit Request #{index + 1}</h4>
+              <h4 className="font-medium text-charcoal">Credit Request #{index + 1}</h4>
               {requestedCredits.length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeCredit(index)}
-                  className="text-red-600 hover:text-red-800"
+                  className="text-terracotta-600 hover:text-terracotta-800"
                 >
                   <TrashIcon className="h-5 w-5" />
                 </button>
@@ -298,7 +298,7 @@ export default function RPLApplicationForm({
 
             <div className="space-y-3">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Course Name</label>
+                <label className="block text-sm text-stone mb-1">Course Name</label>
                 <input
                   type="text"
                   value={credit.courseName}
@@ -307,12 +307,12 @@ export default function RPLApplicationForm({
                     updated[index].courseName = e.target.value;
                     setRequestedCredits(updated);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                   placeholder="e.g., Leadership and Governance"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-600 mb-1">Justification</label>
+                <label className="block text-sm text-stone mb-1">Justification</label>
                 <textarea
                   value={credit.justification}
                   onChange={(e) => {
@@ -321,7 +321,7 @@ export default function RPLApplicationForm({
                     setRequestedCredits(updated);
                   }}
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md"
                   placeholder="Explain how your prior experience relates to this course..."
                 />
               </div>
@@ -336,7 +336,7 @@ export default function RPLApplicationForm({
           <button
             type="button"
             onClick={onCancel}
-            className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+            className="px-6 py-2 border border-border/60 rounded-md text-charcoal hover:bg-paper"
           >
             Cancel
           </button>
@@ -344,7 +344,7 @@ export default function RPLApplicationForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {submitting ? 'Submitting...' : 'Submit Application'}
         </button>

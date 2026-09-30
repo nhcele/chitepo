@@ -77,11 +77,11 @@ export default function ProfilePage() {
     switch (role?.toLowerCase()) {
       case 'admin':
       case 'super_admin':
-        return 'bg-red-100 text-red-800';
+        return 'bg-terracotta-100 text-terracotta-800';
       case 'instructor':
         return 'bg-primary-100 text-primary-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-forest-100 text-charcoal';
     }
   };
 
@@ -93,12 +93,12 @@ export default function ProfilePage() {
       </Head>
       <Layout>
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-12">
+        <div className="bg-gradient-to-br from-forest-50 to-forest-100 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <UserIcon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">Your Profile</h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              <h1 className="text-4xl font-bold text-charcoal mb-4">Your Profile</h1>
+              <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                 Manage your account settings and personalize your learning experience.
               </p>
             </div>
@@ -118,9 +118,9 @@ export default function ProfilePage() {
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-12"
             >
-              <UserIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Sign in required</h3>
-              <p className="text-gray-600">Please sign in to view and edit your profile.</p>
+              <UserIcon className="h-12 w-12 text-pewter mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-charcoal mb-2">Sign in required</h3>
+              <p className="text-stone">Please sign in to view and edit your profile.</p>
             </motion.div>
           )}
 
@@ -130,7 +130,7 @@ export default function ProfilePage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                className="bg-white rounded-md shadow-sm overflow-hidden"
               >
                 <div className="bg-gradient-to-r from-primary-500 to-accent-500 h-32"></div>
                 <div className="relative px-6 pb-6">
@@ -144,7 +144,7 @@ export default function ProfilePage() {
                         className="w-24 h-24 rounded-full object-cover"
                       />
                       {isEditing && (
-                        <button className="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full shadow-lg hover:bg-primary-700">
+                        <button className="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full shadow-sm hover:bg-primary-700">
                           <CameraIcon className="h-4 w-4" />
                         </button>
                       )}
@@ -152,14 +152,14 @@ export default function ProfilePage() {
                     <div className="flex-1 min-w-0 pb-1">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h2 className="text-2xl font-bold text-gray-900">{user.name || 'Anonymous User'}</h2>
-                          <p className="text-sm text-gray-500">{user.email}</p>
+                          <h2 className="text-2xl font-bold text-charcoal">{user.name || 'Anonymous User'}</h2>
+                          <p className="text-sm text-stone">{user.email}</p>
                           <div className="flex items-center mt-2">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getRoleBadgeColor(user.role)}`}>
                               {user.role?.replace('_', ' ').toUpperCase()}
                             </span>
                             {jobTitle && (
-                              <span className="ml-2 text-sm text-gray-600">{jobTitle}</span>
+                              <span className="ml-2 text-sm text-stone">{jobTitle}</span>
                             )}
                           </div>
                         </div>
@@ -167,7 +167,7 @@ export default function ProfilePage() {
                           <button
                             type="button"
                             onClick={() => setIsEditing(true)}
-                            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                            className="inline-flex items-center px-4 py-2 border border-border/60 rounded-md shadow-sm text-sm font-medium text-charcoal bg-white hover:bg-paper"
                           >
                             <PencilIcon className="h-4 w-4 mr-2" />
                             Edit Profile
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                             <button
                               type="button"
                               onClick={handleCancel}
-                              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                              className="inline-flex items-center px-4 py-2 border border-border/60 rounded-md shadow-sm text-sm font-medium text-charcoal bg-white hover:bg-paper"
                             >
                               Cancel
                             </button>
@@ -202,15 +202,15 @@ export default function ProfilePage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-white rounded-lg shadow-md p-6"
+                className="bg-white rounded-md shadow-sm p-6"
               >
-                <h3 className="text-lg font-semibold text-gray-900 mb-6">Personal Information</h3>
+                <h3 className="text-lg font-semibold text-charcoal mb-6">Personal Information</h3>
                 
                 {error && (
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center"
+                    className="mb-4 p-4 bg-terracotta-100 border border-terracotta-400 text-terracotta-700 rounded-md flex items-center"
                   >
                     <ExclamationTriangleIcon className="h-5 w-5 mr-2" />
                     {error}
@@ -221,7 +221,7 @@ export default function ProfilePage() {
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg flex items-center"
+                    className="mb-4 p-4 bg-forest-100 border border-forest-400 text-forest-700 rounded-md flex items-center"
                   >
                     <CheckCircleIcon className="h-5 w-5 mr-2" />
                     {success}
@@ -231,13 +231,13 @@ export default function ProfilePage() {
                 <form id="profile-form" onSubmit={handleSave} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                      <label className="block text-sm font-medium text-charcoal mb-2">Full Name</label>
                       <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className={`block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
-                          !isEditing ? 'bg-gray-50 cursor-not-allowed' : ''
+                        className={`block w-full rounded-md border-border/60 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
+                          !isEditing ? 'bg-paper cursor-not-allowed' : ''
                         }`}
                         placeholder="Your full name"
                         disabled={!isEditing}
@@ -245,13 +245,13 @@ export default function ProfilePage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+                      <label className="block text-sm font-medium text-charcoal mb-2">Job Title</label>
                       <input
                         type="text"
                         value={jobTitle}
                         onChange={(e) => setJobTitle(e.target.value)}
-                        className={`block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
-                          !isEditing ? 'bg-gray-50 cursor-not-allowed' : ''
+                        className={`block w-full rounded-md border-border/60 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
+                          !isEditing ? 'bg-paper cursor-not-allowed' : ''
                         }`}
                         placeholder="e.g., Senior Quality Manager"
                         disabled={!isEditing}
@@ -260,13 +260,13 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Avatar URL</label>
+                    <label className="block text-sm font-medium text-charcoal mb-2">Avatar URL</label>
                     <input
                       type="url"
                       value={avatar}
                       onChange={(e) => setAvatar(e.target.value)}
-                      className={`block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
-                        !isEditing ? 'bg-gray-50 cursor-not-allowed' : ''
+                      className={`block w-full rounded-md border-border/60 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
+                        !isEditing ? 'bg-paper cursor-not-allowed' : ''
                       }`}
                       placeholder="https://example.com/avatar.jpg"
                       disabled={!isEditing}
@@ -274,23 +274,23 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Skills & Interests</label>
+                    <label className="block text-sm font-medium text-charcoal mb-2">Skills & Interests</label>
                     <input
                       type="text"
                       value={skills}
                       onChange={(e) => setSkills(e.target.value)}
-                      className={`block w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
-                        !isEditing ? 'bg-gray-50 cursor-not-allowed' : ''
+                      className={`block w-full rounded-md border-border/60 shadow-sm focus:border-primary-500 focus:ring-primary-500 ${
+                        !isEditing ? 'bg-paper cursor-not-allowed' : ''
                       }`}
                       placeholder="e.g., HACCP, BRC, Food Safety, Quality Management"
                       disabled={!isEditing}
                     />
-                    <p className="mt-1 text-sm text-gray-500">Separate multiple skills with commas</p>
+                    <p className="mt-1 text-sm text-stone">Separate multiple skills with commas</p>
                   </div>
 
                   {skills && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Current Skills</label>
+                      <label className="block text-sm font-medium text-charcoal mb-2">Current Skills</label>
                       <div className="flex flex-wrap gap-2">
                         {skills.split(',').map((skill, index) => (
                           <span

@@ -105,7 +105,7 @@ export default function OnboardingFlows() {
       <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
         <div className="space-y-6">
           {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-md border border-terracotta-200 bg-terracotta-50 px-4 py-3 text-sm text-terracotta-700">
               {error}
             </div>
           )}
@@ -114,7 +114,7 @@ export default function OnboardingFlows() {
             <select
               value={selectedUserId}
               onChange={(e) => setSelectedUserId(e.target.value)}
-              className="min-w-[240px] rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+              className="min-w-[240px] rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
             >
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
@@ -124,7 +124,7 @@ export default function OnboardingFlows() {
             </select>
             <button
               onClick={loadUsers}
-              className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center gap-2 rounded-md border border-border/60 px-3 py-2 text-sm text-charcoal hover:bg-paper"
             >
               <ArrowPathIcon className="h-4 w-4" />
               Refresh
@@ -132,8 +132,8 @@ export default function OnboardingFlows() {
             <button
               onClick={handleAutoAssign}
               disabled={processing || !selectedUserId}
-              className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-white ${
-                processing ? 'bg-gray-400' : 'bg-primary-600 hover:bg-primary-700'
+              className={`inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-white ${
+                processing ? 'bg-stone' : 'bg-primary-600 hover:bg-primary-700'
               }`}
             >
               <SparklesIcon className="h-4 w-4" />
@@ -142,55 +142,55 @@ export default function OnboardingFlows() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Job Role</span>
                 <UserGroupIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-lg font-semibold text-gray-900">
+              <div className="mt-2 text-lg font-semibold text-charcoal">
                 {path?.user?.jobRole ? String(path.user.jobRole).replace('_', ' ') : 'Unassigned'}
               </div>
-              <p className="text-xs text-gray-400">{path?.user?.department || 'No department set'}</p>
+              <p className="text-xs text-pewter">{path?.user?.department || 'No department set'}</p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Path Progress</span>
                 <CheckCircleIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-2xl font-bold text-gray-900">{path?.learningPath.progress ?? 0}%</div>
-              <p className="text-xs text-gray-400">{requiredCourses.length} required courses</p>
+              <div className="mt-2 text-2xl font-bold text-charcoal">{path?.learningPath.progress ?? 0}%</div>
+              <p className="text-xs text-pewter">{requiredCourses.length} required courses</p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Compliance Status</span>
                 <ClipboardDocumentListIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-lg font-semibold text-gray-900">
+              <div className="mt-2 text-lg font-semibold text-charcoal">
                 {compliance?.status ? compliance.status.replace('_', ' ') : 'N/A'}
               </div>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-pewter">
                 {compliance?.summary?.completed || 0}/{compliance?.summary?.total || 0} completed
               </p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Overdue Items</span>
                 <ExclamationTriangleIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-2xl font-bold text-gray-900">{compliance?.summary?.overdue || 0}</div>
-              <p className="text-xs text-gray-400">Due in next 30 days</p>
+              <div className="mt-2 text-2xl font-bold text-charcoal">{compliance?.summary?.overdue || 0}</div>
+              <p className="text-xs text-pewter">Due in next 30 days</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-              <div className="border-b border-gray-100 px-5 py-4">
-                <h3 className="text-lg font-semibold text-gray-900">Guided Onboarding Checklist</h3>
-                <p className="text-xs text-gray-500">Required role-based courses auto-generated</p>
+            <div className="rounded-md border border-border/60 bg-white shadow-sm">
+              <div className="border-b border-border/60 px-5 py-4">
+                <h3 className="text-lg font-semibold text-charcoal">Guided Onboarding Checklist</h3>
+                <p className="text-xs text-stone">Required role-based courses auto-generated</p>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-border/60">
                 {requiredCourses.length === 0 ? (
-                  <div className="p-6 text-sm text-gray-500">
+                  <div className="p-6 text-sm text-stone">
                     No required courses yet. Assign a job role to generate the onboarding path.
                   </div>
                 ) : (
@@ -200,18 +200,18 @@ export default function OnboardingFlows() {
                     return (
                       <div key={course.id} className="flex items-center justify-between px-5 py-4">
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{title}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm font-medium text-charcoal">{title}</p>
+                          <p className="text-xs text-stone">
                             Deadline: {course.deadlineDays ? `${course.deadlineDays} days` : 'Not set'}
                           </p>
                         </div>
                         <span
                           className={`rounded-full px-2 py-0.5 text-xs ${
                             course.status === 'completed'
-                              ? 'bg-green-100 text-green-700'
+                              ? 'bg-forest-100 text-forest-700'
                               : course.status === 'in_progress'
-                                ? 'bg-yellow-100 text-yellow-700'
-                                : 'bg-gray-100 text-gray-600'
+                                ? 'bg-ochre-100 text-ochre-700'
+                                : 'bg-forest-100 text-stone'
                           }`}
                         >
                           {course.status ? course.status.replace('_', ' ') : 'not started'}
@@ -223,32 +223,32 @@ export default function OnboardingFlows() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-              <div className="border-b border-gray-100 px-5 py-4">
-                <h3 className="text-lg font-semibold text-gray-900">Compliance Deadlines</h3>
-                <p className="text-xs text-gray-500">Upcoming due dates for new hires</p>
+            <div className="rounded-md border border-border/60 bg-white shadow-sm">
+              <div className="border-b border-border/60 px-5 py-4">
+                <h3 className="text-lg font-semibold text-charcoal">Compliance Deadlines</h3>
+                <p className="text-xs text-stone">Upcoming due dates for new hires</p>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-border/60">
                 {complianceItems.length === 0 ? (
-                  <div className="p-6 text-sm text-gray-500">
+                  <div className="p-6 text-sm text-stone">
                     No compliance deadlines set for this role.
                   </div>
                 ) : (
                   complianceItems.map((item) => (
                     <div key={item.courseId} className="flex items-center justify-between px-5 py-4">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{item.courseTitle}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm font-medium text-charcoal">{item.courseTitle}</p>
+                        <p className="text-xs text-stone">
                           Due {new Date(item.dueDate).toLocaleDateString()}
                         </p>
                       </div>
                       <span
                         className={`rounded-full px-2 py-0.5 text-xs ${
                           item.isCompleted
-                            ? 'bg-green-100 text-green-700'
+                            ? 'bg-forest-100 text-forest-700'
                             : item.isOverdue
-                              ? 'bg-red-100 text-red-700'
-                              : 'bg-yellow-100 text-yellow-700'
+                              ? 'bg-terracotta-100 text-terracotta-700'
+                              : 'bg-ochre-100 text-ochre-700'
                         }`}
                       >
                         {item.isCompleted ? 'Completed' : item.isOverdue ? 'Overdue' : `${item.daysUntilDue} days`}
@@ -261,7 +261,7 @@ export default function OnboardingFlows() {
           </div>
 
           {loading && (
-            <div className="flex items-center justify-center py-10 text-sm text-gray-500">
+            <div className="flex items-center justify-center py-10 text-sm text-stone">
               Loading onboarding data...
             </div>
           )}

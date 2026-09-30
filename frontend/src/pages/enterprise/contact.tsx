@@ -137,68 +137,68 @@ export default function EnterpriseContact() {
           <meta name="description" content="Thank you for contacting Chitepo Enterprise. We'll be in touch soon." />
         </Head>
 
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
+        <div className="min-h-screen bg-gradient-to-br from-forest-50 via-white to-terracotta-50">
           <div className="max-w-4xl mx-auto px-4 py-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-center"
             >
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                <CheckCircleIcon className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mb-6">
+                <CheckCircleIcon className="w-8 h-8 text-forest-600" />
               </div>
               
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl font-bold text-charcoal mb-4">
                 Thank You for Your Interest!
               </h1>
               
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                 We&apos;ve received your enterprise inquiry and our team will review your requirements. 
                 A Chitepo enterprise specialist will contact you within 24 hours.
               </p>
               
-              <div className="bg-white rounded-xl shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
-                <h3 className="font-semibold text-gray-900 mb-4">What happens next?</h3>
+              <div className="bg-white rounded-md shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
+                <h3 className="font-semibold text-charcoal mb-4">What happens next?</h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">1</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">1</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Initial Review</div>
-                      <div className="text-sm text-gray-600">Our team reviews your requirements and prepares a customized approach</div>
+                      <div className="font-medium text-charcoal">Initial Review</div>
+                      <div className="text-sm text-stone">Our team reviews your requirements and prepares a customized approach</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">2</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">2</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Discovery Call</div>
-                      <div className="text-sm text-gray-600">30-minute consultation to understand your specific needs and goals</div>
+                      <div className="font-medium text-charcoal">Discovery Call</div>
+                      <div className="text-sm text-stone">30-minute consultation to understand your specific needs and goals</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">3</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">3</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Custom Proposal</div>
-                      <div className="text-sm text-gray-600">Detailed proposal with pricing, implementation timeline, and ROI projections</div>
+                      <div className="font-medium text-charcoal">Custom Proposal</div>
+                      <div className="text-sm text-stone">Detailed proposal with pricing, implementation timeline, and ROI projections</div>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/enterprise" className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                <Link href="/enterprise" className="inline-flex items-center gap-2 px-6 py-3 bg-forest-600 text-white rounded-md hover:bg-forest-700 transition-colors">
                   <ArrowLeftIcon className="w-4 h-4" />
                   Back to Enterprise
                 </Link>
                 
-                <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 border border-border/60 text-charcoal rounded-md hover:bg-paper transition-colors">
                   Return to Home
                 </Link>
               </div>
@@ -216,22 +216,22 @@ export default function EnterpriseContact() {
         <meta name="description" content="Contact Chitepo for enterprise learning solutions. Get custom pricing and implementation support." />
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
+      <div className="min-h-screen bg-gradient-to-br from-forest-50 via-white to-terracotta-50">
         {/* Header */}
         <div className="relative overflow-hidden bg-white border-b">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-pink-50" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-50 via-white to-terracotta-50" />
           <div className="relative max-w-7xl mx-auto px-4 py-16">
             <div className="text-center">
-              <Link href="/enterprise" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6">
+              <Link href="/enterprise" className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 mb-6">
                 <ArrowLeftIcon className="w-4 h-4" />
                 Back to Enterprise
               </Link>
               
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-forest-600 to-terracotta-600 bg-clip-text text-transparent mb-6">
                 Let&apos;s Transform Your Learning
               </h1>
               
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-stone max-w-3xl mx-auto">
                 Ready to scale your team&apos;s skills with enterprise-grade learning? 
                 Our specialists will design a custom solution for your organization.
               </p>
@@ -243,58 +243,58 @@ export default function EnterpriseContact() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Contact Information */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-sm border p-8 sticky top-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h2>
+              <div className="bg-white rounded-md shadow-sm border p-8 sticky top-8">
+                <h2 className="text-2xl font-bold text-charcoal mb-6">Get in Touch</h2>
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <PhoneIcon className="w-5 h-5 text-indigo-600" />
+                    <div className="w-10 h-10 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                      <PhoneIcon className="w-5 h-5 text-forest-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Phone</div>
-                      <div className="text-gray-600">+263 (0) 242 48 331</div>
-                      <div className="text-sm text-gray-500">Mon-Fri 8AM-5PM CAT</div>
+                      <div className="font-semibold text-charcoal">Phone</div>
+                      <div className="text-stone">+263 (0) 242 48 331</div>
+                      <div className="text-sm text-stone">Mon-Fri 8AM-5PM CAT</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <EnvelopeIcon className="w-5 h-5 text-indigo-600" />
+                    <div className="w-10 h-10 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                      <EnvelopeIcon className="w-5 h-5 text-forest-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Email</div>
-                      <div className="text-gray-600">hello@mindelta.com</div>
-                      <div className="text-sm text-gray-500">We respond within 4 hours</div>
+                      <div className="font-semibold text-charcoal">Email</div>
+                      <div className="text-stone">hello@chitepo.co.zw</div>
+                      <div className="text-sm text-stone">We respond within 4 hours</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <MapPinIcon className="w-5 h-5 text-indigo-600" />
+                    <div className="w-10 h-10 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                      <MapPinIcon className="w-5 h-5 text-forest-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Office</div>
-                      <div className="text-gray-600">82 Eastern Road, Mandara, Harare</div>
-                      <div className="text-sm text-gray-500">Zimbabwe</div>
+                      <div className="font-semibold text-charcoal">Office</div>
+                      <div className="text-stone">82 Eastern Road, Mandara, Harare</div>
+                      <div className="text-sm text-stone">Zimbabwe</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <ClockIcon className="w-5 h-5 text-indigo-600" />
+                    <div className="w-10 h-10 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                      <ClockIcon className="w-5 h-5 text-forest-600" />
                     </div>
                     <div>
-                      <div className="font-semibold text-gray-900">Response Time</div>
-                      <div className="text-gray-600">Within 24 hours</div>
-                      <div className="text-sm text-gray-500">Usually much faster</div>
+                      <div className="font-semibold text-charcoal">Response Time</div>
+                      <div className="text-stone">Within 24 hours</div>
+                      <div className="text-sm text-stone">Usually much faster</div>
                     </div>
                   </div>
                 </div>
                 
-                <div className="mt-8 p-4 bg-indigo-50 rounded-lg">
-                  <div className="text-sm font-semibold text-indigo-900 mb-2">Enterprise Benefits</div>
-                  <ul className="text-sm text-indigo-700 space-y-1">
+                <div className="mt-8 p-4 bg-forest-50 rounded-md">
+                  <div className="text-sm font-semibold text-forest-900 mb-2">Enterprise Benefits</div>
+                  <ul className="text-sm text-forest-700 space-y-1">
                     <li>• Custom implementation plan</li>
                     <li>• Dedicated customer success manager</li>
                     <li>• Priority technical support</li>
@@ -306,9 +306,9 @@ export default function EnterpriseContact() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-xl shadow-sm border p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Tell Us About Your Needs</h2>
-                <p className="text-gray-600 mb-8">
+              <div className="bg-white rounded-md shadow-sm border p-8">
+                <h2 className="text-2xl font-bold text-charcoal mb-2">Tell Us About Your Needs</h2>
+                <p className="text-stone mb-8">
                   Fill out this form and we&apos;ll prepare a customized proposal for your organization.
                 </p>
 
@@ -316,58 +316,58 @@ export default function EnterpriseContact() {
                   {/* Personal Information */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         First Name *
                       </label>
                       <input
                         type="text"
                         value={form.firstName}
                         onChange={(e) => handleInputChange('firstName', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.firstName ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.firstName ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="John"
                       />
-                      {errors.firstName && <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>}
+                      {errors.firstName && <p className="text-terracotta-600 text-sm mt-1">{errors.firstName}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Last Name *
                       </label>
                       <input
                         type="text"
                         value={form.lastName}
                         onChange={(e) => handleInputChange('lastName', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.lastName ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.lastName ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Smith"
                       />
-                      {errors.lastName && <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>}
+                      {errors.lastName && <p className="text-terracotta-600 text-sm mt-1">{errors.lastName}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Work Email *
                       </label>
                       <input
                         type="email"
                         value={form.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.email ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.email ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="john.smith@company.com"
                       />
-                      {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+                      {errors.email && <p className="text-terracotta-600 text-sm mt-1">{errors.email}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Phone Number
                       </label>
                       <input
                         type="tel"
                         value={form.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                        className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
@@ -376,79 +376,79 @@ export default function EnterpriseContact() {
                   {/* Company Information */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Company Name *
                       </label>
                       <input
                         type="text"
                         value={form.company}
                         onChange={(e) => handleInputChange('company', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.company ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.company ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Acme Corporation"
                       />
-                      {errors.company && <p className="text-red-600 text-sm mt-1">{errors.company}</p>}
+                      {errors.company && <p className="text-terracotta-600 text-sm mt-1">{errors.company}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Job Title *
                       </label>
                       <input
                         type="text"
                         value={form.jobTitle}
                         onChange={(e) => handleInputChange('jobTitle', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.jobTitle ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.jobTitle ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Head of Learning & Development"
                       />
-                      {errors.jobTitle && <p className="text-red-600 text-sm mt-1">{errors.jobTitle}</p>}
+                      {errors.jobTitle && <p className="text-terracotta-600 text-sm mt-1">{errors.jobTitle}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Company Size *
                       </label>
                       <select
                         value={form.employeeCount}
                         onChange={(e) => handleInputChange('employeeCount', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.employeeCount ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.employeeCount ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                       >
                         <option value="">Select company size</option>
                         {employeeCountOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
                         ))}
                       </select>
-                      {errors.employeeCount && <p className="text-red-600 text-sm mt-1">{errors.employeeCount}</p>}
+                      {errors.employeeCount && <p className="text-terracotta-600 text-sm mt-1">{errors.employeeCount}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Primary Use Case *
                       </label>
                       <select
                         value={form.useCase}
                         onChange={(e) => handleInputChange('useCase', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.useCase ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.useCase ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                       >
                         <option value="">Select primary use case</option>
                         {useCaseOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
                         ))}
                       </select>
-                      {errors.useCase && <p className="text-red-600 text-sm mt-1">{errors.useCase}</p>}
+                      {errors.useCase && <p className="text-terracotta-600 text-sm mt-1">{errors.useCase}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Budget Range
                       </label>
                       <select
                         value={form.budget}
                         onChange={(e) => handleInputChange('budget', e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                        className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                       >
                         <option value="">Select budget range</option>
                         {budgetOptions.map(option => (
@@ -458,48 +458,48 @@ export default function EnterpriseContact() {
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Implementation Timeline *
                       </label>
                       <select
                         value={form.timeline}
                         onChange={(e) => handleInputChange('timeline', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.timeline ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.timeline ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                       >
                         <option value="">Select timeline</option>
                         {timelineOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
                         ))}
                       </select>
-                      {errors.timeline && <p className="text-red-600 text-sm mt-1">{errors.timeline}</p>}
+                      {errors.timeline && <p className="text-terracotta-600 text-sm mt-1">{errors.timeline}</p>}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-charcoal mb-2">
                       Tell us about your specific requirements
                     </label>
                     <textarea
                       value={form.message}
                       onChange={(e) => handleInputChange('message', e.target.value)}
                       rows={4}
-                      className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                      className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                       placeholder="Describe your learning goals, current challenges, integration requirements, or any specific features you need..."
                     />
                   </div>
 
                   <div className="flex items-center justify-between pt-6">
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-stone">
                       * Required fields
                     </div>
                     
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`px-8 py-3 rounded-lg font-semibold transition-colors ${
+                      className={`px-8 py-3 rounded-md font-semibold transition-colors ${
                         isSubmitting
-                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                          : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                          ? 'bg-stone text-stone cursor-not-allowed'
+                          : 'bg-forest-600 text-white hover:bg-forest-700'
                       }`}
                     >
                       {isSubmitting ? 'Submitting...' : 'Send Request'}

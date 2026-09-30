@@ -252,21 +252,21 @@ export default function LessonEditor() {
                 <div className="flex items-center space-x-4">
                   <button
                     onClick={() => window.history.back()}
-                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="inline-flex items-center px-3 py-2 text-sm font-medium text-stone bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
                   >
                     <ArrowLeftIcon className="h-4 w-4 mr-1" />
                     Back
                   </button>
                   
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-primary-50 rounded-lg">
+                    <div className="p-2 bg-primary-50 rounded-md">
                       <DocumentTextIcon className="h-6 w-6 text-primary-600" />
                     </div>
                     <div>
-                      <h1 className="text-3xl font-bold text-gray-900">
+                      <h1 className="text-3xl font-bold text-charcoal">
                         {lessonData?.title || 'Lesson Editor'}
                       </h1>
-                      <p className="text-gray-500">
+                      <p className="text-stone">
                         Course ID: {courseId} • Lesson ID: {lessonId}
                       </p>
                     </div>
@@ -276,7 +276,7 @@ export default function LessonEditor() {
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={handlePreview}
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
                   >
                     <EyeIcon className="h-4 w-4 mr-1" />
                     Preview
@@ -292,25 +292,25 @@ export default function LessonEditor() {
                   transition={{ delay: 0.2 }}
                   className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6"
                 >
-                  <div className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">Content Blocks</div>
-                    <div className="text-2xl font-bold text-gray-900">{contentBlocks.length}</div>
+                  <div className="bg-white border border-border/60 rounded-md p-4">
+                    <div className="text-sm text-stone mb-1">Content Blocks</div>
+                    <div className="text-2xl font-bold text-charcoal">{contentBlocks.length}</div>
                   </div>
-                  <div className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">Duration</div>
+                  <div className="bg-white border border-border/60 rounded-md p-4">
+                    <div className="text-sm text-stone mb-1">Duration</div>
                     <div className="text-2xl font-bold text-primary-600">
                       {lessonData.durationSeconds ? Math.ceil(lessonData.durationSeconds / 60) : 0}m
                     </div>
                   </div>
-                  <div className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">Lesson Type</div>
-                    <div className="text-2xl font-bold text-green-600 capitalize">
+                  <div className="bg-white border border-border/60 rounded-md p-4">
+                    <div className="text-sm text-stone mb-1">Lesson Type</div>
+                    <div className="text-2xl font-bold text-forest-600 capitalize">
                       {lessonData.type}
                     </div>
                   </div>
-                  <div className="bg-white border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">Status</div>
-                    <div className="text-2xl font-bold text-purple-600">
+                  <div className="bg-white border border-border/60 rounded-md p-4">
+                    <div className="text-sm text-stone mb-1">Status</div>
+                    <div className="text-2xl font-bold text-terracotta-600">
                       {lessonData.isPreview ? 'Preview' : 'Premium'}
                     </div>
                   </div>
@@ -359,15 +359,15 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
   const renderContentBlock = (block: ContentBlock) => {
     switch (block.type) {
       case 'heading':
-        return <h2 className="text-2xl font-bold text-gray-900 mb-4">{block.content}</h2>;
+        return <h2 className="text-2xl font-bold text-charcoal mb-4">{block.content}</h2>;
       
       case 'text':
-        return <p className="text-gray-700 mb-4 leading-relaxed">{block.content}</p>;
+        return <p className="text-charcoal mb-4 leading-relaxed">{block.content}</p>;
       
       case 'code':
         return (
           <div className="mb-4">
-            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+            <pre className="bg-ink-950 text-pewter p-4 rounded-md overflow-x-auto">
               <code className="text-sm">{block.content}</code>
             </pre>
           </div>
@@ -381,10 +381,10 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
               alt={block.metadata?.alt || 'Content image'}
               width={800}
               height={600}
-              className="max-w-full h-auto rounded-lg"
+              className="max-w-full h-auto rounded-md"
             />
             {block.metadata?.caption && (
-              <p className="text-sm text-gray-500 mt-2 italic">{block.metadata.caption}</p>
+              <p className="text-sm text-stone mt-2 italic">{block.metadata.caption}</p>
             )}
           </div>
         );
@@ -393,8 +393,8 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
         return (
           <div className="mb-4">
             <h3 className="font-medium mb-2">{block.content}</h3>
-            <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg flex items-center justify-center">
-              <VideoCameraIcon className="h-12 w-12 text-gray-400" />
+            <div className="aspect-w-16 aspect-h-9 bg-forest-100 rounded-md flex items-center justify-center">
+              <VideoCameraIcon className="h-12 w-12 text-pewter" />
             </div>
           </div>
         );
@@ -409,11 +409,11 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
       case 'pdf':
         return (
           <div className="mb-4">
-            <div className="border border-gray-200 rounded-lg p-4 flex items-center space-x-3">
-              <DocumentTextIcon className="h-8 w-8 text-red-500" />
+            <div className="border border-border/60 rounded-md p-4 flex items-center space-x-3">
+              <DocumentTextIcon className="h-8 w-8 text-terracotta-500" />
               <div>
                 <p className="font-medium">{block.content}</p>
-                <p className="text-sm text-gray-500">PDF document</p>
+                <p className="text-sm text-stone">PDF document</p>
               </div>
             </div>
           </div>
@@ -433,14 +433,14 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-md shadow-sm max-w-4xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="px-6 py-4 border-b border-gray-200 sticky top-0 bg-white">
+        <div className="px-6 py-4 border-b border-border/60 sticky top-0 bg-white">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900">Lesson Preview</h3>
+            <h3 className="text-lg font-semibold text-charcoal">Lesson Preview</h3>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-pewter hover:text-stone"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -451,13 +451,13 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
 
         <div className="p-6">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{lesson.title}</h1>
-            <div className="flex items-center space-x-6 text-sm text-gray-500">
+            <h1 className="text-3xl font-bold text-charcoal mb-2">{lesson.title}</h1>
+            <div className="flex items-center space-x-6 text-sm text-stone">
               <span>Duration: {lesson.durationSeconds ? Math.ceil(lesson.durationSeconds / 60) : 0} minutes</span>
               <span>Type: {lesson.type}</span>
               <span className={`px-2 py-1 text-xs font-medium rounded ${
                 lesson.isPreview 
-                  ? 'text-green-700 bg-green-50' 
+                  ? 'text-forest-700 bg-forest-50' 
                   : 'text-primary-700 bg-primary-50'
               }`}>
                 {lesson.isPreview ? 'Free Preview' : 'Premium Content'}
@@ -476,12 +476,12 @@ function LessonPreviewModal({ lesson, contentBlocks, onClose }: LessonPreviewMod
           <div className="mt-8 flex items-center justify-end space-x-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-charcoal bg-forest-100 rounded-md hover:bg-forest-100 transition-colors"
             >
               Close Preview
             </button>
             <button
-              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors"
             >
               Mark as Complete
             </button>

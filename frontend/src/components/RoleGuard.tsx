@@ -14,10 +14,10 @@ export default function RoleGuard({ allow, children }: Props) {
     return <div className="p-6">Loading…</div>;
   }
   if (!user) {
-    return <div className="p-6 text-red-600">You must be signed in.</div>;
+    return <div className="p-6 text-terracotta-600">You must be signed in.</div>;
   }
   if (!allow.includes(user.role)) {
-    return <div className="p-6 text-red-600">You do not have permission to view this page.</div>;
+    return <div className="p-6 text-terracotta-600">You do not have permission to view this page.</div>;
   }
   return <>{children}</>;
 }

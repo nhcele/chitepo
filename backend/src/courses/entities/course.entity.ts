@@ -11,7 +11,7 @@ import {
 import { CourseStatus, CourseDifficulty, CourseCategory } from '@mindelta/shared';
 import { User } from '../../users/entities/user.entity';
 import { Module } from './module.entity';
-import { Enrollment } from './enrollment.entity';
+import { Enrollment } from '../../enrollments/entities/enrollment.entity';
 import { Certificate } from '../../certificates/entities/certificate.entity';
 import { TeamLicense } from '../../teams/entities/team-license.entity';
 
@@ -98,10 +98,6 @@ export class Course {
 
   @OneToMany(() => Module, (module) => module.course, { cascade: true })
   modules: Module[];
-
-  // Add lessons relation for analytics
-  @OneToMany(() => Module, (module) => module.course)
-  lessons: Module[];
 
   @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
   enrollments: Enrollment[];

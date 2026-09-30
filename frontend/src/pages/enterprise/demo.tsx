@@ -175,67 +175,67 @@ export default function EnterpriseDemo() {
           <meta name="description" content="Your Chitepo enterprise demo has been scheduled. We'll be in touch soon." />
         </Head>
 
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
+        <div className="min-h-screen bg-gradient-to-br from-forest-50 via-white to-terracotta-50">
           <div className="max-w-4xl mx-auto px-4 py-16">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-center"
             >
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                <CheckCircleIcon className="w-8 h-8 text-green-600" />
+              <div className="mx-auto w-16 h-16 bg-forest-100 rounded-full flex items-center justify-center mb-6">
+                <CheckCircleIcon className="w-8 h-8 text-forest-600" />
               </div>
               
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl font-bold text-charcoal mb-4">
                 Demo Scheduled Successfully!
               </h1>
               
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                 Thank you for scheduling a demo with Chitepo. We&apos;ve received your request and will send you a calendar invitation shortly.
               </p>
               
-              <div className="bg-white rounded-xl shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
-                <h3 className="font-semibold text-gray-900 mb-4">What to expect in your demo:</h3>
+              <div className="bg-white rounded-md shadow-sm border p-6 mb-8 text-left max-w-2xl mx-auto">
+                <h3 className="font-semibold text-charcoal mb-4">What to expect in your demo:</h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">1</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">1</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Platform Walkthrough (15 min)</div>
-                      <div className="text-sm text-gray-600">Live demonstration of key features and capabilities</div>
+                      <div className="font-medium text-charcoal">Platform Walkthrough (15 min)</div>
+                      <div className="text-sm text-stone">Live demonstration of key features and capabilities</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">2</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">2</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Use Case Discussion (10 min)</div>
-                      <div className="text-sm text-gray-600">Tailored discussion based on your specific requirements</div>
+                      <div className="font-medium text-charcoal">Use Case Discussion (10 min)</div>
+                      <div className="text-sm text-stone">Tailored discussion based on your specific requirements</div>
                     </div>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-xs font-semibold text-indigo-600">3</span>
+                    <div className="w-6 h-6 bg-forest-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-xs font-semibold text-forest-600">3</span>
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900">Q&A and Next Steps (5 min)</div>
-                      <div className="text-sm text-gray-600">Address questions and outline implementation options</div>
+                      <div className="font-medium text-charcoal">Q&A and Next Steps (5 min)</div>
+                      <div className="text-sm text-stone">Address questions and outline implementation options</div>
                     </div>
                   </div>
                 </div>
               </div>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/enterprise" className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                <Link href="/enterprise" className="inline-flex items-center gap-2 px-6 py-3 bg-forest-600 text-white rounded-md hover:bg-forest-700 transition-colors">
                   <ArrowLeftIcon className="w-4 h-4" />
                   Back to Enterprise
                 </Link>
                 
-                <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <Link href="/" className="inline-flex items-center gap-2 px-6 py-3 border border-border/60 text-charcoal rounded-md hover:bg-paper transition-colors">
                   Return to Home
                 </Link>
               </div>
@@ -253,32 +253,32 @@ export default function EnterpriseDemo() {
         <meta name="description" content="Schedule a personalized demo of Chitepo's enterprise learning platform. See our AI-driven micro-pacing and blockchain credentials in action." />
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-pink-50">
+      <div className="min-h-screen bg-gradient-to-br from-forest-50 via-white to-terracotta-50">
         {/* Header */}
         <div className="relative overflow-hidden bg-white border-b">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-pink-50" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-50 via-white to-terracotta-50" />
           <div className="relative max-w-7xl mx-auto px-4 py-16">
             <div className="text-center">
-              <Link href="/enterprise" className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 mb-6">
+              <Link href="/enterprise" className="inline-flex items-center gap-2 text-forest-600 hover:text-forest-700 mb-6">
                 <ArrowLeftIcon className="w-4 h-4" />
                 Back to Enterprise
               </Link>
               
               <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
-                  <PlayIcon className="w-6 h-6 text-indigo-600" />
+                <div className="w-12 h-12 bg-forest-100 rounded-md flex items-center justify-center">
+                  <PlayIcon className="w-6 h-6 text-forest-600" />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-forest-600 to-terracotta-600 bg-clip-text text-transparent">
                   Schedule Your Demo
                 </h1>
               </div>
               
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+              <p className="text-xl text-stone max-w-3xl mx-auto mb-8">
                 See Chitepo&apos;s enterprise learning platform in action. Get a personalized 30-minute demo 
                 tailored to your organization&apos;s specific needs and use cases.
               </p>
 
-              <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+              <div className="flex items-center justify-center gap-6 text-sm text-stone">
                 <div className="flex items-center gap-2">
                   <ClockIcon className="w-4 h-4" />
                   30 minutes
@@ -300,26 +300,26 @@ export default function EnterpriseDemo() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Demo Features */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-xl shadow-sm border p-8 sticky top-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">What You&apos;ll See</h2>
+              <div className="bg-white rounded-md shadow-sm border p-8 sticky top-8">
+                <h2 className="text-2xl font-bold text-charcoal mb-6">What You&apos;ll See</h2>
                 
                 <div className="space-y-6">
                   {demoFeatures.map((feature, index) => (
                     <div key={index} className="flex items-start gap-4">
-                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <feature.icon className="w-5 h-5 text-indigo-600" />
+                      <div className="w-10 h-10 bg-forest-100 rounded-md flex items-center justify-center flex-shrink-0">
+                        <feature.icon className="w-5 h-5 text-forest-600" />
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900 mb-1">{feature.title}</div>
-                        <div className="text-sm text-gray-600">{feature.description}</div>
+                        <div className="font-semibold text-charcoal mb-1">{feature.title}</div>
+                        <div className="text-sm text-stone">{feature.description}</div>
                       </div>
                     </div>
                   ))}
                 </div>
                 
-                <div className="mt-8 p-4 bg-indigo-50 rounded-lg">
-                  <div className="text-sm font-semibold text-indigo-900 mb-2">Demo Benefits</div>
-                  <ul className="text-sm text-indigo-700 space-y-1">
+                <div className="mt-8 p-4 bg-forest-50 rounded-md">
+                  <div className="text-sm font-semibold text-forest-900 mb-2">Demo Benefits</div>
+                  <ul className="text-sm text-forest-700 space-y-1">
                     <li>• Personalized to your use case</li>
                     <li>• Live Q&A with product experts</li>
                     <li>• Custom implementation roadmap</li>
@@ -331,9 +331,9 @@ export default function EnterpriseDemo() {
 
             {/* Demo Scheduling Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-xl shadow-sm border p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Schedule Your Demo</h2>
-                <p className="text-gray-600 mb-8">
+              <div className="bg-white rounded-md shadow-sm border p-8">
+                <h2 className="text-2xl font-bold text-charcoal mb-2">Schedule Your Demo</h2>
+                <p className="text-stone mb-8">
                   Fill out this form and we&apos;ll send you a calendar invitation for your personalized demo.
                 </p>
 
@@ -341,58 +341,58 @@ export default function EnterpriseDemo() {
                   {/* Personal Information */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         First Name *
                       </label>
                       <input
                         type="text"
                         value={form.firstName}
                         onChange={(e) => handleInputChange('firstName', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.firstName ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.firstName ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="John"
                       />
-                      {errors.firstName && <p className="text-red-600 text-sm mt-1">{errors.firstName}</p>}
+                      {errors.firstName && <p className="text-terracotta-600 text-sm mt-1">{errors.firstName}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Last Name *
                       </label>
                       <input
                         type="text"
                         value={form.lastName}
                         onChange={(e) => handleInputChange('lastName', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.lastName ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.lastName ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Smith"
                       />
-                      {errors.lastName && <p className="text-red-600 text-sm mt-1">{errors.lastName}</p>}
+                      {errors.lastName && <p className="text-terracotta-600 text-sm mt-1">{errors.lastName}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Work Email *
                       </label>
                       <input
                         type="email"
                         value={form.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.email ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.email ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="john.smith@company.com"
                       />
-                      {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+                      {errors.email && <p className="text-terracotta-600 text-sm mt-1">{errors.email}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Phone Number
                       </label>
                       <input
                         type="tel"
                         value={form.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                        className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                         placeholder="+263 (0) 242 48 331"
                       />
                     </div>
@@ -401,77 +401,77 @@ export default function EnterpriseDemo() {
                   {/* Company Information */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Company Name *
                       </label>
                       <input
                         type="text"
                         value={form.company}
                         onChange={(e) => handleInputChange('company', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.company ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.company ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Acme Corporation"
                       />
-                      {errors.company && <p className="text-red-600 text-sm mt-1">{errors.company}</p>}
+                      {errors.company && <p className="text-terracotta-600 text-sm mt-1">{errors.company}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Job Title *
                       </label>
                       <input
                         type="text"
                         value={form.jobTitle}
                         onChange={(e) => handleInputChange('jobTitle', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.jobTitle ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.jobTitle ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         placeholder="Head of Learning & Development"
                       />
-                      {errors.jobTitle && <p className="text-red-600 text-sm mt-1">{errors.jobTitle}</p>}
+                      {errors.jobTitle && <p className="text-terracotta-600 text-sm mt-1">{errors.jobTitle}</p>}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Company Size *
                       </label>
                       <select
                         value={form.employeeCount}
                         onChange={(e) => handleInputChange('employeeCount', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.employeeCount ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.employeeCount ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                       >
                         <option value="">Select company size</option>
                         {employeeCountOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
                         ))}
                       </select>
-                      {errors.employeeCount && <p className="text-red-600 text-sm mt-1">{errors.employeeCount}</p>}
+                      {errors.employeeCount && <p className="text-terracotta-600 text-sm mt-1">{errors.employeeCount}</p>}
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-charcoal mb-2">
                         Primary Use Case *
                       </label>
                       <select
                         value={form.useCase}
                         onChange={(e) => handleInputChange('useCase', e.target.value)}
-                        className={`w-full rounded-lg border ${errors.useCase ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                        className={`w-full rounded-md border ${errors.useCase ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                       >
                         <option value="">Select primary use case</option>
                         {useCaseOptions.map(option => (
                           <option key={option} value={option}>{option}</option>
                         ))}
                       </select>
-                      {errors.useCase && <p className="text-red-600 text-sm mt-1">{errors.useCase}</p>}
+                      {errors.useCase && <p className="text-terracotta-600 text-sm mt-1">{errors.useCase}</p>}
                     </div>
                   </div>
 
                   {/* Scheduling Preferences */}
                   <div className="border-t pt-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Scheduling Preferences</h3>
+                    <h3 className="text-lg font-semibold text-charcoal mb-4">Scheduling Preferences</h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-charcoal mb-2">
                           Preferred Date *
                         </label>
                         <input
@@ -479,36 +479,36 @@ export default function EnterpriseDemo() {
                           value={form.preferredDate}
                           onChange={(e) => handleInputChange('preferredDate', e.target.value)}
                           min={minDate}
-                          className={`w-full rounded-lg border ${errors.preferredDate ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                          className={`w-full rounded-md border ${errors.preferredDate ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         />
-                        {errors.preferredDate && <p className="text-red-600 text-sm mt-1">{errors.preferredDate}</p>}
+                        {errors.preferredDate && <p className="text-terracotta-600 text-sm mt-1">{errors.preferredDate}</p>}
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-charcoal mb-2">
                           Preferred Time *
                         </label>
                         <select
                           value={form.preferredTime}
                           onChange={(e) => handleInputChange('preferredTime', e.target.value)}
-                          className={`w-full rounded-lg border ${errors.preferredTime ? 'border-red-300' : 'border-gray-300'} focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3`}
+                          className={`w-full rounded-md border ${errors.preferredTime ? 'border-terracotta-300' : 'border-border/60'} focus:border-forest-500 focus:ring-forest-500 px-4 py-3`}
                         >
                           <option value="">Select time</option>
                           {timeSlots.map(time => (
                             <option key={time} value={time}>{time}</option>
                           ))}
                         </select>
-                        {errors.preferredTime && <p className="text-red-600 text-sm mt-1">{errors.preferredTime}</p>}
+                        {errors.preferredTime && <p className="text-terracotta-600 text-sm mt-1">{errors.preferredTime}</p>}
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-charcoal mb-2">
                           Timezone
                         </label>
                         <select
                           value={form.timezone}
                           onChange={(e) => handleInputChange('timezone', e.target.value)}
-                          className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                          className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                         >
                           {timezones.map(tz => (
                             <option key={tz} value={tz}>{tz}</option>
@@ -519,30 +519,30 @@ export default function EnterpriseDemo() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-charcoal mb-2">
                       Additional Information
                     </label>
                     <textarea
                       value={form.additionalInfo}
                       onChange={(e) => handleInputChange('additionalInfo', e.target.value)}
                       rows={3}
-                      className="w-full rounded-lg border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3"
+                      className="w-full rounded-md border border-border/60 focus:border-forest-500 focus:ring-forest-500 px-4 py-3"
                       placeholder="Any specific features you'd like to see or questions you have..."
                     />
                   </div>
 
                   <div className="flex items-center justify-between pt-6">
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-stone">
                       * Required fields
                     </div>
                     
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2 ${
+                      className={`px-8 py-3 rounded-md font-semibold transition-colors flex items-center gap-2 ${
                         isSubmitting
-                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                          : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                          ? 'bg-stone text-stone cursor-not-allowed'
+                          : 'bg-forest-600 text-white hover:bg-forest-700'
                       }`}
                     >
                       <CalendarDaysIcon className="w-4 h-4" />

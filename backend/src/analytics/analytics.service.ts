@@ -5,8 +5,8 @@ import { AnalyticsEvent } from './entities/analytics-event.entity';
 import { CreateAnalyticsEventDto, AnalyticsEventType, CourseStatus } from '@mindelta/shared';
 import { Course } from '../courses/entities/course.entity';
 import { User } from '../users/entities/user.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 
 export interface LearnerProgressMetrics {
   userId: string;
@@ -209,8 +209,8 @@ export class AnalyticsService {
     private userRepository: Repository<User>,
     @InjectRepository(Enrollment)
     private enrollmentRepository: Repository<Enrollment>,
-    @InjectRepository(Progress)
-    private progressRepository: Repository<Progress>,
+    @InjectRepository(LessonProgress)
+    private progressRepository: Repository<LessonProgress>,
   ) {}
 
   async trackEvent(createAnalyticsEventDto: CreateAnalyticsEventDto): Promise<AnalyticsEvent> {
@@ -290,7 +290,7 @@ export class AnalyticsService {
 
     // Return data matching frontend interface
     const averageTimeSpent = progress.length > 0
-      ? progress.reduce((sum, p) => sum + (p.watchTime || 0), 0) / progress.length
+      ? progress.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0) / progress.length
       : 0;
 
     return {
@@ -492,7 +492,7 @@ export class AnalyticsService {
   async getLearnerProgressMetrics(userId: string): Promise<LearnerProgressMetrics> {
     const enrollments = await this.enrollmentRepository.find({
       where: { userId },
-      relations: ['course', 'course.lessons'],
+      relations: ['course', 'course.modules', 'course.modules.lessons'],
     });
 
     const progress = await this.progressRepository.find({
@@ -503,9 +503,9 @@ export class AnalyticsService {
     const completedCourses = enrollments.filter(e => e.completedAt).length;
     const inProgressCourses = totalCourses - completedCourses;
 
-    const allLessons = enrollments.flatMap(e => e.course.lessons.flatMap(m => m.lessons || []));
+    const allLessons = enrollments.flatMap(e => e.course.modules?.flatMap(m => m.lessons || []) || []);
     const totalLessons = allLessons.length;
-    const completedLessons = progress.filter(p => p.completed).length;
+    const completedLessons = progress.filter(p => p.isCompleted).length;
 
     const totalHours = allLessons.reduce((sum, lesson) => sum + (lesson.durationSeconds || 0) / 3600, 0);
     const completedHours = progress.reduce((sum, p) => {
@@ -516,7 +516,7 @@ export class AnalyticsService {
     const averageCompletionRate = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
 
     const lastActivity = progress.length > 0 
-      ? new Date(Math.max(...progress.map(p => p.lastAccessed?.getTime() || 0)))
+      ? new Date(Math.max(...progress.map(p => p.updatedAt?.getTime() || 0)))
       : new Date(0);
 
     const streakDays = await this.calculateStreakDays(userId, progress);
@@ -538,9 +538,9 @@ export class AnalyticsService {
     };
   }
 
-  private async calculateStreakDays(userId: string, progress: Progress[]): Promise<number> {
+  private async calculateStreakDays(userId: string, progress: LessonProgress[]): Promise<number> {
     const activityDates = progress
-      .map(p => p.lastAccessed?.toDateString())
+      .map(p => p.updatedAt?.toDateString())
       .filter(date => date)
       .filter((date, index, arr) => arr.indexOf(date) === index)
       .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
@@ -738,18 +738,19 @@ export class AnalyticsService {
     return totalTime / completedEnrollments.length / (1000 * 60 * 60 * 24);
   }
 
-  private async getDropOffPoints(courseId: string, progress: Progress[]): Promise<DropOffPoint[]> {
+  private async getDropOffPoints(courseId: string, progress: LessonProgress[]): Promise<DropOffPoint[]> {
     const course = await this.courseRepository.findOne({
       where: { id: courseId },
-      relations: ['lessons'],
+      relations: ['modules', 'modules.lessons'],
     });
 
     if (!course) return [];
 
-    return course.lessons.map(lesson => {
+    const courseLessons = course.modules?.flatMap(m => m.lessons || []) || [];
+    return courseLessons.map(lesson => {
       const lessonProgress = progress.filter(p => p.lessonId === lesson.id);
       const totalLearners = lessonProgress.length;
-      const droppedLearners = lessonProgress.filter(p => !p.completed).length;
+      const droppedLearners = lessonProgress.filter(p => !p.isCompleted).length;
       const dropOffRate = totalLearners > 0 ? (droppedLearners / totalLearners) * 100 : 0;
 
       return {
@@ -762,13 +763,13 @@ export class AnalyticsService {
     }).sort((a, b) => b.dropOffRate - a.dropOffRate);
   }
 
-  private async getEngagementMetrics(courseId: string, progress: Progress[]): Promise<EngagementMetrics> {
+  private async getEngagementMetrics(courseId: string, progress: LessonProgress[]): Promise<EngagementMetrics> {
     const averageWatchTime =
       progress.length > 0
-        ? progress.reduce((sum, p) => sum + (p.watchTime || 0), 0) / progress.length
+        ? progress.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0) / progress.length
         : 0;
     const completionRate =
-      progress.length > 0 ? (progress.filter((p) => p.completed).length / progress.length) * 100 : 0;
+      progress.length > 0 ? (progress.filter((p) => p.isCompleted).length / progress.length) * 100 : 0;
 
     const quizEvents = await this.analyticsRepository.find({
       where: { courseId, eventType: AnalyticsEventType.QUIZ_COMPLETED },

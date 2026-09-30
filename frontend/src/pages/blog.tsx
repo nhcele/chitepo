@@ -92,26 +92,26 @@ export default function Blog() {
 
   return (
     <Layout>
-      <div className="bg-gradient-to-b from-gray-50 to-white py-16">
+      <div className="bg-gradient-to-b from-forest-100 to-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-charcoal mb-4">
               Chitepo Blog
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-stone max-w-3xl mx-auto">
               Insights, stories, and updates from the Chitepo community
             </p>
           </div>
 
           <div className="mb-8">
             <div className="max-w-2xl mx-auto relative mb-8">
-              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400" />
+              <MagnifyingGlassIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-pewter" />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-lg border-2 border-gray-300 focus:border-primary-500 focus:outline-none"
+                className="w-full pl-12 pr-4 py-3 rounded-md border-2 border-border/60 focus:border-primary-500 focus:outline-none"
               />
             </div>
 
@@ -123,7 +123,7 @@ export default function Blog() {
                   className={`px-6 py-2 rounded-full font-medium transition-colors ${
                     selectedCategory === category
                       ? 'bg-primary-600 text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                      : 'bg-white text-charcoal hover:bg-forest-100 border border-border/60'
                   }`}
                 >
                   {category}
@@ -135,21 +135,21 @@ export default function Blog() {
           {filteredPosts.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredPosts.map((post) => (
-                <article key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="h-48 bg-gray-200"></div>
+                <article key={post.id} className="bg-white rounded-md shadow-sm overflow-hidden hover:shadow-sm transition-shadow">
+                  <div className="h-48 bg-forest-100"></div>
                   <div className="p-6">
                     <div className="flex items-center mb-3">
                       <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-3 py-1 rounded-full">
                         {post.category}
                       </span>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-primary-600 cursor-pointer">
+                    <h2 className="text-xl font-bold text-charcoal mb-2 hover:text-primary-600 cursor-pointer">
                       {post.title}
                     </h2>
-                    <p className="text-gray-600 mb-4 line-clamp-3">
+                    <p className="text-stone mb-4 line-clamp-3">
                       {post.excerpt}
                     </p>
-                    <div className="flex items-center text-sm text-gray-500 space-x-4">
+                    <div className="flex items-center text-sm text-stone space-x-4">
                       <div className="flex items-center">
                         <UserIcon className="h-4 w-4 mr-1" />
                         <span>{post.author}</span>
@@ -159,7 +159,7 @@ export default function Blog() {
                         <span>{post.date}</span>
                       </div>
                     </div>
-                    <div className="flex items-center text-sm text-gray-500 mt-2">
+                    <div className="flex items-center text-sm text-stone mt-2">
                       <ClockIcon className="h-4 w-4 mr-1" />
                       <span>{post.readTime}</span>
                     </div>
@@ -172,26 +172,26 @@ export default function Blog() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">
+              <p className="text-stone text-lg">
                 No articles found matching your search.
               </p>
             </div>
           )}
 
-          <div className="mt-16 bg-primary-50 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="mt-16 bg-primary-50 rounded-md p-8 text-center">
+            <h2 className="text-2xl font-bold text-charcoal mb-4">
               Stay Updated
             </h2>
-            <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
+            <p className="text-charcoal mb-6 max-w-2xl mx-auto">
               Subscribe to our newsletter to receive the latest articles, course updates, and learning tips directly in your inbox.
             </p>
             <div className="max-w-md mx-auto flex gap-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 rounded-md border border-border/60 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
-              <button className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+              <button className="bg-primary-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-primary-700 transition-colors">
                 Subscribe
               </button>
             </div>

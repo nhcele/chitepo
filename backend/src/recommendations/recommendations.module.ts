@@ -5,13 +5,13 @@ import { RecommendationsController } from './recommendations.controller';
 import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
 import { Enrollment } from '../enrollments/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { AiCompanionModule } from '../ai-companion/ai-companion.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Course, Enrollment, Progress, QuizAttempt]),
+    TypeOrmModule.forFeature([User, Course, Enrollment, LessonProgress, QuizAttempt]),
     AiCompanionModule,
   ],
   controllers: [RecommendationsController],

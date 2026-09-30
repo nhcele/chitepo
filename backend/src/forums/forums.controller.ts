@@ -77,12 +77,18 @@ export class ForumsController {
     @Param('id') id: string,
     @Query('parentId') parentId?: string,
     @Query('authorId') authorId?: string,
+    @Query('q') q?: string,
+    @Query('sort') sort?: 'new' | 'top' | 'active',
+    @Query('tag') tag?: string,
     @Query('limit') limit?: string,
     @Query('offset') offset?: string,
   ) {
     return this.forumsService.getPosts(id, {
       parentId: parentId === 'null' ? null : parentId,
       authorId,
+      q,
+      sort,
+      tag,
       limit: limit ? parseInt(limit) : undefined,
       offset: offset ? parseInt(offset) : undefined,
     });
@@ -110,6 +116,24 @@ export class ForumsController {
   @UseGuards(JwtAuthGuard)
   async toggleLike(@Param('postId') postId: string, @Req() req: any) {
     return this.forumsService.toggleLike(postId, req.user.id);
+  }
+
+  @Post('posts/:postId/pin')
+  @UseGuards(JwtAuthGuard)
+  async pinPost(@Param('postId') postId: string, @Req() req: any, @Body() body: any) {
+    return this.forumsService.setPostFlag(postId, 'isPinned', !!body?.pinned, req.user.id, req.user.role);
+  }
+
+  @Post('posts/:postId/lock')
+  @UseGuards(JwtAuthGuard)
+  async lockPost(@Param('postId') postId: string, @Req() req: any, @Body() body: any) {
+    return this.forumsService.setPostFlag(postId, 'isLocked', !!body?.locked, req.user.id, req.user.role);
+  }
+
+  @Get(':id/membership')
+  @UseGuards(JwtAuthGuard)
+  async checkMembership(@Param('id') id: string, @Req() req: any) {
+    return { isMember: await this.forumsService.isMember(id, req.user.id) };
   }
 
   @Post(':id/members')

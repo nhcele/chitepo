@@ -3,7 +3,7 @@ import { PayoutService } from './payout.service';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
 
 describe('PayoutService', () => {

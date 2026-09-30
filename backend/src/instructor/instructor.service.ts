@@ -5,8 +5,8 @@ import { AnalyticsService } from '../analytics/analytics.service';
 import { InstructorApplication, InstructorApplicationStatus } from './entities/instructor-application.entity';
 import { NotificationsService } from '../notifications/notifications.service';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
 import { User } from '../users/entities/user.entity';
 import { CourseStatus } from '@mindelta/shared';
@@ -18,7 +18,7 @@ export class InstructorService {
     @InjectRepository(InstructorApplication) private readonly appRepo: Repository<InstructorApplication>,
     @InjectRepository(Course) private readonly courseRepo: Repository<Course>,
     @InjectRepository(Enrollment) private readonly enrollmentRepo: Repository<Enrollment>,
-    @InjectRepository(Progress) private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress) private readonly progressRepo: Repository<LessonProgress>,
     @InjectRepository(Lesson) private readonly lessonRepo: Repository<Lesson>,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
     private readonly notifications: NotificationsService,
@@ -108,7 +108,7 @@ export class InstructorService {
     // Send notification to instructor
     try {
       await this.notifications.sendEmail(
-        'instructor@mindelta.com', // This should be fetched from user table
+        'simbarashe.mumbengegwi@chitepo.co.zw', // This should be fetched from user table
         'Course Created Successfully',
         `<p>Your course "${savedCourse.title}" has been created as a draft. You can now add modules and lessons.</p>`
       );
@@ -228,7 +228,7 @@ export class InstructorService {
     // Send notification to admin for review
     try {
       await this.notifications.sendEmail(
-        'admin@mindelta.com',
+        'admin@chitepo.co.zw',
         'Course Submitted for Review',
         `<p>A new course "${course.title}" has been submitted for review by instructor ${instructorId}.</p><p>Please review the course content and approve or reject it.</p>`
       );
@@ -429,13 +429,13 @@ export class InstructorService {
         try {
           progressRecords = await this.progressRepo.find({
             where: { userId: enrollment.userId, courseId },
-            order: { lastAccessed: 'DESC' },
+            order: { updatedAt: 'DESC' },
           });
 
-          totalWatchTime = progressRecords.reduce((sum, p) => sum + (p.watchTime || 0), 0);
-          completedLessons = progressRecords.filter((p) => p.completed).length;
+          totalWatchTime = progressRecords.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0);
+          completedLessons = progressRecords.filter((p) => p.isCompleted).length;
           averageScore = progressRecords.length > 0
-            ? progressRecords.reduce((sum, p) => sum + (Number(p.score) || 0), 0) / progressRecords.length
+            ? progressRecords.reduce((sum, p) => sum + (Number(p.bestQuizScore) || 0), 0) / progressRecords.length
             : 0;
           totalLessons = progressRecords.length;
         } catch (error) {
@@ -444,7 +444,7 @@ export class InstructorService {
         }
 
         const lastActivity = progressRecords.length > 0
-          ? progressRecords[0].lastAccessed || enrollment.lastLessonSeenAt
+          ? progressRecords[0].updatedAt || enrollment.lastLessonSeenAt
           : enrollment.lastLessonSeenAt;
 
         return {
@@ -507,7 +507,7 @@ export class InstructorService {
     try {
       progressRecords = await this.progressRepo.find({
         where: { userId: studentId, courseId },
-        order: { lastAccessed: 'DESC' },
+        order: { updatedAt: 'DESC' },
       });
     } catch (error) {
       console.warn(`Could not fetch progress records for student ${studentId}:`, error.message);
@@ -528,22 +528,22 @@ export class InstructorService {
           lessonTitle: lesson.title,
           moduleTitle: module.title,
           orderIndex: lesson.orderIndex,
-          completed: progress?.completed || false,
-          watchTime: progress?.watchTime || 0,
-          score: progress?.score ? Number(progress.score) : null,
-          attempts: progress?.attempts || 0,
-          lastAccessed: progress?.lastAccessed || null,
-          completionDate: progress?.completionDate || null,
+          completed: progress?.isCompleted || false,
+          watchTime: progress?.watchedSeconds || 0,
+          score: progress?.bestQuizScore ?? null,
+          attempts: progress?.quizAttempts || 0,
+          lastAccessed: progress?.updatedAt || null,
+          completionDate: progress?.completedAt || null,
         };
       }) || [],
     ) || [];
 
     // Calculate statistics
-    const totalWatchTime = progressRecords.reduce((sum, p) => sum + (p.watchTime || 0), 0);
-    const completedLessons = progressRecords.filter((p) => p.completed).length;
+    const totalWatchTime = progressRecords.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0);
+    const completedLessons = progressRecords.filter((p) => p.isCompleted).length;
     const totalLessons = lessonProgress.length;
     const averageScore = progressRecords.length > 0
-      ? progressRecords.reduce((sum, p) => sum + (Number(p.score) || 0), 0) / progressRecords.length
+      ? progressRecords.reduce((sum, p) => sum + (Number(p.bestQuizScore) || 0), 0) / progressRecords.length
       : 0;
 
     return {
@@ -608,12 +608,12 @@ export class InstructorService {
       ? enrollments.reduce((sum, e) => sum + e.progressPercent, 0) / enrollments.length
       : 0;
 
-    const totalWatchTime = allProgress.reduce((sum, p) => sum + (p.watchTime || 0), 0);
+    const totalWatchTime = allProgress.reduce((sum, p) => sum + (p.watchedSeconds || 0), 0);
     const averageWatchTime = totalStudents > 0 ? totalWatchTime / totalStudents : 0;
 
-    const studentsWithScores = allProgress.filter((p) => p.score !== null);
+    const studentsWithScores = allProgress.filter((p) => p.bestQuizScore !== null && p.bestQuizScore !== undefined);
     const averageScore = studentsWithScores.length > 0
-      ? studentsWithScores.reduce((sum, p) => sum + Number(p.score), 0) / studentsWithScores.length
+      ? studentsWithScores.reduce((sum, p) => sum + Number(p.bestQuizScore), 0) / studentsWithScores.length
       : 0;
 
     return {

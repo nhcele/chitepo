@@ -4,7 +4,7 @@ import { Course } from '../src/courses/entities/course.entity';
 import { Module } from '../src/courses/entities/module.entity';
 import { Lesson } from '../src/courses/entities/lesson.entity';
 import { User } from '../src/users/entities/user.entity';
-import { Enrollment } from '../src/courses/entities/enrollment.entity';
+import { Enrollment } from '../src/enrollments/entities/enrollment.entity';
 import { Certificate } from '../src/certificates/entities/certificate.entity';
 import { InstructorApplication } from '../src/instructor/entities/instructor-application.entity';
 

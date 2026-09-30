@@ -18,7 +18,7 @@ const roles = [
     id: 'teller',
     title: 'Teller / Customer Service Rep',
     icon: UserIcon,
-    color: 'from-blue-500 to-blue-700',
+    color: 'from-forest-500 to-forest-700',
     description: 'Frontline staff handling customer transactions and inquiries',
     mandatoryCourses: [
       { name: 'AML and KYC Fundamentals', duration: '4 hours', critical: true },
@@ -33,7 +33,7 @@ const roles = [
     id: 'manager',
     title: 'Branch Manager / Team Leader',
     icon: BriefcaseIcon,
-    color: 'from-purple-500 to-purple-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     description: 'Supervisory staff managing teams and branch operations',
     mandatoryCourses: [
       { name: 'AML and KYC Fundamentals', duration: '4 hours', critical: true },
@@ -50,7 +50,7 @@ const roles = [
     id: 'compliance',
     title: 'Compliance Officer / MLRO',
     icon: ShieldCheckIcon,
-    color: 'from-red-500 to-red-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     description: 'Compliance and AML/CFT specialists',
     mandatoryCourses: [
       { name: 'AML and KYC Fundamentals', duration: '4 hours', critical: true },
@@ -66,7 +66,7 @@ const roles = [
     id: 'credit',
     title: 'Credit Analyst / Loan Officer',
     icon: CreditCardIcon,
-    color: 'from-green-500 to-green-700',
+    color: 'from-forest-500 to-forest-700',
     description: 'Staff responsible for credit assessment and lending',
     mandatoryCourses: [
       { name: 'AML and KYC Fundamentals', duration: '4 hours', critical: true },
@@ -81,7 +81,7 @@ const roles = [
     id: 'it',
     title: 'IT / Operations Staff',
     icon: ComputerDesktopIcon,
-    color: 'from-indigo-500 to-indigo-700',
+    color: 'from-forest-500 to-forest-700',
     description: 'Technology and operations support teams',
     mandatoryCourses: [
       { name: 'Information Security Awareness', duration: '3 hours', critical: true },
@@ -96,7 +96,7 @@ const roles = [
     id: 'executive',
     title: 'Executive Leadership / Board',
     icon: ChartBarIcon,
-    color: 'from-orange-500 to-orange-700',
+    color: 'from-ochre-500 to-ochre-700',
     description: 'Senior management and board members',
     mandatoryCourses: [
       { name: 'AML and KYC Fundamentals', duration: '4 hours', critical: true },
@@ -148,10 +148,10 @@ export default function RoleMapping() {
           {/* Hero Section */}
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="text-center mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold text-charcoal mb-4">
                 Role-Based Training Paths
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              <p className="text-xl text-stone max-w-3xl mx-auto">
                 Every banking position has unique RBZ compliance requirements. Our platform automatically assigns the right courses to the right roles—nothing more, nothing less.
               </p>
             </div>
@@ -159,10 +159,10 @@ export default function RoleMapping() {
             {/* Benefits Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
               {benefits.map((benefit) => (
-                <div key={benefit.title} className="bg-white rounded-lg p-6 shadow-md text-center">
+                <div key={benefit.title} className="bg-white rounded-md p-6 shadow-sm text-center">
                   <benefit.icon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h3>
-                  <p className="text-gray-600 text-sm">{benefit.description}</p>
+                  <h3 className="text-lg font-semibold text-charcoal mb-2">{benefit.title}</h3>
+                  <p className="text-stone text-sm">{benefit.description}</p>
                 </div>
               ))}
             </div>
@@ -170,7 +170,7 @@ export default function RoleMapping() {
             {/* Role Cards */}
             <div className="space-y-8">
               {roles.map((role) => (
-                <div key={role.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div key={role.id} className="bg-white rounded-md shadow-sm overflow-hidden">
                   <div className={`bg-gradient-to-r ${role.color} p-6 text-white`}>
                     <div className="flex items-center">
                       <role.icon className="h-12 w-12 mr-4" />
@@ -185,20 +185,20 @@ export default function RoleMapping() {
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
                       {/* Mandatory Courses */}
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <h3 className="text-lg font-semibold text-charcoal mb-4 flex items-center">
                           <AcademicCapIcon className="h-5 w-5 mr-2 text-primary-600" />
                           Mandatory Courses
                         </h3>
                         <ul className="space-y-3">
                           {role.mandatoryCourses.map((course, idx) => (
                             <li key={idx} className="flex items-start">
-                              <CheckCircleIcon className={`h-5 w-5 mr-2 flex-shrink-0 mt-0.5 ${course.critical ? 'text-red-600' : 'text-green-600'}`} />
+                              <CheckCircleIcon className={`h-5 w-5 mr-2 flex-shrink-0 mt-0.5 ${course.critical ? 'text-terracotta-600' : 'text-forest-600'}`} />
                               <div>
-                                <span className="text-gray-900 font-medium">{course.name}</span>
+                                <span className="text-charcoal font-medium">{course.name}</span>
                                 {course.critical && (
-                                  <span className="ml-2 text-xs bg-red-100 text-red-800 px-2 py-1 rounded">CRITICAL</span>
+                                  <span className="ml-2 text-xs bg-terracotta-100 text-terracotta-800 px-2 py-1 rounded">CRITICAL</span>
                                 )}
-                                <div className="text-sm text-gray-600">{course.duration}</div>
+                                <div className="text-sm text-stone">{course.duration}</div>
                               </div>
                             </li>
                           ))}
@@ -207,22 +207,22 @@ export default function RoleMapping() {
 
                       {/* Compliance Info */}
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <h3 className="text-lg font-semibold text-charcoal mb-4 flex items-center">
                           <ShieldCheckIcon className="h-5 w-5 mr-2 text-primary-600" />
                           RBZ Compliance
                         </h3>
                         <div className="space-y-4">
-                          <div className="bg-primary-50 rounded-lg p-4">
+                          <div className="bg-primary-50 rounded-md p-4">
                             <div className="text-sm font-semibold text-primary-900 mb-1">Total Training Time</div>
-                            <div className="text-gray-700">{role.totalTime}</div>
+                            <div className="text-charcoal">{role.totalTime}</div>
                           </div>
-                          <div className="bg-yellow-50 rounded-lg p-4">
-                            <div className="text-sm font-semibold text-yellow-900 mb-1">RBZ Deadline</div>
-                            <div className="text-gray-700">{role.rbzRequirement}</div>
+                          <div className="bg-ochre-50 rounded-md p-4">
+                            <div className="text-sm font-semibold text-ochre-900 mb-1">RBZ Deadline</div>
+                            <div className="text-charcoal">{role.rbzRequirement}</div>
                           </div>
-                          <div className="bg-green-50 rounded-lg p-4">
-                            <div className="text-sm font-semibold text-green-900 mb-1">Compliance Status</div>
-                            <div className="text-gray-700 text-sm">{role.complianceNote}</div>
+                          <div className="bg-forest-50 rounded-md p-4">
+                            <div className="text-sm font-semibold text-forest-900 mb-1">Compliance Status</div>
+                            <div className="text-charcoal text-sm">{role.complianceNote}</div>
                           </div>
                         </div>
                       </div>
@@ -230,7 +230,7 @@ export default function RoleMapping() {
 
                     {/* Action Button */}
                     <div className="border-t pt-4">
-                      <button className="w-full bg-primary-600 text-white py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                      <button className="w-full bg-primary-600 text-white py-3 rounded-md font-semibold hover:bg-primary-700 transition-colors">
                         Assign to {role.title} Staff
                       </button>
                     </div>
@@ -240,7 +240,7 @@ export default function RoleMapping() {
             </div>
 
             {/* CTA Section */}
-            <div className="mt-16 bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-12 text-center text-white">
+            <div className="mt-16 bg-gradient-to-r from-primary-600 to-primary-700 rounded-md p-12 text-center text-white">
               <h2 className="text-3xl font-bold mb-4">
                 Ready to Automate Your Training Assignments?
               </h2>
@@ -250,13 +250,13 @@ export default function RoleMapping() {
               <div className="flex justify-center space-x-4">
                 <a 
                   href="/auth/register" 
-                  className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                  className="bg-white text-primary-600 px-8 py-3 rounded-md font-semibold hover:bg-forest-100 transition-colors"
                 >
                   Start Free Trial
                 </a>
                 <a 
                   href="/contact" 
-                  className="bg-primary-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-400 transition-colors"
+                  className="bg-primary-500 text-white px-8 py-3 rounded-md font-semibold hover:bg-primary-400 transition-colors"
                 >
                   Request Demo
                 </a>

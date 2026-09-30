@@ -67,7 +67,7 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600"></div>
       </div>
     );
   }
@@ -77,16 +77,16 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
       <div className="space-y-6">
         <button
           onClick={() => setSelectedStudent(null)}
-          className="text-blue-600 hover:text-blue-700 flex items-center"
+          className="text-forest-600 hover:text-forest-700 flex items-center"
         >
           <ArrowRightIcon className="h-4 w-4 mr-1 rotate-180" />
           Back to Students List
         </button>
 
-        <div className="bg-white rounded-lg shadow">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">Student Progress Details</h2>
-            <p className="text-sm text-gray-500 mt-1">
+        <div className="bg-white rounded-md shadow">
+          <div className="p-6 border-b border-border/60">
+            <h2 className="text-xl font-semibold text-charcoal">Student Progress Details</h2>
+            <p className="text-sm text-stone mt-1">
               {selectedStudent.student.name} ({selectedStudent.student.email})
             </p>
           </div>
@@ -94,27 +94,27 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
           <div className="p-6">
             {/* Statistics */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600">Progress</p>
-                <p className="text-2xl font-bold text-gray-900">
+              <div className="bg-forest-50 rounded-md p-4">
+                <p className="text-sm text-stone">Progress</p>
+                <p className="text-2xl font-bold text-charcoal">
                   {Math.round(selectedStudent.enrollment.progressPercentage)}%
                 </p>
               </div>
-              <div className="bg-green-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600">Completed Lessons</p>
-                <p className="text-2xl font-bold text-gray-900">
+              <div className="bg-forest-50 rounded-md p-4">
+                <p className="text-sm text-stone">Completed Lessons</p>
+                <p className="text-2xl font-bold text-charcoal">
                   {selectedStudent.statistics.completedLessons}/{selectedStudent.statistics.totalLessons}
                 </p>
               </div>
-              <div className="bg-yellow-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600">Watch Time</p>
-                <p className="text-2xl font-bold text-gray-900">
+              <div className="bg-ochre-50 rounded-md p-4">
+                <p className="text-sm text-stone">Watch Time</p>
+                <p className="text-2xl font-bold text-charcoal">
                   {selectedStudent.statistics.totalWatchTimeFormatted}
                 </p>
               </div>
-              <div className="bg-purple-50 rounded-lg p-4">
-                <p className="text-sm text-gray-600">Average Score</p>
-                <p className="text-2xl font-bold text-gray-900">
+              <div className="bg-terracotta-50 rounded-md p-4">
+                <p className="text-sm text-stone">Average Score</p>
+                <p className="text-2xl font-bold text-charcoal">
                   {selectedStudent.statistics.averageScore > 0
                     ? Math.round(selectedStudent.statistics.averageScore)
                     : 'N/A'}%
@@ -124,23 +124,23 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
 
             {/* Lesson Progress */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Lesson Progress</h3>
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Lesson Progress</h3>
               <div className="space-y-2">
                 {selectedStudent.lessonProgress.map((lesson) => (
                   <div
                     key={lesson.lessonId}
-                    className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition"
+                    className="border border-border/60 rounded-md p-4 hover:border-forest-300 transition"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h4 className="font-medium text-gray-900">{lesson.lessonTitle}</h4>
+                          <h4 className="font-medium text-charcoal">{lesson.lessonTitle}</h4>
                           {lesson.completed && (
-                            <CheckCircleIcon className="h-5 w-5 text-green-600" />
+                            <CheckCircleIcon className="h-5 w-5 text-forest-600" />
                           )}
                         </div>
-                        <p className="text-sm text-gray-500 mt-1">{lesson.moduleTitle}</p>
-                        <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                        <p className="text-sm text-stone mt-1">{lesson.moduleTitle}</p>
+                        <div className="flex items-center gap-4 mt-2 text-sm text-stone">
                           {lesson.score !== null && (
                             <span>Score: {Math.round(lesson.score)}%</span>
                           )}
@@ -150,7 +150,7 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
                           {lesson.attempts > 0 && <span>Attempts: {lesson.attempts}</span>}
                         </div>
                         {lesson.lastAccessed && (
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-stone mt-1">
                             Last accessed: {new Date(lesson.lastAccessed).toLocaleDateString()}
                           </p>
                         )}
@@ -165,7 +165,7 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setShowMessaging(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center"
+                className="px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 flex items-center"
               >
                 <EnvelopeIcon className="h-5 w-5 mr-2" />
                 Send Message
@@ -180,109 +180,109 @@ export default function StudentManagement({ courseId }: StudentManagementProps) 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-md shadow p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Student Management</h1>
-            <p className="text-gray-600 mt-1">{students?.courseTitle}</p>
+            <h1 className="text-2xl font-bold text-charcoal">Student Management</h1>
+            <p className="text-stone mt-1">{students?.courseTitle}</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm text-gray-600">Total Students</p>
-              <p className="text-2xl font-bold text-gray-900">{students?.totalStudents || 0}</p>
+              <p className="text-sm text-stone">Total Students</p>
+              <p className="text-2xl font-bold text-charcoal">{students?.totalStudents || 0}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-lg shadow p-4">
+      <div className="bg-white rounded-md shadow p-4">
         <div className="relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-pewter" />
           <input
             type="text"
             placeholder="Search students by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-transparent"
           />
         </div>
       </div>
 
       {/* Students List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-md shadow overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-border/60">
+            <thead className="bg-paper">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Student
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Progress
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Watch Time
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Completed
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Score
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-border/60">
               {filteredStudents.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-8 text-center text-stone">
                     No students found
                   </td>
                 </tr>
               ) : (
                 filteredStudents.map((student) => (
-                  <tr key={student.studentId} className="hover:bg-gray-50">
+                  <tr key={student.studentId} className="hover:bg-paper">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{student.student.name}</div>
-                        <div className="text-sm text-gray-500">{student.student.email}</div>
+                        <div className="text-sm font-medium text-charcoal">{student.student.name}</div>
+                        <div className="text-sm text-stone">{student.student.email}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                        <div className="w-24 bg-forest-100 rounded-full h-2 mr-2">
                           <div
-                            className="bg-blue-600 h-2 rounded-full"
+                            className="bg-forest-600 h-2 rounded-full"
                             style={{ width: `${student.progressPercentage}%` }}
                           />
                         </div>
-                        <span className="text-sm text-gray-900">{Math.round(student.progressPercentage)}%</span>
+                        <span className="text-sm text-charcoal">{Math.round(student.progressPercentage)}%</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                       {formatWatchTime(student.totalWatchTime)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {student.completedAt ? (
-                        <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">
+                        <span className="px-2 py-1 text-xs font-medium bg-forest-100 text-forest-800 rounded">
                           Yes
                         </span>
                       ) : (
-                        <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">
+                        <span className="px-2 py-1 text-xs font-medium bg-ochre-100 text-ochre-800 rounded">
                           In Progress
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                       {student.averageScore > 0 ? Math.round(student.averageScore) : 'N/A'}%
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => loadStudentDetails(student.studentId)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-forest-600 hover:text-forest-900"
                       >
                         View Details
                       </button>

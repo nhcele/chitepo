@@ -9,12 +9,12 @@ export async function updateCourseInstructors(dataSource: DataSource) {
   const userRepository = dataSource.getRepository(User);
 
   // Find instructors
-  const simbarasheMumbengegwi = await userRepository.findOne({ where: { email: 'simbarashe.mumbengegwi@chitepo.edu.zw' } });
-  const tafadzwaMupfumira = await userRepository.findOne({ where: { email: 'tafadzwa.mupfumira@chitepo.edu.zw' } });
-  const kudzaiNhema = await userRepository.findOne({ where: { email: 'kudzai.nhema@chitepo.edu.zw' } });
-  const rumbidzaiChikwanha = await userRepository.findOne({ where: { email: 'rumbidzai.chikwanha@chitepo.edu.zw' } });
-  const tendaiMoyo = await userRepository.findOne({ where: { email: 'tendai.moyo@chitepo.edu.zw' } });
-  const nyashaMutasa = await userRepository.findOne({ where: { email: 'nyasha.mutasa@chitepo.edu.zw' } });
+  const simbarasheMumbengegwi = await userRepository.findOne({ where: { email: 'simbarashe.mumbengegwi@chitepo.co.zw' } });
+  const tafadzwaMupfumira = await userRepository.findOne({ where: { email: 'tafadzwa.mupfumira@chitepo.co.zw' } });
+  const kudzaiNhema = await userRepository.findOne({ where: { email: 'kudzai.nhema@chitepo.co.zw' } });
+  const rumbidzaiChikwanha = await userRepository.findOne({ where: { email: 'rumbidzai.chikwanha@chitepo.co.zw' } });
+  const tendaiMoyo = await userRepository.findOne({ where: { email: 'tendai.moyo@chitepo.co.zw' } });
+  const nyashaMutasa = await userRepository.findOne({ where: { email: 'nyasha.mutasa@chitepo.co.zw' } });
 
   if (!simbarasheMumbengegwi || !tafadzwaMupfumira || !kudzaiNhema || !rumbidzaiChikwanha || !tendaiMoyo || !nyashaMutasa) {
     console.error('[update] Required instructors not found. Please run user seeds first.');

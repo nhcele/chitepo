@@ -117,25 +117,25 @@ export default function ProfileManagement({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200"
+      className="bg-white rounded-md shadow-sm border border-border/60"
     >
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-border/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-primary-50 rounded-lg">
+            <div className="p-2 bg-primary-50 rounded-md">
               <AcademicCapIcon className="h-5 w-5 text-primary-600" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Profile Management</h3>
-              <p className="text-sm text-gray-500">Manage your public instructor profile</p>
+              <h3 className="text-lg font-semibold text-charcoal">Profile Management</h3>
+              <p className="text-sm text-stone">Manage your public instructor profile</p>
             </div>
           </div>
           
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
             >
               <PencilIcon className="h-4 w-4 mr-1" />
               Edit Profile
@@ -145,7 +145,7 @@ export default function ProfileManagement({
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-stone bg-paper rounded-md hover:bg-forest-100 transition-colors disabled:opacity-50"
               >
                 <XMarkIcon className="h-4 w-4 mr-1" />
                 Cancel
@@ -153,7 +153,7 @@ export default function ProfileManagement({
               <button
                 onClick={handleSubmit(handleSave)}
                 disabled={loading || !isDirty}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors disabled:opacity-50"
               >
                 {loading ? (
                   <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1" />
@@ -173,11 +173,11 @@ export default function ProfileManagement({
           {/* Avatar Section */}
           <div className="flex items-center space-x-6">
             <div className="relative">
-              <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+              <div className="w-24 h-24 bg-forest-100 rounded-full flex items-center justify-center overflow-hidden">
                 {avatarPreview ? (
                   <Image src={avatarPreview} alt="Avatar" width={96} height={96} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-2xl font-medium text-gray-600">
+                  <span className="text-2xl font-medium text-stone">
                     {(watch('firstName') || 'I')[0]}{(watch('lastName') || 'nstructor')[0]}
                   </span>
                 )}
@@ -203,32 +203,32 @@ export default function ProfileManagement({
             <div className="flex-1">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     First Name
                   </label>
                   <input
                     type="text"
                     {...register('firstName', { required: 'First name is required' })}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                   />
                   {errors.firstName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                    <p className="mt-1 text-sm text-terracotta-600">{errors.firstName.message}</p>
                   )}
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-charcoal mb-1">
                     Last Name
                   </label>
                   <input
                     type="text"
                     {...register('lastName', { required: 'Last name is required' })}
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                   />
                   {errors.lastName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
+                    <p className="mt-1 text-sm text-terracotta-600">{errors.lastName.message}</p>
                   )}
                 </div>
               </div>
@@ -237,7 +237,7 @@ export default function ProfileManagement({
 
           {/* Headline */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Professional Headline
             </label>
             <input
@@ -245,13 +245,13 @@ export default function ProfileManagement({
               {...register('headline')}
               placeholder="e.g., Senior Software Engineer & Course Instructor"
               disabled={!isEditing}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
             />
           </div>
 
           {/* Bio */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Bio
             </label>
             <textarea
@@ -259,13 +259,13 @@ export default function ProfileManagement({
               rows={4}
               placeholder="Tell students about yourself, your teaching philosophy, and what they can expect from your courses..."
               disabled={!isEditing}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
             />
           </div>
 
           {/* Expertise */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Areas of Expertise
             </label>
             <div className="space-y-2">
@@ -277,12 +277,12 @@ export default function ProfileManagement({
                     onChange={(e) => setExpertiseInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addExpertise())}
                     placeholder="Add an expertise area..."
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    className="flex-1 px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                   <button
                     type="button"
                     onClick={addExpertise}
-                    className="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                    className="px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
                   >
                     Add
                   </button>
@@ -313,7 +313,7 @@ export default function ProfileManagement({
 
           {/* Experience */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Experience
             </label>
             <textarea
@@ -321,13 +321,13 @@ export default function ProfileManagement({
               rows={3}
               placeholder="Describe your professional experience and background..."
               disabled={!isEditing}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
             />
           </div>
 
           {/* Location */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               <MapPinIcon className="h-4 w-4 inline mr-1" />
               Location
             </label>
@@ -336,16 +336,16 @@ export default function ProfileManagement({
               {...register('location')}
               placeholder="City, Country"
               disabled={!isEditing}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
             />
           </div>
 
           {/* Social Links */}
           <div>
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Social Links</h4>
+            <h4 className="text-sm font-medium text-charcoal mb-3">Social Links</h4>
             <div className="space-y-3">
               <div>
-                <label className="block text-sm text-gray-600 mb-1">
+                <label className="block text-sm text-stone mb-1">
                   <GlobeAltIcon className="h-4 w-4 inline mr-1" />
                   Website
                 </label>
@@ -354,13 +354,13 @@ export default function ProfileManagement({
                   {...register('website')}
                   placeholder="https://yourwebsite.com"
                   disabled={!isEditing}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
+                  <label className="block text-sm text-stone mb-1">
                     <TwitterIcon className="h-4 w-4 inline mr-1" />
                     Twitter
                   </label>
@@ -369,12 +369,12 @@ export default function ProfileManagement({
                     {...register('twitter')}
                     placeholder="@username"
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
+                  <label className="block text-sm text-stone mb-1">
                     <LinkedinIcon className="h-4 w-4 inline mr-1" />
                     LinkedIn
                   </label>
@@ -383,12 +383,12 @@ export default function ProfileManagement({
                     {...register('linkedin')}
                     placeholder="linkedin.com/in/username"
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-gray-600 mb-1">
+                  <label className="block text-sm text-stone mb-1">
                     <GithubIcon className="h-4 w-4 inline mr-1" />
                     GitHub
                   </label>
@@ -397,13 +397,13 @@ export default function ProfileManagement({
                     {...register('github')}
                     placeholder="github.com/username"
                     disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm text-gray-600 mb-1">
+                <label className="block text-sm text-stone mb-1">
                   <YoutubeIcon className="h-4 w-4 inline mr-1" />
                   YouTube
                 </label>
@@ -412,7 +412,7 @@ export default function ProfileManagement({
                   {...register('youtube')}
                   placeholder="youtube.com/channel/username"
                   disabled={!isEditing}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                 />
               </div>
             </div>

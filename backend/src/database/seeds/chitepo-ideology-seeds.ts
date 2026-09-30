@@ -12,10 +12,10 @@ export async function seedChitepoIdeologyCourses(dataSource: DataSource) {
   const userRepository = dataSource.getRepository(User);
 
   // Find or create ideology instructor
-  let instructor = await userRepository.findOne({ where: { email: 'ideology.instructor@chitepo.edu' } });
+  let instructor = await userRepository.findOne({ where: { email: 'herbert.chitepo@chitepo.co.zw' } });
   if (!instructor) {
     instructor = userRepository.create({
-      email: 'ideology.instructor@chitepo.edu',
+      email: 'herbert.chitepo@chitepo.co.zw',
       firstName: 'Herbert',
       lastName: 'Chitepo',
       password: '$2b$10$YSX3oc7lG8e7kGOJv5lS1.wCc8xkZ1pHzLK8YBxQPvW8O/kZJ3rHC', // password: password123

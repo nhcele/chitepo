@@ -764,7 +764,7 @@ Train [number] ward/cell leaders in [topic] within [timeframe]
 
 ### File Naming Convention
 - Format: StudentName_ProjectType_Date.pdf
-- Example: JohnDoe_DCCActionPlan_2025-11-27.pdf
+- Example: TendaiMoyo_DCCActionPlan_2025-11-27.pdf
 
 ### Submission Process
 1. Save as PDF
@@ -784,5 +784,5 @@ Train [number] ward/cell leaders in [topic] within [timeframe]
 **All templates available for download at:**
 www.chitepo.edu.zw/resources/templates
 
-**Support:** resources@chitepo.edu.zw | +263 242 CHITEPO
+**Support:** resources@chitepo.co.zw | +263 242 CHITEPO
 

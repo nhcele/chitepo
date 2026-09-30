@@ -187,11 +187,11 @@ export default function AdminUsers() {
     switch (role) {
       case UserRole.ADMIN:
       case UserRole.SUPER_ADMIN:
-        return 'bg-red-100 text-red-800';
+        return 'bg-terracotta-100 text-terracotta-800';
       case UserRole.INSTRUCTOR:
         return 'bg-primary-100 text-primary-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-forest-100 text-charcoal';
     }
   };
 
@@ -204,12 +204,12 @@ export default function AdminUsers() {
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-gray-50 to-blue-100 py-12">
+          <div className="bg-gradient-to-br from-forest-100 to-forest-100 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
                 <UserGroupIcon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">User Management</h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                <h1 className="text-4xl font-bold text-charcoal mb-4">User Management</h1>
+                <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                   Manage user accounts, roles, and permissions across the platform.
                 </p>
               </div>
@@ -221,69 +221,69 @@ export default function AdminUsers() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg"
+                className="mb-6 p-4 bg-forest-100 border border-forest-400 text-forest-700 rounded-md"
               >
                 {toast}
               </motion.div>
             )}
 
             {error && (
-              <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+              <div className="mb-6 p-4 bg-terracotta-100 border border-terracotta-400 text-terracotta-700 rounded-md">
                 {error}
               </div>
             )}
 
             {/* Search and Actions */}
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="bg-white rounded-md shadow-sm p-6 mb-8">
               <div className="flex flex-col sm:flex-row gap-4 mb-4">
                 <div className="flex-1 relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-pewter" />
                   <input
                     value={q}
                     onChange={e => setQ(e.target.value)}
                     placeholder="Search by name or email..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
                 <button
                   onClick={() => setShowCreateModal(true)}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-forest-600 hover:bg-forest-700"
                 >
                   <PlusIcon className="h-4 w-4 mr-2" />
                   Create User
                 </button>
                 <button
                   onClick={exportCsv}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700"
                 >
                   <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
                   Export CSV
                 </button>
               </div>
               {selectedUsers.length > 0 && (
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                  <span className="text-sm font-medium text-blue-900">{selectedUsers.length} selected</span>
+                <div className="flex items-center gap-3 p-3 bg-forest-50 rounded-md">
+                  <span className="text-sm font-medium text-forest-900">{selectedUsers.length} selected</span>
                   <button
                     onClick={() => handleBulkAction('activate')}
-                    className="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700"
+                    className="px-3 py-1 text-sm bg-forest-600 text-white rounded hover:bg-forest-700"
                   >
                     Activate
                   </button>
                   <button
                     onClick={() => handleBulkAction('deactivate')}
-                    className="px-3 py-1 text-sm bg-yellow-600 text-white rounded hover:bg-yellow-700"
+                    className="px-3 py-1 text-sm bg-ochre-600 text-white rounded hover:bg-ochre-700"
                   >
                     Deactivate
                   </button>
                   <button
                     onClick={() => handleBulkAction('delete')}
-                    className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+                    className="px-3 py-1 text-sm bg-terracotta-600 text-white rounded hover:bg-terracotta-700"
                   >
                     Delete
                   </button>
                   <button
                     onClick={() => setSelectedUsers([])}
-                    className="ml-auto px-3 py-1 text-sm text-gray-600 hover:text-gray-900"
+                    className="ml-auto px-3 py-1 text-sm text-stone hover:text-charcoal"
                   >
                     Clear
                   </button>
@@ -292,65 +292,65 @@ export default function AdminUsers() {
             </div>
 
             {/* Users Table */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="bg-white rounded-md shadow-sm overflow-hidden">
               {loading ? (
                 <div className="p-12 text-center">
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                  <p className="text-gray-600">Loading users...</p>
+                  <p className="text-stone">Loading users...</p>
                 </div>
               ) : filtered.length === 0 ? (
                 <div className="p-12 text-center">
-                  <UserGroupIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>
-                  <p className="text-gray-600">Try adjusting your search criteria.</p>
+                  <UserGroupIcon className="h-12 w-12 text-pewter mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-charcoal mb-2">No users found</h3>
+                  <p className="text-stone">Try adjusting your search criteria.</p>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                  <table className="min-w-full divide-y divide-border/60">
+                    <thead className="bg-paper">
                       <tr>
                         <th className="px-6 py-3 text-left">
                           <input
                             type="checkbox"
                             checked={selectedUsers.length === filtered.length && filtered.length > 0}
                             onChange={toggleSelectAll}
-                            className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                            className="rounded border-border/60 text-primary-600 focus:ring-primary-500"
                           />
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">User</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">Role</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">Created</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="bg-white divide-y divide-border/60">
                       {filtered.map((user, index) => (
                         <motion.tr
                           key={user.id}
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.05 }}
-                          className="hover:bg-gray-50"
+                          className="hover:bg-paper"
                         >
                           <td className="px-6 py-4 whitespace-nowrap">
                             <input
                               type="checkbox"
                               checked={selectedUsers.includes(user.id)}
                               onChange={() => toggleSelectUser(user.id)}
-                              className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                              className="rounded border-border/60 text-primary-600 focus:ring-primary-500"
                             />
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="flex-shrink-0 h-10 w-10">
-                                <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
-                                  <UserIcon className="h-6 w-6 text-gray-600" />
+                                <div className="h-10 w-10 rounded-full bg-stone flex items-center justify-center">
+                                  <UserIcon className="h-6 w-6 text-stone" />
                                 </div>
                               </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                <div className="text-sm text-gray-500">{user.email}</div>
+                                <div className="text-sm font-medium text-charcoal">{user.name}</div>
+                                <div className="text-sm text-stone">{user.email}</div>
                               </div>
                             </div>
                           </td>
@@ -358,7 +358,7 @@ export default function AdminUsers() {
                             <select
                               value={user.role as any}
                               onChange={e => changeRole(user.id, e.target.value as any)}
-                              className="text-sm border border-gray-300 rounded-md px-3 py-1 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                              className="text-sm border border-border/60 rounded-md px-3 py-1 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                             >
                               <option value={UserRole.LEARNER}>Learner</option>
                               <option value={UserRole.INSTRUCTOR}>Instructor</option>
@@ -367,7 +367,7 @@ export default function AdminUsers() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                              user.isActive ? 'bg-forest-100 text-forest-800' : 'bg-terracotta-100 text-terracotta-800'
                             }`}>
                               {user.isActive ? (
                                 <CheckCircleIcon className="h-3 w-3 mr-1" />
@@ -377,7 +377,7 @@ export default function AdminUsers() {
                               {user.isActive ? 'Active' : 'Inactive'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                             {user.createdAt ? new Date(user.createdAt as any).toLocaleDateString() : '-'}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -385,7 +385,7 @@ export default function AdminUsers() {
                               {user.isActive ? (
                                 <button
                                   onClick={() => handleDeactivateUser(user.id)}
-                                  className="text-yellow-600 hover:text-yellow-900"
+                                  className="text-ochre-600 hover:text-ochre-900"
                                   title="Deactivate"
                                 >
                                   <XCircleIcon className="h-5 w-5" />
@@ -393,7 +393,7 @@ export default function AdminUsers() {
                               ) : (
                                 <button
                                   onClick={() => handleActivateUser(user.id)}
-                                  className="text-green-600 hover:text-green-900"
+                                  className="text-forest-600 hover:text-forest-900"
                                   title="Activate"
                                 >
                                   <CheckCircleIcon className="h-5 w-5" />
@@ -404,14 +404,14 @@ export default function AdminUsers() {
                                   setSelectedUser(user);
                                   setShowPasswordModal(true);
                                 }}
-                                className="text-blue-600 hover:text-blue-900"
+                                className="text-forest-600 hover:text-forest-900"
                                 title="Reset Password"
                               >
                                 <KeyIcon className="h-5 w-5" />
                               </button>
                               <button
                                 onClick={() => handleDeleteUser(user.id)}
-                                className="text-red-600 hover:text-red-900"
+                                className="text-terracotta-600 hover:text-terracotta-900"
                                 title="Delete User"
                               >
                                 <TrashIcon className="h-5 w-5" />
@@ -434,39 +434,39 @@ export default function AdminUsers() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+              className="bg-white rounded-md p-6 max-w-md w-full mx-4"
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold">Create New User</h3>
                 <button onClick={() => setShowCreateModal(false)}>
-                  <XMarkIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
+                  <XMarkIcon className="h-6 w-6 text-pewter hover:text-stone" />
                 </button>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label className="block text-sm font-medium text-charcoal mb-1">Name</label>
                   <input
                     type="text"
                     value={newUser.name}
                     onChange={e => setNewUser({ ...newUser, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-charcoal mb-1">Email</label>
                   <input
                     type="email"
                     value={newUser.email}
                     onChange={e => setNewUser({ ...newUser, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                  <label className="block text-sm font-medium text-charcoal mb-1">Role</label>
                   <select
                     value={newUser.role}
                     onChange={e => setNewUser({ ...newUser, role: e.target.value as UserRole })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                   >
                     <option value={UserRole.LEARNER}>Learner</option>
                     <option value={UserRole.INSTRUCTOR}>Instructor</option>
@@ -474,27 +474,27 @@ export default function AdminUsers() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Password (optional)</label>
+                  <label className="block text-sm font-medium text-charcoal mb-1">Password (optional)</label>
                   <input
                     type="password"
                     value={newUser.password}
                     onChange={e => setNewUser({ ...newUser, password: e.target.value })}
                     placeholder="Leave empty for default password"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Default: TempPassword@123</p>
+                  <p className="text-xs text-stone mt-1">Default: TempPassword@123</p>
                 </div>
               </div>
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={handleCreateUser}
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
                 >
                   Create User
                 </button>
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="flex-1 px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-stone"
                 >
                   Cancel
                 </button>
@@ -509,36 +509,36 @@ export default function AdminUsers() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+              className="bg-white rounded-md p-6 max-w-md w-full mx-4"
             >
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-bold">Reset Password</h3>
                 <button onClick={() => { setShowPasswordModal(false); setSelectedUser(null); setNewPassword(''); }}>
-                  <XMarkIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
+                  <XMarkIcon className="h-6 w-6 text-pewter hover:text-stone" />
                 </button>
               </div>
-              <p className="text-sm text-gray-600 mb-4">Reset password for <strong>{selectedUser.name}</strong></p>
+              <p className="text-sm text-stone mb-4">Reset password for <strong>{selectedUser.name}</strong></p>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                  <label className="block text-sm font-medium text-charcoal mb-1">New Password</label>
                   <input
                     type="password"
                     value={newPassword}
                     onChange={e => setNewPassword(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500"
                   />
                 </div>
               </div>
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={handleResetPassword}
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
                 >
                   Reset Password
                 </button>
                 <button
                   onClick={() => { setShowPasswordModal(false); setSelectedUser(null); setNewPassword(''); }}
-                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="flex-1 px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-stone"
                 >
                   Cancel
                 </button>

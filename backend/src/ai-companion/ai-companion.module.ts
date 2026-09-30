@@ -13,10 +13,10 @@ import { TeachingAssistantService } from './teaching-assistant.service';
 import { AIAnalyticsController } from './ai-analytics.controller';
 import { Lesson } from '../courses/entities/lesson.entity';
 import { User } from '../users/entities/user.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { Course } from '../courses/entities/course.entity';
 import { Module as CourseModule } from '../courses/entities/module.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { AdminModule } from '../admin/admin.module';
 import { SecurityModule } from '../security/security.module';
@@ -29,7 +29,7 @@ import { SecurityModule } from '../security/security.module';
       Enrollment,
       Course,
       CourseModule,
-      Progress,
+      LessonProgress,
       QuizAttempt
     ]),
     AdminModule,

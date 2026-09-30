@@ -8,12 +8,13 @@ import { User } from '../users/entities/user.entity';
 import { Course } from '../courses/entities/course.entity';
 import { Module as CourseModule } from '../courses/entities/module.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { Quiz } from '../assessments/entities/quiz.entity';
 import { Question } from '../assessments/entities/question.entity';
 import { QuizAttempt } from '../assessments/entities/quiz-attempt.entity';
 import { Certificate } from '../certificates/entities/certificate.entity';
 import { AnalyticsEvent } from '../analytics/entities/analytics-event.entity';
+import { Note } from '../notes/entities/note.entity';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { AnalyticsEvent } from '../analytics/entities/analytics-event.entity';
           QuizAttempt,
           Certificate,
           AnalyticsEvent,
+          Note,
         ],
         autoLoadEntities: true,
         synchronize: false, // Disabled - using migrations instead

@@ -62,17 +62,17 @@ export default function AdminDashboard() {
 
   const statCards = [
     { label: 'Daily Active Users', value: metrics?.dau ?? (loading ? '…' : 0), icon: UserGroupIcon, color: 'text-primary-600' },
-    { label: 'Monthly Active Users', value: metrics?.mau ?? (loading ? '…' : 0), icon: UserGroupIcon, color: 'text-green-600' },
-    { label: 'Total Courses', value: metrics?.totalCourses ?? (loading ? '…' : 0), icon: AcademicCapIcon, color: 'text-purple-600' },
-    { label: 'Total Learners', value: metrics?.totalLearners ?? (loading ? '…' : 0), icon: UserGroupIcon, color: 'text-indigo-600' },
-    { label: 'Monthly Revenue', value: `$${metrics?.monthlyRevenue?.toLocaleString?.() ?? 0}`, icon: CurrencyDollarIcon, color: 'text-emerald-600' }
+    { label: 'Monthly Active Users', value: metrics?.mau ?? (loading ? '…' : 0), icon: UserGroupIcon, color: 'text-forest-600' },
+    { label: 'Total Courses', value: metrics?.totalCourses ?? (loading ? '…' : 0), icon: AcademicCapIcon, color: 'text-terracotta-600' },
+    { label: 'Total Learners', value: metrics?.totalLearners ?? (loading ? '…' : 0), icon: UserGroupIcon, color: 'text-forest-600' },
+    { label: 'Monthly Revenue', value: `$${metrics?.monthlyRevenue?.toLocaleString?.() ?? 0}`, icon: CurrencyDollarIcon, color: 'text-forest-600' }
   ];
 
   const quickActions = [
-    { label: 'Course Approvals', href: '/admin/approval-queue', icon: ClipboardDocumentListIcon, color: 'bg-indigo-600 hover:bg-indigo-700' },
-    { label: 'CSV Exports', href: '/admin/exports', icon: ChartBarIcon, color: 'bg-emerald-600 hover:bg-emerald-700' },
+    { label: 'Course Approvals', href: '/admin/approval-queue', icon: ClipboardDocumentListIcon, color: 'bg-forest-600 hover:bg-forest-700' },
+    { label: 'CSV Exports', href: '/admin/exports', icon: ChartBarIcon, color: 'bg-forest-600 hover:bg-forest-700' },
     { label: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon, color: 'bg-primary-600 hover:bg-primary-700' },
-    { label: 'User Management', href: '/admin/users', icon: ShieldCheckIcon, color: 'bg-gray-600 hover:bg-gray-700' }
+    { label: 'User Management', href: '/admin/users', icon: ShieldCheckIcon, color: 'bg-stone hover:bg-ink-800' }
   ];
 
   return (
@@ -84,12 +84,12 @@ export default function AdminDashboard() {
       <Layout>
         <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-gray-50 to-blue-100 py-12">
+          <div className="bg-gradient-to-br from-forest-100 to-forest-100 py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
                 <ShieldCheckIcon className="h-12 w-12 text-primary-600 mx-auto mb-4" />
-                <h1 className="text-4xl font-bold text-gray-900 mb-4">Admin Dashboard</h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+                <h1 className="text-4xl font-bold text-charcoal mb-4">Admin Dashboard</h1>
+                <p className="text-xl text-stone mb-8 max-w-2xl mx-auto">
                   Monitor platform performance, manage users, and configure system settings.
                 </p>
               </div>
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg"
+                className="mb-6 p-4 bg-terracotta-100 border border-terracotta-400 text-terracotta-700 rounded-md"
               >
                 {error}
               </motion.div>
@@ -115,12 +115,12 @@ export default function AdminDashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-md shadow-sm p-6 hover:shadow-sm transition-shadow"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
-                      <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                      <p className="text-sm text-stone mb-1">{stat.label}</p>
+                      <p className="text-2xl font-bold text-charcoal">{stat.value}</p>
                     </div>
                     <stat.icon className={`h-8 w-8 ${stat.color}`} />
                   </div>
@@ -133,9 +133,9 @@ export default function AdminDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="bg-white rounded-lg shadow-md p-6 mb-12"
+              className="bg-white rounded-md shadow-sm p-6 mb-12"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Daily Activity (Last 30 Days)</h3>
+              <h3 className="text-lg font-semibold text-charcoal mb-4">Daily Activity (Last 30 Days)</h3>
               <div className="relative">
                 <svg width={width} height={height} className="w-full max-w-full">
                   {/* axes */}
@@ -148,12 +148,12 @@ export default function AdminDashboard() {
                 </svg>
                 <div className="flex items-center justify-center gap-6 mt-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-indigo-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Sign-ups</span>
+                    <div className="w-3 h-3 bg-forest-500 rounded-full"></div>
+                    <span className="text-sm text-stone">Sign-ups</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600">Completions</span>
+                    <div className="w-3 h-3 bg-forest-500 rounded-full"></div>
+                    <span className="text-sm text-stone">Completions</span>
                   </div>
                 </div>
               </div>
@@ -165,13 +165,13 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-6">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-charcoal mb-6">Quick Actions</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {quickActions.map((action, index) => (
                   <Link
                     key={action.label}
                     href={action.href}
-                    className={`flex items-center justify-center px-6 py-4 rounded-lg text-white font-medium transition-colors ${action.color}`}
+                    className={`flex items-center justify-center px-6 py-4 rounded-md text-white font-medium transition-colors ${action.color}`}
                   >
                     <action.icon className="h-5 w-5 mr-2" />
                     {action.label}

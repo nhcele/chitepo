@@ -69,30 +69,30 @@ export default function TeamDashboard() {
 
   const getRoleColor = (role: string) => {
     const colors: Record<string, string> = {
-      owner: 'bg-purple-100 text-purple-800',
+      owner: 'bg-terracotta-100 text-terracotta-800',
       admin: 'bg-primary-100 text-primary-800',
-      manager: 'bg-green-100 text-green-800',
-      member: 'bg-gray-100 text-gray-800'
+      manager: 'bg-forest-100 text-forest-800',
+      member: 'bg-forest-100 text-charcoal'
     };
-    return colors[role] || 'bg-gray-100 text-gray-800';
+    return colors[role] || 'bg-forest-100 text-charcoal';
   };
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      active: 'bg-green-100 text-green-800',
-      inactive: 'bg-gray-100 text-gray-800',
-      pending: 'bg-yellow-100 text-yellow-800'
+      active: 'bg-forest-100 text-forest-800',
+      inactive: 'bg-forest-100 text-charcoal',
+      pending: 'bg-ochre-100 text-ochre-800'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-forest-100 text-charcoal';
   };
 
   const getLicenseTypeColor = (type: string) => {
     const colors: Record<string, string> = {
       course: 'bg-primary-100 text-primary-800',
-      learning_path: 'bg-purple-100 text-purple-800',
-      subscription: 'bg-green-100 text-green-800'
+      learning_path: 'bg-terracotta-100 text-terracotta-800',
+      subscription: 'bg-forest-100 text-forest-800'
     };
-    return colors[type] || 'bg-gray-100 text-gray-800';
+    return colors[type] || 'bg-forest-100 text-charcoal';
   };
 
   if (loading) {
@@ -106,7 +106,7 @@ export default function TeamDashboard() {
   if (!analytics) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Unable to load team analytics</p>
+        <p className="text-stone">Unable to load team analytics</p>
       </div>
     );
   }
@@ -116,14 +116,14 @@ export default function TeamDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Team Dashboard</h1>
-          <p className="text-gray-600">Manage your team and track learning progress</p>
+          <h1 className="text-2xl font-bold text-charcoal">Team Dashboard</h1>
+          <p className="text-stone">Manage your team and track learning progress</p>
         </div>
         <div className="flex items-center space-x-3">
           <select
             value={selectedTimeRange}
             onChange={(e) => setSelectedTimeRange(e.target.value as any)}
-            className="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
@@ -133,7 +133,7 @@ export default function TeamDashboard() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+            className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
           >
             <Plus className="w-4 h-4" />
             <span>Invite Members</span>
@@ -142,7 +142,7 @@ export default function TeamDashboard() {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white rounded-md shadow-sm border border-border/60">
         <div className="flex space-x-8 px-6 pt-6">
           {['overview', 'members', 'licenses', 'reports'].map((tab) => (
             <button
@@ -151,7 +151,7 @@ export default function TeamDashboard() {
               className={`pb-4 px-1 border-b-2 font-medium text-sm capitalize ${
                 activeTab === tab
                   ? 'border-primary-500 text-primary-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
               }`}
             >
               {tab}
@@ -168,17 +168,17 @@ export default function TeamDashboard() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+                  className="bg-white rounded-md shadow-sm p-6 border border-border/60"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-600">Team Members</p>
-                      <p className="text-2xl font-bold text-gray-900">{analytics.overview.totalMembers}</p>
-                      <p className="text-xs text-green-600 mt-1">
+                      <p className="text-sm text-stone">Team Members</p>
+                      <p className="text-2xl font-bold text-charcoal">{analytics.overview.totalMembers}</p>
+                      <p className="text-xs text-forest-600 mt-1">
                         {analytics.overview.activeMembers} active
                       </p>
                     </div>
-                    <div className="p-3 bg-primary-100 rounded-lg">
+                    <div className="p-3 bg-primary-100 rounded-md">
                       <Users className="w-6 h-6 text-primary-600" />
                     </div>
                   </div>
@@ -188,22 +188,22 @@ export default function TeamDashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+                  className="bg-white rounded-md shadow-sm p-6 border border-border/60"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-600">License Utilization</p>
-                      <p className="text-2xl font-bold text-gray-900">
+                      <p className="text-sm text-stone">License Utilization</p>
+                      <p className="text-2xl font-bold text-charcoal">
                         {analytics.overview.totalLicenses > 0 
                           ? ((analytics.overview.activeLicenses / analytics.overview.totalLicenses) * 100).toFixed(1)
                           : 0}%
                       </p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-stone mt-1">
                         {analytics.overview.activeLicenses} of {analytics.overview.totalLicenses}
                       </p>
                     </div>
-                    <div className="p-3 bg-green-100 rounded-lg">
-                      <Target className="w-6 h-6 text-green-600" />
+                    <div className="p-3 bg-forest-100 rounded-md">
+                      <Target className="w-6 h-6 text-forest-600" />
                     </div>
                   </div>
                 </motion.div>
@@ -212,18 +212,18 @@ export default function TeamDashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+                  className="bg-white rounded-md shadow-sm p-6 border border-border/60"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-600">Courses Completed</p>
-                      <p className="text-2xl font-bold text-gray-900">{analytics.learning.coursesCompleted}</p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-sm text-stone">Courses Completed</p>
+                      <p className="text-2xl font-bold text-charcoal">{analytics.learning.coursesCompleted}</p>
+                      <p className="text-xs text-stone mt-1">
                         Avg. Score: {analytics.overview.averageScore.toFixed(1)}%
                       </p>
                     </div>
-                    <div className="p-3 bg-purple-100 rounded-lg">
-                      <BookOpen className="w-6 h-6 text-purple-600" />
+                    <div className="p-3 bg-terracotta-100 rounded-md">
+                      <BookOpen className="w-6 h-6 text-terracotta-600" />
                     </div>
                   </div>
                 </motion.div>
@@ -232,47 +232,47 @@ export default function TeamDashboard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+                  className="bg-white rounded-md shadow-sm p-6 border border-border/60"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-600">Learning Hours</p>
-                      <p className="text-2xl font-bold text-gray-900">{analytics.overview.totalLearningHours}</p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-sm text-stone">Learning Hours</p>
+                      <p className="text-2xl font-bold text-charcoal">{analytics.overview.totalLearningHours}</p>
+                      <p className="text-xs text-stone mt-1">
                         {analytics.overview.averageHoursPerMember.toFixed(1)} per member
                       </p>
                     </div>
-                    <div className="p-3 bg-orange-100 rounded-lg">
-                      <Clock className="w-6 h-6 text-orange-600" />
+                    <div className="p-3 bg-ochre-100 rounded-md">
+                      <Clock className="w-6 h-6 text-ochre-600" />
                     </div>
                   </div>
                 </motion.div>
               </div>
 
               {/* Recent Activity */}
-              <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+              <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
+                <h3 className="text-lg font-semibold text-charcoal mb-4">Recent Activity</h3>
                 <div className="space-y-4">
                   {analytics.members.slice(0, 5).map((member) => (
-                    <div key={member.id} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+                    <div key={member.id} className="flex items-center justify-between py-3 border-b border-border/60 last:border-0">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium text-gray-600">
+                        <div className="w-10 h-10 bg-forest-100 rounded-full flex items-center justify-center">
+                          <span className="text-sm font-medium text-stone">
                             {member.firstName.charAt(0).toUpperCase()}
                           </span>
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{member.firstName} {member.lastName}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm font-medium text-charcoal">{member.firstName} {member.lastName}</p>
+                          <p className="text-xs text-stone">
                             Last active {member.lastActiveAt ? new Date(member.lastActiveAt).toLocaleDateString() : 'N/A'}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-charcoal">
                           {member.completedCourses} courses
                         </p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-stone">
                           {member.totalLearningHours}h total
                         </p>
                       </div>
@@ -287,12 +287,12 @@ export default function TeamDashboard() {
           {activeTab === 'members' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Team Members</h3>
+                <h3 className="text-lg font-semibold text-charcoal">Team Members</h3>
                 <div className="flex items-center space-x-3">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    className="flex items-center space-x-2 px-4 py-2 border border-border/60 rounded-md hover:bg-paper"
                   >
                     <Mail className="w-4 h-4" />
                     <span>Invite Members</span>
@@ -300,7 +300,7 @@ export default function TeamDashboard() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                    className="flex items-center space-x-2 px-4 py-2 border border-border/60 rounded-md hover:bg-paper"
                   >
                     <Download className="w-4 h-4" />
                     <span>Export</span>
@@ -310,50 +310,50 @@ export default function TeamDashboard() {
 
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
+                  <thead className="bg-paper border-b border-border/60">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Member
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Role
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Progress
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Learning Hours
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Last Active
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white divide-y divide-border/60">
                     {analytics.members.map((member, index) => (
                       <motion.tr
                         key={member.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className="hover:bg-gray-50"
+                        className="hover:bg-paper"
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-                              <span className="text-sm font-medium text-gray-600">
+                            <div className="w-10 h-10 bg-forest-100 rounded-full flex items-center justify-center mr-3">
+                              <span className="text-sm font-medium text-stone">
                                 {member.firstName.charAt(0).toUpperCase()}
                               </span>
                             </div>
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{member.firstName} {member.lastName}</div>
-                              <div className="text-sm text-gray-500">{member.email}</div>
+                              <div className="text-sm font-medium text-charcoal">{member.firstName} {member.lastName}</div>
+                              <div className="text-sm text-stone">{member.email}</div>
                             </div>
                           </div>
                         </td>
@@ -368,10 +368,10 @@ export default function TeamDashboard() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-charcoal">
                             {member.completedCourses}/{member.completedCourses + member.inProgressCourses}
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                          <div className="w-full bg-forest-100 rounded-full h-2 mt-1">
                             <div
                               className="bg-primary-600 h-2 rounded-full"
                               style={{
@@ -380,13 +380,13 @@ export default function TeamDashboard() {
                             ></div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-charcoal">
                           {member.totalLearningHours}h
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                           {member.lastActiveAt ? new Date(member.lastActiveAt).toLocaleDateString() : 'N/A'}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                           <div className="flex items-center space-x-2">
                             <motion.button
                               whileHover={{ scale: 1.1 }}
@@ -409,11 +409,11 @@ export default function TeamDashboard() {
           {activeTab === 'licenses' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Team Licenses</h3>
+                <h3 className="text-lg font-semibold text-charcoal">Team Licenses</h3>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                  className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
                 >
                   <CreditCard className="w-4 h-4" />
                   <span>Purchase Licenses</span>
@@ -427,16 +427,16 @@ export default function TeamDashboard() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-sm p-6 border border-gray-100"
+                    className="bg-white rounded-md shadow-sm p-6 border border-border/60"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getLicenseTypeColor(license.type)}`}>
                         {license.type.replace('_', ' ')}
                       </span>
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        license.status === 'active' ? 'bg-green-100 text-green-800' :
-                        license.status === 'expired' ? 'bg-red-100 text-red-800' :
-                        'bg-gray-100 text-gray-800'
+                        license.status === 'active' ? 'bg-forest-100 text-forest-800' :
+                        license.status === 'expired' ? 'bg-terracotta-100 text-terracotta-800' :
+                        'bg-forest-100 text-charcoal'
                       }`}>
                         {license.status}
                       </span>
@@ -444,16 +444,16 @@ export default function TeamDashboard() {
                     
                     {license.courses && license.courses.length > 0 && (
                       <div className="mb-4">
-                        <h4 className="text-sm font-medium text-gray-900 truncate">{license.courses.length} course(s)</h4>
+                        <h4 className="text-sm font-medium text-charcoal truncate">{license.courses.length} course(s)</h4>
                       </div>
                     )}
                     
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Usage</span>
+                        <span className="text-stone">Usage</span>
                         <span className="font-medium">{license.used}/{license.quantity}</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-forest-100 rounded-full h-2">
                         <div
                           className="bg-primary-600 h-2 rounded-full"
                           style={{
@@ -462,20 +462,20 @@ export default function TeamDashboard() {
                         ></div>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Total Cost</span>
+                        <span className="text-stone">Total Cost</span>
                         <span className="font-medium">{license.currency} {license.cost.toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Expires</span>
+                        <span className="text-stone">Expires</span>
                         <span className="font-medium">{new Date(license.expiresAt).toLocaleDateString()}</span>
                       </div>
                     </div>
                     
-                    <div className="mt-4 pt-4 border-t border-gray-100">
+                    <div className="mt-4 pt-4 border-t border-border/60">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50"
+                        className="w-full px-3 py-2 text-sm border border-border/60 rounded-md hover:bg-paper"
                       >
                         Manage License
                       </motion.button>
@@ -490,11 +490,11 @@ export default function TeamDashboard() {
           {activeTab === 'reports' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">Team Reports</h3>
+                <h3 className="text-lg font-semibold text-charcoal">Team Reports</h3>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center space-x-2 px-4 py-2 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  className="flex items-center space-x-2 px-4 py-2 border border-border/60 rounded-md hover:bg-paper"
                 >
                   <Download className="w-4 h-4" />
                   <span>Export Report</span>
@@ -503,24 +503,24 @@ export default function TeamDashboard() {
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Learning Progress Chart */}
-                <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Learning Progress</h4>
-                  <div className="h-64 flex items-center justify-center text-gray-500">
+                <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
+                  <h4 className="text-lg font-semibold text-charcoal mb-4">Learning Progress</h4>
+                  <div className="h-64 flex items-center justify-center text-stone">
                     <BarChart3 className="w-12 h-12" />
                   </div>
                 </div>
 
                 {/* License Utilization Chart */}
-                <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">License Utilization</h4>
-                  <div className="h-64 flex items-center justify-center text-gray-500">
+                <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
+                  <h4 className="text-lg font-semibold text-charcoal mb-4">License Utilization</h4>
+                  <div className="h-64 flex items-center justify-center text-stone">
                     <TrendingUp className="w-12 h-12" />
                   </div>
                 </div>
 
                 {/* Top Performers */}
-                <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Top Performers</h4>
+                <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
+                  <h4 className="text-lg font-semibold text-charcoal mb-4">Top Performers</h4>
                   <div className="space-y-3">
                     {analytics.members
                       .sort((a, b) => b.completedCourses - a.completedCourses)
@@ -528,23 +528,23 @@ export default function TeamDashboard() {
                       .map((member, index) => (
                         <div key={member.id} className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                              <span className="text-xs font-bold text-yellow-800">{index + 1}</span>
+                            <div className="w-8 h-8 bg-ochre-100 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-ochre-800">{index + 1}</span>
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-gray-900">{member.firstName} {member.lastName}</p>
-                              <p className="text-xs text-gray-500">{member.completedCourses} courses</p>
+                              <p className="text-sm font-medium text-charcoal">{member.firstName} {member.lastName}</p>
+                              <p className="text-xs text-stone">{member.completedCourses} courses</p>
                             </div>
                           </div>
-                          <Award className="w-4 h-4 text-yellow-500" />
+                          <Award className="w-4 h-4 text-ochre-500" />
                         </div>
                       ))}
                   </div>
                 </div>
 
                 {/* Recent Activity */}
-                <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h4>
+                <div className="bg-white rounded-md shadow-sm p-6 border border-border/60">
+                  <h4 className="text-lg font-semibold text-charcoal mb-4">Recent Activity</h4>
                   <div className="space-y-3">
                     {analytics.members
                       .filter(m => m.lastActiveAt)
@@ -553,10 +553,10 @@ export default function TeamDashboard() {
                       .map((member) => (
                         <div key={member.id} className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
-                            <Calendar className="w-4 h-4 text-gray-400" />
+                            <Calendar className="w-4 h-4 text-pewter" />
                             <div>
-                              <p className="text-sm font-medium text-gray-900">{member.firstName} {member.lastName}</p>
-                              <p className="text-xs text-gray-500">
+                              <p className="text-sm font-medium text-charcoal">{member.firstName} {member.lastName}</p>
+                              <p className="text-xs text-stone">
                                 Active {member.lastActiveAt ? new Date(member.lastActiveAt).toLocaleDateString() : 'N/A'}
                               </p>
                             </div>

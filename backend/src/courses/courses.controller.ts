@@ -52,13 +52,19 @@ export class CoursesController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateCourseDto: UpdateCourseDto,
+    @Req() req: any,
+  ) {
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, id);
     return this.coursesService.update(id, updateCourseDto);
   }
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string, @Req() req: any) {
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, id);
     return this.coursesService.remove(id);
   }
 
@@ -72,37 +78,42 @@ export class CoursesController {
   // ---------- Course <-> Module linking ----------
   @Post(':id/modules')
   @UseGuards(JwtAuthGuard)
-  linkModule(
+  async linkModule(
     @Param('id') courseId: string,
     @Body() body: { module_id: string; sort_order: number; is_required?: boolean },
-    @Req() req?: any,
+    @Req() req: any,
   ) {
-    const requesterId = req?.user?.id;
-    return this.coursesService.linkModuleToCourse(courseId, body.module_id, body.sort_order, body.is_required ?? true, requesterId);
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, courseId);
+    return this.coursesService.linkModuleToCourse(courseId, body.module_id, body.sort_order, body.is_required ?? true, req.user?.id);
   }
 
   @Patch(':id/modules/:mid')
   @UseGuards(JwtAuthGuard)
-  updateLink(
+  async updateLink(
     @Param('id') courseId: string,
     @Param('mid') moduleId: string,
     @Body() body: { sort_order?: number; is_required?: boolean },
+    @Req() req: any,
   ) {
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, courseId);
     return this.coursesService.updateCourseModule(courseId, moduleId, { sortOrder: body.sort_order, isRequired: body.is_required });
   }
 
   @Delete(':id/modules/:mid')
   @UseGuards(JwtAuthGuard)
-  unlinkModule(
+  async unlinkModule(
     @Param('id') courseId: string,
     @Param('mid') moduleId: string,
+    @Req() req: any,
   ) {
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, courseId);
     return this.coursesService.unlinkCourseModule(courseId, moduleId);
   }
 
   @Post(':id/snapshot-modules')
   @UseGuards(JwtAuthGuard)
-  snapshotCourseModules(@Param('id') courseId: string) {
+  async snapshotCourseModules(@Param('id') courseId: string, @Req() req: any) {
+    await this.coursesService.assertCanManageCourse(req.user?.id, req.user?.role, courseId);
     return this.coursesService.snapshotCourseModules(courseId);
   }
 
@@ -125,7 +136,7 @@ export class CoursesController {
   @UseGuards(JwtAuthGuard)
   updateLessonProgress(
     @Param('lessonId') lessonId: string,
-    @Body() body: { watchPercent?: number; quizScore?: number; isCompleted?: boolean },
+    @Body() body: { watchPercent?: number },
     @Req() req: any,
   ) {
     const userId = req.user?.id;
@@ -133,5 +144,31 @@ export class CoursesController {
       throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
     }
     return this.coursesService.updateLessonProgress(userId, lessonId, body);
+  }
+
+  @Get('lessons/:lessonId/progress')
+  @UseGuards(JwtAuthGuard)
+  getLessonProgress(
+    @Param('lessonId') lessonId: string,
+    @Req() req: any,
+  ) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+    }
+    return this.coursesService.getLessonProgress(userId, lessonId);
+  }
+
+  @Get(':courseId/lesson-progress')
+  @UseGuards(JwtAuthGuard)
+  getLessonProgressForCourse(
+    @Param('courseId') courseId: string,
+    @Req() req: any,
+  ) {
+    const userId = req.user?.id;
+    if (!userId) {
+      throw new HttpException('User not authenticated', HttpStatus.UNAUTHORIZED);
+    }
+    return this.coursesService.getLessonProgressForCourse(userId, courseId);
   }
 }

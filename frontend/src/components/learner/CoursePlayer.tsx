@@ -195,10 +195,10 @@ export default function CoursePlayer({
 
   const getLessonTypeColor = (type: string) => {
     switch (type) {
-      case 'video': return 'text-red-600 bg-red-50'
+      case 'video': return 'text-terracotta-600 bg-terracotta-50'
       case 'text': return 'text-primary-600 bg-primary-50'
-      case 'quiz': return 'text-green-600 bg-green-50'
-      default: return 'text-gray-600 bg-gray-50'
+      case 'quiz': return 'text-forest-600 bg-forest-50'
+      default: return 'text-stone bg-paper'
     }
   }
 
@@ -206,16 +206,16 @@ export default function CoursePlayer({
     return (
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
-          <AcademicCapIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No lessons available</h3>
-          <p className="text-gray-500">This course doesn&apos;t have any lessons yet.</p>
+          <AcademicCapIcon className="h-12 w-12 text-pewter mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-charcoal mb-2">No lessons available</h3>
+          <p className="text-stone">This course doesn&apos;t have any lessons yet.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex h-screen bg-gray-900">
+    <div className="flex h-screen bg-ink-950">
       {/* Sidebar */}
       <AnimatePresence>
         {showSidebar && (
@@ -224,32 +224,32 @@ export default function CoursePlayer({
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="w-80 bg-gray-800 border-r border-gray-700 overflow-y-auto"
+            className="w-80 bg-ink-900 border-r border-border/60 overflow-y-auto"
           >
             <div className="p-4">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-white font-semibold">Course Content</h3>
                 <button
                   onClick={() => setShowSidebar(false)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-pewter hover:text-white"
                 >
                   <ArrowLeftIcon className="h-5 w-5" />
                 </button>
               </div>
 
               {/* Progress Overview */}
-              <div className="mb-6 p-3 bg-gray-700 rounded-lg">
-                <div className="flex items-center justify-between text-sm text-gray-300 mb-2">
+              <div className="mb-6 p-3 bg-ink-800 rounded-md">
+                <div className="flex items-center justify-between text-sm text-pewter mb-2">
                   <span>Progress</span>
                   <span>{Math.round(overallProgress)}%</span>
                 </div>
-                <div className="w-full bg-gray-600 rounded-full h-2">
+                <div className="w-full bg-stone rounded-full h-2">
                   <div 
                     className="bg-primary-500 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${overallProgress}%` }}
                   />
                 </div>
-                <div className="mt-2 text-xs text-gray-400">
+                <div className="mt-2 text-xs text-pewter">
                   {completedLessons} of {totalLessons} lessons completed
                 </div>
               </div>
@@ -264,7 +264,7 @@ export default function CoursePlayer({
                     <div key={module.id} className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
                         <h4 className="text-white font-medium">{module.title}</h4>
-                        <span className="text-gray-400">
+                        <span className="text-pewter">
                           {moduleCompletedLessons}/{module.lessons.length}
                         </span>
                       </div>
@@ -280,12 +280,12 @@ export default function CoursePlayer({
                             <button
                               key={lesson.id}
                               onClick={() => handleLessonClick(moduleIndex, lessonIndex)}
-                              className={`w-full flex items-center space-x-3 p-2 rounded-lg text-left transition-colors ${
+                              className={`w-full flex items-center space-x-3 p-2 rounded-md text-left transition-colors ${
                                 isCurrentLesson
                                   ? 'bg-primary-600 text-white'
                                   : lesson.completed
-                                    ? 'bg-gray-700 text-gray-300'
-                                    : 'text-gray-400 hover:bg-gray-700'
+                                    ? 'bg-ink-800 text-pewter'
+                                    : 'text-pewter hover:bg-ink-800'
                               }`}
                             >
                               <div className={`p-1 rounded ${isCurrentLesson ? 'bg-primary-700' : getLessonTypeColor(lesson.type)}`}>
@@ -302,7 +302,7 @@ export default function CoursePlayer({
                               </div>
                               
                               {lesson.completed && (
-                                <CheckCircleIconSolid className="h-4 w-4 text-green-500" />
+                                <CheckCircleIconSolid className="h-4 w-4 text-forest-500" />
                               )}
                             </button>
                           )
@@ -320,13 +320,13 @@ export default function CoursePlayer({
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+        <div className="bg-ink-900 border-b border-border/60 px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {!showSidebar && (
                 <button
                   onClick={() => setShowSidebar(true)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-pewter hover:text-white"
                 >
                   <ArrowRightIcon className="h-5 w-5" />
                 </button>
@@ -334,7 +334,7 @@ export default function CoursePlayer({
               
               <div>
                 <h1 className="text-white font-semibold">{course.title}</h1>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-pewter">
                   {currentModule?.title} • {currentLesson?.title}
                 </p>
               </div>
@@ -343,22 +343,22 @@ export default function CoursePlayer({
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleBookmark}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`p-2 rounded-md transition-colors ${
                   bookmarked 
                     ? 'bg-primary-600 text-white' 
-                    : 'text-gray-400 hover:bg-gray-700'
+                    : 'text-pewter hover:bg-ink-800'
                 }`}
               >
                 <BookmarkIcon className="h-5 w-5" />
               </button>
               
-              <button className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg">
+              <button className="p-2 text-pewter hover:bg-ink-800 rounded-md">
                 <ShareIcon className="h-5 w-5" />
               </button>
               
               <button
                 onClick={toggleFullscreen}
-                className="p-2 text-gray-400 hover:bg-gray-700 rounded-lg"
+                className="p-2 text-pewter hover:bg-ink-800 rounded-md"
               >
                 {isFullscreen ? (
                   <ArrowsPointingInIcon className="h-5 w-5" />
@@ -404,7 +404,7 @@ export default function CoursePlayer({
                       <span className="text-white text-sm">
                         {formatTime(currentTime)}
                       </span>
-                      <div className="flex-1 bg-gray-600 rounded-full h-1">
+                      <div className="flex-1 bg-stone rounded-full h-1">
                         <div 
                           className="bg-primary-500 h-1 rounded-full"
                           style={{ width: `${progress}%` }}
@@ -443,7 +443,7 @@ export default function CoursePlayer({
                 </h2>
                 <div className="prose prose-invert max-w-none">
                   <div 
-                    className="text-gray-300 leading-relaxed"
+                    className="text-pewter leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: currentLesson.content || '' }}
                   />
                 </div>
@@ -452,12 +452,12 @@ export default function CoursePlayer({
           ) : (
             <div className="h-full flex items-center justify-center">
               <div className="text-center">
-                <QuestionMarkCircleIcon className="h-16 w-16 text-gray-600 mx-auto mb-4" />
+                <QuestionMarkCircleIcon className="h-16 w-16 text-stone mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white mb-2">Quiz Lesson</h3>
-                <p className="text-gray-400 mb-6">
+                <p className="text-pewter mb-6">
                   Quiz interface coming soon!
                 </p>
-                <button className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
+                <button className="px-6 py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700">
                   Start Quiz
                 </button>
               </div>
@@ -466,12 +466,12 @@ export default function CoursePlayer({
         </div>
 
         {/* Bottom Controls */}
-        <div className="bg-gray-800 border-t border-gray-700 px-6 py-4">
+        <div className="bg-ink-900 border-t border-border/60 px-6 py-4">
           <div className="flex items-center justify-between">
             <button
               onClick={handlePreviousLesson}
               disabled={currentModuleIndex === 0 && currentLessonIndex === 0}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 text-pewter hover:bg-ink-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ArrowLeftIcon className="h-4 w-4" />
               <span>Previous</span>
@@ -481,7 +481,7 @@ export default function CoursePlayer({
               {!currentLesson.completed && (
                 <button
                   onClick={handleMarkComplete}
-                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  className="flex items-center space-x-2 px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700"
                 >
                   <CheckCircleIcon className="h-4 w-4" />
                   <span>Mark Complete</span>
@@ -489,7 +489,7 @@ export default function CoursePlayer({
               )}
               
               {currentLesson.completed && (
-                <div className="flex items-center space-x-2 text-green-500">
+                <div className="flex items-center space-x-2 text-forest-500">
                   <CheckCircleIconSolid className="h-5 w-5" />
                   <span className="text-sm font-medium">Completed</span>
                 </div>
@@ -502,7 +502,7 @@ export default function CoursePlayer({
                 currentModuleIndex === modules.length - 1 && 
                 currentLessonIndex === currentModule.lessons.length - 1
               }
-              className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center space-x-2 px-4 py-2 text-pewter hover:bg-ink-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span>Next</span>
               <ArrowRightIcon className="h-4 w-4" />

@@ -37,6 +37,7 @@
     "seed:quizzes:dcc": "ts-node src/database/seeds/run-lesson-content-quizzes-dcc.ts",
     "seed:quizzes:dcc:markdown": "ts-node src/database/seeds/run-dcc-markdown-quizzes.ts",
     "seed:quizzes:dcc:markdown:replace": "ts-node src/database/seeds/run-dcc-markdown-quizzes.ts --replace",
+    "seed:quiz:dcc-composition": "ts-node src/database/seeds/run-dcc-composition-quiz.ts",
     "report:dcc:quizzes": "ts-node src/database/seeds/report-dcc-quiz-status.ts",
     "update:categories": "ts-node src/database/update-course-categories.ts",
     "migrate:user-groups": "ts-node src/database/run-user-groups-migration.ts",

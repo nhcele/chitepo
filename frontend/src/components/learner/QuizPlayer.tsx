@@ -167,39 +167,39 @@ export default function QuizPlayer({
   if (!quizStarted) {
     return (
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+        <div className="bg-white rounded-md shadow-sm border border-border/60 p-8">
           <div className="text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 text-primary-600 rounded-full mb-6">
               <QuestionMarkCircleIcon className="h-8 w-8" />
             </div>
             
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{quiz.title}</h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">{quiz.description}</p>
+            <h2 className="text-2xl font-bold text-charcoal mb-4">{quiz.title}</h2>
+            <p className="text-stone mb-8 max-w-2xl mx-auto">{quiz.description}</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">{quiz.questions.length}</div>
-                <div className="text-sm text-gray-500">Questions</div>
+                <div className="text-2xl font-bold text-charcoal">{quiz.questions.length}</div>
+                <div className="text-sm text-stone">Questions</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">{quiz.passingScore}%</div>
-                <div className="text-sm text-gray-500">Passing Score</div>
+                <div className="text-2xl font-bold text-charcoal">{quiz.passingScore}%</div>
+                <div className="text-sm text-stone">Passing Score</div>
               </div>
               {quiz.timeLimit && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">{quiz.timeLimit}m</div>
-                  <div className="text-sm text-gray-500">Time Limit</div>
+                  <div className="text-2xl font-bold text-charcoal">{quiz.timeLimit}m</div>
+                  <div className="text-sm text-stone">Time Limit</div>
                 </div>
               )}
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-charcoal">
                   {quiz.questions.reduce((sum, q) => sum + q.points, 0)}
                 </div>
-                <div className="text-sm text-gray-500">Total Points</div>
+                <div className="text-sm text-stone">Total Points</div>
               </div>
             </div>
             
-            <div className="bg-primary-50 border border-primary-200 rounded-lg p-4 mb-8">
+            <div className="bg-primary-50 border border-primary-200 rounded-md p-4 mb-8">
               <div className="flex items-start space-x-3">
                 <LightBulbIcon className="h-5 w-5 text-primary-600 mt-0.5" />
                 <div className="text-left">
@@ -217,7 +217,7 @@ export default function QuizPlayer({
             
             <button
               onClick={startQuiz}
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700"
+              className="px-8 py-3 bg-primary-600 text-white rounded-md font-medium hover:bg-primary-700"
             >
               Start Quiz
             </button>
@@ -234,10 +234,10 @@ export default function QuizPlayer({
 
     return (
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+        <div className="bg-white rounded-md shadow-sm border border-border/60 p-8">
           <div className="text-center">
             <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-6 ${
-              passed ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+              passed ? 'bg-forest-100 text-forest-600' : 'bg-terracotta-100 text-terracotta-600'
             }`}>
               {passed ? (
                 <TrophyIcon className="h-8 w-8" />
@@ -247,7 +247,7 @@ export default function QuizPlayer({
             </div>
             
             <h2 className={`text-2xl font-bold mb-4 ${
-              passed ? 'text-green-900' : 'text-red-900'
+              passed ? 'text-forest-900' : 'text-terracotta-900'
             }`}>
               {passed ? 'Congratulations! You Passed!' : 'Quiz Completed'}
             </h2>
@@ -255,42 +255,42 @@ export default function QuizPlayer({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
               <div className="text-center">
                 <div className={`text-2xl font-bold ${
-                  passed ? 'text-green-600' : 'text-red-600'
+                  passed ? 'text-forest-600' : 'text-terracotta-600'
                 }`}>
                   {score}%
                 </div>
-                <div className="text-sm text-gray-500">Score</div>
+                <div className="text-sm text-stone">Score</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">{correctAnswers}</div>
-                <div className="text-sm text-gray-500">Correct</div>
+                <div className="text-2xl font-bold text-charcoal">{correctAnswers}</div>
+                <div className="text-sm text-stone">Correct</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-charcoal">
                   {results.length - correctAnswers}
                 </div>
-                <div className="text-sm text-gray-500">Incorrect</div>
+                <div className="text-sm text-stone">Incorrect</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-charcoal">
                   {Math.round(results.reduce((sum, r) => sum + r.timeSpent, 0) / 60)}m
                 </div>
-                <div className="text-sm text-gray-500">Time Spent</div>
+                <div className="text-sm text-stone">Time Spent</div>
               </div>
             </div>
             
             {quiz.showResults && (
               <div className="mb-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Question Review</h3>
+                <h3 className="text-lg font-semibold text-charcoal mb-4">Question Review</h3>
                 <div className="space-y-4">
                   {quiz.questions.map((question, index) => {
                     const result = results.find(r => r.questionId === question.id)
                     
                     return (
-                      <div key={question.id} className="border border-gray-200 rounded-lg p-4">
+                      <div key={question.id} className="border border-border/60 rounded-md p-4">
                         <div className="flex items-start space-x-3">
                           <div className={`p-1 rounded ${
-                            result?.correct ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+                            result?.correct ? 'bg-forest-100 text-forest-600' : 'bg-terracotta-100 text-terracotta-600'
                           }`}>
                             {result?.correct ? (
                               <CheckCircleIconSolid className="h-4 w-4" />
@@ -300,19 +300,19 @@ export default function QuizPlayer({
                           </div>
                           
                           <div className="flex-1">
-                            <p className="font-medium text-gray-900 mb-2">
+                            <p className="font-medium text-charcoal mb-2">
                               {index + 1}. {question.question}
                             </p>
                             
-                            <div className="text-sm text-gray-600 space-y-1">
-                              <p>Your answer: <span className={result?.correct ? 'text-green-600' : 'text-red-600'}>
+                            <div className="text-sm text-stone space-y-1">
+                              <p>Your answer: <span className={result?.correct ? 'text-forest-600' : 'text-terracotta-600'}>
                                 {result?.userAnswer}
                               </span></p>
                               {!result?.correct && (
-                                <p>Correct answer: <span className="text-green-600">{question.correctAnswer}</span></p>
+                                <p>Correct answer: <span className="text-forest-600">{question.correctAnswer}</span></p>
                               )}
                               {question.explanation && (
-                                <p className="text-gray-500 italic">{question.explanation}</p>
+                                <p className="text-stone italic">{question.explanation}</p>
                               )}
                             </div>
                           </div>
@@ -328,13 +328,13 @@ export default function QuizPlayer({
               {quiz.allowRetake && !passed && (
                 <button
                   onClick={restartQuiz}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                  className="px-6 py-2 border border-border/60 text-charcoal rounded-md font-medium hover:bg-paper"
                 >
                   Retake Quiz
                 </button>
               )}
               
-              <button className="px-6 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700">
+              <button className="px-6 py-2 bg-primary-600 text-white rounded-md font-medium hover:bg-primary-700">
                 Continue Learning
               </button>
             </div>
@@ -347,32 +347,32 @@ export default function QuizPlayer({
   return (
     <div className="max-w-4xl mx-auto">
       {/* Quiz Header */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-6">
+      <div className="bg-white rounded-md shadow-sm border border-border/60 p-6 mb-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">{quiz.title}</h2>
-            <p className="text-sm text-gray-600">
+            <h2 className="text-xl font-semibold text-charcoal">{quiz.title}</h2>
+            <p className="text-sm text-stone">
               Question {currentQuestionIndex + 1} of {quiz.questions.length}
             </p>
           </div>
           
           <div className="flex items-center space-x-4">
             {timeRemaining && (
-              <div className={`flex items-center space-x-2 px-3 py-1 rounded-lg ${
-                timeRemaining < 60 ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
+              <div className={`flex items-center space-x-2 px-3 py-1 rounded-md ${
+                timeRemaining < 60 ? 'bg-terracotta-100 text-terracotta-700' : 'bg-forest-100 text-charcoal'
               }`}>
                 <ClockIcon className="h-4 w-4" />
                 <span className="font-medium">{formatTime(timeRemaining)}</span>
               </div>
             )}
             
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-stone">
               {answeredQuestions} answered
             </div>
           </div>
         </div>
         
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-forest-100 rounded-full h-2">
           <div 
             className="bg-primary-500 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -381,17 +381,17 @@ export default function QuizPlayer({
       </div>
 
       {/* Question */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+      <div className="bg-white rounded-md shadow-sm border border-border/60 p-8">
         <div className="mb-8">
           <div className="flex items-start space-x-3 mb-6">
             <div className="flex items-center justify-center w-8 h-8 bg-primary-100 text-primary-600 rounded-full font-semibold text-sm">
               {currentQuestionIndex + 1}
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-charcoal mb-2">
                 {currentQuestion.question}
               </h3>
-              <div className="flex items-center space-x-4 text-sm text-gray-500">
+              <div className="flex items-center space-x-4 text-sm text-stone">
                 <span>{currentQuestion.points} points</span>
                 {currentQuestion.timeLimit && (
                   <span>• {currentQuestion.timeLimit}s time limit</span>
@@ -405,10 +405,10 @@ export default function QuizPlayer({
             {currentQuestion.type === 'multiple-choice' && currentQuestion.options?.map((option, index) => (
               <label
                 key={index}
-                className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-colors ${
+                className={`flex items-center p-4 border-2 rounded-md cursor-pointer transition-colors ${
                   selectedAnswer === index
                     ? 'border-primary-500 bg-primary-50'
-                    : 'border-gray-200 hover:bg-gray-50'
+                    : 'border-border/60 hover:bg-paper'
                 }`}
               >
                 <input
@@ -422,13 +422,13 @@ export default function QuizPlayer({
                 <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${
                   selectedAnswer === index
                     ? 'border-primary-500 bg-primary-500'
-                    : 'border-gray-300'
+                    : 'border-border/60'
                 }`}>
                   {selectedAnswer === index && (
                     <div className="w-2 h-2 bg-white rounded-full" />
                   )}
                 </div>
-                <span className="text-gray-900">{option}</span>
+                <span className="text-charcoal">{option}</span>
               </label>
             ))}
 
@@ -437,10 +437,10 @@ export default function QuizPlayer({
                 {['True', 'False'].map((option, index) => (
                   <label
                     key={index}
-                    className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-colors ${
+                    className={`flex items-center justify-center p-4 border-2 rounded-md cursor-pointer transition-colors ${
                       selectedAnswer === option
                         ? 'border-primary-500 bg-primary-50'
-                        : 'border-gray-200 hover:bg-gray-50'
+                        : 'border-border/60 hover:bg-paper'
                     }`}
                   >
                     <input
@@ -451,7 +451,7 @@ export default function QuizPlayer({
                       onChange={() => handleAnswerSelect(option)}
                       className="sr-only"
                     />
-                    <span className="text-gray-900 font-medium">{option}</span>
+                    <span className="text-charcoal font-medium">{option}</span>
                   </label>
                 ))}
               </div>
@@ -463,7 +463,7 @@ export default function QuizPlayer({
                 value={selectedAnswer as string}
                 onChange={(e) => handleAnswerSelect(e.target.value)}
                 placeholder="Type your answer here..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             )}
 
@@ -473,7 +473,7 @@ export default function QuizPlayer({
                 value={selectedAnswer as string}
                 onChange={(e) => handleAnswerSelect(e.target.value)}
                 placeholder="Write your answer here..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               />
             )}
           </div>
@@ -489,30 +489,30 @@ export default function QuizPlayer({
           )}
 
           {showHint && currentQuestion.explanation && (
-            <div className="mt-4 p-4 bg-primary-50 border border-primary-200 rounded-lg">
+            <div className="mt-4 p-4 bg-primary-50 border border-primary-200 rounded-md">
               <p className="text-sm text-primary-700">{currentQuestion.explanation}</p>
             </div>
           )}
         </div>
 
         {/* Navigation */}
-        <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+        <div className="flex items-center justify-between pt-6 border-t border-border/60">
           <button
             onClick={handlePreviousQuestion}
             disabled={currentQuestionIndex === 0}
-            className="flex items-center space-x-2 px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center space-x-2 px-4 py-2 text-charcoal bg-white border border-border/60 rounded-md font-medium hover:bg-paper disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ArrowLeftIcon className="h-4 w-4" />
             <span>Previous</span>
           </button>
 
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-stone">
             {answeredQuestions} of {quiz.questions.length} questions answered
           </div>
 
           <button
             onClick={handleNextQuestion}
-            className="flex items-center space-x-2 px-4 py-2 text-white bg-primary-600 rounded-lg font-medium hover:bg-primary-700"
+            className="flex items-center space-x-2 px-4 py-2 text-white bg-primary-600 rounded-md font-medium hover:bg-primary-700"
           >
             <span>
               {currentQuestionIndex === quiz.questions.length - 1 ? 'Submit' : 'Next'}

@@ -4,7 +4,7 @@ import { Repository, Between, In, Not, IsNull } from 'typeorm';
 import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { Course } from '../courses/entities/course.entity';
 import { User } from '../users/entities/user.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { Certificate } from '../certificates/entities/certificate.entity';
 import { UserCertification } from '../certifications/entities/user-certification.entity';
 import { CertificationPathway, PathwayType } from '../certifications/entities/certification-pathway.entity';
@@ -121,8 +121,8 @@ export class SuccessMetricsService {
     private readonly courseRepository: Repository<Course>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Progress)
-    private readonly progressRepository: Repository<Progress>,
+    @InjectRepository(LessonProgress)
+    private readonly progressRepository: Repository<LessonProgress>,
     @InjectRepository(Certificate)
     private readonly certificateRepository: Repository<Certificate>,
     @InjectRepository(UserCertification)

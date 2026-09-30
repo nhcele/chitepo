@@ -45,47 +45,47 @@ export default function ResetPasswordPage() {
         <title>Set a New Password - Chitepo School of Ideology</title>
       </Head>
       <Layout>
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-paper flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-            <h2 className="text-3xl font-bold text-gray-900">Set a new password</h2>
-            <p className="mt-2 text-sm text-gray-600">
+            <h2 className="text-3xl font-bold text-charcoal">Set a new password</h2>
+            <p className="mt-2 text-sm text-stone">
               Choose a strong password with upper &amp; lower case, a number and a symbol.
             </p>
           </div>
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-white py-8 px-4 shadow sm:rounded-md sm:px-10">
               {done ? (
                 <div className="text-center">
-                  <p className="text-green-700 font-medium">Your password has been reset.</p>
-                  <p className="mt-2 text-sm text-gray-600">Redirecting you to sign in…</p>
+                  <p className="text-forest-700 font-medium">Your password has been reset.</p>
+                  <p className="mt-2 text-sm text-stone">Redirecting you to sign in…</p>
                   <Link href="/auth/login" className="mt-4 inline-block font-medium text-primary-600 hover:text-primary-500">
                     Sign in now
                   </Link>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {error && <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">{error}</div>}
+                  {error && <div className="rounded-md bg-terracotta-50 p-3 text-sm text-terracotta-700">{error}</div>}
                   <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">New password</label>
+                    <label htmlFor="password" className="block text-sm font-medium text-charcoal">New password</label>
                     <div className="mt-1 relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                        <LockClosedIcon className="h-5 w-5 text-pewter" />
                       </div>
                       <input id="password" name="password" type="password" required value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                        className="block w-full pl-10 pr-3 py-2 border border-border/60 rounded-md focus:ring-primary-500 focus:border-primary-500"
                         placeholder="New password" />
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="confirm" className="block text-sm font-medium text-gray-700">Confirm password</label>
+                    <label htmlFor="confirm" className="block text-sm font-medium text-charcoal">Confirm password</label>
                     <div className="mt-1 relative">
                       <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <LockClosedIcon className="h-5 w-5 text-gray-400" />
+                        <LockClosedIcon className="h-5 w-5 text-pewter" />
                       </div>
                       <input id="confirm" name="confirm" type="password" required value={confirm}
                         onChange={(e) => setConfirm(e.target.value)}
-                        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
+                        className="block w-full pl-10 pr-3 py-2 border border-border/60 rounded-md focus:ring-primary-500 focus:border-primary-500"
                         placeholder="Confirm new password" />
                     </div>
                   </div>

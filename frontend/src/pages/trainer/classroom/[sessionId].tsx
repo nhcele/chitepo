@@ -24,7 +24,7 @@ export default function TrainerSessionPage() {
     return (
       <Layout>
         <div className="p-6">
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          <div className="bg-terracotta-50 border border-terracotta-200 text-terracotta-700 px-4 py-3 rounded-md">
             You must be an instructor to access this page.
           </div>
         </div>
@@ -36,7 +36,7 @@ export default function TrainerSessionPage() {
     return (
       <Layout>
         <div className="p-6">
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          <div className="bg-terracotta-50 border border-terracotta-200 text-terracotta-700 px-4 py-3 rounded-md">
             Invalid session ID
           </div>
         </div>

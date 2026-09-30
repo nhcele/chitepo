@@ -6,8 +6,10 @@ import { Course } from './entities/course.entity';
 import { Module } from './entities/module.entity';
 import { Lesson } from './entities/lesson.entity';
 import { CourseModule } from './entities/course-module.entity';
+import { LessonProgress } from './entities/lesson-progress.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
-import { HttpException } from '@nestjs/common';
+import { HttpException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { CourseStatus, CourseDifficulty } from '@mindelta/shared';
 
 describe('CoursesService', () => {
@@ -16,13 +18,15 @@ describe('CoursesService', () => {
   let moduleRepository: jest.Mocked<Repository<Module>>;
   let lessonRepository: jest.Mocked<Repository<Lesson>>;
   let courseModuleRepository: jest.Mocked<Repository<CourseModule>>;
+  let lessonProgressRepository: jest.Mocked<Repository<LessonProgress>>;
+  let enrollmentRepository: jest.Mocked<Repository<Enrollment>>;
   let userRepository: jest.Mocked<Repository<User>>;
 
   const mockCourse = {
-    id: 'course-123',
+    id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     title: 'Test Course',
     description: 'Test Description',
-    instructorId: 'instructor-123',
+    instructorId: 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14',
     status: CourseStatus.DRAFT,
     difficulty: CourseDifficulty.BEGINNER,
     price: 99.99,
@@ -33,8 +37,8 @@ describe('CoursesService', () => {
   };
 
   const mockModule = {
-    id: 'module-123',
-    courseId: 'course-123',
+    id: 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
+    courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
     title: 'Test Module',
     orderIndex: 1,
     createdAt: new Date(),
@@ -42,8 +46,8 @@ describe('CoursesService', () => {
   };
 
   const mockLesson = {
-    id: 'lesson-123',
-    moduleId: 'module-123',
+    id: 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13',
+    moduleId: 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a12',
     title: 'Test Lesson',
     type: 'video',
     durationSeconds: 600,
@@ -88,6 +92,18 @@ describe('CoursesService', () => {
       delete: jest.fn(),
     };
 
+    const mockLessonProgressRepository = {
+      findOne: jest.fn(),
+      create: jest.fn(),
+      save: jest.fn(),
+      count: jest.fn(),
+    };
+
+    const mockEnrollmentRepository = {
+      findOne: jest.fn(),
+      save: jest.fn(),
+    };
+
     const mockUserRepository = {
       find: jest.fn(),
       findOne: jest.fn(),
@@ -115,6 +131,14 @@ describe('CoursesService', () => {
           useValue: mockCourseModuleRepository,
         },
         {
+          provide: getRepositoryToken(LessonProgress),
+          useValue: mockLessonProgressRepository,
+        },
+        {
+          provide: getRepositoryToken(Enrollment),
+          useValue: mockEnrollmentRepository,
+        },
+        {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository,
         },
@@ -126,6 +150,8 @@ describe('CoursesService', () => {
     moduleRepository = module.get(getRepositoryToken(Module)) as jest.Mocked<Repository<Module>>;
     lessonRepository = module.get(getRepositoryToken(Lesson)) as jest.Mocked<Repository<Lesson>>;
     courseModuleRepository = module.get(getRepositoryToken(CourseModule)) as jest.Mocked<Repository<CourseModule>>;
+    lessonProgressRepository = module.get(getRepositoryToken(LessonProgress)) as jest.Mocked<Repository<LessonProgress>>;
+    enrollmentRepository = module.get(getRepositoryToken(Enrollment)) as jest.Mocked<Repository<Enrollment>>;
     userRepository = module.get(getRepositoryToken(User)) as jest.Mocked<Repository<User>>;
   });
 
@@ -173,7 +199,7 @@ describe('CoursesService', () => {
     });
 
     it('should return courses by instructor', async () => {
-      const instructorId = 'instructor-123';
+      const instructorId = 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14';
       const courses = [mockCourse];
       
       courseRepository.find.mockResolvedValue(courses as any);
@@ -192,11 +218,11 @@ describe('CoursesService', () => {
     it('should return a course by id', async () => {
       courseRepository.findOne.mockResolvedValue(mockCourse as any);
 
-      const result = await service.findOne('course-123');
+      const result = await service.findOne('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
 
       expect(result).toEqual(mockCourse);
       expect(courseRepository.findOne).toHaveBeenCalledWith({
-        where: { id: 'course-123' },
+        where: { id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
         relations: ['instructor', 'modules', 'modules.lessons'],
       });
     });
@@ -221,11 +247,11 @@ describe('CoursesService', () => {
       courseRepository.update.mockResolvedValue({ affected: 1 } as any);
       courseRepository.findOne.mockResolvedValue(updatedCourse as any);
 
-      const result = await service.update('course-123', updateCourseDto);
+      const result = await service.update('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', updateCourseDto);
 
-      expect(courseRepository.update).toHaveBeenCalledWith('course-123', updateCourseDto);
+      expect(courseRepository.update).toHaveBeenCalledWith('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', updateCourseDto);
       expect(courseRepository.findOne).toHaveBeenCalledWith({
-        where: { id: 'course-123' },
+        where: { id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
         relations: ['instructor', 'modules', 'modules.lessons'],
       });
       expect(result).toEqual(updatedCourse);
@@ -244,9 +270,9 @@ describe('CoursesService', () => {
     it('should delete a course', async () => {
       courseRepository.delete.mockResolvedValue({ affected: 1 } as any);
 
-      await service.remove('course-123');
+      await service.remove('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
 
-      expect(courseRepository.delete).toHaveBeenCalledWith('course-123');
+      expect(courseRepository.delete).toHaveBeenCalledWith('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
     });
   });
 
@@ -260,10 +286,10 @@ describe('CoursesService', () => {
         .mockResolvedValueOnce(publishedCourse as any);
       courseRepository.update.mockResolvedValue({ affected: 1 } as any);
 
-      const result = await service.publish('course-123');
+      const result = await service.publish('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
 
       expect(result).toEqual(publishedCourse);
-      expect(courseRepository.update).toHaveBeenCalledWith('course-123', {
+      expect(courseRepository.update).toHaveBeenCalledWith('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', {
         status: CourseStatus.PUBLISHED,
       });
     });
@@ -272,7 +298,7 @@ describe('CoursesService', () => {
       const publishedCourse = { ...mockCourse, status: CourseStatus.PUBLISHED };
       courseRepository.findOne.mockResolvedValue(publishedCourse as any);
 
-      await expect(service.publish('course-123'))
+      await expect(service.publish('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11'))
         .rejects.toThrow(HttpException);
     });
   });
@@ -294,7 +320,7 @@ describe('CoursesService', () => {
 
       expect(result).toEqual(courses);
       expect(mockQueryBuilder.where).toHaveBeenCalledWith(
-        'course.title ILIKE :query OR course.description ILIKE :query',
+        'LOWER(course.title) LIKE LOWER(:query) OR LOWER(course.description) LIKE LOWER(:query)',
         { query: `%${query}%` }
       );
     });
@@ -322,6 +348,208 @@ describe('CoursesService', () => {
       const result = await service.findByCategory('core' as any);
 
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('authorization helpers', () => {
+    it('should allow course owners to manage a course', async () => {
+      courseRepository.findOne.mockResolvedValue({
+        id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        instructorId: 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14',
+      } as any);
+
+      await expect(
+        (service as any).assertCanManageCourse(
+          'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14',
+          'learner',
+          'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        ),
+      ).resolves.toBeUndefined();
+    });
+
+    it('should allow admins to manage any course', async () => {
+      await expect(
+        (service as any).assertCanManageCourse(
+          '00000000-0000-0000-0000-000000000000',
+          'admin',
+          'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        ),
+      ).resolves.toBeUndefined();
+
+      expect(courseRepository.findOne).not.toHaveBeenCalled();
+    });
+
+    it('should reject non-owners managing a course', async () => {
+      courseRepository.findOne.mockResolvedValue({
+        id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        instructorId: 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14',
+      } as any);
+
+      await expect(
+        (service as any).assertCanManageCourse(
+          '99999999-9999-9999-9999-999999999999',
+          'learner',
+          'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        ),
+      ).rejects.toThrow(ForbiddenException);
+    });
+
+    it('should reject managing a non-existent course', async () => {
+      courseRepository.findOne.mockResolvedValue(null);
+
+      await expect(
+        (service as any).assertCanManageCourse(
+          'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a14',
+          'learner',
+          'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+        ),
+      ).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('updateLessonProgress', () => {
+    beforeEach(() => {
+      enrollmentRepository.findOne.mockResolvedValue({
+        id: 'enrollment-1',
+        userId: 'user-1',
+        courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+      } as any);
+      lessonRepository.find.mockResolvedValue([]);
+    });
+
+    it('creates progress with resume and watched time', async () => {
+      lessonRepository.findOne.mockResolvedValue({
+        ...mockLesson,
+        module: { courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
+        videoDuration: 600,
+      } as any);
+      lessonProgressRepository.findOne.mockResolvedValue(null);
+      lessonProgressRepository.create.mockImplementation((dto: any) => dto as any);
+      lessonProgressRepository.save.mockImplementation((value: any) => Promise.resolve({ id: 'progress-1', ...value } as any));
+      lessonProgressRepository.count.mockResolvedValue(1);
+
+      const result = await service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', {
+        lastPositionSeconds: 120,
+        watchedSeconds: 120,
+      });
+
+      expect(result.lastPositionSeconds).toBe(120);
+      expect(result.watchedSeconds).toBe(120);
+      expect(result.watchPercent).toBe(20);
+    });
+
+    it('clamps position and watched time to the lesson duration', async () => {
+      lessonRepository.findOne.mockResolvedValue({
+        ...mockLesson,
+        module: { courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
+        videoDuration: 600,
+      } as any);
+      lessonProgressRepository.findOne.mockResolvedValue(null);
+      lessonProgressRepository.create.mockImplementation((dto: any) => dto as any);
+      lessonProgressRepository.save.mockImplementation((value: any) => Promise.resolve({ id: 'progress-1', ...value } as any));
+      lessonProgressRepository.count.mockResolvedValue(1);
+
+      const result = await service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', {
+        lastPositionSeconds: 9999,
+        watchedSeconds: 9999,
+      });
+
+      expect(result.lastPositionSeconds).toBe(600);
+      expect(result.watchedSeconds).toBe(600);
+      expect(result.watchPercent).toBe(100);
+    });
+
+    it('keeps watched time monotonic', async () => {
+      lessonRepository.findOne.mockResolvedValue({
+        ...mockLesson,
+        module: { courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
+        videoDuration: 600,
+      } as any);
+      lessonProgressRepository.findOne.mockResolvedValue({
+        id: 'progress-1',
+        userId: 'user-1',
+        lessonId: 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13',
+        watchPercent: 30,
+        lastPositionSeconds: 180,
+        watchedSeconds: 180,
+        activeSeconds: 0,
+        quizAttempts: 0,
+      } as any);
+      lessonProgressRepository.save.mockImplementation((value: any) => Promise.resolve({ id: 'progress-1', ...value } as any));
+      lessonProgressRepository.count.mockResolvedValue(1);
+
+      const result = await service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', {
+        lastPositionSeconds: 120,
+        watchedSeconds: 120,
+      });
+
+      expect(result.watchedSeconds).toBe(180);
+      expect(result.watchPercent).toBe(30);
+    });
+
+    it('clamps reported active time to wall-clock elapsed plus grace', async () => {
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+      lessonRepository.findOne.mockResolvedValue({
+        ...mockLesson,
+        module: { courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
+        videoDuration: 600,
+      } as any);
+      lessonProgressRepository.findOne.mockResolvedValue({
+        id: 'progress-1',
+        userId: 'user-1',
+        lessonId: 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13',
+        watchPercent: 0,
+        lastPositionSeconds: 0,
+        watchedSeconds: 0,
+        activeSeconds: 100,
+        quizAttempts: 0,
+        updatedAt: tenMinutesAgo,
+      } as any);
+      lessonProgressRepository.save.mockImplementation((value: any) => Promise.resolve({ id: 'progress-1', ...value } as any));
+      lessonProgressRepository.count.mockResolvedValue(1);
+
+      const result = await service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', {
+        activeSeconds: 100000, // inflated value
+      });
+
+      // 10 min elapsed + 60 s grace = 660 max delta on top of existing 100
+      expect(result.activeSeconds).toBeLessThanOrEqual(100 + 660);
+      expect(result.activeSeconds).toBeGreaterThanOrEqual(100);
+    });
+
+    it('throws when lesson is not found', async () => {
+      lessonRepository.findOne.mockResolvedValue(null);
+
+      await expect(
+        service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', { watchPercent: 50 }),
+      ).rejects.toThrow(HttpException);
+    });
+
+    it('completes a manual lesson only when explicitly requested', async () => {
+      lessonRepository.findOne.mockResolvedValue({
+        ...mockLesson,
+        module: { courseId: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11' },
+        completionMode: 'manual',
+        videoDuration: 600,
+      } as any);
+      lessonProgressRepository.findOne.mockResolvedValue({
+        id: 'progress-1',
+        userId: 'user-1',
+        lessonId: 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13',
+        watchPercent: 0,
+        lastPositionSeconds: 0,
+        watchedSeconds: 0,
+        activeSeconds: 0,
+        quizAttempts: 0,
+      } as any);
+      lessonProgressRepository.save.mockImplementation((value: any) => Promise.resolve({ id: 'progress-1', ...value } as any));
+      lessonProgressRepository.count.mockResolvedValue(1);
+
+      const result = await service.updateLessonProgress('user-1', 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a13', {
+        manualComplete: true,
+      });
+
+      expect(result.isCompleted).toBe(true);
     });
   });
 });

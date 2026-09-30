@@ -7,10 +7,10 @@ import { ScormPackage } from './entities/scorm-package.entity';
 import { ScormRun } from './entities/scorm-run.entity';
 import { ScormRunsController } from './scorm-runs.controller';
 import { ScormRunsService } from './scorm-runs.service';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ScormPackage, ScormRun, Progress]), EnrollmentsModule],
+  imports: [TypeOrmModule.forFeature([ScormPackage, ScormRun, LessonProgress]), EnrollmentsModule],
   controllers: [ScormController, ScormRunsController],
   providers: [ScormService, ScormRunsService],
   exports: [ScormService, ScormRunsService],

@@ -146,21 +146,21 @@ export default function LearningDashboard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+      className="bg-white rounded-md shadow-sm border border-border/60 p-6"
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
+          <p className="text-sm font-medium text-stone">{title}</p>
           <p className={`text-2xl font-bold ${color}`}>{value}</p>
           {trend && (
             <div className={`flex items-center text-sm mt-1 ${
-              trend.positive ? 'text-green-600' : 'text-red-600'
+              trend.positive ? 'text-forest-600' : 'text-terracotta-600'
             }`}>
               <span>{trend.positive ? '+' : ''}{trend.value}%</span>
             </div>
           )}
         </div>
-        <div className={`p-3 rounded-lg ${color.replace('text', 'bg').replace('600', '100')}`}>
+        <div className={`p-3 rounded-md ${color.replace('text', 'bg').replace('600', '100')}`}>
           {icon}
         </div>
       </div>
@@ -181,29 +181,29 @@ export default function LearningDashboard({
                 color="text-primary-600"
               />
               <StatCard
-                icon={<TrophyIcon className="h-6 w-6 text-green-600" />}
+                icon={<TrophyIcon className="h-6 w-6 text-forest-600" />}
                 title="Completed"
                 value={stats.coursesCompleted}
-                color="text-green-600"
+                color="text-forest-600"
               />
               <StatCard
-                icon={<ClockIcon className="h-6 w-6 text-purple-600" />}
+                icon={<ClockIcon className="h-6 w-6 text-terracotta-600" />}
                 title="Learning Time"
                 value={formatTime(stats.totalLearningTime)}
-                color="text-purple-600"
+                color="text-terracotta-600"
               />
               <StatCard
-                icon={<FireIconSolid className="h-6 w-6 text-orange-600" />}
+                icon={<FireIconSolid className="h-6 w-6 text-ochre-600" />}
                 title="Current Streak"
                 value={`${stats.currentStreak} days`}
-                color="text-orange-600"
+                color="text-ochre-600"
               />
             </div>
 
             {/* Continue Courses */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Continue Courses</h2>
+                <h2 className="text-xl font-semibold text-charcoal">Continue Courses</h2>
                 <Link href="/my-learning" className="text-primary-600 hover:text-primary-700 text-sm font-medium">
                   View All
                 </Link>
@@ -216,7 +216,7 @@ export default function LearningDashboard({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all"
+                    className="bg-white rounded-md shadow-sm border border-border/60 overflow-hidden hover:shadow-sm transition-all"
                   >
                     <div className="relative">
                       <Image
@@ -241,21 +241,21 @@ export default function LearningDashboard({
                     </div>
                     
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
+                      <h3 className="font-semibold text-charcoal mb-1 line-clamp-1">
                         {course.title}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-3">{course.instructor}</p>
+                      <p className="text-sm text-stone mb-3">{course.instructor}</p>
                       
                       {course.nextLesson && (
                         <div className="mb-3">
-                          <p className="text-xs text-gray-500 mb-1">Next lesson:</p>
-                          <p className="text-sm font-medium text-gray-700">{course.nextLesson}</p>
+                          <p className="text-xs text-stone mb-1">Next lesson:</p>
+                          <p className="text-sm font-medium text-charcoal">{course.nextLesson}</p>
                         </div>
                       )}
                       
                       <Link 
                         href={course.nextLessonId ? `/courses/${course.id}/lessons/${course.nextLessonId}` : `/courses/${course.id}`}
-                        className="w-full px-3 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 flex items-center justify-center space-x-2"
+                        className="w-full px-3 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 flex items-center justify-center space-x-2"
                       >
                         <PlayIcon className="h-4 w-4" />
                         <span>Continue</span>
@@ -269,7 +269,7 @@ export default function LearningDashboard({
             {/* Recommended Courses */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-gray-900">Recommended for You</h2>
+                <h2 className="text-xl font-semibold text-charcoal">Recommended for You</h2>
                 <Link href="/courses" className="text-primary-600 hover:text-primary-700 text-sm font-medium">
                   Browse All
                 </Link>
@@ -282,7 +282,7 @@ export default function LearningDashboard({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-all"
+                    className="bg-white rounded-md shadow-sm border border-border/60 overflow-hidden hover:shadow-sm transition-all"
                   >
                     <div className="relative">
                       <Image
@@ -300,14 +300,14 @@ export default function LearningDashboard({
                     </div>
                     
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
+                      <h3 className="font-semibold text-charcoal mb-1 line-clamp-1">
                         {course.title}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-2">{course.instructor}</p>
+                      <p className="text-sm text-stone mb-2">{course.instructor}</p>
                       
-                      <div className="flex items-center space-x-3 text-xs text-gray-500 mb-3">
+                      <div className="flex items-center space-x-3 text-xs text-stone mb-3">
                         <div className="flex items-center space-x-1">
-                          <StarIcon className="h-3 w-3 text-yellow-400" />
+                          <StarIcon className="h-3 w-3 text-ochre-400" />
                           <span>{course.rating > 0 ? course.rating.toFixed(1) : 'New'}</span>
                         </div>
                         <div className="flex items-center space-x-1">
@@ -318,7 +318,7 @@ export default function LearningDashboard({
                       
                       <Link 
                         href={`/courses/${course.id}`}
-                        className="w-full px-3 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center justify-center"
+                        className="w-full px-3 py-2 border border-border/60 text-charcoal rounded-md text-sm font-medium hover:bg-paper flex items-center justify-center"
                       >
                         View Course
                       </Link>
@@ -333,15 +333,15 @@ export default function LearningDashboard({
       case 'progress':
         return (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Learning Progress</h2>
+            <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+              <h2 className="text-xl font-semibold text-charcoal mb-6">Learning Progress</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Completion Rate</h3>
+                  <h3 className="text-lg font-medium text-charcoal mb-4">Completion Rate</h3>
                   <div className="flex items-center justify-center">
                     <div className="relative">
-                      <div className="w-32 h-32 rounded-full border-8 border-gray-200">
+                      <div className="w-32 h-32 rounded-full border-8 border-border/60">
                         <div 
                           className="absolute inset-0 rounded-full border-8 border-primary-600"
                           style={{
@@ -354,42 +354,42 @@ export default function LearningDashboard({
                         />
                       </div>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold text-gray-900">
+                        <span className="text-2xl font-bold text-charcoal">
                           {Math.round(stats.averageCompletionRate)}%
                         </span>
                       </div>
                     </div>
                   </div>
-                  <p className="text-center text-gray-600 mt-4">
+                  <p className="text-center text-stone mt-4">
                     Average completion rate across all courses
                   </p>
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Learning Streak</h3>
+                  <h3 className="text-lg font-medium text-charcoal mb-4">Learning Streak</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg">
+                    <div className="flex items-center justify-between p-4 bg-ochre-50 rounded-md">
                       <div className="flex items-center space-x-3">
-                        <FireIconSolid className="h-8 w-8 text-orange-600" />
+                        <FireIconSolid className="h-8 w-8 text-ochre-600" />
                         <div>
-                          <p className="font-semibold text-gray-900">Current Streak</p>
-                          <p className="text-sm text-gray-600">Keep it going!</p>
+                          <p className="font-semibold text-charcoal">Current Streak</p>
+                          <p className="text-sm text-stone">Keep it going!</p>
                         </div>
                       </div>
-                      <span className="text-2xl font-bold text-orange-600">
+                      <span className="text-2xl font-bold text-ochre-600">
                         {stats.currentStreak}
                       </span>
                     </div>
                     
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between p-4 bg-paper rounded-md">
                       <div className="flex items-center space-x-3">
-                        <TrophyIconSolid className="h-8 w-8 text-yellow-600" />
+                        <TrophyIconSolid className="h-8 w-8 text-ochre-600" />
                         <div>
-                          <p className="font-semibold text-gray-900">Longest Streak</p>
-                          <p className="text-sm text-gray-600">Your personal best</p>
+                          <p className="font-semibold text-charcoal">Longest Streak</p>
+                          <p className="text-sm text-stone">Your personal best</p>
                         </div>
                       </div>
-                      <span className="text-2xl font-bold text-yellow-600">
+                      <span className="text-2xl font-bold text-ochre-600">
                         {stats.longestStreak}
                       </span>
                     </div>
@@ -398,29 +398,29 @@ export default function LearningDashboard({
               </div>
             </div>
             
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Recent Activity</h3>
+            <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+              <h3 className="text-lg font-medium text-charcoal mb-4">Recent Activity</h3>
               <div className="space-y-3">
                 {recentCourses.map((course) => (
-                  <div key={course.id} className="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg">
+                  <div key={course.id} className="flex items-center space-x-4 p-3 hover:bg-paper rounded-md">
                     <Image
                       src={course.coverImage}
                       alt={course.title}
                       width={48}
                       height={48}
-                      className="w-12 h-12 rounded-lg object-cover"
+                      className="w-12 h-12 rounded-md object-cover"
                     />
                     <div className="flex-1">
-                      <p className="font-medium text-gray-900">{course.title}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="font-medium text-charcoal">{course.title}</p>
+                      <p className="text-sm text-stone">
                         Last accessed {formatDate(course.lastAccessed)}
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-charcoal">
                         {Math.round(course.progress)}%
                       </p>
-                      <div className="w-16 bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div className="w-16 bg-forest-100 rounded-full h-1.5 mt-1">
                         <div 
                           className="bg-primary-500 h-1.5 rounded-full"
                           style={{ width: `${course.progress}%` }}
@@ -437,8 +437,8 @@ export default function LearningDashboard({
       case 'achievements':
         return (
           <div className="space-y-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Achievements</h2>
+            <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+              <h2 className="text-xl font-semibold text-charcoal mb-6">Achievements</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {achievements.map((achievement, index) => (
@@ -447,39 +447,39 @@ export default function LearningDashboard({
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.1 }}
-                    className={`relative rounded-xl p-6 text-center ${
+                    className={`relative rounded-md p-6 text-center ${
                       achievement.earned
-                        ? 'bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200'
-                        : 'bg-gray-50 border-2 border-gray-200'
+                        ? 'bg-gradient-to-br from-ochre-50 to-ochre-50 border-2 border-ochre-200'
+                        : 'bg-paper border-2 border-border/60'
                     }`}
                   >
                     <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 ${
-                      achievement.earned ? 'bg-yellow-200' : 'bg-gray-200'
+                      achievement.earned ? 'bg-ochre-200' : 'bg-forest-100'
                     }`}>
                       {achievement.icon}
                     </div>
                     
                     <h3 className={`font-semibold mb-2 ${
-                      achievement.earned ? 'text-gray-900' : 'text-gray-500'
+                      achievement.earned ? 'text-charcoal' : 'text-stone'
                     }`}>
                       {achievement.title}
                     </h3>
                     
                     <p className={`text-sm mb-3 ${
-                      achievement.earned ? 'text-gray-700' : 'text-gray-400'
+                      achievement.earned ? 'text-charcoal' : 'text-pewter'
                     }`}>
                       {achievement.description}
                     </p>
                     
                     {achievement.earned ? (
-                      <div className="flex items-center justify-center space-x-1 text-yellow-600">
+                      <div className="flex items-center justify-center space-x-1 text-ochre-600">
                         <TrophyIconSolid className="h-4 w-4" />
                         <span className="text-sm font-medium">
                           {achievement.earnedDate && formatDate(achievement.earnedDate)}
                         </span>
                       </div>
                     ) : (
-                      <div className="text-gray-400">
+                      <div className="text-pewter">
                         <SparklesIcon className="h-4 w-4 mx-auto" />
                         <span className="text-xs">Locked</span>
                       </div>
@@ -489,17 +489,17 @@ export default function LearningDashboard({
               </div>
             </div>
             
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Certificates Earned</h3>
+            <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+              <h3 className="text-lg font-medium text-charcoal mb-4">Certificates Earned</h3>
               <div className="flex items-center justify-center py-8">
                 <div className="text-center">
                   <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 text-primary-600 rounded-full mb-4">
                     <TrophyIconSolid className="h-10 w-10" />
                   </div>
-                  <p className="text-2xl font-bold text-gray-900 mb-2">
+                  <p className="text-2xl font-bold text-charcoal mb-2">
                     {stats.certificatesEarned}
                   </p>
-                  <p className="text-gray-600">Certificates earned</p>
+                  <p className="text-stone">Certificates earned</p>
                 </div>
               </div>
             </div>
@@ -512,14 +512,14 @@ export default function LearningDashboard({
             {loadingAi ? (
               <div className="flex items-center justify-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-                <span className="ml-3 text-gray-600">Loading AI insights...</span>
+                <span className="ml-3 text-stone">Loading AI insights...</span>
               </div>
             ) : (
               <>
                 {/* AI Progress Insights */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-semibold text-gray-900">AI Progress Insights</h2>
+                    <h2 className="text-xl font-semibold text-charcoal">AI Progress Insights</h2>
                     <button
                       onClick={loadAiInsights}
                       className="flex items-center space-x-2 text-primary-600 hover:text-primary-700 text-sm"
@@ -536,54 +536,54 @@ export default function LearningDashboard({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`p-4 rounded-lg border-2 ${
+                        className={`p-4 rounded-md border-2 ${
                           insight.trend === 'improving' 
-                            ? 'bg-green-50 border-green-200' 
+                            ? 'bg-forest-50 border-forest-200' 
                             : insight.trend === 'declining'
-                            ? 'bg-red-50 border-red-200'
-                            : 'bg-yellow-50 border-yellow-200'
+                            ? 'bg-terracotta-50 border-terracotta-200'
+                            : 'bg-ochre-50 border-ochre-200'
                         }`}
                       >
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center space-x-3">
-                            <div className={`p-2 rounded-lg ${
+                            <div className={`p-2 rounded-md ${
                               insight.trend === 'improving' 
-                                ? 'bg-green-200' 
+                                ? 'bg-forest-200' 
                                 : insight.trend === 'declining'
-                                ? 'bg-red-200'
-                                : 'bg-yellow-200'
+                                ? 'bg-terracotta-200'
+                                : 'bg-ochre-200'
                             }`}>
                               {insight.trend === 'improving' ? (
-                                <ChartBarIcon className="h-5 w-5 text-green-700" />
+                                <ChartBarIcon className="h-5 w-5 text-forest-700" />
                               ) : insight.trend === 'declining' ? (
-                                <ArrowPathIcon className="h-5 w-5 text-red-700" />
+                                <ArrowPathIcon className="h-5 w-5 text-terracotta-700" />
                               ) : (
-                                <TagIcon className="h-5 w-5 text-yellow-700" />
+                                <TagIcon className="h-5 w-5 text-ochre-700" />
                               )}
                             </div>
                             <div>
-                              <h3 className="font-semibold text-gray-900">{insight.area}</h3>
-                              <p className="text-sm text-gray-600">Score: {insight.score}%</p>
+                              <h3 className="font-semibold text-charcoal">{insight.area}</h3>
+                              <p className="text-sm text-stone">Score: {insight.score}%</p>
                             </div>
                           </div>
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                             insight.trend === 'improving' 
-                              ? 'bg-green-200 text-green-800' 
+                              ? 'bg-forest-200 text-forest-800' 
                               : insight.trend === 'declining'
-                              ? 'bg-red-200 text-red-800'
-                              : 'bg-yellow-200 text-yellow-800'
+                              ? 'bg-terracotta-200 text-terracotta-800'
+                              : 'bg-ochre-200 text-ochre-800'
                           }`}>
                             {insight.trend}
                           </span>
                         </div>
                         
-                        <p className="text-sm text-gray-700 mb-3">{insight.recommendation}</p>
+                        <p className="text-sm text-charcoal mb-3">{insight.recommendation}</p>
                         
                         <div>
-                          <p className="text-xs font-medium text-gray-900 mb-2">Next Steps:</p>
+                          <p className="text-xs font-medium text-charcoal mb-2">Next Steps:</p>
                           <ul className="space-y-1">
                             {insight.nextSteps.map((step, stepIndex) => (
-                              <li key={stepIndex} className="flex items-center space-x-2 text-xs text-gray-600">
+                              <li key={stepIndex} className="flex items-center space-x-2 text-xs text-stone">
                                 <CheckCircleIcon className="h-3 w-3 text-primary-600" />
                                 <span>{step}</span>
                               </li>
@@ -596,8 +596,8 @@ export default function LearningDashboard({
                 </div>
 
                 {/* AI Recommendations */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-6">Personalized Recommendations</h2>
+                <div className="bg-white rounded-md shadow-sm border border-border/60 p-6">
+                  <h2 className="text-xl font-semibold text-charcoal mb-6">Personalized Recommendations</h2>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {aiRecommendations.map((rec, index) => (
@@ -606,45 +606,45 @@ export default function LearningDashboard({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-primary-200 rounded-xl p-5"
+                        className="bg-gradient-to-br from-forest-50 to-forest-50 border border-primary-200 rounded-md p-5"
                       >
                         <div className="flex items-center justify-between mb-3">
                           <span className={`px-2 py-1 text-xs font-medium rounded ${
                             rec.difficulty === 'beginner' 
-                              ? 'bg-green-200 text-green-800'
+                              ? 'bg-forest-200 text-forest-800'
                               : rec.difficulty === 'intermediate'
-                              ? 'bg-yellow-200 text-yellow-800'
-                              : 'bg-red-200 text-red-800'
+                              ? 'bg-ochre-200 text-ochre-800'
+                              : 'bg-terracotta-200 text-terracotta-800'
                           }`}>
                             {rec.difficulty}
                           </span>
-                          <span className="text-xs text-gray-500">{rec.estimatedTime}</span>
+                          <span className="text-xs text-stone">{rec.estimatedTime}</span>
                         </div>
                         
                         <div className="flex items-center space-x-2 mb-3">
-                          <div className="p-2 bg-blue-200 rounded-lg">
+                          <div className="p-2 bg-forest-200 rounded-md">
                             <AcademicCapIcon className="h-4 w-4 text-primary-700" />
                           </div>
                           <span className={`text-xs font-medium uppercase tracking-wide ${
                             rec.priority === 'high' 
-                              ? 'text-red-600'
+                              ? 'text-terracotta-600'
                               : rec.priority === 'medium'
-                              ? 'text-yellow-600'
-                              : 'text-gray-600'
+                              ? 'text-ochre-600'
+                              : 'text-stone'
                           }`}>
                             {rec.priority} priority
                           </span>
                         </div>
                         
-                        <h3 className="font-semibold text-gray-900 mb-2">{rec.title}</h3>
-                        <p className="text-sm text-gray-700 mb-3">{rec.description}</p>
+                        <h3 className="font-semibold text-charcoal mb-2">{rec.title}</h3>
+                        <p className="text-sm text-charcoal mb-3">{rec.description}</p>
                         
-                        <div className="bg-primary-100 rounded-lg p-3 mb-4">
+                        <div className="bg-primary-100 rounded-md p-3 mb-4">
                           <p className="text-xs font-medium text-primary-900 mb-1">Why this is recommended:</p>
                           <p className="text-xs text-primary-700">{rec.reason}</p>
                         </div>
                         
-                        <button className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">
+                        <button className="w-full px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700 transition-colors">
                           Start Learning
                         </button>
                       </motion.div>
@@ -653,7 +653,7 @@ export default function LearningDashboard({
                 </div>
 
                 {/* AI Feature Overview */}
-                <div className="bg-gradient-to-r from-purple-600 to-primary-600 rounded-xl p-6 text-white">
+                <div className="bg-gradient-to-r from-terracotta-600 to-primary-600 rounded-md p-6 text-white">
                   <div className="flex items-center space-x-3 mb-4">
                     <SparklesIcon className="h-8 w-8" />
                     <h2 className="text-xl font-semibold">AI Learning Companion</h2>
@@ -662,17 +662,17 @@ export default function LearningDashboard({
                     Your personal AI assistant helps you learn smarter with personalized insights, adaptive difficulty, and real-time support.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-white/10 rounded-lg p-4">
+                    <div className="bg-white/10 rounded-md p-4">
                       <LightBulbIcon className="h-6 w-6 mb-2" />
                       <h3 className="font-medium mb-1">Smart Insights</h3>
                       <p className="text-sm text-white/80">AI analyzes your progress and provides actionable recommendations</p>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-4">
+                    <div className="bg-white/10 rounded-md p-4">
                       <TagIcon className="h-6 w-6 mb-2" />
                       <h3 className="font-medium mb-1">Adaptive Learning</h3>
                       <p className="text-sm text-white/80">Difficulty adjusts automatically based on your performance</p>
                     </div>
-                    <div className="bg-white/10 rounded-lg p-4">
+                    <div className="bg-white/10 rounded-md p-4">
                       <CpuChipIcon className="h-6 w-6 mb-2" />
                       <h3 className="font-medium mb-1">24/7 Support</h3>
                       <p className="text-sm text-white/80">Get instant answers to your questions from your AI companion</p>
@@ -693,13 +693,13 @@ export default function LearningDashboard({
     <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">My Learning</h1>
-        <p className="text-gray-600">Track your progress and continue your learning journey</p>
+        <h1 className="text-3xl font-bold text-charcoal mb-2">My Learning</h1>
+        <p className="text-stone">Track your progress and continue your learning journey</p>
       </div>
 
       {/* Tabs */}
       <div className="mb-8">
-        <div className="border-b border-gray-200">
+        <div className="border-b border-border/60">
           <nav className="flex space-x-8">
             {[
               { id: 'overview', label: 'Overview', icon: <ChartBarIcon className="h-5 w-5" /> },
@@ -713,7 +713,7 @@ export default function LearningDashboard({
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 {tab.icon}

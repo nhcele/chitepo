@@ -63,7 +63,7 @@ test.describe('Performance Tests', () => {
         const startTime = Date.now();
         
         await page.goto('/auth/login');
-        await page.fill('input[name="email"]', 'instructor@mindelta.com');
+        await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
         await page.fill('input[name="password"]', 'password123');
         await page.click('button[type="submit"]');
         await page.waitForURL('/dashboard');
@@ -120,7 +120,7 @@ test.describe('Performance Tests', () => {
   test('should handle video player performance', async ({ page }) => {
     // Login and navigate to course
     await page.goto('/auth/login');
-    await page.fill('input[name="email"]', 'learner@mindelta.com');
+    await page.fill('input[name="email"]', 'learner@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     await page.waitForURL('/dashboard');
@@ -159,7 +159,7 @@ test.describe('Performance Tests', () => {
   test('should handle AI companion response time', async ({ page }) => {
     // Login and navigate to AI companion
     await page.goto('/auth/login');
-    await page.fill('input[name="email"]', 'learner@mindelta.com');
+    await page.fill('input[name="email"]', 'learner@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     await page.waitForURL('/dashboard');
@@ -225,7 +225,7 @@ test.describe('Performance Tests', () => {
     await page.goto('/auth/login');
     
     // Try to login while offline
-    await page.fill('input[name="email"]', 'instructor@mindelta.com');
+    await page.fill('input[name="email"]', 'simbarashe.mumbengegwi@chitepo.co.zw');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button[type="submit"]');
     

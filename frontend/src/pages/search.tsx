@@ -53,27 +53,27 @@ export default function SearchPage() {
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               placeholder="Search courses..."
-              className="flex-1 rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 rounded-md border border-border/60 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-forest-500"
               aria-label="Search courses"
             />
             <button
               onClick={() => handleSearch()}
-              className="inline-flex items-center px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700"
+              className="inline-flex items-center px-4 py-2 rounded-md bg-forest-600 text-white hover:bg-forest-700"
             >
               Search
             </button>
           </div>
-          {loading && <p className="text-gray-600">Searching...</p>}
-          {error && <p className="text-red-600">{error}</p>}
+          {loading && <p className="text-stone">Searching...</p>}
+          {error && <p className="text-terracotta-600">{error}</p>}
           <ul className="space-y-4">
             {results.map((c) => (
-              <li key={c.id} className="rounded-lg border border-gray-200 p-4 bg-white">
+              <li key={c.id} className="rounded-md border border-border/60 p-4 bg-white">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-lg font-semibold">{c.title}</h2>
-                    <p className="text-gray-600 text-sm line-clamp-2">{c.description}</p>
+                    <p className="text-stone text-sm line-clamp-2">{c.description}</p>
                   </div>
-                  <Link href={`/courses/${c.id}`} className="text-indigo-600 hover:text-indigo-800 text-sm">
+                  <Link href={`/courses/${c.id}`} className="text-forest-600 hover:text-forest-800 text-sm">
                     View →
                   </Link>
                 </div>

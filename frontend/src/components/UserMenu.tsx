@@ -22,7 +22,7 @@ export default function UserMenu({ user }: UserMenuProps) {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-full bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+        <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-full bg-white px-3 py-2 text-sm font-semibold text-charcoal shadow-sm ring-1 ring-inset ring-border hover:bg-paper">
           {user.avatar ? (
             <Image
               className="h-8 w-8 rounded-full"
@@ -32,10 +32,10 @@ export default function UserMenu({ user }: UserMenuProps) {
               height={32}
             />
           ) : (
-            <UserCircleIcon className="h-8 w-8 text-gray-400" />
+            <UserCircleIcon className="h-8 w-8 text-pewter" />
           )}
           <span className="hidden sm:block ml-2">{user.name}</span>
-          <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" />
+          <ChevronDownIcon className="-mr-1 h-5 w-5 text-pewter" />
         </Menu.Button>
       </div>
 
@@ -48,10 +48,10 @@ export default function UserMenu({ user }: UserMenuProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-border/60 rounded-md bg-white shadow-sm ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="px-4 py-3">
             <p className="text-sm">Signed in as</p>
-            <p className="text-sm font-medium text-gray-900 truncate">{user.email}</p>
+            <p className="text-sm font-medium text-charcoal truncate">{user.email}</p>
           </div>
           
           <div className="py-1">
@@ -60,10 +60,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                 <Link
                   href="/dashboard"
                   className={`${
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                    active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                   } group flex items-center px-4 py-2 text-sm`}
                 >
-                  <UserCircleIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                  <UserCircleIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                   Dashboard
                 </Link>
               )}
@@ -73,10 +73,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                 <Link
                   href="/profile"
                   className={`${
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                    active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                   } group flex items-center px-4 py-2 text-sm`}
                 >
-                  <Cog6ToothIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                  <Cog6ToothIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                   Profile
                 </Link>
               )}
@@ -90,10 +90,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <Link
                     href="/instructor/dashboard"
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                     } group flex items-center px-4 py-2 text-sm`}
                   >
-                    <ChartBarIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    <ChartBarIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                     Instructor Dashboard
                   </Link>
                 )}
@@ -104,17 +104,17 @@ export default function UserMenu({ user }: UserMenuProps) {
           {isAdmin && (
             <div className="py-1">
               <div className="px-4 py-2">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Admin</p>
+                <p className="text-xs font-semibold text-pewter uppercase tracking-wider">Admin</p>
               </div>
               <Menu.Item>
                 {({ active }) => (
                   <Link
                     href="/admin/users"
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                     } group flex items-center px-4 py-2 text-sm`}
                   >
-                    <UserGroupIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    <UserGroupIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                     User Management
                   </Link>
                 )}
@@ -124,10 +124,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <Link
                     href="/admin/analytics"
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                     } group flex items-center px-4 py-2 text-sm`}
                   >
-                    <ChartBarIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    <ChartBarIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                     Analytics
                   </Link>
                 )}
@@ -137,10 +137,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <Link
                     href="/admin/settings"
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                     } group flex items-center px-4 py-2 text-sm`}
                   >
-                    <AdjustmentsHorizontalIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    <AdjustmentsHorizontalIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                     Admin Settings
                   </Link>
                 )}
@@ -150,10 +150,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <Link
                     href="/admin/approval-queue"
                     className={`${
-                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                      active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                     } group flex items-center px-4 py-2 text-sm`}
                   >
-                    <ShieldCheckIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                    <ShieldCheckIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                     Approval Queue
                   </Link>
                 )}
@@ -167,10 +167,10 @@ export default function UserMenu({ user }: UserMenuProps) {
                 <button
                   onClick={logout}
                   className={`${
-                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                    active ? 'bg-forest-100 text-charcoal' : 'text-charcoal'
                   } group flex w-full items-center px-4 py-2 text-sm`}
                 >
-                  <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500" />
+                  <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5 text-pewter group-hover:text-stone" />
                   Sign out
                 </button>
               )}

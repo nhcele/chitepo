@@ -227,8 +227,8 @@ export default function RoleManagement() {
       <AdminLayout title="Access Denied">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600">Access Denied</h1>
-            <p className="text-gray-600 mt-2">You do not have permission to access this page.</p>
+            <h1 className="text-2xl font-bold text-terracotta-600">Access Denied</h1>
+            <p className="text-stone mt-2">You do not have permission to access this page.</p>
           </div>
         </div>
       </AdminLayout>
@@ -244,8 +244,8 @@ export default function RoleManagement() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Roles & Learning</h1>
-          <p className="text-gray-600 mt-2">Manage job roles, assign users, configure learning paths, and track compliance</p>
+          <h1 className="text-3xl font-bold text-charcoal">Roles & Learning</h1>
+          <p className="text-stone mt-2">Manage job roles, assign users, configure learning paths, and track compliance</p>
         </div>
 
         {/* Quick Stats */}
@@ -279,7 +279,7 @@ export default function RoleManagement() {
         )}
 
         {/* Navigation Tabs */}
-        <div className="border-b border-gray-200 mb-8">
+        <div className="border-b border-border/60 mb-8">
           <nav className="-mb-px flex space-x-8">
             {[
               { id: 'overview', name: 'Role Overview', icon: UserGroupIcon },
@@ -294,7 +294,7 @@ export default function RoleManagement() {
                 className={`flex items-center py-2 px-1 border-b-2 font-medium text-sm ${
                   activeTab === tab.id
                     ? 'border-primary-500 text-primary-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    : 'border-transparent text-stone hover:text-charcoal hover:border-border/60'
                 }`}
               >
                 <tab.icon className="w-5 h-5 mr-2" />
@@ -308,7 +308,7 @@ export default function RoleManagement() {
         {activeTab === 'overview' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">Role Distribution</h2>
+              <h2 className="text-lg font-semibold text-charcoal">Role Distribution</h2>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setShowCreateRoleModal(true)}
@@ -319,14 +319,14 @@ export default function RoleManagement() {
                 </button>
                 <button
                   onClick={() => setShowCsvModal(true)}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center"
+                  className="px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 flex items-center"
                 >
                   <ArrowUpTrayIcon className="w-4 h-4 mr-2" />
                   Upload CSV
                 </button>
                 <button
                   onClick={() => handleExport('csv')}
-                  className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center"
+                  className="px-4 py-2 bg-stone text-white rounded-md hover:bg-ink-800 flex items-center"
                 >
                   <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
                   Export
@@ -343,26 +343,26 @@ export default function RoleManagement() {
                 {(roleOverview || []).map((role) => (
                   <div
                     key={role.roleName}
-                    className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow border border-gray-200"
+                    className="bg-white rounded-md shadow p-6 hover:shadow-sm transition-shadow border border-border/60"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <h3 
                         onClick={() => handleRoleSelect(role.roleName)}
-                        className="text-lg font-semibold text-gray-900 cursor-pointer hover:text-primary-600"
+                        className="text-lg font-semibold text-charcoal cursor-pointer hover:text-primary-600"
                       >
                         {role.roleName}
                       </h3>
                       <div className="flex items-center space-x-2">
                         <button
                           onClick={(e) => { e.stopPropagation(); openEditRoleModal(role.roleName); }}
-                          className="p-1 text-gray-400 hover:text-blue-600"
+                          className="p-1 text-pewter hover:text-forest-600"
                           title="Edit role"
                         >
                           <PencilIcon className="w-5 h-5" />
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); openDeleteRoleModal(role.roleName); }}
-                          className="p-1 text-gray-400 hover:text-red-600"
+                          className="p-1 text-pewter hover:text-terracotta-600"
                           title="Delete role"
                         >
                           <TrashIcon className="w-5 h-5" />
@@ -371,41 +371,41 @@ export default function RoleManagement() {
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Total Users:</span>
+                        <span className="text-stone">Total Users:</span>
                         <span className="font-medium">{role.totalUsers}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Active:</span>
-                        <span className="text-green-600 font-medium">{role.activeUsers}</span>
+                        <span className="text-stone">Active:</span>
+                        <span className="text-forest-600 font-medium">{role.activeUsers}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Recent Assignments:</span>
-                        <span className="text-blue-600 font-medium">{role.recentAssignments}</span>
+                        <span className="text-stone">Recent Assignments:</span>
+                        <span className="text-forest-600 font-medium">{role.recentAssignments}</span>
                       </div>
                       {role.complianceRate && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-gray-600">Compliance:</span>
+                          <span className="text-stone">Compliance:</span>
                           <span className={`font-medium ${
-                            role.complianceRate >= 90 ? 'text-green-600' :
-                            role.complianceRate >= 70 ? 'text-yellow-600' : 'text-red-600'
+                            role.complianceRate >= 90 ? 'text-forest-600' :
+                            role.complianceRate >= 70 ? 'text-ochre-600' : 'text-terracotta-600'
                           }`}>
                             {role.complianceRate}%
                           </span>
                         </div>
                       )}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="mt-4 pt-4 border-t border-border/60">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500">Click to view users</span>
+                        <span className="text-xs text-stone">Click to view users</span>
                         <div className="flex -space-x-2">
                           {[...Array(Math.min(3, role.totalUsers))].map((_, i) => (
                             <div
                               key={i}
-                              className="w-6 h-6 bg-gray-300 rounded-full border-2 border-white"
+                              className="w-6 h-6 bg-stone rounded-full border-2 border-white"
                             />
                           ))}
                           {role.totalUsers > 3 && (
-                            <div className="w-6 h-6 bg-gray-400 rounded-full border-2 border-white flex items-center justify-center">
+                            <div className="w-6 h-6 bg-stone rounded-full border-2 border-white flex items-center justify-center">
                               <span className="text-xs text-white">+{role.totalUsers - 3}</span>
                             </div>
                           )}
@@ -422,7 +422,7 @@ export default function RoleManagement() {
         {activeTab === 'users' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">User Management</h2>
+              <h2 className="text-lg font-semibold text-charcoal">User Management</h2>
               <div className="flex items-center space-x-4">
                 <div className="relative">
                   <input
@@ -433,19 +433,19 @@ export default function RoleManagement() {
                       setSearchQuery(e.target.value);
                       setSearchPage(1);
                     }}
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
-                  <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                  <MagnifyingGlassIcon className="absolute left-3 top-2.5 w-5 h-5 text-pewter" />
                 </div>
                 {selectedRole && (
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-600">Filter:</span>
+                    <span className="text-sm text-stone">Filter:</span>
                     <span className="px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">
                       {selectedRole}
                     </span>
                     <button
                       onClick={() => setSelectedRole('')}
-                      className="text-gray-400 hover:text-gray-600"
+                      className="text-pewter hover:text-stone"
                     >
                       <XCircleIcon className="w-5 h-5" />
                     </button>
@@ -455,70 +455,70 @@ export default function RoleManagement() {
             </div>
 
             {/* Users List */}
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+            <div className="bg-white rounded-md shadow overflow-hidden">
+              <table className="min-w-full divide-y divide-border/60">
+                <thead className="bg-paper">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Email
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Current Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Department
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-border/60">
                   {(searchQuery ? (searchResults || []) : (roleUsers || [])).map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50">
+                    <tr key={user.id} className="hover:bg-paper">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                            <UserIcon className="w-4 h-4 text-gray-600" />
+                          <div className="w-8 h-8 bg-forest-100 rounded-full flex items-center justify-center">
+                            <UserIcon className="w-4 h-4 text-stone" />
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-charcoal">
                               {user.firstName} {user.lastName}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                         {user.email}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {user.jobRole ? (
-                          <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
+                          <span className="px-2 py-1 text-xs font-medium rounded-full bg-forest-100 text-forest-800">
                             {user.jobRole}
                           </span>
                         ) : (
-                          <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
+                          <span className="px-2 py-1 text-xs font-medium rounded-full bg-forest-100 text-charcoal">
                             Unassigned
                           </span>
                         )}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                         {user.department || 'N/A'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {user.isActive ? (
-                          <span className="flex items-center text-green-600">
+                          <span className="flex items-center text-forest-600">
                             <CheckCircleIcon className="w-4 h-4 mr-1" />
                             Active
                           </span>
                         ) : (
-                          <span className="flex items-center text-red-600">
+                          <span className="flex items-center text-terracotta-600">
                             <XCircleIcon className="w-4 h-4 mr-1" />
                             Inactive
                           </span>
@@ -543,57 +543,57 @@ export default function RoleManagement() {
         {activeTab === 'assignments' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">Assignment History</h2>
+              <h2 className="text-lg font-semibold text-charcoal">Assignment History</h2>
             </div>
 
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+            <div className="bg-white rounded-md shadow overflow-hidden">
+              <table className="min-w-full divide-y divide-border/60">
+                <thead className="bg-paper">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       User
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Previous Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       New Role
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Assigned By
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-stone uppercase tracking-wider">
                       Date
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white divide-y divide-border/60">
                   {(assignmentHistory || []).map((assignment) => (
-                    <tr key={assignment.id} className="hover:bg-gray-50">
+                    <tr key={assignment.id} className="hover:bg-paper">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-charcoal">
                             {assignment.userName}
                           </div>
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-stone">
                             {assignment.userEmail}
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800">
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-forest-100 text-charcoal">
                           {assignment.previousRole}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-forest-100 text-forest-800">
                           {assignment.newRole}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                         {assignment.assignedByName}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-stone">
                         {new Date(assignment.assignedAt).toLocaleDateString()}
                       </td>
                     </tr>
@@ -606,91 +606,91 @@ export default function RoleManagement() {
 
         {activeTab === 'learning' && (
           <div>
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Role-Based Learning Paths</h2>
-              <p className="text-gray-600 mb-6">
+            <div className="bg-white rounded-md shadow p-6">
+              <h2 className="text-lg font-semibold text-charcoal mb-4">Role-Based Learning Paths</h2>
+              <p className="text-stone mb-6">
                 Configure mandatory and recommended learning paths for each job role. Assign courses, set compliance deadlines, and track completion rates.
               </p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Learning Path Configuration */}
-                <div className="border border-gray-200 rounded-lg p-4">
+                <div className="border border-border/60 rounded-md p-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-gray-900">Learning Paths</h3>
+                    <h3 className="font-semibold text-charcoal">Learning Paths</h3>
                     <button className="px-3 py-1 bg-primary-600 text-white text-sm rounded-md hover:bg-primary-700">
                       <PlusIcon className="w-4 h-4 inline mr-1" />
                       Add Path
                     </button>
                   </div>
                   <div className="space-y-3">
-                    <div className="p-3 bg-gray-50 rounded-md">
+                    <div className="p-3 bg-paper rounded-md">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-sm">Teller Onboarding</p>
-                          <p className="text-xs text-gray-500">5 courses • 12 hours</p>
+                          <p className="text-xs text-stone">5 courses • 12 hours</p>
                         </div>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                        <span className="px-2 py-1 bg-forest-100 text-forest-800 text-xs rounded-full">Active</span>
                       </div>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-md">
+                    <div className="p-3 bg-paper rounded-md">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-sm">Compliance Officer Track</p>
-                          <p className="text-xs text-gray-500">8 courses • 24 hours</p>
+                          <p className="text-xs text-stone">8 courses • 24 hours</p>
                         </div>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Active</span>
+                        <span className="px-2 py-1 bg-forest-100 text-forest-800 text-xs rounded-full">Active</span>
                       </div>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-md">
+                    <div className="p-3 bg-paper rounded-md">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="font-medium text-sm">Branch Manager Development</p>
-                          <p className="text-xs text-gray-500">10 courses • 30 hours</p>
+                          <p className="text-xs text-stone">10 courses • 30 hours</p>
                         </div>
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Draft</span>
+                        <span className="px-2 py-1 bg-ochre-100 text-ochre-800 text-xs rounded-full">Draft</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Compliance Tracking */}
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-900 mb-4">Compliance Overview</h3>
+                <div className="border border-border/60 rounded-md p-4">
+                  <h3 className="font-semibold text-charcoal mb-4">Compliance Overview</h3>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Teller</span>
+                        <span className="text-stone">Teller</span>
                         <span className="font-medium">85%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '85%' }}></div>
+                      <div className="w-full bg-forest-100 rounded-full h-2">
+                        <div className="bg-forest-500 h-2 rounded-full" style={{ width: '85%' }}></div>
                       </div>
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Compliance Officer</span>
+                        <span className="text-stone">Compliance Officer</span>
                         <span className="font-medium">92%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-500 h-2 rounded-full" style={{ width: '92%' }}></div>
+                      <div className="w-full bg-forest-100 rounded-full h-2">
+                        <div className="bg-forest-500 h-2 rounded-full" style={{ width: '92%' }}></div>
                       </div>
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Branch Manager</span>
+                        <span className="text-stone">Branch Manager</span>
                         <span className="font-medium">68%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '68%' }}></div>
+                      <div className="w-full bg-forest-100 rounded-full h-2">
+                        <div className="bg-ochre-500 h-2 rounded-full" style={{ width: '68%' }}></div>
                       </div>
                     </div>
                     <div>
                       <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Risk Analyst</span>
+                        <span className="text-stone">Risk Analyst</span>
                         <span className="font-medium">78%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '78%' }}></div>
+                      <div className="w-full bg-forest-100 rounded-full h-2">
+                        <div className="bg-ochre-500 h-2 rounded-full" style={{ width: '78%' }}></div>
                       </div>
                     </div>
                   </div>
@@ -698,19 +698,19 @@ export default function RoleManagement() {
               </div>
 
               {/* Quick Actions */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-3">Quick Actions</h3>
+              <div className="mt-6 pt-6 border-t border-border/60">
+                <h3 className="font-semibold text-charcoal mb-3">Quick Actions</h3>
                 <div className="flex flex-wrap gap-3">
-                  <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm">
+                  <button className="px-4 py-2 bg-white border border-border/60 text-charcoal rounded-md hover:bg-paper text-sm">
                     Configure Learning Paths
                   </button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm">
+                  <button className="px-4 py-2 bg-white border border-border/60 text-charcoal rounded-md hover:bg-paper text-sm">
                     Set Compliance Deadlines
                   </button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm">
+                  <button className="px-4 py-2 bg-white border border-border/60 text-charcoal rounded-md hover:bg-paper text-sm">
                     View Detailed Reports
                   </button>
-                  <button className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm">
+                  <button className="px-4 py-2 bg-white border border-border/60 text-charcoal rounded-md hover:bg-paper text-sm">
                     Export Learning Data
                   </button>
                 </div>
@@ -722,8 +722,8 @@ export default function RoleManagement() {
         {activeTab === 'stats' && roleStats && (
           <div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Role Distribution</h3>
+              <div className="bg-white rounded-md shadow p-6">
+                <h3 className="text-lg font-semibold text-charcoal mb-4">Role Distribution</h3>
                 <div className="space-y-3">
                   {(roleStats?.roleDistribution || [])
                     .filter(role => role.totalUsers > 0)
@@ -732,10 +732,10 @@ export default function RoleManagement() {
                       <div key={role.roleName} className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-gray-900">{role.roleName}</span>
-                            <span className="text-sm text-gray-500">{role.totalUsers} users</span>
+                            <span className="text-sm font-medium text-charcoal">{role.roleName}</span>
+                            <span className="text-sm text-stone">{role.totalUsers} users</span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="w-full bg-forest-100 rounded-full h-2">
                             <div
                               className="bg-primary-600 h-2 rounded-full"
                               style={{ width: `${(role.totalUsers / roleStats.totalUsers) * 100}%` }}
@@ -747,8 +747,8 @@ export default function RoleManagement() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-lg shadow p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Compliance by Role</h3>
+              <div className="bg-white rounded-md shadow p-6">
+                <h3 className="text-lg font-semibold text-charcoal mb-4">Compliance by Role</h3>
                 <div className="space-y-3">
                   {(roleStats?.roleDistribution || [])
                     .filter(role => role.totalUsers > 0 && role.complianceRate)
@@ -757,19 +757,19 @@ export default function RoleManagement() {
                       <div key={role.roleName} className="flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-gray-900">{role.roleName}</span>
+                            <span className="text-sm font-medium text-charcoal">{role.roleName}</span>
                             <span className={`text-sm font-medium ${
-                              (role.complianceRate || 0) >= 90 ? 'text-green-600' :
-                              (role.complianceRate || 0) >= 70 ? 'text-yellow-600' : 'text-red-600'
+                              (role.complianceRate || 0) >= 90 ? 'text-forest-600' :
+                              (role.complianceRate || 0) >= 70 ? 'text-ochre-600' : 'text-terracotta-600'
                             }`}>
                               {role.complianceRate}%
                             </span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="w-full bg-forest-100 rounded-full h-2">
                             <div
                               className={`h-2 rounded-full ${
-                                (role.complianceRate || 0) >= 90 ? 'bg-green-500' :
-                                (role.complianceRate || 0) >= 70 ? 'bg-yellow-500' : 'bg-red-500'
+                                (role.complianceRate || 0) >= 90 ? 'bg-forest-500' :
+                                (role.complianceRate || 0) >= 70 ? 'bg-ochre-500' : 'bg-terracotta-500'
                               }`}
                               style={{ width: `${role.complianceRate || 0}%` }}
                             />
@@ -806,33 +806,33 @@ export default function RoleManagement() {
       {/* Create Role Modal */}
       {showCreateRoleModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white rounded-md p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">Create New Role</h3>
               <button onClick={() => { setShowCreateRoleModal(false); setNewRoleName(''); setNewRoleDescription(''); }}>
-                <XCircleIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
+                <XCircleIcon className="h-6 w-6 text-pewter hover:text-stone" />
               </button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
+                <label className="block text-sm font-medium text-charcoal mb-1">Role Name</label>
                 <input
                   type="text"
                   value={newRoleName}
                   onChange={(e) => setNewRoleName(e.target.value)}
                   placeholder="e.g., Senior Analyst"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   required
                 />
-                <p className="text-xs text-gray-500 mt-1">Will be formatted as SENIOR_ANALYST</p>
+                <p className="text-xs text-stone mt-1">Will be formatted as SENIOR_ANALYST</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                <label className="block text-sm font-medium text-charcoal mb-1">Description (Optional)</label>
                 <textarea
                   value={newRoleDescription}
                   onChange={(e) => setNewRoleDescription(e.target.value)}
                   placeholder="Brief description of the role"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   rows={3}
                 />
               </div>
@@ -840,13 +840,13 @@ export default function RoleManagement() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={handleCreateRole}
-                className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
               >
                 Create Role
               </button>
               <button
                 onClick={() => { setShowCreateRoleModal(false); setNewRoleName(''); setNewRoleDescription(''); }}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                className="flex-1 px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-stone"
               >
                 Cancel
               </button>
@@ -858,36 +858,36 @@ export default function RoleManagement() {
       {/* Edit Role Modal */}
       {showEditRoleModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white rounded-md p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-bold">Edit Role</h3>
               <button onClick={() => { setShowEditRoleModal(false); setSelectedRoleForEdit(''); setNewRoleName(''); setNewRoleDescription(''); }}>
-                <XCircleIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
+                <XCircleIcon className="h-6 w-6 text-pewter hover:text-stone" />
               </button>
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Current Role</label>
-                <p className="text-gray-900 font-medium">{selectedRoleForEdit}</p>
+                <label className="block text-sm font-medium text-charcoal mb-1">Current Role</label>
+                <p className="text-charcoal font-medium">{selectedRoleForEdit}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">New Role Name</label>
+                <label className="block text-sm font-medium text-charcoal mb-1">New Role Name</label>
                 <input
                   type="text"
                   value={newRoleName}
                   onChange={(e) => setNewRoleName(e.target.value)}
                   placeholder="e.g., Senior Analyst"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                <label className="block text-sm font-medium text-charcoal mb-1">Description (Optional)</label>
                 <textarea
                   value={newRoleDescription}
                   onChange={(e) => setNewRoleDescription(e.target.value)}
                   placeholder="Brief description of the role"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
                   rows={3}
                 />
               </div>
@@ -895,13 +895,13 @@ export default function RoleManagement() {
             <div className="flex gap-3 mt-6">
               <button
                 onClick={handleEditRole}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="flex-1 px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700"
               >
                 Update Role
               </button>
               <button
                 onClick={() => { setShowEditRoleModal(false); setSelectedRoleForEdit(''); setNewRoleName(''); setNewRoleDescription(''); }}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                className="flex-1 px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-stone"
               >
                 Cancel
               </button>
@@ -913,31 +913,31 @@ export default function RoleManagement() {
       {/* Delete Role Modal */}
       {showDeleteRoleModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white rounded-md p-6 max-w-md w-full mx-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-red-600">Delete Role</h3>
+              <h3 className="text-lg font-bold text-terracotta-600">Delete Role</h3>
               <button onClick={() => { setShowDeleteRoleModal(false); setSelectedRoleForEdit(''); }}>
-                <XCircleIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
+                <XCircleIcon className="h-6 w-6 text-pewter hover:text-stone" />
               </button>
             </div>
             <div className="mb-6">
-              <p className="text-gray-700">
+              <p className="text-charcoal">
                 Are you sure you want to delete the role <span className="font-bold">{selectedRoleForEdit}</span>?
               </p>
-              <p className="text-sm text-red-600 mt-2">
+              <p className="text-sm text-terracotta-600 mt-2">
                 Warning: This action cannot be undone. Users with this role will need to be reassigned.
               </p>
             </div>
             <div className="flex gap-3">
               <button
                 onClick={handleDeleteRole}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                className="flex-1 px-4 py-2 bg-terracotta-600 text-white rounded-md hover:bg-terracotta-700"
               >
                 Delete Role
               </button>
               <button
                 onClick={() => { setShowDeleteRoleModal(false); setSelectedRoleForEdit(''); }}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                className="flex-1 px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-stone"
               >
                 Cancel
               </button>

@@ -55,11 +55,11 @@ interface CalendarData {
 }
 
 const statusColors = {
-  upcoming: 'bg-blue-100 text-blue-800 border-blue-200',
-  open_for_enrollment: 'bg-green-100 text-green-800 border-green-200',
-  in_progress: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-  completed: 'bg-gray-100 text-gray-800 border-gray-200',
-  cancelled: 'bg-red-100 text-red-800 border-red-200',
+  upcoming: 'bg-forest-100 text-forest-800 border-forest-200',
+  open_for_enrollment: 'bg-forest-100 text-forest-800 border-forest-200',
+  in_progress: 'bg-ochre-100 text-ochre-800 border-ochre-200',
+  completed: 'bg-forest-100 text-charcoal border-border/60',
+  cancelled: 'bg-terracotta-100 text-terracotta-800 border-terracotta-200',
 };
 
 const statusLabels = {
@@ -71,13 +71,13 @@ const statusLabels = {
 };
 
 const trackColors = {
-  dcc_training: 'bg-purple-600',
-  local_government: 'bg-blue-600',
-  rural_development: 'bg-green-600',
-  traditional_leadership: 'bg-orange-600',
-  judicial_officers: 'bg-indigo-600',
-  general_ideology: 'bg-gray-600',
-  diaspora_virtual: 'bg-teal-600',
+  dcc_training: 'bg-terracotta-600',
+  local_government: 'bg-forest-600',
+  rural_development: 'bg-forest-600',
+  traditional_leadership: 'bg-ochre-600',
+  judicial_officers: 'bg-forest-600',
+  general_ideology: 'bg-stone',
+  diaspora_virtual: 'bg-forest-600',
 };
 
 const trackLabels = {
@@ -192,34 +192,34 @@ export default function TrainingCalendarPage() {
     const utilizationPercent = (cohort.currentParticipants / cohort.maxParticipants) * 100;
 
     return (
-      <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-l-4" style={{ borderLeftColor: trackColor.replace('bg-', '') }}>
+      <div className="bg-white rounded-md shadow-sm hover:shadow-sm transition-shadow overflow-hidden border-l-4" style={{ borderLeftColor: trackColor.replace('bg-', '') }}>
         {/* Header */}
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-border/60">
           <div className="flex justify-between items-start mb-2">
             <div className="flex-1">
               <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium mb-2 ${trackColor} text-white`}>
                 {trackLabel}
               </div>
-              <h3 className="text-lg font-semibold text-gray-900">{cohort.name}</h3>
+              <h3 className="text-lg font-semibold text-charcoal">{cohort.name}</h3>
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColor}`}>
               {statusLabel}
             </span>
           </div>
-          <p className="text-sm text-gray-600 line-clamp-2">{cohort.description}</p>
+          <p className="text-sm text-stone line-clamp-2">{cohort.description}</p>
         </div>
 
         {/* Details */}
         <div className="p-4 space-y-3">
           {/* Dates */}
           <div className="flex items-start text-sm">
-            <CalendarIcon className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
+            <CalendarIcon className="h-5 w-5 text-pewter mr-2 flex-shrink-0" />
             <div>
-              <p className="font-medium text-gray-900">
+              <p className="font-medium text-charcoal">
                 {new Date(cohort.startDate).toLocaleDateString()} - {new Date(cohort.endDate).toLocaleDateString()}
               </p>
               {canEnroll && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-stone mt-1">
                   Enrollment closes: {new Date(cohort.enrollmentCloseDate).toLocaleDateString()}
                 </p>
               )}
@@ -229,33 +229,33 @@ export default function TrainingCalendarPage() {
           {/* Meeting Schedule */}
           {cohort.meetingSchedule && (
             <div className="flex items-start text-sm">
-              <ClockIcon className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
-              <p className="text-gray-600">{cohort.meetingSchedule}</p>
+              <ClockIcon className="h-5 w-5 text-pewter mr-2 flex-shrink-0" />
+              <p className="text-stone">{cohort.meetingSchedule}</p>
             </div>
           )}
 
           {/* Venue */}
           <div className="flex items-start text-sm">
-            <MapPinIcon className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
-            <p className="text-gray-600">
-              {cohort.isVirtual && <span className="text-green-600 font-medium">Virtual • </span>}
+            <MapPinIcon className="h-5 w-5 text-pewter mr-2 flex-shrink-0" />
+            <p className="text-stone">
+              {cohort.isVirtual && <span className="text-forest-600 font-medium">Virtual • </span>}
               {cohort.venue}
             </p>
           </div>
 
           {/* Participants */}
           <div className="flex items-start text-sm">
-            <UserGroupIcon className="h-5 w-5 text-gray-400 mr-2 flex-shrink-0" />
+            <UserGroupIcon className="h-5 w-5 text-pewter mr-2 flex-shrink-0" />
             <div className="flex-1">
-              <p className="text-gray-600 mb-1">
+              <p className="text-stone mb-1">
                 {cohort.currentParticipants}/{cohort.maxParticipants} participants
                 {canEnroll && spotsLeft > 0 && (
-                  <span className="ml-2 text-green-600 font-medium">({spotsLeft} spots left)</span>
+                  <span className="ml-2 text-forest-600 font-medium">({spotsLeft} spots left)</span>
                 )}
               </p>
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-forest-100 rounded-full h-2">
                 <div
-                  className={`h-2 rounded-full ${utilizationPercent >= 90 ? 'bg-red-500' : utilizationPercent >= 70 ? 'bg-yellow-500' : 'bg-green-500'}`}
+                  className={`h-2 rounded-full ${utilizationPercent >= 90 ? 'bg-terracotta-500' : utilizationPercent >= 70 ? 'bg-ochre-500' : 'bg-forest-500'}`}
                   style={{ width: `${Math.min(utilizationPercent, 100)}%` }}
                 ></div>
               </div>
@@ -263,16 +263,16 @@ export default function TrainingCalendarPage() {
           </div>
 
           {/* Cost & Mandatory */}
-          <div className="flex justify-between items-center text-sm pt-2 border-t border-gray-100">
+          <div className="flex justify-between items-center text-sm pt-2 border-t border-border/60">
             <div>
               {cohort.cost === 0 ? (
-                <span className="text-green-600 font-semibold">Free</span>
+                <span className="text-forest-600 font-semibold">Free</span>
               ) : (
-                <span className="text-gray-900 font-semibold">${cohort.cost}</span>
+                <span className="text-charcoal font-semibold">${cohort.cost}</span>
               )}
             </div>
             {cohort.isMandatory && (
-              <div className="flex items-center text-orange-600">
+              <div className="flex items-center text-ochre-600">
                 <ExclamationCircleIcon className="h-4 w-4 mr-1" />
                 <span className="text-xs font-medium">Mandatory</span>
               </div>
@@ -280,28 +280,28 @@ export default function TrainingCalendarPage() {
           </div>
 
           {cohort.mandatoryFor && (
-            <p className="text-xs text-orange-600 bg-orange-50 p-2 rounded">
+            <p className="text-xs text-ochre-600 bg-ochre-50 p-2 rounded">
               Required for: {cohort.mandatoryFor}
             </p>
           )}
         </div>
 
         {/* Actions */}
-        <div className="p-4 border-t border-gray-200 bg-gray-50">
+        <div className="p-4 border-t border-border/60 bg-paper">
           {canEnroll ? (
             <button
               onClick={() => handleEnroll(cohort.id)}
               disabled={spotsLeft === 0 || enrolling === cohort.id}
               className={`w-full px-4 py-2 rounded-md font-medium transition-colors ${
                 spotsLeft === 0
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
+                  ? 'bg-stone text-stone cursor-not-allowed'
+                  : 'bg-forest-600 text-white hover:bg-forest-700'
               }`}
             >
               {enrolling === cohort.id ? 'Enrolling...' : spotsLeft === 0 ? 'Cohort Full' : 'Enroll Now'}
             </button>
           ) : (
-            <div className="text-center text-sm text-gray-500">
+            <div className="text-center text-sm text-stone">
               {cohort.status === 'in_progress' && 'Already in progress'}
               {cohort.status === 'completed' && 'Completed'}
               {cohort.status === 'upcoming' && 'Opening soon'}
@@ -316,7 +316,7 @@ export default function TrainingCalendarPage() {
     return (
       <Layout>
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-forest-600"></div>
         </div>
       </Layout>
     );
@@ -326,9 +326,9 @@ export default function TrainingCalendarPage() {
     return (
       <Layout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-            <XCircleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <p className="text-red-600">{error || 'Failed to load calendar'}</p>
+          <div className="bg-terracotta-50 border border-terracotta-200 rounded-md p-6 text-center">
+            <XCircleIcon className="h-12 w-12 text-terracotta-500 mx-auto mb-4" />
+            <p className="text-terracotta-600">{error || 'Failed to load calendar'}</p>
           </div>
         </div>
       </Layout>
@@ -343,11 +343,11 @@ export default function TrainingCalendarPage() {
       </Head>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-purple-600 to-indigo-700 py-12">
+      <div className="bg-gradient-to-br from-terracotta-600 to-forest-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <CalendarIcon className="mx-auto h-16 w-16 text-white mb-4" />
           <h1 className="text-4xl font-bold text-white mb-4">Training Calendar</h1>
-          <p className="text-xl text-purple-100 max-w-3xl mx-auto">
+          <p className="text-xl text-terracotta-100 max-w-3xl mx-auto">
             View all training cohorts and enroll in programs that advance your skills and career
           </p>
         </div>
@@ -361,8 +361,8 @@ export default function TrainingCalendarPage() {
               onClick={() => setSelectedYear(2025)}
               className={`px-4 py-2 rounded-md font-medium transition-colors ${
                 selectedYear === 2025
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-terracotta-600 text-white'
+                  : 'bg-forest-100 text-charcoal hover:bg-stone'
               }`}
             >
               2025
@@ -371,8 +371,8 @@ export default function TrainingCalendarPage() {
               onClick={() => setSelectedYear(2026)}
               className={`px-4 py-2 rounded-md font-medium transition-colors ${
                 selectedYear === 2026
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ? 'bg-terracotta-600 text-white'
+                  : 'bg-forest-100 text-charcoal hover:bg-stone'
               }`}
             >
               2026
@@ -381,7 +381,7 @@ export default function TrainingCalendarPage() {
 
           <Link
             href="/my-certifications"
-            className="text-blue-600 hover:text-blue-800 font-medium"
+            className="text-forest-600 hover:text-forest-800 font-medium"
           >
             View My Enrollments →
           </Link>
@@ -389,33 +389,33 @@ export default function TrainingCalendarPage() {
 
         {/* Summary Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-          <div className="bg-white rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-gray-900">{calendarData.summary.totalCohorts}</p>
-            <p className="text-sm text-gray-600 mt-1">Total Cohorts</p>
+          <div className="bg-white rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-charcoal">{calendarData.summary.totalCohorts}</p>
+            <p className="text-sm text-stone mt-1">Total Cohorts</p>
           </div>
-          <div className="bg-green-50 rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-green-600">{calendarData.summary.openForEnrollment}</p>
-            <p className="text-sm text-gray-600 mt-1">Open Now</p>
+          <div className="bg-forest-50 rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-forest-600">{calendarData.summary.openForEnrollment}</p>
+            <p className="text-sm text-stone mt-1">Open Now</p>
           </div>
-          <div className="bg-yellow-50 rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-yellow-600">{calendarData.summary.inProgress}</p>
-            <p className="text-sm text-gray-600 mt-1">In Progress</p>
+          <div className="bg-ochre-50 rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-ochre-600">{calendarData.summary.inProgress}</p>
+            <p className="text-sm text-stone mt-1">In Progress</p>
           </div>
-          <div className="bg-gray-50 rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-gray-600">{calendarData.summary.completed}</p>
-            <p className="text-sm text-gray-600 mt-1">Completed</p>
+          <div className="bg-paper rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-stone">{calendarData.summary.completed}</p>
+            <p className="text-sm text-stone mt-1">Completed</p>
           </div>
-          <div className="bg-blue-50 rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-blue-600">{calendarData.summary.totalParticipants}</p>
-            <p className="text-sm text-gray-600 mt-1">Enrolled</p>
+          <div className="bg-forest-50 rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-forest-600">{calendarData.summary.totalParticipants}</p>
+            <p className="text-sm text-stone mt-1">Enrolled</p>
           </div>
-          <div className="bg-purple-50 rounded-lg shadow p-4 text-center">
-            <p className="text-3xl font-bold text-purple-600">
+          <div className="bg-terracotta-50 rounded-md shadow p-4 text-center">
+            <p className="text-3xl font-bold text-terracotta-600">
               {calendarData.summary.totalCapacity > 0 
                 ? Math.round((calendarData.summary.totalParticipants / calendarData.summary.totalCapacity) * 100)
                 : 0}%
             </p>
-            <p className="text-sm text-gray-600 mt-1">Utilization</p>
+            <p className="text-sm text-stone mt-1">Utilization</p>
           </div>
         </div>
 
@@ -426,7 +426,7 @@ export default function TrainingCalendarPage() {
 
           return (
             <div key={quarter} className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-bold text-charcoal mb-6">
                 {quarterLabels[quarter]} {selectedYear}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -441,9 +441,9 @@ export default function TrainingCalendarPage() {
         {/* No cohorts message */}
         {calendarData.summary.totalCohorts === 0 && (
           <div className="text-center py-12">
-            <CalendarIcon className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No cohorts for {selectedYear}</h3>
-            <p className="text-gray-600">Check back later for upcoming training opportunities.</p>
+            <CalendarIcon className="mx-auto h-16 w-16 text-pewter mb-4" />
+            <h3 className="text-lg font-medium text-charcoal mb-2">No cohorts for {selectedYear}</h3>
+            <p className="text-stone">Check back later for upcoming training opportunities.</p>
           </div>
         )}
       </div>

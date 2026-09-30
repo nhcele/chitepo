@@ -37,6 +37,7 @@ export interface Forum {
     name: string;
     email: string;
   };
+  members?: ForumMember[];
 }
 
 export interface ForumPost {
@@ -60,6 +61,8 @@ export interface ForumPost {
     email: string;
   };
   replies?: ForumPost[];
+  likes?: { id: string; postId: string; userId: string; user?: { id: string } }[];
+  forum?: { id: string; title: string; type?: ForumType };
 }
 
 export interface ForumMember {
@@ -162,6 +165,9 @@ export async function getPosts(
   filters?: {
     parentId?: string | null;
     authorId?: string;
+    q?: string;
+    sort?: 'new' | 'top' | 'active';
+    tag?: string;
     limit?: number;
     offset?: number;
   },
@@ -169,10 +175,34 @@ export async function getPosts(
   const params: any = {};
   if (filters?.parentId !== undefined) params.parentId = filters.parentId;
   if (filters?.authorId) params.authorId = filters.authorId;
+  if (filters?.q) params.q = filters.q;
+  if (filters?.sort) params.sort = filters.sort;
+  if (filters?.tag) params.tag = filters.tag;
   if (filters?.limit) params.limit = filters.limit;
   if (filters?.offset) params.offset = filters.offset;
 
   return apiClient.get<ForumPost[]>(`/forums/${forumId}/posts`, { params });
+}
+
+/**
+ * Pin/unpin a post (moderators and admins)
+ */
+export async function pinPost(postId: string, pinned: boolean): Promise<ForumPost> {
+  return apiClient.post<ForumPost>(`/forums/posts/${postId}/pin`, { pinned });
+}
+
+/**
+ * Lock/unlock a post (moderators and admins)
+ */
+export async function lockPost(postId: string, locked: boolean): Promise<ForumPost> {
+  return apiClient.post<ForumPost>(`/forums/posts/${postId}/lock`, { locked });
+}
+
+/**
+ * Check whether the current user is a member of a forum
+ */
+export async function checkMembership(forumId: string): Promise<{ isMember: boolean }> {
+  return apiClient.get<{ isMember: boolean }>(`/forums/${forumId}/membership`);
 }
 
 /**

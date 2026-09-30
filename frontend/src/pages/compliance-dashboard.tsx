@@ -52,11 +52,11 @@ interface Alert {
 }
 
 const statusColors = {
-  compliant: 'bg-green-100 text-green-800 border-green-300',
-  non_compliant: 'bg-red-100 text-red-800 border-red-300',
-  grace_period: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-  exempted: 'bg-blue-100 text-blue-800 border-blue-300',
-  pending_verification: 'bg-gray-100 text-gray-800 border-gray-300',
+  compliant: 'bg-forest-100 text-forest-800 border-forest-300',
+  non_compliant: 'bg-terracotta-100 text-terracotta-800 border-terracotta-300',
+  grace_period: 'bg-ochre-100 text-ochre-800 border-ochre-300',
+  exempted: 'bg-forest-100 text-forest-800 border-forest-300',
+  pending_verification: 'bg-forest-100 text-charcoal border-border/60',
 };
 
 const statusIcons = {
@@ -76,9 +76,9 @@ const statusLabels = {
 };
 
 const severityColors = {
-  info: 'bg-blue-50 border-blue-200 text-blue-800',
-  warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-  critical: 'bg-red-50 border-red-200 text-red-800',
+  info: 'bg-forest-50 border-forest-200 text-forest-800',
+  warning: 'bg-ochre-50 border-ochre-200 text-ochre-800',
+  critical: 'bg-terracotta-50 border-terracotta-200 text-terracotta-800',
 };
 
 export default function ComplianceDashboardPage() {
@@ -163,7 +163,7 @@ export default function ComplianceDashboardPage() {
     return (
       <Layout>
         <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-forest-600"></div>
         </div>
       </Layout>
     );
@@ -173,9 +173,9 @@ export default function ComplianceDashboardPage() {
     return (
       <Layout>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-            <XCircleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <p className="text-red-600">{error}</p>
+          <div className="bg-terracotta-50 border border-terracotta-200 rounded-md p-6 text-center">
+            <XCircleIcon className="h-12 w-12 text-terracotta-500 mx-auto mb-4" />
+            <p className="text-terracotta-600">{error}</p>
           </div>
         </div>
       </Layout>
@@ -191,14 +191,14 @@ export default function ComplianceDashboardPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center py-12">
-            <ShieldCheckIcon className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Official Positions Registered</h3>
-            <p className="text-gray-600 mb-6">
+            <ShieldCheckIcon className="mx-auto h-16 w-16 text-pewter mb-4" />
+            <h3 className="text-lg font-medium text-charcoal mb-2">No Official Positions Registered</h3>
+            <p className="text-stone mb-6">
               You don't have any official positions requiring mandatory training.
             </p>
             <Link
               href="/government-officials"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-forest-600 hover:bg-forest-700"
             >
               Learn About Government Training
             </Link>
@@ -222,12 +222,12 @@ export default function ComplianceDashboardPage() {
       </Head>
 
       {/* Header */}
-      <div className="bg-gradient-to-br from-purple-600 to-indigo-700 py-12">
+      <div className="bg-gradient-to-br from-terracotta-600 to-forest-700 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2">Compliance Dashboard</h1>
-              <p className="text-xl text-purple-100">Mandatory Training Status</p>
+              <p className="text-xl text-terracotta-100">Mandatory Training Status</p>
             </div>
             <ShieldCheckIcon className="h-20 w-20 text-white/30" />
           </div>
@@ -237,36 +237,36 @@ export default function ComplianceDashboardPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Total Positions</p>
-            <p className="text-3xl font-bold text-gray-900">{totalPositions}</p>
+          <div className="bg-white rounded-md shadow p-6">
+            <p className="text-sm text-stone mb-1">Total Positions</p>
+            <p className="text-3xl font-bold text-charcoal">{totalPositions}</p>
           </div>
-          <div className="bg-green-50 rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Compliant</p>
-            <p className="text-3xl font-bold text-green-600">{compliantPositions}</p>
+          <div className="bg-forest-50 rounded-md shadow p-6">
+            <p className="text-sm text-stone mb-1">Compliant</p>
+            <p className="text-3xl font-bold text-forest-600">{compliantPositions}</p>
           </div>
-          <div className="bg-yellow-50 rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Grace Period</p>
-            <p className="text-3xl font-bold text-yellow-600">{gracePeriodPositions}</p>
+          <div className="bg-ochre-50 rounded-md shadow p-6">
+            <p className="text-sm text-stone mb-1">Grace Period</p>
+            <p className="text-3xl font-bold text-ochre-600">{gracePeriodPositions}</p>
           </div>
-          <div className="bg-red-50 rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Non-Compliant</p>
-            <p className="text-3xl font-bold text-red-600">{nonCompliantPositions}</p>
+          <div className="bg-terracotta-50 rounded-md shadow p-6">
+            <p className="text-sm text-stone mb-1">Non-Compliant</p>
+            <p className="text-3xl font-bold text-terracotta-600">{nonCompliantPositions}</p>
           </div>
         </div>
 
         {/* Alerts Section */}
         {alerts.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-              <BellAlertIcon className="h-7 w-7 mr-2 text-orange-500" />
+            <h2 className="text-2xl font-bold text-charcoal mb-4 flex items-center">
+              <BellAlertIcon className="h-7 w-7 mr-2 text-ochre-500" />
               Active Alerts ({alerts.filter(a => !a.isRead).length} unread)
             </h2>
             <div className="space-y-3">
               {alerts.slice(0, 5).map((alert) => (
                 <div
                   key={alert.id}
-                  className={`border rounded-lg p-4 ${severityColors[alert.severity as keyof typeof severityColors]} ${alert.isRead ? 'opacity-60' : ''}`}
+                  className={`border rounded-md p-4 ${severityColors[alert.severity as keyof typeof severityColors]} ${alert.isRead ? 'opacity-60' : ''}`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -297,7 +297,7 @@ export default function ComplianceDashboardPage() {
 
         {/* Positions List */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Official Positions</h2>
+          <h2 className="text-2xl font-bold text-charcoal mb-6">Your Official Positions</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {positions.map((position) => {
               const check = complianceChecks[position.id];
@@ -308,12 +308,12 @@ export default function ComplianceDashboardPage() {
               const statusLabel = statusLabels[check.complianceStatus as keyof typeof statusLabels] || 'Unknown';
 
               return (
-                <div key={position.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div key={position.id} className="bg-white rounded-md shadow-sm overflow-hidden">
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">{position.positionTitle}</h3>
-                        <p className="text-sm text-gray-600">{position.regionProvince}</p>
+                        <h3 className="text-lg font-semibold text-charcoal">{position.positionTitle}</h3>
+                        <p className="text-sm text-stone">{position.regionProvince}</p>
                       </div>
                       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColor}`}>
                         {statusLabel}
@@ -323,15 +323,15 @@ export default function ComplianceDashboardPage() {
                     <div className="space-y-4">
                       {/* Progress */}
                       <div>
-                        <div className="flex justify-between text-sm text-gray-600 mb-1">
+                        <div className="flex justify-between text-sm text-stone mb-1">
                           <span>Training Progress</span>
                           <span className="font-medium">
                             {check.completedCertifications}/{check.requiredCertifications}
                           </span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-forest-100 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full ${check.isCompliant ? 'bg-green-500' : 'bg-yellow-500'}`}
+                            className={`h-2 rounded-full ${check.isCompliant ? 'bg-forest-500' : 'bg-ochre-500'}`}
                             style={{ width: `${(check.completedCertifications / check.requiredCertifications) * 100}%` }}
                           ></div>
                         </div>
@@ -340,14 +340,14 @@ export default function ComplianceDashboardPage() {
                       {/* Deadline */}
                       {check.daysUntilDeadline !== null && (
                         <div className="flex items-center text-sm">
-                          <ClockIcon className="h-5 w-5 text-gray-400 mr-2" />
-                          <span className="text-gray-600">
+                          <ClockIcon className="h-5 w-5 text-pewter mr-2" />
+                          <span className="text-stone">
                             {check.daysUntilDeadline > 0 ? (
                               <span>
                                 <span className="font-medium">{check.daysUntilDeadline} days</span> until deadline
                               </span>
                             ) : (
-                              <span className="text-red-600 font-medium">Deadline passed</span>
+                              <span className="text-terracotta-600 font-medium">Deadline passed</span>
                             )}
                           </span>
                         </div>
@@ -355,8 +355,8 @@ export default function ComplianceDashboardPage() {
 
                       {/* Missing Certifications */}
                       {check.missingCertifications > 0 && (
-                        <div className="bg-orange-50 border border-orange-200 rounded p-3">
-                          <p className="text-sm text-orange-800">
+                        <div className="bg-ochre-50 border border-ochre-200 rounded p-3">
+                          <p className="text-sm text-ochre-800">
                             <span className="font-medium">{check.missingCertifications} certification(s)</span> required to achieve compliance
                           </p>
                         </div>
@@ -367,13 +367,13 @@ export default function ComplianceDashboardPage() {
                     <div className="mt-6 flex gap-3">
                       <Link
                         href="/my-certifications"
-                        className="flex-1 text-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+                        className="flex-1 text-center px-4 py-2 bg-forest-600 text-white rounded-md hover:bg-forest-700 transition-colors font-medium"
                       >
                         View Required Training
                       </Link>
                       <Link
                         href="/training-calendar"
-                        className="flex-1 text-center px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium"
+                        className="flex-1 text-center px-4 py-2 bg-forest-100 text-charcoal rounded-md hover:bg-forest-100 transition-colors font-medium"
                       >
                         Enroll in Cohort
                       </Link>
@@ -386,21 +386,21 @@ export default function ComplianceDashboardPage() {
         </div>
 
         {/* Help Section */}
-        <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Need Help with Compliance?</h3>
-          <p className="text-gray-700 mb-4">
+        <div className="mt-12 bg-forest-50 border border-forest-200 rounded-md p-6">
+          <h3 className="text-lg font-semibold text-charcoal mb-2">Need Help with Compliance?</h3>
+          <p className="text-charcoal mb-4">
             Contact your regional training coordinator or visit our help center for guidance on completing your mandatory training requirements.
           </p>
           <div className="flex gap-4">
             <Link
               href="/government-officials"
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="text-forest-600 hover:text-forest-800 font-medium"
             >
               View Training Requirements →
             </Link>
             <Link
               href="/contact"
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="text-forest-600 hover:text-forest-800 font-medium"
             >
               Contact Support →
             </Link>

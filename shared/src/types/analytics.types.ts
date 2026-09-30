@@ -21,7 +21,11 @@ export enum AnalyticsEventType {
   LIVE_SESSION_LEFT = 'live_session_left',
   LIVE_SESSION_STARTED = 'live_session_started',
   LIVE_SESSION_ENDED = 'live_session_ended',
-  LIVE_SESSION_ATTENDANCE_RECORDED = 'live_session_attendance_recorded'
+  LIVE_SESSION_ATTENDANCE_RECORDED = 'live_session_attendance_recorded',
+  KNOWLEDGE_CHECK_ANSWERED = 'knowledge_check_answered',
+  NOTE_CREATED = 'note_created',
+  NOTE_UPDATED = 'note_updated',
+  NOTE_DELETED = 'note_deleted'
 }
 
 export interface AnalyticsEvent {

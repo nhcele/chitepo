@@ -181,13 +181,13 @@ export default function InstructorsPage() {
       </Head>
       <Layout>
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
+        <div className="bg-gradient-to-br from-forest-50 to-forest-100 py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl font-bold text-charcoal mb-4">
                 Learn from Industry Experts
               </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              <p className="text-xl text-stone mb-8 max-w-3xl mx-auto">
                 Our instructors are seasoned professionals from top companies who bring
                 real-world experience to every lesson. Join thousands of learners advancing
                 their careers with expert guidance.
@@ -259,8 +259,8 @@ export default function InstructorsPage() {
                   <div className="flex justify-center mb-4">
                     <stat.icon className="h-12 w-12 text-primary-600" />
                   </div>
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>
-                  <div className="text-gray-600">{stat.name}</div>
+                  <div className="text-3xl font-bold text-charcoal mb-2">{stat.value}</div>
+                  <div className="text-stone">{stat.name}</div>
                 </motion.div>
               ))}
             </div>
@@ -268,11 +268,11 @@ export default function InstructorsPage() {
         </div>
 
         {/* Instructors Section */}
-        <div className="bg-gray-50 py-16">
+        <div className="bg-paper py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured Instructors</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+              <h2 className="text-3xl font-bold text-charcoal mb-4">Featured Instructors</h2>
+              <p className="text-stone max-w-2xl mx-auto">
                 Meet some of our top-rated instructors who are shaping the future of professional learning.
               </p>
             </div>
@@ -281,20 +281,20 @@ export default function InstructorsPage() {
             <div className="mb-8 space-y-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 relative">
-                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-pewter" />
                   <input
                     type="text"
                     placeholder="Search instructors by name, title, or expertise..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
                 </div>
                 <div className="flex gap-2">
                   <select
                     value={selectedExpertise || ''}
                     onChange={(e) => setSelectedExpertise(e.target.value || null)}
-                    className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="px-4 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   >
                     <option value="">All Expertise</option>
                     {allExpertise.map(skill => (
@@ -306,9 +306,9 @@ export default function InstructorsPage() {
                       type="checkbox"
                       checked={showFeaturedOnly}
                       onChange={(e) => setShowFeaturedOnly(e.target.checked)}
-                      className="rounded border-gray-300 text-primary-600 focus:ring-primary-500 mr-2"
+                      className="rounded border-border/60 text-primary-600 focus:ring-primary-500 mr-2"
                     />
-                    <span className="text-sm text-gray-700">Featured only</span>
+                    <span className="text-sm text-charcoal">Featured only</span>
                   </label>
                 </div>
               </div>
@@ -322,7 +322,7 @@ export default function InstructorsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  className="bg-white rounded-md shadow-sm overflow-hidden hover:shadow-sm transition-shadow"
                 >
                   <div className="relative">
                     <Image
@@ -334,7 +334,7 @@ export default function InstructorsPage() {
                     />
                     {instructor.featured && (
                       <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-yellow-400 text-gray-900 text-xs font-medium rounded-full">
+                        <span className="px-3 py-1 bg-ochre-400 text-charcoal text-xs font-medium rounded-full">
                           Featured
                         </span>
                       </div>
@@ -344,8 +344,8 @@ export default function InstructorsPage() {
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{instructor.name}</h3>
-                        <p className="text-sm text-gray-600 mb-2">{instructor.title}</p>
+                        <h3 className="text-xl font-bold text-charcoal mb-1">{instructor.name}</h3>
+                        <p className="text-sm text-stone mb-2">{instructor.title}</p>
                         <div className="flex items-center mb-3">
                           <div className="flex items-center">
                             {[...Array(5)].map((_, i) => (
@@ -353,20 +353,20 @@ export default function InstructorsPage() {
                                 key={i}
                                 className={`h-4 w-4 ${
                                   i < Math.floor(instructor.rating)
-                                    ? 'text-yellow-400'
-                                    : 'text-gray-300'
+                                    ? 'text-ochre-400'
+                                    : 'text-pewter'
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="ml-2 text-sm text-gray-600">
+                          <span className="ml-2 text-sm text-stone">
                             {instructor.rating} ({formatNumber(instructor.totalStudents)} students)
                           </span>
                         </div>
                       </div>
                     </div>
                     
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">{instructor.bio}</p>
+                    <p className="text-stone text-sm mb-4 line-clamp-3">{instructor.bio}</p>
                     
                     <div className="flex flex-wrap gap-1 mb-4">
                       {instructor.expertise.slice(0, 4).map(skill => (
@@ -378,23 +378,23 @@ export default function InstructorsPage() {
                         </span>
                       ))}
                       {instructor.expertise.length > 4 && (
-                        <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                        <span className="px-2 py-1 bg-forest-100 text-stone text-xs rounded-full">
                           +{instructor.expertise.length - 4} more
                         </span>
                       )}
                     </div>
                     
-                    <div className="grid grid-cols-3 gap-4 text-center text-sm text-gray-600 mb-4">
+                    <div className="grid grid-cols-3 gap-4 text-center text-sm text-stone mb-4">
                       <div>
-                        <div className="font-semibold text-gray-900">{instructor.totalCourses}</div>
+                        <div className="font-semibold text-charcoal">{instructor.totalCourses}</div>
                         <div>Courses</div>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">{formatNumber(instructor.totalStudents)}</div>
+                        <div className="font-semibold text-charcoal">{formatNumber(instructor.totalStudents)}</div>
                         <div>Students</div>
                       </div>
                       <div>
-                        <div className="font-semibold text-gray-900">{formatCurrency(instructor.totalRevenue)}</div>
+                        <div className="font-semibold text-charcoal">{formatCurrency(instructor.totalRevenue)}</div>
                         <div>Earned</div>
                       </div>
                     </div>
@@ -402,7 +402,7 @@ export default function InstructorsPage() {
                     <div className="flex gap-2">
                       <Link
                         href={`/instructors/${instructor.id}`}
-                        className="flex-1 text-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        className="flex-1 text-center px-4 py-2 border border-border/60 rounded-md text-sm font-medium text-charcoal hover:bg-paper"
                       >
                         View Profile
                       </Link>
@@ -420,9 +420,9 @@ export default function InstructorsPage() {
 
             {filteredInstructors.length === 0 && (
               <div className="text-center py-12">
-                <UserGroupIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No instructors found</h3>
-                <p className="text-gray-600">Try adjusting your search or filters to find more instructors.</p>
+                <UserGroupIcon className="h-12 w-12 text-pewter mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-charcoal mb-2">No instructors found</h3>
+                <p className="text-stone">Try adjusting your search or filters to find more instructors.</p>
               </div>
             )}
           </div>
@@ -434,7 +434,7 @@ export default function InstructorsPage() {
             <h2 className="text-3xl font-bold text-white mb-4">
               Ready to Share Your Expertise?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-forest-100 mb-8 max-w-2xl mx-auto">
               Join our community of expert instructors and help shape the future of professional learning.
               Earn competitive revenue while making a global impact.
             </p>
@@ -443,7 +443,7 @@ export default function InstructorsPage() {
                 <>
                   <Link
                     href="/instructor/apply"
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50"
+                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-paper"
                   >
                     Apply to Teach
                   </Link>
@@ -458,7 +458,7 @@ export default function InstructorsPage() {
                 <>
                   <Link
                     href="/instructor/dashboard"
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50"
+                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-paper"
                   >
                     Go to Dashboard
                   </Link>
@@ -473,7 +473,7 @@ export default function InstructorsPage() {
                 <>
                   <Link
                     href="/instructor/apply"
-                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-gray-50"
+                    className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-600 bg-white hover:bg-paper"
                   >
                     Apply to Teach
                   </Link>

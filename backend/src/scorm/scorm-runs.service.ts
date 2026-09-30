@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { ScormRun } from './entities/scorm-run.entity';
 import { ScormPackage } from './entities/scorm-package.entity';
 import { EnrollmentsService } from '../enrollments/enrollments.service';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 
 function parseScorm12TimeToSeconds(totalTime: string | null | undefined): number {
   // SCORM 1.2 total_time format: "HH:MM:SS" or "HH:MM:SS.ss" (also sometimes "H:MM:SS")
@@ -25,8 +25,8 @@ export class ScormRunsService {
     private readonly scormRunRepo: Repository<ScormRun>,
     @InjectRepository(ScormPackage)
     private readonly scormPackageRepo: Repository<ScormPackage>,
-    @InjectRepository(Progress)
-    private readonly progressRepo: Repository<Progress>,
+    @InjectRepository(LessonProgress)
+    private readonly progressRepo: Repository<LessonProgress>,
     private readonly enrollmentsService: EnrollmentsService,
   ) {}
 
@@ -120,30 +120,25 @@ export class ScormRunsService {
         } as any,
       });
 
-      const p: Progress = existingProgress
+      const p: LessonProgress = existingProgress
         ? existingProgress
         : (this.progressRepo.create({
             userId: params.userId,
             courseId: saved.courseId,
-            lessonId: null as any,
-            enrollmentId: saved.enrollmentId ?? null,
-            completed: false,
-            watchTime: 0,
-            attempts: 0,
+            lessonId: null,
+            isCompleted: false,
+            watchedSeconds: 0,
+            quizAttempts: 0,
           } as any) as any);
 
-      p.lastAccessed = new Date();
-      p.watchTime = Math.max(Number(p.watchTime || 0), Number(saved.totalTimeSeconds || 0));
+      p.watchedSeconds = Math.max(Number(p.watchedSeconds || 0), Number(saved.totalTimeSeconds || 0));
       if (typeof saved.scoreRaw === 'number' && !Number.isNaN(saved.scoreRaw)) {
-        p.score = Number(saved.scoreRaw) as any;
+        p.bestQuizScore = Math.round(Number(saved.scoreRaw));
       }
-      p.attempts = Number(p.attempts || 0) + 1;
-      p.completed = !!isCompleted;
+      p.quizAttempts = Number(p.quizAttempts || 0) + 1;
+      p.isCompleted = !!isCompleted;
       if (isCompleted) {
-        p.completionDate = new Date();
-      }
-      if (saved.enrollmentId) {
-        p.enrollmentId = saved.enrollmentId;
+        p.completedAt = new Date();
       }
 
       await this.progressRepo.save(p as any);
@@ -161,7 +156,6 @@ export class ScormRunsService {
         await this.enrollmentsService.updateProgress(
           enrollmentId,
           params.userId,
-          100,
           new Date(),
         );
       }

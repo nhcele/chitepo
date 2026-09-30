@@ -27,16 +27,16 @@ async function updateInstructors() {
 
     // Course to instructor mapping
     const courseMapping = {
-      'District Coordinating Committee (DCC) Training': 'kudzai.nhema@chitepo.edu.zw',
-      'Local Government Administration and Development': 'tafadzwa.mupfumira@chitepo.edu.zw',
-      'Voter Mobilization and Campaign Management': 'kudzai.nhema@chitepo.edu.zw',
-      'Rural Development and Community Engagement': 'rumbidzai.chikwanha@chitepo.edu.zw',
-      'Party-Government Synergy and Policy Implementation': 'simbarashe.mumbengegwi@chitepo.edu.zw',
-      "Zimbabwe's National Development and Vision 2030": 'tendai.moyo@chitepo.edu.zw',
-      'Virtual Political Engagement and Diaspora Mobilization': 'nyasha.mutasa@chitepo.edu.zw',
-      'Heritage Preservation and Cultural Connection': 'nyasha.mutasa@chitepo.edu.zw',
-      'Investment and Economic Participation': 'nyasha.mutasa@chitepo.edu.zw',
-      'Transnational Advocacy and Representation': 'nyasha.mutasa@chitepo.edu.zw'
+      'District Coordinating Committee (DCC) Training': 'kudzai.nhema@chitepo.co.zw',
+      'Local Government Administration and Development': 'tafadzwa.mupfumira@chitepo.co.zw',
+      'Voter Mobilization and Campaign Management': 'kudzai.nhema@chitepo.co.zw',
+      'Rural Development and Community Engagement': 'rumbidzai.chikwanha@chitepo.co.zw',
+      'Party-Government Synergy and Policy Implementation': 'simbarashe.mumbengegwi@chitepo.co.zw',
+      "Zimbabwe's National Development and Vision 2030": 'tendai.moyo@chitepo.co.zw',
+      'Virtual Political Engagement and Diaspora Mobilization': 'nyasha.mutasa@chitepo.co.zw',
+      'Heritage Preservation and Cultural Connection': 'nyasha.mutasa@chitepo.co.zw',
+      'Investment and Economic Participation': 'nyasha.mutasa@chitepo.co.zw',
+      'Transnational Advocacy and Representation': 'nyasha.mutasa@chitepo.co.zw'
     };
 
     let updated = 0;
@@ -55,7 +55,7 @@ async function updateInstructors() {
     }
 
     // Update all other courses to use default instructor
-    const defaultInstructorId = instructorMap['simbarashe.mumbengegwi@chitepo.edu.zw'];
+    const defaultInstructorId = instructorMap['simbarashe.mumbengegwi@chitepo.co.zw'];
     if (defaultInstructorId) {
       const [result] = await connection.execute(
         `UPDATE courses SET instructor_id = ? 

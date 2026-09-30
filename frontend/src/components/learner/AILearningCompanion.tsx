@@ -275,7 +275,7 @@ export default function AILearningCompanion({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(true)}
-        className="bg-gradient-to-r from-purple-600 to-primary-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+        className="bg-gradient-to-r from-terracotta-600 to-primary-600 text-white p-4 rounded-full shadow-sm hover:shadow-sm transition-shadow"
       >
         <SparklesIcon className="h-6 w-6" />
       </motion.button>
@@ -287,13 +287,13 @@ export default function AILearningCompanion({
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="absolute bottom-0 right-0 w-96 h-[600px] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
+            className="absolute bottom-0 right-0 w-96 h-[600px] bg-white rounded-md shadow-sm border border-border/60 overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-600 to-primary-600 text-white p-4">
+            <div className="bg-gradient-to-r from-terracotta-600 to-primary-600 text-white p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-white/20 rounded-lg">
+                  <div className="p-2 bg-white/20 rounded-md">
                     <SparklesIcon className="h-5 w-5" />
                   </div>
                   <div>
@@ -305,7 +305,7 @@ export default function AILearningCompanion({
                   <button
                     onClick={() => speakMessage(messages[messages.length - 1]?.content || '')}
                     disabled={isSpeaking}
-                    className="p-2 hover:bg-white/20 rounded-lg transition-colors disabled:opacity-50"
+                    className="p-2 hover:bg-white/20 rounded-md transition-colors disabled:opacity-50"
                   >
                     {isSpeaking ? (
                       <SpeakerWaveIcon className="h-4 w-4 animate-pulse" />
@@ -315,7 +315,7 @@ export default function AILearningCompanion({
                   </button>
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                    className="p-2 hover:bg-white/20 rounded-md transition-colors"
                   >
                     <XMarkIcon className="h-4 w-4" />
                   </button>
@@ -325,17 +325,17 @@ export default function AILearningCompanion({
 
             {/* Insights Panel */}
             {(insights.length > 0 || recommendations.length > 0) && (
-              <div className="bg-gray-50 p-3 border-b border-gray-200 max-h-48 overflow-y-auto">
+              <div className="bg-paper p-3 border-b border-border/60 max-h-48 overflow-y-auto">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-gray-700">Your Learning Insights</span>
+                  <span className="text-sm font-medium text-charcoal">Your Learning Insights</span>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs text-gray-500">{usage.remaining}/{usage.limit} uses left</span>
+                    <span className="text-xs text-stone">{usage.remaining}/{usage.limit} uses left</span>
                     <button
                       onClick={() => {
                         setInsights([]);
                         setRecommendations([]);
                       }}
-                      className="text-xs text-gray-500 hover:text-gray-700"
+                      className="text-xs text-stone hover:text-charcoal"
                     >
                       Dismiss
                     </button>
@@ -344,23 +344,23 @@ export default function AILearningCompanion({
                 
                 {/* Progress Insights */}
                 {insights.slice(0, 2).map(insight => (
-                  <div key={insight.area} className="flex items-start space-x-2 p-2 bg-white rounded-lg mb-2">
+                  <div key={insight.area} className="flex items-start space-x-2 p-2 bg-white rounded-md mb-2">
                     <div className={`p-1 rounded ${
-                      insight.trend === 'improving' ? 'bg-green-100' :
-                      insight.trend === 'declining' ? 'bg-red-100' :
-                      'bg-yellow-100'
+                      insight.trend === 'improving' ? 'bg-forest-100' :
+                      insight.trend === 'declining' ? 'bg-terracotta-100' :
+                      'bg-ochre-100'
                     }`}>
                       {insight.trend === 'improving' ? (
-                        <ChartBarIcon className="h-3 w-3 text-green-600" />
+                        <ChartBarIcon className="h-3 w-3 text-forest-600" />
                       ) : insight.trend === 'declining' ? (
-                        <ArrowPathIcon className="h-3 w-3 text-red-600" />
+                        <ArrowPathIcon className="h-3 w-3 text-terracotta-600" />
                       ) : (
-                        <MinusIcon className="h-3 w-3 text-yellow-600" />
+                        <MinusIcon className="h-3 w-3 text-ochre-600" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-gray-900">{insight.area}</p>
-                      <p className="text-xs text-gray-500">{insight.score}% • {insight.recommendation}</p>
+                      <p className="text-xs font-medium text-charcoal">{insight.area}</p>
+                      <p className="text-xs text-stone">{insight.score}% • {insight.recommendation}</p>
                     </div>
                     <button
                       onClick={() => handleInsightAction(insight)}
@@ -373,13 +373,13 @@ export default function AILearningCompanion({
 
                 {/* Recommendations */}
                 {recommendations.slice(0, 1).map(rec => (
-                  <div key={rec.title} className="flex items-start space-x-2 p-2 bg-primary-50 rounded-lg">
+                  <div key={rec.title} className="flex items-start space-x-2 p-2 bg-primary-50 rounded-md">
                     <div className="p-1 bg-primary-100 rounded">
                       <AcademicCapIcon className="h-3 w-3 text-primary-600" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-gray-900 truncate">{rec.title}</p>
-                      <p className="text-xs text-gray-500 truncate">{rec.estimatedTime} • {rec.difficulty}</p>
+                      <p className="text-xs font-medium text-charcoal truncate">{rec.title}</p>
+                      <p className="text-xs text-stone truncate">{rec.estimatedTime} • {rec.difficulty}</p>
                     </div>
                     <button
                       onClick={() => handleRecommendationClick(rec)}
@@ -404,8 +404,8 @@ export default function AILearningCompanion({
                   <div className={`max-w-[80%] ${
                     message.type === 'user' 
                       ? 'bg-primary-600 text-white' 
-                      : 'bg-gray-100 text-gray-900'
-                  } rounded-2xl p-3`}>
+                      : 'bg-forest-100 text-charcoal'
+                  } rounded-md p-3`}>
                     <p className="text-sm whitespace-pre-line">{message.content}</p>
                     
                     {/* Suggestions */}
@@ -467,11 +467,11 @@ export default function AILearningCompanion({
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-gray-100 text-gray-900 rounded-2xl p-3">
+                  <div className="bg-forest-100 text-charcoal rounded-md p-3">
                     <div className="flex items-center space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <div className="w-2 h-2 bg-stone rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-stone rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                      <div className="w-2 h-2 bg-stone rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
                     </div>
                   </div>
                 </motion.div>
@@ -480,18 +480,18 @@ export default function AILearningCompanion({
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-border/60">
               {/* Difficulty Control */}
-              <div className="flex items-center justify-between mb-3 p-2 bg-gray-50 rounded-lg">
+              <div className="flex items-center justify-between mb-3 p-2 bg-paper rounded-md">
                 <div className="flex items-center space-x-2">
-                  <span className="text-xs font-medium text-gray-700">Difficulty:</span>
+                  <span className="text-xs font-medium text-charcoal">Difficulty:</span>
                   <div className="flex items-center space-x-1">
                     <button
                       onClick={() => setCurrentDifficulty(5)}
                       className={`px-2 py-1 text-xs rounded ${
                         currentDifficulty === 5 
-                          ? 'bg-green-600 text-white' 
-                          : 'bg-white text-gray-600 hover:bg-gray-100'
+                          ? 'bg-forest-600 text-white' 
+                          : 'bg-white text-stone hover:bg-forest-100'
                       }`}
                     >
                       Beginner
@@ -500,8 +500,8 @@ export default function AILearningCompanion({
                       onClick={() => setCurrentDifficulty(15)}
                       className={`px-2 py-1 text-xs rounded ${
                         currentDifficulty === 15 
-                          ? 'bg-yellow-600 text-white' 
-                          : 'bg-white text-gray-600 hover:bg-gray-100'
+                          ? 'bg-ochre-600 text-white' 
+                          : 'bg-white text-stone hover:bg-forest-100'
                       }`}
                     >
                       Intermediate
@@ -510,8 +510,8 @@ export default function AILearningCompanion({
                       onClick={() => setCurrentDifficulty(25)}
                       className={`px-2 py-1 text-xs rounded ${
                         currentDifficulty === 25 
-                          ? 'bg-red-600 text-white' 
-                          : 'bg-white text-gray-600 hover:bg-gray-100'
+                          ? 'bg-terracotta-600 text-white' 
+                          : 'bg-white text-stone hover:bg-forest-100'
                       }`}
                     >
                       Advanced
@@ -540,19 +540,19 @@ export default function AILearningCompanion({
                   placeholder="Ask me anything about your course..."
                   rows={1}
                   disabled={usage.remaining <= 0}
-                  className="flex-1 resize-none border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 resize-none border border-border/60 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputValue.trim() || isTyping || usage.remaining <= 0}
-                  className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <PaperAirplaneIcon className="h-4 w-4" />
                 </button>
               </div>
               
               {usage.remaining <= 0 && (
-                <p className="mt-2 text-xs text-red-600">Daily limit reached. Try again tomorrow!</p>
+                <p className="mt-2 text-xs text-terracotta-600">Daily limit reached. Try again tomorrow!</p>
               )}
             </div>
           </motion.div>

@@ -340,22 +340,22 @@ export default function CohortMentoring() {
       <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
         <div className="space-y-6">
           {error && (
-            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-md border border-terracotta-200 bg-terracotta-50 px-4 py-3 text-sm text-terracotta-700">
               {error}
             </div>
           )}
 
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">Cohort Command Center</h2>
-              <p className="text-sm text-gray-500">
+              <h2 className="text-xl font-semibold text-charcoal">Cohort Command Center</h2>
+              <p className="text-sm text-stone">
                 Keep learners connected to mentors and momentum with guided checklists.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={loadBase}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                className="inline-flex items-center gap-2 rounded-md border border-border/60 px-3 py-2 text-sm text-charcoal hover:bg-paper"
               >
                 <ArrowPathIcon className="h-4 w-4" />
                 Refresh
@@ -363,7 +363,7 @@ export default function CohortMentoring() {
               {selectedCohort && (
                 <Link
                   href={`/cohorts/${selectedCohort.id}/forum`}
-                  className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
+                  className="inline-flex items-center gap-2 rounded-md bg-primary-600 px-3 py-2 text-sm font-medium text-white hover:bg-primary-700"
                 >
                   <ChatBubbleLeftRightIcon className="h-4 w-4" />
                   Open Cohort Forum
@@ -373,30 +373,30 @@ export default function CohortMentoring() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Total Enrollments</span>
                 <UsersIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-2xl font-bold text-gray-900">{summary.total}</div>
+              <div className="mt-2 text-2xl font-bold text-charcoal">{summary.total}</div>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Mentors Assigned</span>
                 <UserCircleIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-2xl font-bold text-gray-900">{summary.withMentor}</div>
-              <p className="text-xs text-gray-400">{summary.noMentor} still need a mentor</p>
+              <div className="mt-2 text-2xl font-bold text-charcoal">{summary.withMentor}</div>
+              <p className="text-xs text-pewter">{summary.noMentor} still need a mentor</p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-              <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+              <div className="flex items-center justify-between text-sm text-stone">
                 <span>Checklist Completion</span>
                 <CheckCircleIcon className="h-4 w-4" />
               </div>
-              <div className="mt-2 text-2xl font-bold text-gray-900">{summary.completionRate}%</div>
-              <p className="text-xs text-gray-400">Across onboarding steps</p>
+              <div className="mt-2 text-2xl font-bold text-charcoal">{summary.completionRate}%</div>
+              <p className="text-xs text-pewter">Across onboarding steps</p>
             </div>
-            <div className="rounded-xl border border-gray-200 bg-gradient-to-br from-primary-600 to-indigo-600 p-4 text-white shadow-sm">
+            <div className="rounded-md border border-border/60 bg-gradient-to-br from-primary-600 to-forest-600 p-4 text-white shadow-sm">
               <div className="flex items-center justify-between text-sm text-white/80">
                 <span>Community Pulse</span>
                 <div className="flex items-center gap-2">
@@ -418,12 +418,12 @@ export default function CohortMentoring() {
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_1fr]">
             <div className="space-y-4">
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                <label className="text-xs font-semibold text-gray-600">Select Cohort</label>
+              <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+                <label className="text-xs font-semibold text-stone">Select Cohort</label>
                 <select
                   value={selectedCohortId}
                   onChange={(e) => setSelectedCohortId(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                  className="mt-2 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                 >
                   {cohorts.map((cohort) => (
                     <option key={cohort.id} value={cohort.id}>
@@ -432,22 +432,22 @@ export default function CohortMentoring() {
                   ))}
                 </select>
                 {selectedCohort && (
-                  <div className="mt-3 space-y-1 text-xs text-gray-500">
-                    <p>Status: <span className="font-medium text-gray-700">{selectedCohort.status.replace('_', ' ')}</span></p>
+                  <div className="mt-3 space-y-1 text-xs text-stone">
+                    <p>Status: <span className="font-medium text-charcoal">{selectedCohort.status.replace('_', ' ')}</span></p>
                     <p>Dates: {new Date(selectedCohort.startDate).toLocaleDateString()} - {new Date(selectedCohort.endDate).toLocaleDateString()}</p>
                     <p>Capacity: {selectedCohort.currentParticipants}/{selectedCohort.maxParticipants}</p>
-                    <p>Pacing: <span className="font-medium text-gray-700">{pacingSummary}</span></p>
+                    <p>Pacing: <span className="font-medium text-charcoal">{pacingSummary}</span></p>
                   </div>
                 )}
               </div>
 
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                <label className="text-xs font-semibold text-gray-600">Cohort Pacing</label>
+              <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+                <label className="text-xs font-semibold text-stone">Cohort Pacing</label>
                 <div className="mt-3 space-y-2">
                   <select
                     value={pacingMode}
                     onChange={(e) => setPacingMode(e.target.value as CohortPacingMode)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                   >
                     <option value="cohort_paced">Cohort-paced</option>
                     <option value="self_paced">Self-paced</option>
@@ -459,13 +459,13 @@ export default function CohortMentoring() {
                     value={weeklyTargetMinutes}
                     onChange={(e) => setWeeklyTargetMinutes(e.target.value)}
                     placeholder="Weekly target minutes (optional)"
-                    className={`w-full rounded-lg border px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500 ${
-                      weeklyTargetInvalid || weeklyTargetMissing ? 'border-red-300' : 'border-gray-300'
+                    className={`w-full rounded-md border px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500 ${
+                      weeklyTargetInvalid || weeklyTargetMissing ? 'border-terracotta-300' : 'border-border/60'
                     }`}
                   />
-                  <p className="text-xs text-gray-400">{pacingHelperText}</p>
+                  <p className="text-xs text-pewter">{pacingHelperText}</p>
                   {(weeklyTargetMissing || weeklyTargetInvalid) && (
-                    <p className="text-xs text-red-500">
+                    <p className="text-xs text-terracotta-500">
                       {weeklyTargetInvalid
                         ? 'Enter a valid non-negative number of minutes.'
                         : 'Weekly target minutes are required for this pacing mode.'}
@@ -474,36 +474,36 @@ export default function CohortMentoring() {
                   <button
                     onClick={handlePacingSave}
                     disabled={pacingSaveDisabled}
-                    className={`w-full rounded-lg px-3 py-2 text-sm font-medium text-white ${
-                      pacingSaveDisabled ? 'bg-gray-400' : 'bg-primary-600 hover:bg-primary-700'
+                    className={`w-full rounded-md px-3 py-2 text-sm font-medium text-white ${
+                      pacingSaveDisabled ? 'bg-stone' : 'bg-primary-600 hover:bg-primary-700'
                     }`}
                   >
                     {pacingSaving ? 'Saving...' : 'Save pacing'}
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-pewter">
                   {weeklyTargetRequired
                     ? 'Weekly target is required for this pacing mode.'
                     : 'Weekly target is optional. Leave blank to remove.'}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                <label className="text-xs font-semibold text-gray-600">Search Learners</label>
+              <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+                <label className="text-xs font-semibold text-stone">Search Learners</label>
                 <div className="relative mt-2">
-                  <MagnifyingGlassIcon className="h-4 w-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <MagnifyingGlassIcon className="h-4 w-4 text-pewter absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Name or email"
-                    className="w-full rounded-lg border border-gray-300 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="w-full rounded-md border border-border/60 pl-9 pr-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                   />
                 </div>
                 <div className="mt-3 space-y-2">
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value as EnrollmentFilter)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                   >
                     <option value="all">All statuses</option>
                     <option value="enrolled">Enrolled</option>
@@ -515,7 +515,7 @@ export default function CohortMentoring() {
                   <select
                     value={checklistFilter}
                     onChange={(e) => setChecklistFilter(e.target.value as ChecklistFilter)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                   >
                     <option value="all">All checklist states</option>
                     <option value="not_started">Not started</option>
@@ -525,7 +525,7 @@ export default function CohortMentoring() {
                   <select
                     value={mentorFilter}
                     onChange={(e) => setMentorFilter(e.target.value)}
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                    className="w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                   >
                     <option value="all">All mentors</option>
                     {mentorOptions.map((mentor) => (
@@ -537,12 +537,12 @@ export default function CohortMentoring() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                <label className="text-xs font-semibold text-gray-600">Bulk Mentor Assignment</label>
+              <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+                <label className="text-xs font-semibold text-stone">Bulk Mentor Assignment</label>
                 <select
                   value={bulkMentorId}
                   onChange={(e) => setBulkMentorId(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                  className="mt-2 w-full rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                 >
                   <option value="">Select mentor</option>
                   {mentorOptions.map((mentor) => (
@@ -554,23 +554,23 @@ export default function CohortMentoring() {
                 <button
                   onClick={handleBulkAssign}
                   disabled={!bulkMentorId || bulkProcessing || filteredEnrollments.length === 0}
-                  className={`mt-3 w-full rounded-lg px-3 py-2 text-sm font-medium text-white ${
-                    bulkProcessing ? 'bg-gray-400' : 'bg-primary-600 hover:bg-primary-700'
+                  className={`mt-3 w-full rounded-md px-3 py-2 text-sm font-medium text-white ${
+                    bulkProcessing ? 'bg-stone' : 'bg-primary-600 hover:bg-primary-700'
                   }`}
                 >
                   {bulkProcessing ? 'Assigning...' : `Assign to ${filteredEnrollments.length} learners`}
                 </button>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-pewter">
                   Applies to the currently filtered list.
                 </p>
               </div>
 
-              <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                <label className="text-xs font-semibold text-gray-600">CSV Import</label>
-                <p className="mt-2 text-xs text-gray-400">
+              <div className="rounded-md border border-border/60 bg-white p-4 shadow-sm">
+                <label className="text-xs font-semibold text-stone">CSV Import</label>
+                <p className="mt-2 text-xs text-pewter">
                   Headers supported: `userEmail,mentorEmail` or `userId,mentorId`.
                 </p>
-                <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-lg border border-dashed border-gray-300 px-3 py-2 text-xs text-gray-600 hover:border-primary-400 hover:bg-primary-50">
+                <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-border/60 px-3 py-2 text-xs text-stone hover:border-primary-400 hover:bg-primary-50">
                   <ArrowUpTrayIcon className="h-4 w-4" />
                   {csvProcessing ? 'Importing...' : 'Upload CSV'}
                   <input
@@ -583,30 +583,30 @@ export default function CohortMentoring() {
                     }}
                   />
                 </label>
-                <p className="mt-2 text-xs text-gray-400">
+                <p className="mt-2 text-xs text-pewter">
                   Rows with unknown users or mentors are skipped.
                 </p>
               </div>
             </div>
 
-            <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-              <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
+            <div className="rounded-md border border-border/60 bg-white shadow-sm">
+              <div className="flex items-center justify-between border-b border-border/60 px-5 py-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Mentor Assignments</h3>
-                  <p className="text-xs text-gray-500">Showing {filteredEnrollments.length} of {enrollments.length} learners</p>
+                  <h3 className="text-lg font-semibold text-charcoal">Mentor Assignments</h3>
+                  <p className="text-xs text-stone">Showing {filteredEnrollments.length} of {enrollments.length} learners</p>
                 </div>
-                <span className="inline-flex items-center gap-2 text-xs text-gray-500">
+                <span className="inline-flex items-center gap-2 text-xs text-stone">
                   <ClipboardDocumentListIcon className="h-4 w-4" />
                   Onboarding checklist ready
                 </span>
               </div>
 
               {filteredEnrollments.length === 0 ? (
-                <div className="p-8 text-center text-sm text-gray-500">
+                <div className="p-8 text-center text-sm text-stone">
                   No learners match the current filters.
                 </div>
               ) : (
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-border/60">
                   {filteredEnrollments.map((enrollment, index) => {
                     const checklist = enrollment.onboardingChecklist || [];
                     const completed = checklist.filter((i) => i.completed).length;
@@ -621,24 +621,24 @@ export default function CohortMentoring() {
                       >
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                           <div className="space-y-1">
-                            <p className="text-sm font-semibold text-gray-900">
+                            <p className="text-sm font-semibold text-charcoal">
                               {enrollment.user?.name || enrollment.user?.email || 'Unknown learner'}
                             </p>
-                            <p className="text-xs text-gray-500">{enrollment.user?.email}</p>
-                            <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                              <span className="rounded-full bg-gray-100 px-2 py-0.5">{enrollment.status}</span>
-                              <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-indigo-700">{percent}% checklist</span>
+                            <p className="text-xs text-stone">{enrollment.user?.email}</p>
+                            <div className="flex flex-wrap gap-2 text-xs text-stone">
+                              <span className="rounded-full bg-forest-100 px-2 py-0.5">{enrollment.status}</span>
+                              <span className="rounded-full bg-forest-50 px-2 py-0.5 text-forest-700">{percent}% checklist</span>
                             </div>
                           </div>
 
                           <div className="flex flex-1 flex-col gap-3 lg:flex-row lg:items-center lg:justify-end">
                             <div className="min-w-[220px]">
-                              <label className="text-[11px] font-semibold text-gray-500">Mentor</label>
+                              <label className="text-[11px] font-semibold text-stone">Mentor</label>
                               <select
                                 value={enrollment.mentorId || ''}
                                 onChange={(e) => handleMentorChange(enrollment, e.target.value)}
                                 disabled={saving}
-                                className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-xs focus:border-primary-500 focus:ring-primary-500"
+                                className="mt-1 w-full rounded-md border border-border/60 px-3 py-2 text-xs focus:border-primary-500 focus:ring-primary-500"
                               >
                                 <option value="">Unassigned</option>
                                 {mentorOptions.map((mentor) => (
@@ -651,7 +651,7 @@ export default function CohortMentoring() {
 
                             <button
                               onClick={() => openChecklist(enrollment)}
-                              className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50"
+                              className="inline-flex items-center justify-center rounded-md border border-border/60 px-3 py-2 text-xs font-medium text-charcoal hover:bg-paper"
                             >
                               Edit Checklist
                             </button>
@@ -669,18 +669,18 @@ export default function CohortMentoring() {
 
       {drawerOpen && activeEnrollment && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/40">
-          <div className="h-full w-full max-w-lg bg-white shadow-xl">
-            <div className="border-b border-gray-200 px-6 py-4">
+          <div className="h-full w-full max-w-lg bg-white shadow-sm">
+            <div className="border-b border-border/60 px-6 py-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-gray-500">Onboarding checklist</p>
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <p className="text-xs text-stone">Onboarding checklist</p>
+                  <h3 className="text-lg font-semibold text-charcoal">
                     {activeEnrollment.user?.name || activeEnrollment.user?.email}
                   </h3>
                 </div>
                 <button
                   onClick={() => setDrawerOpen(false)}
-                  className="rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-500 hover:bg-gray-50"
+                  className="rounded-full border border-border/60 px-3 py-1 text-sm text-stone hover:bg-paper"
                 >
                   Close
                 </button>
@@ -689,13 +689,13 @@ export default function CohortMentoring() {
 
             <div className="space-y-4 p-6">
               {checklistDraft.length === 0 && (
-                <div className="rounded-lg border border-dashed border-gray-300 p-4 text-sm text-gray-500">
+                <div className="rounded-md border border-dashed border-border/60 p-4 text-sm text-stone">
                   No onboarding steps yet. Add tasks to guide the learner through their first days.
                 </div>
               )}
 
               {checklistDraft.map((item, index) => (
-                <div key={`${item.title}-${index}`} className="rounded-lg border border-gray-200 p-3">
+                <div key={`${item.title}-${index}`} className="rounded-md border border-border/60 p-3">
                   <div className="flex items-center gap-3">
                     <input
                       type="checkbox"
@@ -706,23 +706,23 @@ export default function CohortMentoring() {
                           completedAt: e.target.checked ? new Date().toISOString() : undefined,
                         })
                       }
-                      className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                      className="h-4 w-4 rounded border-border/60 text-primary-600 focus:ring-primary-500"
                     />
                     <input
                       value={item.title}
                       onChange={(e) => updateChecklistItem(index, { title: e.target.value })}
                       placeholder="Checklist task"
-                      className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
+                      className="flex-1 rounded-md border border-border/60 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500"
                     />
                     <button
                       onClick={() => removeChecklistItem(index)}
-                      className="text-xs text-red-500 hover:text-red-600"
+                      className="text-xs text-terracotta-500 hover:text-terracotta-600"
                     >
                       Remove
                     </button>
                   </div>
                   {item.completed && item.completedAt && (
-                    <p className="mt-2 text-xs text-gray-400">
+                    <p className="mt-2 text-xs text-pewter">
                       Completed {new Date(item.completedAt).toLocaleDateString()}
                     </p>
                   )}
@@ -731,18 +731,18 @@ export default function CohortMentoring() {
 
               <button
                 onClick={addChecklistItem}
-                className="w-full rounded-lg border border-dashed border-primary-300 px-3 py-2 text-sm text-primary-600 hover:bg-primary-50"
+                className="w-full rounded-md border border-dashed border-primary-300 px-3 py-2 text-sm text-primary-600 hover:bg-primary-50"
               >
                 Add checklist item
               </button>
             </div>
 
-            <div className="border-t border-gray-200 px-6 py-4">
+            <div className="border-t border-border/60 px-6 py-4">
               <button
                 onClick={saveChecklist}
                 disabled={saving}
-                className={`w-full rounded-lg px-4 py-2 text-sm font-medium text-white ${
-                  saving ? 'bg-gray-400' : 'bg-primary-600 hover:bg-primary-700'
+                className={`w-full rounded-md px-4 py-2 text-sm font-medium text-white ${
+                  saving ? 'bg-stone' : 'bg-primary-600 hover:bg-primary-700'
                 }`}
               >
                 {saving ? 'Saving...' : 'Save checklist'}

@@ -115,13 +115,13 @@ mike.johnson@company.com,Branch Manager`;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-md shadow-sm w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
-          <h3 className="text-lg font-semibold text-gray-900">Bulk Role Assignment</h3>
+          <h3 className="text-lg font-semibold text-charcoal">Bulk Role Assignment</h3>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md"
+            className="p-2 text-pewter hover:text-stone hover:bg-forest-100 rounded-md"
           >
             <XMarkIcon className="w-5 h-5" />
           </button>
@@ -130,12 +130,12 @@ mike.johnson@company.com,Branch Manager`;
         {/* Content */}
         <div className="p-6">
           {/* Instructions */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+          <div className="mb-6 p-4 bg-forest-50 rounded-md">
             <div className="flex items-start space-x-2">
-              <DocumentIcon className="w-5 h-5 text-blue-600 mt-0.5" />
+              <DocumentIcon className="w-5 h-5 text-forest-600 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-blue-900">CSV Format Requirements</p>
-                <ul className="text-sm text-blue-700 mt-2 space-y-1">
+                <p className="text-sm font-medium text-forest-900">CSV Format Requirements</p>
+                <ul className="text-sm text-forest-700 mt-2 space-y-1">
                   <li>• Must contain 'email' and 'jobRole' columns</li>
                   <li>• Email addresses must match existing users</li>
                   <li>• Job roles must be from the predefined list</li>
@@ -158,30 +158,30 @@ mike.johnson@company.com,Branch Manager`;
 
           {/* File Upload Area */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-charcoal mb-2">
               Upload CSV File
             </label>
             <div
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
-              className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+              className={`border-2 border-dashed rounded-md p-6 text-center transition-colors ${
                 isDragging
                   ? 'border-primary-400 bg-primary-50'
                   : csvFile
-                  ? 'border-green-400 bg-green-50'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-forest-400 bg-forest-50'
+                  : 'border-border/60 hover:border-border/60'
               }`}
             >
               {csvFile ? (
                 <div className="flex items-center justify-center space-x-2">
-                  <CheckCircleIcon className="w-6 h-6 text-green-600" />
-                  <span className="text-sm font-medium text-green-900">{csvFile.name}</span>
+                  <CheckCircleIcon className="w-6 h-6 text-forest-600" />
+                  <span className="text-sm font-medium text-forest-900">{csvFile.name}</span>
                 </div>
               ) : (
                 <>
-                  <ArrowUpTrayIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600 mb-2">
+                  <ArrowUpTrayIcon className="w-8 h-8 text-pewter mx-auto mb-2" />
+                  <p className="text-sm text-stone mb-2">
                     Drag and drop your CSV file here, or click to browse
                   </p>
                   <button
@@ -204,24 +204,24 @@ mike.johnson@company.com,Branch Manager`;
 
           {/* Validation Status */}
           {validation && (
-            <div className={`mb-6 p-3 rounded-lg flex items-start space-x-2 ${
+            <div className={`mb-6 p-3 rounded-md flex items-start space-x-2 ${
               validation.valid
-                ? 'bg-green-50 border border-green-200'
-                : 'bg-red-50 border border-red-200'
+                ? 'bg-forest-50 border border-forest-200'
+                : 'bg-terracotta-50 border border-terracotta-200'
             }`}>
               {validation.valid ? (
-                <CheckCircleIcon className="w-5 h-5 text-green-600 mt-0.5" />
+                <CheckCircleIcon className="w-5 h-5 text-forest-600 mt-0.5" />
               ) : (
-                <ExclamationTriangleIcon className="w-5 h-5 text-red-600 mt-0.5" />
+                <ExclamationTriangleIcon className="w-5 h-5 text-terracotta-600 mt-0.5" />
               )}
               <div>
                 <p className={`text-sm font-medium ${
-                  validation.valid ? 'text-green-900' : 'text-red-900'
+                  validation.valid ? 'text-forest-900' : 'text-terracotta-900'
                 }`}>
                   {validation.valid ? 'CSV Validation Passed' : 'CSV Validation Failed'}
                 </p>
                 {!validation.valid && (
-                  <p className="text-sm text-red-700 mt-1">{validation.error}</p>
+                  <p className="text-sm text-terracotta-700 mt-1">{validation.error}</p>
                 )}
               </div>
             </div>
@@ -230,11 +230,11 @@ mike.johnson@company.com,Branch Manager`;
           {/* CSV Preview */}
           {csvData && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-charcoal mb-2">
                 CSV Preview (first 5 rows)
               </label>
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <pre className="text-xs text-gray-600 p-3 bg-gray-50 overflow-x-auto">
+              <div className="border border-border/60 rounded-md overflow-hidden">
+                <pre className="text-xs text-stone p-3 bg-paper overflow-x-auto">
                   {csvData.split('\n').slice(0, 6).join('\n')}
                   {csvData.split('\n').length > 6 && '\n...'}
                 </pre>
@@ -249,9 +249,9 @@ mike.johnson@company.com,Branch Manager`;
                 type="checkbox"
                 checked={notifyUsers}
                 onChange={(e) => setNotifyUsers(e.target.checked)}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-border/60 rounded"
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-charcoal">
                 Send email notifications to users about role assignments
               </span>
             </label>
@@ -259,10 +259,10 @@ mike.johnson@company.com,Branch Manager`;
         </div>
 
         {/* Actions */}
-        <div className="flex justify-end space-x-3 p-6 border-t bg-gray-50">
+        <div className="flex justify-end space-x-3 p-6 border-t bg-paper">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper"
             disabled={isUploading}
           >
             Cancel

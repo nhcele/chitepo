@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CertificationPathway } from '../src/certifications/entities/certification-pathway.entity';
 import { UserCertification } from '../src/certifications/entities/user-certification.entity';
 import { Course } from '../src/courses/entities/course.entity';
-import { Enrollment } from '../src/courses/entities/enrollment.entity';
+import { Enrollment } from '../src/enrollments/entities/enrollment.entity';
 import { User } from '../src/users/entities/user.entity';
 
 describe('Certifications API (Integration)', () => {
@@ -22,7 +22,7 @@ describe('Certifications API (Integration)', () => {
   const testUser = {
     email: 'learner@test.com',
     password: 'password123',
-    name: 'Test Learner',
+    name: 'Tariro Moyo',
   };
 
   beforeAll(async () => {

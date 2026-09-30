@@ -79,7 +79,7 @@ async function bootstrap() {
       ];
       
       // Allow localhost ports for development
-      if (/^http:\/\/(localhost|127\.0\.0\.1):(3000|5173|4200|8080|3001)$/.test(origin)) {
+      if (/^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin)) {
         return callback(null, true);
       }
       

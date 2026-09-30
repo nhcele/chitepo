@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   QuestionMarkCircleIcon,
@@ -9,9 +9,7 @@ import {
   ArrowDownIcon,
   CheckCircleIcon,
   XCircleIcon,
-  AcademicCapIcon,
-  ClockIcon,
-  ChartBarIcon
+  AcademicCapIcon
 } from '@heroicons/react/24/outline';
 import { useForm } from 'react-hook-form';
 
@@ -41,6 +39,7 @@ interface QuizSystemProps {
   lessonId: string;
   initialData?: Partial<QuizData>;
   onSave: (data: QuizData) => Promise<void>;
+  onDirtyChange?: (isDirty: boolean) => void;
   loading?: boolean;
 }
 
@@ -48,6 +47,7 @@ export default function QuizSystem({
   lessonId, 
   initialData, 
   onSave, 
+  onDirtyChange,
   loading = false 
 }: QuizSystemProps) {
   const [isEditing, setIsEditing] = useState(true);
@@ -68,19 +68,43 @@ export default function QuizSystem({
   const {
     register,
     handleSubmit,
-    setValue,
-    watch,
     reset,
     formState: { errors, isDirty }
   } = useForm<QuizData>({
     defaultValues: quizData
   });
 
+  useEffect(() => {
+    const nextData = {
+      title: initialData?.title || '',
+      description: initialData?.description || '',
+      passingScore: initialData?.passingScore || 70,
+      timeLimit: initialData?.timeLimit || 30,
+      shuffleQuestions: initialData?.shuffleQuestions || false,
+      showResults: initialData?.showResults ?? true,
+      allowRetake: initialData?.allowRetake ?? true,
+      maxAttempts: initialData?.maxAttempts || 3,
+      questions: initialData?.questions || []
+    };
+    setQuizData(nextData);
+    reset(nextData);
+    setIsEditing(true);
+    onDirtyChange?.(false);
+  }, [initialData, onDirtyChange, reset]);
+
+  useEffect(() => {
+    if (isDirty) {
+      onDirtyChange?.(true);
+    }
+  }, [isDirty, onDirtyChange]);
+
   const handleSaveQuiz = async (data: QuizData) => {
     try {
       const updatedData = { ...data, questions: quizData.questions };
       await onSave(updatedData);
       setQuizData(updatedData);
+      reset(updatedData);
+      onDirtyChange?.(false);
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to save quiz:', error);
@@ -93,6 +117,8 @@ export default function QuizSystem({
       ...prev,
       questions: [...prev.questions, { ...question, id: Date.now().toString() }]
     }));
+    onDirtyChange?.(true);
+    setIsEditing(true);
     setShowAddQuestion(false);
   };
 
@@ -108,6 +134,8 @@ export default function QuizSystem({
         q.id === updatedQuestion.id ? updatedQuestion : q
       )
     }));
+    onDirtyChange?.(true);
+    setIsEditing(true);
     setShowAddQuestion(false);
     setEditingQuestion(null);
   };
@@ -117,6 +145,8 @@ export default function QuizSystem({
       ...prev,
       questions: prev.questions.filter(q => q.id !== questionId)
     }));
+    onDirtyChange?.(true);
+    setIsEditing(true);
   };
 
   const handleMoveQuestion = (questionId: string, direction: 'up' | 'down') => {
@@ -130,6 +160,8 @@ export default function QuizSystem({
     }
     
     setQuizData(prev => ({ ...prev, questions }));
+    onDirtyChange?.(true);
+    setIsEditing(true);
   };
 
   const totalPoints = quizData.questions.reduce((sum, q) => sum + q.points, 0);
@@ -140,17 +172,17 @@ export default function QuizSystem({
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200"
+        className="bg-white rounded-md shadow-sm border border-border/60"
       >
-        <div className="px-6 py-4 border-b border-gray-200">
+        <div className="px-6 py-4 border-b border-border/60">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-green-50 rounded-lg">
-                <QuestionMarkCircleIcon className="h-5 w-5 text-green-600" />
+              <div className="p-2 bg-forest-50 rounded-md">
+                <QuestionMarkCircleIcon className="h-5 w-5 text-forest-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Quiz Configuration</h3>
-                <p className="text-sm text-gray-500">Set up quiz parameters and questions</p>
+                <h3 className="text-lg font-semibold text-charcoal">Quiz Configuration</h3>
+                <p className="text-sm text-stone">Set up quiz parameters and questions</p>
               </div>
             </div>
             
@@ -158,7 +190,7 @@ export default function QuizSystem({
               {isEditing && (
                 <button
                   onClick={() => setShowAddQuestion(true)}
-                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-green-600 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                  className="inline-flex items-center px-3 py-2 text-sm font-medium text-forest-600 bg-forest-50 rounded-md hover:bg-forest-100 transition-colors"
                 >
                   <PlusIcon className="h-4 w-4 mr-1" />
                   Add Question
@@ -173,7 +205,7 @@ export default function QuizSystem({
             {/* Basic Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Quiz Title
                 </label>
                 <input
@@ -181,15 +213,15 @@ export default function QuizSystem({
                   {...register('title', { required: 'Quiz title is required' })}
                   disabled={!isEditing}
                   placeholder="e.g., JavaScript Fundamentals Quiz"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500 disabled:bg-paper disabled:text-stone"
                 />
                 {errors.title && (
-                  <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>
+                  <p className="mt-1 text-sm text-terracotta-600">{errors.title.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Time Limit (minutes)
                 </label>
                 <input
@@ -200,16 +232,16 @@ export default function QuizSystem({
                     max: { value: 180, message: 'Cannot exceed 3 hours' }
                   })}
                   disabled={!isEditing}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500 disabled:bg-paper disabled:text-stone"
                 />
                 {errors.timeLimit && (
-                  <p className="mt-1 text-sm text-red-600">{errors.timeLimit.message}</p>
+                  <p className="mt-1 text-sm text-terracotta-600">{errors.timeLimit.message}</p>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-charcoal mb-1">
                 Description
               </label>
               <textarea
@@ -217,14 +249,14 @@ export default function QuizSystem({
                 rows={3}
                 disabled={!isEditing}
                 placeholder="Describe what this quiz covers and any special instructions..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-50 disabled:text-gray-500"
+                className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500 disabled:bg-paper disabled:text-stone"
               />
             </div>
 
             {/* Quiz Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Passing Score (%)
                 </label>
                 <input
@@ -235,15 +267,15 @@ export default function QuizSystem({
                     max: { value: 100, message: 'Must be between 0 and 100' }
                   })}
                   disabled={!isEditing}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500 disabled:bg-paper disabled:text-stone"
                 />
                 {errors.passingScore && (
-                  <p className="mt-1 text-sm text-red-600">{errors.passingScore.message}</p>
+                  <p className="mt-1 text-sm text-terracotta-600">{errors.passingScore.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-charcoal mb-1">
                   Max Attempts
                 </label>
                 <input
@@ -254,10 +286,10 @@ export default function QuizSystem({
                     max: { value: 10, message: 'Cannot exceed 10 attempts' }
                   })}
                   disabled={!isEditing}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500 disabled:bg-paper disabled:text-stone"
                 />
                 {errors.maxAttempts && (
-                  <p className="mt-1 text-sm text-red-600">{errors.maxAttempts.message}</p>
+                  <p className="mt-1 text-sm text-terracotta-600">{errors.maxAttempts.message}</p>
                 )}
               </div>
 
@@ -267,9 +299,9 @@ export default function QuizSystem({
                   id="shuffleQuestions"
                   {...register('shuffleQuestions')}
                   disabled={!isEditing}
-                  className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50"
+                  className="h-4 w-4 text-forest-600 border-border/60 rounded focus:ring-forest-500 disabled:opacity-50"
                 />
-                <label htmlFor="shuffleQuestions" className="text-sm text-gray-700">
+                <label htmlFor="shuffleQuestions" className="text-sm text-charcoal">
                   Shuffle Questions
                 </label>
               </div>
@@ -280,12 +312,33 @@ export default function QuizSystem({
                   id="showResults"
                   {...register('showResults')}
                   disabled={!isEditing}
-                  className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50"
+                  className="h-4 w-4 text-forest-600 border-border/60 rounded focus:ring-forest-500 disabled:opacity-50"
                 />
-                <label htmlFor="showResults" className="text-sm text-gray-700">
+                <label htmlFor="showResults" className="text-sm text-charcoal">
                   Show Results
                 </label>
               </div>
+            </div>
+
+            <div className="flex items-center justify-end space-x-3 border-t border-border/60 pt-4">
+              {!isEditing && (
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(true)}
+                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-charcoal bg-white border border-border/60 rounded-md hover:bg-paper transition-colors"
+                >
+                  <PencilIcon className="h-4 w-4 mr-1" />
+                  Edit
+                </button>
+              )}
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-forest-600 rounded-md hover:bg-forest-700 disabled:opacity-60 transition-colors"
+              >
+                <CheckCircleIcon className="h-4 w-4 mr-1" />
+                {loading ? 'Saving...' : 'Save Draft'}
+              </button>
             </div>
           </form>
         </div>
@@ -296,17 +349,17 @@ export default function QuizSystem({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200"
+        className="bg-white rounded-md shadow-sm border border-border/60"
       >
-        <div className="px-6 py-4 border-b border-gray-200">
+        <div className="px-6 py-4 border-b border-border/60">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-primary-50 rounded-lg">
+              <div className="p-2 bg-primary-50 rounded-md">
                 <AcademicCapIcon className="h-5 w-5 text-primary-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Questions ({quizData.questions.length})</h3>
-                <p className="text-sm text-gray-500">Total Points: {totalPoints}</p>
+                <h3 className="text-lg font-semibold text-charcoal">Questions ({quizData.questions.length})</h3>
+                <p className="text-sm text-stone">Total Points: {totalPoints}</p>
               </div>
             </div>
           </div>
@@ -315,12 +368,12 @@ export default function QuizSystem({
         <div className="p-6">
           {quizData.questions.length === 0 ? (
             <div className="text-center py-12">
-              <QuestionMarkCircleIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No questions yet</h3>
-              <p className="text-gray-500 mb-4">Add your first question to get started</p>
+              <QuestionMarkCircleIcon className="h-12 w-12 text-pewter mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-charcoal mb-2">No questions yet</h3>
+              <p className="text-stone mb-4">Add your first question to get started</p>
               <button
                 onClick={() => setShowAddQuestion(true)}
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-md hover:bg-primary-100 transition-colors"
               >
                 <PlusIcon className="h-4 w-4 mr-1" />
                 Add Question
@@ -334,21 +387,21 @@ export default function QuizSystem({
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="border border-gray-200 rounded-lg p-4"
+                  className="border border-border/60 rounded-md p-4"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <span className="text-sm font-medium text-gray-500">Question {index + 1}</span>
+                        <span className="text-sm font-medium text-stone">Question {index + 1}</span>
                         <span className="px-2 py-1 text-xs font-medium text-primary-700 bg-primary-50 rounded">
                           {question.type.replace('-', ' ')}
                         </span>
-                        <span className="px-2 py-1 text-xs font-medium text-green-700 bg-green-50 rounded">
+                        <span className="px-2 py-1 text-xs font-medium text-forest-700 bg-forest-50 rounded">
                           {question.points} points
                         </span>
                       </div>
                       
-                      <h4 className="text-gray-900 font-medium mb-2">{question.question}</h4>
+                      <h4 className="text-charcoal font-medium mb-2">{question.question}</h4>
                       
                       {question.type === 'multiple-choice' && question.options && (
                         <div className="space-y-1 mb-2">
@@ -356,10 +409,10 @@ export default function QuizSystem({
                             <div key={optionIndex} className="flex items-center space-x-2">
                               <div className={`w-4 h-4 rounded-full border-2 ${
                                 question.correctAnswer === optionIndex 
-                                  ? 'bg-green-500 border-green-500' 
-                                  : 'border-gray-300'
+                                  ? 'bg-forest-500 border-forest-500' 
+                                  : 'border-border/60'
                               }`} />
-                              <span className="text-sm text-gray-700">{option}</span>
+                              <span className="text-sm text-charcoal">{option}</span>
                             </div>
                           ))}
                         </div>
@@ -370,24 +423,24 @@ export default function QuizSystem({
                           <div className="flex items-center space-x-2">
                             <div className={`w-4 h-4 rounded-full border-2 ${
                               question.correctAnswer === 'true' 
-                                ? 'bg-green-500 border-green-500' 
-                                : 'border-gray-300'
+                                ? 'bg-forest-500 border-forest-500' 
+                                : 'border-border/60'
                             }`} />
-                            <span className="text-sm text-gray-700">True</span>
+                            <span className="text-sm text-charcoal">True</span>
                           </div>
                           <div className="flex items-center space-x-2">
                             <div className={`w-4 h-4 rounded-full border-2 ${
                               question.correctAnswer === 'false' 
-                                ? 'bg-green-500 border-green-500' 
-                                : 'border-gray-300'
+                                ? 'bg-forest-500 border-forest-500' 
+                                : 'border-border/60'
                             }`} />
-                            <span className="text-sm text-gray-700">False</span>
+                            <span className="text-sm text-charcoal">False</span>
                           </div>
                         </div>
                       )}
                       
                       {question.explanation && (
-                        <div className="mt-2 p-2 bg-gray-50 rounded text-sm text-gray-600">
+                        <div className="mt-2 p-2 bg-paper rounded text-sm text-stone">
                           <strong>Explanation:</strong> {question.explanation}
                         </div>
                       )}
@@ -397,26 +450,26 @@ export default function QuizSystem({
                       <button
                         onClick={() => handleMoveQuestion(question.id, 'up')}
                         disabled={index === 0}
-                        className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                        className="p-1 text-pewter hover:text-stone disabled:opacity-50"
                       >
                         <ArrowUpIcon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleMoveQuestion(question.id, 'down')}
                         disabled={index === quizData.questions.length - 1}
-                        className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                        className="p-1 text-pewter hover:text-stone disabled:opacity-50"
                       >
                         <ArrowDownIcon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleEditQuestion(question)}
-                        className="p-1 text-gray-400 hover:text-primary-600"
+                        className="p-1 text-pewter hover:text-primary-600"
                       >
                         <PencilIcon className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDeleteQuestion(question.id)}
-                        className="p-1 text-gray-400 hover:text-red-600"
+                        className="p-1 text-pewter hover:text-terracotta-600"
                       >
                         <TrashIcon className="h-4 w-4" />
                       </button>
@@ -471,6 +524,20 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
     onSave(formData);
   };
 
+  const changeQuestionType = (type: QuizQuestion['type']) => {
+    setFormData((prev) => ({
+      ...prev,
+      type,
+      options: type === 'multiple-choice' ? (prev.options && prev.options.length >= 2 ? prev.options : ['', '', '', '']) : undefined,
+      correctAnswer:
+        type === 'multiple-choice'
+          ? 0
+          : type === 'true-false'
+            ? 'true'
+            : '',
+    }));
+  };
+
   const addOption = () => {
     setFormData(prev => ({
       ...prev,
@@ -505,26 +572,23 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-md shadow-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">
+        <div className="px-6 py-4 border-b border-border/60">
+          <h3 className="text-lg font-semibold text-charcoal">
             {question ? 'Edit Question' : 'Add New Question'}
           </h3>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Question Type
             </label>
             <select
               value={formData.type}
-              onChange={(e) => setFormData(prev => ({ 
-                ...prev, 
-                type: e.target.value as QuizQuestion['type'] 
-              }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              onChange={(e) => changeQuestionType(e.target.value as QuizQuestion['type'])}
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
             >
               <option value="multiple-choice">Multiple Choice</option>
               <option value="true-false">True/False</option>
@@ -533,7 +597,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Question
             </label>
             <textarea
@@ -541,13 +605,13 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
               onChange={(e) => setFormData(prev => ({ ...prev, question: e.target.value }))}
               rows={3}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
             />
           </div>
 
           {formData.type === 'multiple-choice' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-charcoal mb-1">
                 Answer Options
               </label>
               <div className="space-y-2">
@@ -558,7 +622,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                       name="correctAnswer"
                       checked={formData.correctAnswer === index}
                       onChange={() => setFormData(prev => ({ ...prev, correctAnswer: index }))}
-                      className="h-4 w-4 text-green-600 border-gray-300"
+                      className="h-4 w-4 text-forest-600 border-border/60"
                     />
                     <input
                       type="text"
@@ -566,13 +630,13 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                       onChange={(e) => updateOption(index, e.target.value)}
                       placeholder={`Option ${index + 1}`}
                       required
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                      className="flex-1 px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
                     />
                     {formData.options && formData.options.length > 2 && (
                       <button
                         type="button"
                         onClick={() => removeOption(index)}
-                        className="p-1 text-red-600 hover:text-red-800"
+                        className="p-1 text-terracotta-600 hover:text-terracotta-800"
                       >
                         <XCircleIcon className="h-4 w-4" />
                       </button>
@@ -584,7 +648,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                 <button
                   type="button"
                   onClick={addOption}
-                  className="mt-2 text-sm text-green-600 hover:text-green-800"
+                  className="mt-2 text-sm text-forest-600 hover:text-forest-800"
                 >
                   + Add Option
                 </button>
@@ -594,7 +658,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
 
           {formData.type === 'true-false' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-charcoal mb-1">
                 Correct Answer
               </label>
               <div className="flex items-center space-x-4">
@@ -604,7 +668,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                     name="tfAnswer"
                     checked={formData.correctAnswer === 'true'}
                     onChange={() => setFormData(prev => ({ ...prev, correctAnswer: 'true' }))}
-                    className="h-4 w-4 text-green-600 border-gray-300"
+                    className="h-4 w-4 text-forest-600 border-border/60"
                   />
                   <span>True</span>
                 </label>
@@ -614,7 +678,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                     name="tfAnswer"
                     checked={formData.correctAnswer === 'false'}
                     onChange={() => setFormData(prev => ({ ...prev, correctAnswer: 'false' }))}
-                    className="h-4 w-4 text-green-600 border-gray-300"
+                    className="h-4 w-4 text-forest-600 border-border/60"
                   />
                   <span>False</span>
                 </label>
@@ -624,7 +688,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
 
           {formData.type === 'short-answer' && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-charcoal mb-1">
                 Correct Answer (case-insensitive)
               </label>
               <input
@@ -633,14 +697,14 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                 onChange={(e) => setFormData(prev => ({ ...prev, correctAnswer: e.target.value }))}
                 placeholder="Enter the correct answer"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
               />
             </div>
           )}
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-charcoal mb-1">
                 Points
               </label>
               <input
@@ -650,13 +714,13 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
                 min="1"
                 max="100"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-charcoal mb-1">
               Explanation (optional)
             </label>
             <textarea
@@ -664,7 +728,7 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
               onChange={(e) => setFormData(prev => ({ ...prev, explanation: e.target.value }))}
               rows={2}
               placeholder="Explain why this is the correct answer..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-forest-500 focus:border-forest-500"
             />
           </div>
 
@@ -672,13 +736,13 @@ function QuestionModal({ question, onSave, onClose }: QuestionModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-charcoal bg-forest-100 rounded-md hover:bg-forest-100 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-white bg-forest-600 rounded-md hover:bg-forest-700 transition-colors"
             >
               {question ? 'Update Question' : 'Add Question'}
             </button>

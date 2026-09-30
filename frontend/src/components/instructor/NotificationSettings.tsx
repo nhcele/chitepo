@@ -118,8 +118,8 @@ export default function NotificationSettings({
       title: 'In-App Notifications',
       icon: ChatBubbleLeftRightIcon,
       description: 'Show notifications in your dashboard',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
+      color: 'text-terracotta-600',
+      bgColor: 'bg-terracotta-50',
       fields: [
         { key: 'inAppNewEnrollment', label: 'New student enrollment', description: 'Real-time enrollment alerts' },
         { key: 'inAppCourseReview', label: 'Course reviews', description: 'New review notifications' },
@@ -132,8 +132,8 @@ export default function NotificationSettings({
       title: 'Push Notifications',
       icon: DevicePhoneMobileIcon,
       description: 'Mobile push notifications',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
+      color: 'text-forest-600',
+      bgColor: 'bg-forest-50',
       fields: [
         { key: 'pushNewEnrollment', label: 'New student enrollment', description: 'Instant enrollment alerts' },
         { key: 'pushStudentMessage', label: 'Student messages', description: 'Urgent message notifications' },
@@ -146,25 +146,25 @@ export default function NotificationSettings({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200"
+      className="bg-white rounded-md shadow-sm border border-border/60"
     >
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-border/60">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-purple-50 rounded-lg">
-              <BellIcon className="h-5 w-5 text-purple-600" />
+            <div className="p-2 bg-terracotta-50 rounded-md">
+              <BellIcon className="h-5 w-5 text-terracotta-600" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Notification Settings</h3>
-              <p className="text-sm text-gray-500">Manage how you receive updates</p>
+              <h3 className="text-lg font-semibold text-charcoal">Notification Settings</h3>
+              <p className="text-sm text-stone">Manage how you receive updates</p>
             </div>
           </div>
           
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-terracotta-600 bg-terracotta-50 rounded-md hover:bg-terracotta-100 transition-colors"
             >
               <ChatBubbleLeftRightIcon className="h-4 w-4 mr-1" />
               Configure
@@ -174,7 +174,7 @@ export default function NotificationSettings({
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-stone bg-paper rounded-md hover:bg-forest-100 transition-colors disabled:opacity-50"
               >
                 <XMarkIcon className="h-4 w-4 mr-1" />
                 Cancel
@@ -182,7 +182,7 @@ export default function NotificationSettings({
               <button
                 onClick={handleSubmit(handleSave)}
                 disabled={loading || !isDirty}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-terracotta-600 rounded-md hover:bg-terracotta-700 transition-colors disabled:opacity-50"
               >
                 {loading ? (
                   <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1" />
@@ -202,12 +202,12 @@ export default function NotificationSettings({
           {notificationCategories.map((category) => (
             <div key={category.title} className="space-y-4">
               <div className="flex items-center space-x-3">
-                <div className={`p-2 ${category.bgColor} rounded-lg`}>
+                <div className={`p-2 ${category.bgColor} rounded-md`}>
                   <category.icon className={`h-5 w-5 ${category.color}`} />
                 </div>
                 <div>
-                  <h4 className="text-base font-semibold text-gray-900">{category.title}</h4>
-                  <p className="text-sm text-gray-500">{category.description}</p>
+                  <h4 className="text-base font-semibold text-charcoal">{category.title}</h4>
+                  <p className="text-sm text-stone">{category.description}</p>
                 </div>
               </div>
 
@@ -219,16 +219,16 @@ export default function NotificationSettings({
                       id={field.key}
                       {...register(field.key as keyof NotificationFormData)}
                       disabled={!isEditing}
-                      className="mt-1 h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 disabled:opacity-50"
+                      className="mt-1 h-4 w-4 text-primary-600 border-border/60 rounded focus:ring-primary-500 disabled:opacity-50"
                     />
                     <div className="flex-1">
                       <label 
                         htmlFor={field.key}
-                        className={`text-sm font-medium ${isEditing ? 'text-gray-900' : 'text-gray-700'}`}
+                        className={`text-sm font-medium ${isEditing ? 'text-charcoal' : 'text-charcoal'}`}
                       >
                         {field.label}
                       </label>
-                      <p className="text-xs text-gray-500">{field.description}</p>
+                      <p className="text-xs text-stone">{field.description}</p>
                     </div>
                   </div>
                 ))}
@@ -237,26 +237,26 @@ export default function NotificationSettings({
           ))}
 
           {/* Email Frequency Settings */}
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-border/60 pt-6">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="p-2 bg-orange-50 rounded-lg">
-                <ComputerDesktopIcon className="h-5 w-5 text-orange-600" />
+              <div className="p-2 bg-ochre-50 rounded-md">
+                <ComputerDesktopIcon className="h-5 w-5 text-ochre-600" />
               </div>
               <div>
-                <h4 className="text-base font-semibold text-gray-900">Email Frequency</h4>
-                <p className="text-sm text-gray-500">How often you receive email notifications</p>
+                <h4 className="text-base font-semibold text-charcoal">Email Frequency</h4>
+                <p className="text-sm text-stone">How often you receive email notifications</p>
               </div>
             </div>
 
             <div className="ml-8 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-charcoal mb-2">
                   Digest Frequency
                 </label>
                 <select
                   {...register('emailFrequency')}
                   disabled={!isEditing}
-                  className="w-full md:w-64 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full md:w-64 px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                 >
                   <option value="immediate">Immediate</option>
                   <option value="daily">Daily Digest</option>
@@ -267,14 +267,14 @@ export default function NotificationSettings({
               {watchEmailFrequency !== 'immediate' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-charcoal mb-2">
                       {watchEmailFrequency === 'daily' ? 'Delivery Time' : 'Delivery Day'}
                     </label>
                     {watchEmailFrequency === 'weekly' ? (
                       <select
                         {...register('digestDay')}
                         disabled={!isEditing}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                        className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                       >
                         <option value="monday">Monday</option>
                         <option value="wednesday">Wednesday</option>
@@ -284,14 +284,14 @@ export default function NotificationSettings({
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-charcoal mb-2">
                       Delivery Time
                     </label>
                     <input
                       type="time"
                       {...register('digestTime')}
                       disabled={!isEditing}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-gray-50 disabled:text-gray-500"
+                      className="w-full px-3 py-2 border border-border/60 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:bg-paper disabled:text-stone"
                     />
                   </div>
                 </div>
@@ -300,9 +300,9 @@ export default function NotificationSettings({
           </div>
 
           {/* Quick Actions */}
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-border/60 pt-6">
             <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-stone">
                 {isEditing ? (
                   <span>Review your changes before saving</span>
                 ) : (
@@ -339,7 +339,7 @@ export default function NotificationSettings({
                         digestTime: '09:00'
                       });
                     }}
-                    className="text-sm text-gray-600 hover:text-gray-800 transition-colors"
+                    className="text-sm text-stone hover:text-charcoal transition-colors"
                   >
                     Reset to defaults
                   </button>

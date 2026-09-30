@@ -61,26 +61,26 @@ export default function AdminApprovalQueue() {
     <RoleGuard allow={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
       <Layout>
         <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-pink-50 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-50 via-white to-terracotta-50 pointer-events-none" />
           <div className="relative px-6 pt-8 pb-4">
             <div className="max-w-6xl mx-auto">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-forest-600 to-terracotta-600 bg-clip-text text-transparent">
                 Course Approval Queue
               </h1>
-              <p className="mt-2 text-sm text-gray-500">Review and approve or reject submitted courses.</p>
+              <p className="mt-2 text-sm text-stone">Review and approve or reject submitted courses.</p>
             </div>
           </div>
         </div>
 
         <div className="px-6 pb-12">
           <div className="max-w-6xl mx-auto space-y-4">
-            {toast && <div className="text-green-700 text-sm">{toast}</div>}
-            {error && <div className="text-sm text-red-600">{error}</div>}
-            <div className="bg-white/70 backdrop-blur rounded-xl border shadow-sm overflow-hidden">
+            {toast && <div className="text-forest-700 text-sm">{toast}</div>}
+            {error && <div className="text-sm text-terracotta-600">{error}</div>}
+            <div className="bg-white/70 backdrop-blur rounded-md border shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-50 text-left">
+                    <tr className="bg-paper text-left">
                       <th className="p-3">Title</th>
                       <th className="p-3">Instructor</th>
                       <th className="p-3">Status</th>
@@ -98,11 +98,11 @@ export default function AdminApprovalQueue() {
                         <tr key={c.id} className="border-t align-top">
                           <td className="p-3">
                             <div className="font-medium">{c.title || '(Untitled course)'}</div>
-                            <div className="text-xs text-gray-500">{c.id}</div>
+                            <div className="text-xs text-stone">{c.id}</div>
                           </td>
                           <td className="p-3">
                             <div>{c.instructor?.name || '-'}</div>
-                            <div className="text-xs text-gray-500">{c.instructor?.email || ''}</div>
+                            <div className="text-xs text-stone">{c.instructor?.email || ''}</div>
                           </td>
                           <td className="p-3">{c.status || 'REVIEW'}</td>
                           <td className="p-3">{c.updatedAt ? new Date(c.updatedAt).toLocaleString() : '-'}</td>
@@ -114,17 +114,17 @@ export default function AdminApprovalQueue() {
                                   onChange={e => setRejectComment(e.target.value)}
                                   rows={3}
                                   placeholder="Rejection comment (optional)"
-                                  className="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                                  className="w-full rounded-md border-border/60 focus:border-forest-500 focus:ring-forest-500"
                                 />
                                 <div className="flex gap-2">
-                                  <button onClick={confirmReject} className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-sm">Reject</button>
-                                  <button onClick={cancelReject} className="px-3 py-1.5 rounded-lg border bg-white hover:bg-gray-50 shadow-sm">Cancel</button>
+                                  <button onClick={confirmReject} className="px-3 py-1.5 rounded-md bg-terracotta-600 hover:bg-terracotta-700 text-white shadow-sm">Reject</button>
+                                  <button onClick={cancelReject} className="px-3 py-1.5 rounded-md border bg-white hover:bg-paper shadow-sm">Cancel</button>
                                 </div>
                               </div>
                             ) : (
                               <div className="flex gap-2">
-                                <button onClick={() => approve(c.id)} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-700 text-white shadow-sm">Approve</button>
-                                <button onClick={() => beginReject(c.id)} className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white shadow-sm">Reject</button>
+                                <button onClick={() => approve(c.id)} className="px-3 py-1.5 rounded-md bg-forest-600 hover:bg-forest-700 text-white shadow-sm">Approve</button>
+                                <button onClick={() => beginReject(c.id)} className="px-3 py-1.5 rounded-md bg-terracotta-600 hover:bg-terracotta-700 text-white shadow-sm">Reject</button>
                               </div>
                             )}
                           </td>

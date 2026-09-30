@@ -214,8 +214,8 @@ export default function LearningPathsManagement() {
       <AdminLayout title="Access Denied">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600">Access Denied</h1>
-            <p className="text-gray-600 mt-2">You do not have permission to access this page.</p>
+            <h1 className="text-2xl font-bold text-terracotta-600">Access Denied</h1>
+            <p className="text-stone mt-2">You do not have permission to access this page.</p>
           </div>
         </div>
       </AdminLayout>
@@ -228,15 +228,15 @@ export default function LearningPathsManagement() {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Learning Paths Management</h1>
-            <p className="text-gray-600 mt-2">Configure required courses and deadlines for each job role</p>
+            <h1 className="text-3xl font-bold text-charcoal">Learning Paths Management</h1>
+            <p className="text-stone mt-2">Configure required courses and deadlines for each job role</p>
           </div>
           <div className="flex gap-2">
             {isEditing ? (
               <>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 border border-border/60 rounded-md text-charcoal hover:bg-paper"
                 >
                   Cancel
                 </button>
@@ -262,8 +262,8 @@ export default function LearningPathsManagement() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Role Selector Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow p-4">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Select Job Role</h2>
+            <div className="bg-white rounded-md shadow p-4">
+              <h2 className="text-lg font-semibold text-charcoal mb-4">Select Job Role</h2>
               <div className="space-y-1">
                 {jobRoles.map((role) => (
                   <button
@@ -272,11 +272,11 @@ export default function LearningPathsManagement() {
                     className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
                       selectedRole === role.value
                         ? 'bg-primary-100 text-primary-700 font-medium'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        : 'text-charcoal hover:bg-forest-100'
                     }`}
                   >
                     <div>{role.label}</div>
-                    <div className="text-xs text-gray-500">{role.category}</div>
+                    <div className="text-xs text-stone">{role.category}</div>
                   </button>
                 ))}
               </div>
@@ -288,24 +288,24 @@ export default function LearningPathsManagement() {
             {learningPath && (
               <>
                 {/* Path Overview */}
-                <div className="bg-white rounded-lg shadow p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                <div className="bg-white rounded-md shadow p-6">
+                  <h2 className="text-xl font-semibold text-charcoal mb-4">
                     {jobRoles.find(r => r.value === selectedRole)?.label} Learning Path
                   </h2>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-charcoal mb-1">
                         Role Category
                       </label>
                       <input
                         type="text"
                         value={learningPath.roleCategory}
                         disabled={!isEditing}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-border/60 rounded-md"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-charcoal mb-1">
                         Time to Complete (weeks)
                       </label>
                       <input
@@ -316,17 +316,17 @@ export default function LearningPathsManagement() {
                           ...learningPath,
                           timeToCompleteWeeks: parseInt(e.target.value)
                         })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        className="w-full px-3 py-2 border border-border/60 rounded-md"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Required Courses */}
-                <div className="bg-white rounded-lg shadow p-6">
+                <div className="bg-white rounded-md shadow p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                      <CheckCircleIcon className="h-5 w-5 text-red-600" />
+                    <h3 className="text-lg font-semibold text-charcoal flex items-center gap-2">
+                      <CheckCircleIcon className="h-5 w-5 text-terracotta-600" />
                       Required Courses
                     </h3>
                     {isEditing && (
@@ -341,33 +341,33 @@ export default function LearningPathsManagement() {
                   </div>
                   <div className="space-y-3">
                     {learningPath.requiredCourses.map((course) => (
-                      <div key={course.courseId} className="border border-gray-200 rounded-lg p-4">
+                      <div key={course.courseId} className="border border-border/60 rounded-md p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h4 className="font-medium text-gray-900">{course.courseTitle}</h4>
+                            <h4 className="font-medium text-charcoal">{course.courseTitle}</h4>
                             <div className="mt-2 grid grid-cols-3 gap-4">
                               <div>
-                                <label className="block text-xs text-gray-600 mb-1">Priority</label>
+                                <label className="block text-xs text-stone mb-1">Priority</label>
                                 <input
                                   type="number"
                                   value={course.priority}
                                   disabled={!isEditing}
                                   onChange={(e) => handleUpdateCourse(course.courseId, 'required', 'priority', parseInt(e.target.value))}
-                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                                  className="w-full px-2 py-1 text-sm border border-border/60 rounded"
                                 />
                               </div>
                               <div>
-                                <label className="block text-xs text-gray-600 mb-1">Deadline (days)</label>
+                                <label className="block text-xs text-stone mb-1">Deadline (days)</label>
                                 <input
                                   type="number"
                                   value={course.deadlineDays}
                                   disabled={!isEditing}
                                   onChange={(e) => handleUpdateCourse(course.courseId, 'required', 'deadlineDays', parseInt(e.target.value))}
-                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                                  className="w-full px-2 py-1 text-sm border border-border/60 rounded"
                                 />
                               </div>
                               <div>
-                                <label className="block text-xs text-gray-600 mb-1">Recurring</label>
+                                <label className="block text-xs text-stone mb-1">Recurring</label>
                                 <input
                                   type="checkbox"
                                   checked={course.isRecurring}
@@ -381,7 +381,7 @@ export default function LearningPathsManagement() {
                           {isEditing && (
                             <button
                               onClick={() => handleRemoveCourse(course.courseId, 'required')}
-                              className="ml-4 text-red-600 hover:text-red-700"
+                              className="ml-4 text-terracotta-600 hover:text-terracotta-700"
                             >
                               <TrashIcon className="h-5 w-5" />
                             </button>
@@ -393,10 +393,10 @@ export default function LearningPathsManagement() {
                 </div>
 
                 {/* Recommended Courses */}
-                <div className="bg-white rounded-lg shadow p-6">
+                <div className="bg-white rounded-md shadow p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                      <AcademicCapIcon className="h-5 w-5 text-blue-600" />
+                    <h3 className="text-lg font-semibold text-charcoal flex items-center gap-2">
+                      <AcademicCapIcon className="h-5 w-5 text-forest-600" />
                       Recommended Courses
                     </h3>
                     {isEditing && (
@@ -411,19 +411,19 @@ export default function LearningPathsManagement() {
                   </div>
                   <div className="space-y-3">
                     {learningPath.recommendedCourses.map((course) => (
-                      <div key={course.courseId} className="border border-gray-200 rounded-lg p-4">
+                      <div key={course.courseId} className="border border-border/60 rounded-md p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h4 className="font-medium text-gray-900">{course.courseTitle}</h4>
+                            <h4 className="font-medium text-charcoal">{course.courseTitle}</h4>
                             <div className="mt-2 grid grid-cols-2 gap-4">
                               <div>
-                                <label className="block text-xs text-gray-600 mb-1">Priority</label>
+                                <label className="block text-xs text-stone mb-1">Priority</label>
                                 <input
                                   type="number"
                                   value={course.priority}
                                   disabled={!isEditing}
                                   onChange={(e) => handleUpdateCourse(course.courseId, 'recommended', 'priority', parseInt(e.target.value))}
-                                  className="w-full px-2 py-1 text-sm border border-gray-300 rounded"
+                                  className="w-full px-2 py-1 text-sm border border-border/60 rounded"
                                 />
                               </div>
                             </div>
@@ -431,7 +431,7 @@ export default function LearningPathsManagement() {
                           {isEditing && (
                             <button
                               onClick={() => handleRemoveCourse(course.courseId, 'recommended')}
-                              className="ml-4 text-red-600 hover:text-red-700"
+                              className="ml-4 text-terracotta-600 hover:text-terracotta-700"
                             >
                               <TrashIcon className="h-5 w-5" />
                             </button>
@@ -443,10 +443,10 @@ export default function LearningPathsManagement() {
                 </div>
 
                 {/* Elective Courses */}
-                <div className="bg-white rounded-lg shadow p-6">
+                <div className="bg-white rounded-md shadow p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                      <ArrowPathIcon className="h-5 w-5 text-green-600" />
+                    <h3 className="text-lg font-semibold text-charcoal flex items-center gap-2">
+                      <ArrowPathIcon className="h-5 w-5 text-forest-600" />
                       Elective Courses
                     </h3>
                     {isEditing && (
@@ -461,15 +461,15 @@ export default function LearningPathsManagement() {
                   </div>
                   <div className="space-y-3">
                     {learningPath.electives.map((course) => (
-                      <div key={course.courseId} className="border border-gray-200 rounded-lg p-4">
+                      <div key={course.courseId} className="border border-border/60 rounded-md p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <h4 className="font-medium text-gray-900">{course.courseTitle}</h4>
+                            <h4 className="font-medium text-charcoal">{course.courseTitle}</h4>
                           </div>
                           {isEditing && (
                             <button
                               onClick={() => handleRemoveCourse(course.courseId, 'elective')}
-                              className="ml-4 text-red-600 hover:text-red-700"
+                              className="ml-4 text-terracotta-600 hover:text-terracotta-700"
                             >
                               <TrashIcon className="h-5 w-5" />
                             </button>

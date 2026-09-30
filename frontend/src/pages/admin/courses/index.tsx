@@ -95,36 +95,36 @@ export default function AdminCoursesPage() {
         >
           <div className="space-y-6">
             <section className="grid gap-4 md:grid-cols-4">
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                <p className="text-sm text-slate-500">Total courses</p>
-                <p className="mt-3 text-3xl font-semibold text-slate-950">{stats.total}</p>
+              <div className="rounded-md border border-border/60 bg-white p-5 shadow-sm">
+                <p className="text-sm text-stone">Total courses</p>
+                <p className="mt-3 text-3xl font-semibold text-charcoal">{stats.total}</p>
               </div>
-              <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
-                <p className="text-sm text-emerald-700">Published</p>
-                <p className="mt-3 text-3xl font-semibold text-emerald-900">{stats.published}</p>
+              <div className="rounded-md border border-forest-200 bg-forest-50 p-5 shadow-sm">
+                <p className="text-sm text-forest-700">Published</p>
+                <p className="mt-3 text-3xl font-semibold text-forest-900">{stats.published}</p>
               </div>
-              <div className="rounded-3xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-                <p className="text-sm text-amber-700">Drafts</p>
-                <p className="mt-3 text-3xl font-semibold text-amber-900">{stats.draft}</p>
+              <div className="rounded-md border border-ochre-200 bg-ochre-50 p-5 shadow-sm">
+                <p className="text-sm text-ochre-700">Drafts</p>
+                <p className="mt-3 text-3xl font-semibold text-ochre-900">{stats.draft}</p>
               </div>
-              <div className="rounded-3xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
-                <p className="text-sm text-blue-700">Enrollments</p>
-                <p className="mt-3 text-3xl font-semibold text-blue-900">{stats.enrollments}</p>
+              <div className="rounded-md border border-forest-200 bg-forest-50 p-5 shadow-sm">
+                <p className="text-sm text-forest-700">Enrollments</p>
+                <p className="mt-3 text-3xl font-semibold text-forest-900">{stats.enrollments}</p>
               </div>
             </section>
 
-            <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <section className="rounded-md border border-border/60 bg-white p-5 shadow-sm">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-950">Catalog workspace</h2>
-                  <p className="mt-1 text-sm text-slate-600">
+                  <h2 className="text-lg font-semibold text-charcoal">Catalog workspace</h2>
+                  <p className="mt-1 text-sm text-stone">
                     Open course builders, review analytics, or send authors to the approval queue.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Link
                     href="/instructor/course/new"
-                    className="inline-flex items-center rounded-2xl bg-slate-950 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+                    className="inline-flex items-center rounded-md bg-ink-950 px-4 py-2 text-sm font-medium text-white hover:bg-ink-900"
                   >
                     <PlusIcon className="mr-2 h-4 w-4" />
                     Create Course
@@ -132,7 +132,7 @@ export default function AdminCoursesPage() {
                   <button
                     type="button"
                     onClick={loadCourses}
-                    className="inline-flex items-center rounded-2xl border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                    className="inline-flex items-center rounded-md border border-border/60 px-4 py-2 text-sm font-medium text-charcoal hover:bg-paper"
                   >
                     <ArrowPathIcon className="mr-2 h-4 w-4" />
                     Refresh
@@ -142,19 +142,19 @@ export default function AdminCoursesPage() {
 
               <div className="mt-5 flex flex-col gap-4 lg:flex-row">
                 <div className="relative flex-1">
-                  <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-pewter" />
                   <input
                     type="text"
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                     placeholder="Search courses by title"
-                    className="w-full rounded-2xl border border-slate-300 py-2.5 pl-10 pr-4 text-sm text-slate-900 focus:border-slate-500 focus:outline-none"
+                    className="w-full rounded-md border border-border/60 py-2.5 pl-10 pr-4 text-sm text-charcoal focus:border-border/60 focus:outline-none"
                   />
                 </div>
                 <select
                   value={statusFilter}
                   onChange={(event) => setStatusFilter(event.target.value as (typeof statusOptions)[number])}
-                  className="rounded-2xl border border-slate-300 px-4 py-2.5 text-sm text-slate-900 focus:border-slate-500 focus:outline-none"
+                  className="rounded-md border border-border/60 px-4 py-2.5 text-sm text-charcoal focus:border-border/60 focus:outline-none"
                 >
                   <option value="all">All statuses</option>
                   <option value="published">Published</option>
@@ -165,68 +165,68 @@ export default function AdminCoursesPage() {
               </div>
             </section>
 
-            <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <section className="rounded-md border border-border/60 bg-white shadow-sm">
               {loading ? (
-                <div className="p-8 text-sm text-slate-500">Loading courses...</div>
+                <div className="p-8 text-sm text-stone">Loading courses...</div>
               ) : error ? (
-                <div className="p-8 text-sm text-red-600">{error}</div>
+                <div className="p-8 text-sm text-terracotta-600">{error}</div>
               ) : filteredCourses.length === 0 ? (
                 <div className="flex flex-col items-center justify-center gap-3 p-10 text-center">
-                  <AcademicCapIcon className="h-10 w-10 text-slate-300" />
+                  <AcademicCapIcon className="h-10 w-10 text-pewter" />
                   <div>
-                    <p className="text-sm font-medium text-slate-900">No courses match this view.</p>
-                    <p className="mt-1 text-sm text-slate-500">Change the filters or create a new course.</p>
+                    <p className="text-sm font-medium text-charcoal">No courses match this view.</p>
+                    <p className="mt-1 text-sm text-stone">Change the filters or create a new course.</p>
                   </div>
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-slate-200">
-                    <thead className="bg-slate-50">
+                  <table className="min-w-full divide-y divide-border/60">
+                    <thead className="bg-paper">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Course</th>
-                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Learners</th>
-                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Rating</th>
-                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Updated</th>
-                        <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone">Course</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone">Learners</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone">Rating</th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wide text-stone">Updated</th>
+                        <th className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wide text-stone">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-200 bg-white">
+                    <tbody className="divide-y divide-border/60 bg-white">
                       {filteredCourses.map((course) => (
                         <tr key={course.id}>
                           <td className="px-6 py-4">
-                            <div className="font-medium text-slate-900">{course.title}</div>
-                            <div className="mt-1 text-xs text-slate-500">{course.id}</div>
+                            <div className="font-medium text-charcoal">{course.title}</div>
+                            <div className="mt-1 text-xs text-stone">{course.id}</div>
                           </td>
                           <td className="px-6 py-4">
-                            <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-medium capitalize text-slate-700">
+                            <span className="inline-flex rounded-full bg-forest-100 px-3 py-1 text-xs font-medium capitalize text-charcoal">
                               {course.status === 'review' ? 'in review' : course.status}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-sm text-slate-700">
+                          <td className="px-6 py-4 text-sm text-charcoal">
                             <span className="inline-flex items-center gap-2">
-                              <UserGroupIcon className="h-4 w-4 text-slate-400" />
+                              <UserGroupIcon className="h-4 w-4 text-pewter" />
                               {course.totalEnrollments || 0}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-sm text-slate-700">
+                          <td className="px-6 py-4 text-sm text-charcoal">
                             {Number(course.averageRating || 0).toFixed(1)}
                           </td>
-                          <td className="px-6 py-4 text-sm text-slate-700">
+                          <td className="px-6 py-4 text-sm text-charcoal">
                             {course.updatedAt ? new Date(course.updatedAt).toLocaleDateString() : 'Unknown'}
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex justify-end gap-2">
                               <Link
                                 href={`/instructor/course/${course.id}`}
-                                className="inline-flex items-center rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                                className="inline-flex items-center rounded-md border border-border/60 px-3 py-2 text-sm font-medium text-charcoal hover:bg-paper"
                               >
                                 <PencilSquareIcon className="mr-2 h-4 w-4" />
                                 Edit
                               </Link>
                               <Link
                                 href={`/instructor/courses/${course.id}/analytics`}
-                                className="inline-flex items-center rounded-xl border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                                className="inline-flex items-center rounded-md border border-border/60 px-3 py-2 text-sm font-medium text-charcoal hover:bg-paper"
                               >
                                 <ChartBarIcon className="mr-2 h-4 w-4" />
                                 Analytics

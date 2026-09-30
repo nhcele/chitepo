@@ -18,9 +18,22 @@ export async function listMyEnrollments(): Promise<Enrollment[]> {
   return apiClient.get<Enrollment[]>(`/me/enrollments`);
 }
 
-export async function updateEnrollmentProgress(enrollmentId: string, progressPercent: number, lastLessonSeenAt?: Date): Promise<Enrollment> {
+export async function updateEnrollmentProgress(enrollmentId: string, lastLessonSeenAt?: Date): Promise<Enrollment> {
   return apiClient.patch<Enrollment>(`/enrollments/${enrollmentId}/progress`, {
-    progressPercent,
     lastLessonSeenAt: lastLessonSeenAt ? lastLessonSeenAt.toISOString() : undefined,
   });
+}
+
+export interface ContinuePoint {
+  courseId: string;
+  moduleId: string | null;
+  moduleTitle: string | null;
+  lessonId: string | null;
+  lessonTitle: string | null;
+  videoPositionSeconds: number;
+  isCompleted: boolean;
+}
+
+export async function getEnrollmentContinuePoint(enrollmentId: string): Promise<ContinuePoint> {
+  return apiClient.get<ContinuePoint>(`/me/enrollments/${enrollmentId}/continue`);
 }

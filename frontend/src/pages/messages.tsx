@@ -22,7 +22,7 @@ export default function MessagesPage() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-forest-600"></div>
         </div>
       </Layout>
     );
@@ -40,10 +40,10 @@ export default function MessagesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-6">
           <div className="flex items-center">
-            <EnvelopeIcon className="h-8 w-8 text-blue-600 mr-3" />
+            <EnvelopeIcon className="h-8 w-8 text-forest-600 mr-3" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Messages</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-3xl font-bold text-charcoal">Messages</h1>
+              <p className="text-stone mt-1">
                 {isInstructor ? 'Communicate with your students' : 'Chat with your instructors'}
               </p>
             </div>

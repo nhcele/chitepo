@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Course } from './entities/course.entity';
 import { Module } from './entities/module.entity';
 import { Lesson } from './entities/lesson.entity';
@@ -9,6 +9,7 @@ import { LessonProgress } from './entities/lesson-progress.entity';
 import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
 import { CreateCourseDto, UpdateCourseDto, CourseStatus, CourseDifficulty, LessonType, UserRole } from '@mindelta/shared';
+import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -67,6 +68,50 @@ export class CoursesService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  private isAdminOrSuperAdmin(role?: string): boolean {
+    return role === UserRole.ADMIN || role === UserRole.SUPER_ADMIN;
+  }
+
+  async assertCanManageCourse(userId: string, userRole: string | undefined, courseId: string): Promise<void> {
+    if (this.isAdminOrSuperAdmin(userRole)) return;
+    const course = await this.coursesRepository.findOne({
+      where: { id: courseId },
+      select: ['id', 'instructorId'],
+    });
+    if (!course) {
+      throw new NotFoundException(`Course not found with ID: ${courseId}`);
+    }
+    if (course.instructorId !== userId) {
+      throw new ForbiddenException('You can only manage courses you own');
+    }
+  }
+
+  async assertCanManageModule(userId: string, userRole: string | undefined, moduleId: string): Promise<void> {
+    if (this.isAdminOrSuperAdmin(userRole)) return;
+    const mod = await this.moduleRepository.findOne({
+      where: { id: moduleId },
+      select: ['id', 'authorId'],
+    });
+    if (!mod) {
+      throw new NotFoundException(`Module not found with ID: ${moduleId}`);
+    }
+    if (mod.authorId && mod.authorId !== userId) {
+      throw new ForbiddenException('You can only manage modules you authored');
+    }
+  }
+
+  async assertCanManageLesson(userId: string, userRole: string | undefined, lessonId: string): Promise<void> {
+    if (this.isAdminOrSuperAdmin(userRole)) return;
+    const lesson = await this.lessonRepository.findOne({
+      where: { id: lessonId },
+      select: ['id', 'moduleId'],
+    });
+    if (!lesson) {
+      throw new NotFoundException(`Lesson not found with ID: ${lessonId}`);
+    }
+    await this.assertCanManageModule(userId, userRole, lesson.moduleId);
   }
 
   async create(createCourseDto: CreateCourseDto): Promise<Course> {
@@ -192,7 +237,7 @@ export class CoursesService {
   // ---------- Module library with access controls ----------
   async listModules(params: { search?: string; authorId?: string; limit?: number; offset?: number; requesterId?: string }) {
     const qb = this.moduleRepository.createQueryBuilder('m');
-    if (params.search) qb.andWhere('m.title ILIKE :q OR m.summary ILIKE :q', { q: `%${params.search}%` });
+    if (params.search) qb.andWhere('LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.summary) LIKE LOWER(:q)', { q: `%${params.search}%` });
     
     // Visibility/licensing access control
     if (params.requesterId) {
@@ -644,7 +689,7 @@ export class CoursesService {
   async search(query: string): Promise<Course[]> {
     return this.coursesRepository
       .createQueryBuilder('course')
-      .where('course.title ILIKE :query OR course.description ILIKE :query', {
+      .where('LOWER(course.title) LIKE LOWER(:query) OR LOWER(course.description) LIKE LOWER(:query)', {
         query: `%${query}%`,
       })
       .getMany();
@@ -770,10 +815,20 @@ export class CoursesService {
     lessonId: string,
     updates: {
       watchPercent?: number;
-      quizScore?: number;
-      isCompleted?: boolean;
+      lastPositionSeconds?: number;
+      watchedSeconds?: number;
+      activeSeconds?: number;
+      manualComplete?: boolean;
     }
   ): Promise<LessonProgress> {
+    const lesson = await this.lessonRepository.findOne({
+      where: { id: lessonId },
+      relations: ['module'],
+    });
+    if (!lesson) {
+      throw new HttpException('Lesson not found', HttpStatus.NOT_FOUND);
+    }
+
     let progress = await this.lessonProgressRepo.findOne({
       where: { userId, lessonId },
     });
@@ -782,34 +837,188 @@ export class CoursesService {
       progress = this.lessonProgressRepo.create({
         userId,
         lessonId,
+        courseId: lesson.module?.courseId,
         watchPercent: 0,
+        lastPositionSeconds: 0,
+        watchedSeconds: 0,
+        activeSeconds: 0,
         quizAttempts: 0,
       });
+    } else if (!progress.courseId && lesson.module?.courseId) {
+      progress.courseId = lesson.module.courseId;
     }
 
-    // Update watch percent
+    const durationSeconds = lesson.videoDuration ?? 0;
+
+    if (updates.lastPositionSeconds !== undefined) {
+      progress.lastPositionSeconds = Math.max(
+        0,
+        Math.min(durationSeconds || updates.lastPositionSeconds, updates.lastPositionSeconds),
+      );
+    }
+
+    if (updates.watchedSeconds !== undefined) {
+      const clamped = Math.max(
+        0,
+        Math.min(durationSeconds || updates.watchedSeconds, updates.watchedSeconds),
+      );
+      progress.watchedSeconds = Math.max(progress.watchedSeconds, clamped);
+    }
+
+    if (updates.activeSeconds !== undefined) {
+      const reported = Math.max(0, updates.activeSeconds);
+      // Server-side sanity check: the reported cumulative active time may only
+      // grow by at most the wall-clock time since this record's last update
+      // (plus a grace window for clock skew and a first-write burst). This
+      // prevents clients from inflating "time spent" by sending arbitrary values.
+      const elapsedSinceUpdate = progress.updatedAt
+        ? Math.max(0, (Date.now() - new Date(progress.updatedAt).getTime()) / 1000)
+        : 0;
+      const maxAllowedDelta = elapsedSinceUpdate + 60; // 60s grace
+      const delta = reported - progress.activeSeconds;
+      if (delta > 0) {
+        progress.activeSeconds += Math.min(delta, maxAllowedDelta);
+      }
+    }
+
     if (updates.watchPercent !== undefined) {
-      progress.watchPercent = Math.max(progress.watchPercent, updates.watchPercent);
+      progress.watchPercent = Math.max(progress.watchPercent, Math.max(0, Math.min(100, updates.watchPercent)));
+    } else if (durationSeconds > 0 && progress.watchedSeconds > 0) {
+      const computedPercent = Math.round((progress.watchedSeconds / durationSeconds) * 100);
+      progress.watchPercent = Math.max(progress.watchPercent, Math.min(100, computedPercent));
     }
 
-    // Update quiz score
-    if (updates.quizScore !== undefined) {
-      progress.quizAttempts += 1;
-      progress.lastQuizAttemptAt = new Date();
-      if (!progress.bestQuizScore || updates.quizScore > progress.bestQuizScore) {
-        progress.bestQuizScore = updates.quizScore;
-      }
-    }
-
-    // Update completion status
-    if (updates.isCompleted !== undefined && updates.isCompleted) {
+    const requiredWatch = lesson.minimumWatchPercent ?? 100;
+    const requiresQuiz = Boolean(lesson.hasQuiz || lesson.minimumQuizScore);
+    if (!requiresQuiz && lesson.completionMode !== 'manual' && progress.watchPercent >= requiredWatch) {
       progress.isCompleted = true;
-      if (!progress.completedAt) {
-        progress.completedAt = new Date();
-      }
+      if (!progress.completedAt) progress.completedAt = new Date();
     }
 
-    return this.lessonProgressRepo.save(progress);
+    if (updates.manualComplete && lesson.completionMode === 'manual') {
+      progress.isCompleted = true;
+      if (!progress.completedAt) progress.completedAt = new Date();
+    }
+
+    try {
+      const saved = await this.lessonProgressRepo.save(progress);
+      const courseId = lesson.module?.courseId;
+      if (courseId) {
+        await this.recalculateEnrollmentProgress(userId, courseId);
+      }
+      return saved;
+    } catch (error: any) {
+      this.logError('progress_save_failed', error, { userId, lessonId, updates });
+      throw new HttpException('Failed to save lesson progress', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  async getLessonProgress(userId: string, lessonId: string): Promise<LessonProgress | null> {
+    return this.lessonProgressRepo.findOne({
+      where: { userId, lessonId },
+    });
+  }
+
+  async getLessonProgressForCourse(userId: string, courseId: string): Promise<Record<string, { isCompleted: boolean; watchPercent: number; lastPositionSeconds: number; watchedSeconds: number }>> {
+    const lessons = await this.lessonRepository.find({
+      where: { module: { courseId } },
+      select: ['id'],
+    });
+    if (lessons.length === 0) return {};
+
+    const lessonIds = lessons.map((l) => l.id);
+    const progresses = await this.lessonProgressRepo.find({
+      where: { userId, lessonId: In(lessonIds) },
+    });
+
+    return Object.fromEntries(
+      progresses.map((p) => [
+        p.lessonId,
+        {
+          isCompleted: p.isCompleted,
+          watchPercent: p.watchPercent,
+          lastPositionSeconds: p.lastPositionSeconds,
+          watchedSeconds: p.watchedSeconds,
+        },
+      ]),
+    );
+  }
+
+  async recordAssessmentResult(
+    userId: string,
+    lessonId: string,
+    result: { score: number; passed: boolean },
+  ): Promise<LessonProgress> {
+    const lesson = await this.lessonRepository.findOne({
+      where: { id: lessonId },
+      relations: ['module'],
+    });
+    if (!lesson) {
+      throw new HttpException('Lesson not found', HttpStatus.NOT_FOUND);
+    }
+
+    let progress = await this.lessonProgressRepo.findOne({
+      where: { userId, lessonId },
+    });
+    if (!progress) {
+      progress = this.lessonProgressRepo.create({
+        userId,
+        lessonId,
+        courseId: lesson.module?.courseId,
+        watchPercent: 0,
+        lastPositionSeconds: 0,
+        watchedSeconds: 0,
+        activeSeconds: 0,
+        quizAttempts: 0,
+      });
+    } else if (!progress.courseId && lesson.module?.courseId) {
+      progress.courseId = lesson.module.courseId;
+    }
+
+    const score = Math.max(0, Math.min(100, Math.round(result.score)));
+    progress.quizAttempts += 1;
+    progress.lastQuizAttemptAt = new Date();
+    if (progress.bestQuizScore === null || progress.bestQuizScore === undefined || score > progress.bestQuizScore) {
+      progress.bestQuizScore = score;
+    }
+
+    const requiredWatch = lesson.minimumWatchPercent ?? 0;
+    if (result.passed && lesson.completionMode !== 'manual' && progress.watchPercent >= requiredWatch) {
+      progress.isCompleted = true;
+      if (!progress.completedAt) progress.completedAt = new Date();
+    }
+
+    const saved = await this.lessonProgressRepo.save(progress);
+    const courseId = lesson.module?.courseId;
+    if (courseId) {
+      await this.recalculateEnrollmentProgress(userId, courseId);
+    }
+    return saved;
+  }
+
+  private async recalculateEnrollmentProgress(userId: string, courseId: string): Promise<void> {
+    const enrollment = await this.enrollmentRepo.findOne({ where: { userId, courseId } });
+    if (!enrollment) return;
+
+    const lessons = await this.lessonRepository.find({
+      where: { module: { courseId } },
+      select: ['id'],
+    });
+    if (lessons.length === 0) return;
+
+    const completed = await this.lessonProgressRepo.count({
+      where: lessons.map((lesson) => ({ userId, lessonId: lesson.id, isCompleted: true })),
+    });
+    const percent = Math.round((completed / lessons.length) * 100);
+
+    const currentPercent = Number((enrollment as any).progressPercent ?? (enrollment as any).progressPercentage ?? 0);
+    const nextPercent = Math.max(currentPercent, percent);
+
+    enrollment.progressPercent = nextPercent;
+    if (nextPercent >= 100 && !enrollment.completedAt) {
+      enrollment.completedAt = new Date();
+    }
+    await this.enrollmentRepo.save(enrollment);
   }
 
 }

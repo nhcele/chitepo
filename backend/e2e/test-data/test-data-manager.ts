@@ -21,22 +21,22 @@ export class TestDataManager {
   private static users: TestUser[] = [
     {
       id: 'test-instructor-1',
-      email: 'instructor@mindelta.com',
-      name: 'Test Instructor',
+      email: 'simbarashe.mumbengegwi@chitepo.co.zw',
+      name: 'Tendai Moyo',
       password: 'password123',
       role: 'instructor'
     },
     {
       id: 'test-learner-1',
-      email: 'learner@mindelta.com',
-      name: 'Test Learner',
+      email: 'learner@chitepo.co.zw',
+      name: 'Tariro Moyo',
       password: 'password123',
       role: 'learner'
     },
     {
       id: 'test-admin-1',
-      email: 'admin@mindelta.com',
-      name: 'Test Admin',
+      email: 'admin@chitepo.co.zw',
+      name: 'Farai Mushonga',
       password: 'password123',
       role: 'admin'
     }
@@ -116,7 +116,7 @@ export class TestDataManager {
 
   static getValidCredentials() {
     return {
-      email: 'instructor@mindelta.com',
+      email: 'simbarashe.mumbengegwi@chitepo.co.zw',
       password: 'password123'
     };
   }

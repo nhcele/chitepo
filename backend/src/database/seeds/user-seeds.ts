@@ -19,9 +19,9 @@ export async function seedUsers(dataSource: DataSource) {
     // Admin user
     {
       id: 'admin-001',
-      email: 'admin@chitepo.edu.zw',
-      firstName: 'Admin',
-      lastName: 'User',
+      email: 'admin@chitepo.co.zw',
+      firstName: 'Farai',
+      lastName: 'Mushonga',
       password: '$2a$10$kl4dVFjrOJH/gEdZjM46g.7QeyO/ToW4QmrlGuuO7K4GkwWmAfx1a', // Admin@123
       role: UserRole.ADMIN,
       isActive: true,
@@ -31,7 +31,7 @@ export async function seedUsers(dataSource: DataSource) {
     // Chitepo Instructor users
     {
       id: 'instructor-001',
-      email: 'simbarashe.mumbengegwi@chitepo.edu.zw',
+      email: 'simbarashe.mumbengegwi@chitepo.co.zw',
       firstName: 'Simbarashe',
       lastName: 'Mumbengegwi',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -42,7 +42,7 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'instructor-002',
-      email: 'tafadzwa.mupfumira@chitepo.edu.zw',
+      email: 'tafadzwa.mupfumira@chitepo.co.zw',
       firstName: 'Tafadzwa',
       lastName: 'Mupfumira',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -53,7 +53,7 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'instructor-003',
-      email: 'kudzai.nhema@chitepo.edu.zw',
+      email: 'kudzai.nhema@chitepo.co.zw',
       firstName: 'Kudzai',
       lastName: 'Nhema',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -64,7 +64,7 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'instructor-004',
-      email: 'rumbidzai.chikwanha@chitepo.edu.zw',
+      email: 'rumbidzai.chikwanha@chitepo.co.zw',
       firstName: 'Rumbidzai',
       lastName: 'Chikwanha',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -75,7 +75,7 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'instructor-005',
-      email: 'tendai.moyo@chitepo.edu.zw',
+      email: 'tendai.moyo@chitepo.co.zw',
       firstName: 'Tendai',
       lastName: 'Moyo',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -86,7 +86,7 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'instructor-006',
-      email: 'nyasha.mutasa@chitepo.edu.zw',
+      email: 'nyasha.mutasa@chitepo.co.zw',
       firstName: 'Nyasha',
       lastName: 'Mutasa',
       password: '$2a$10$IcLjFtuA15sLl0ngQzgGFOEL8Y2Fngu.XlD8fW8ze4XsICVYK8cYO', // Instructor@123
@@ -98,9 +98,9 @@ export async function seedUsers(dataSource: DataSource) {
     // Learner users
     {
       id: 'learner-001',
-      email: 'learner1@mindelta.com',
-      firstName: 'Alice',
-      lastName: 'Wilson',
+      email: 'learner1@chitepo.co.zw',
+      firstName: 'Tariro',
+      lastName: 'Moyo',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -109,9 +109,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-002',
-      email: 'learner2@mindelta.com',
-      firstName: 'Bob',
-      lastName: 'Brown',
+      email: 'learner2@chitepo.co.zw',
+      firstName: 'Kudakwashe',
+      lastName: 'Ndlovu',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -120,9 +120,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-003',
-      email: 'learner3@mindelta.com',
-      firstName: 'Carol',
-      lastName: 'Davis',
+      email: 'learner3@chitepo.co.zw',
+      firstName: 'Rufaro',
+      lastName: 'Chigwedere',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -131,9 +131,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-004',
-      email: 'learner4@mindelta.com',
-      firstName: 'David',
-      lastName: 'Miller',
+      email: 'learner4@chitepo.co.zw',
+      firstName: 'Blessing',
+      lastName: 'Sibanda',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -142,9 +142,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-005',
-      email: 'learner5@mindelta.com',
-      firstName: 'Emma',
-      lastName: 'Jones',
+      email: 'learner5@chitepo.co.zw',
+      firstName: 'Chipo',
+      lastName: 'Mutasa',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -153,9 +153,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-006',
-      email: 'learner6@mindelta.com',
-      firstName: 'Frank',
-      lastName: 'Taylor',
+      email: 'learner6@chitepo.co.zw',
+      firstName: 'Tawanda',
+      lastName: 'Nyathi',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,
@@ -164,9 +164,9 @@ export async function seedUsers(dataSource: DataSource) {
     },
     {
       id: 'learner-007',
-      email: 'learner7@mindelta.com',
-      firstName: 'Grace',
-      lastName: 'Anderson',
+      email: 'learner7@chitepo.co.zw',
+      firstName: 'Eric',
+      lastName: 'Zinyengere',
       password: '$2a$10$5v9FERC55m/bkuPqZb5bMeiyITLkMeDyk5ISdZuy6WqbPVgJ2SM1u', // Learner@123
       role: UserRole.LEARNER,
       isActive: true,

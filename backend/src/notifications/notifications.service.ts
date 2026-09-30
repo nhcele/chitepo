@@ -20,7 +20,7 @@ export class NotificationsService {
 
   async sendEmail(to: string, subject: string, html: string): Promise<void> {
     await this.transporter.sendMail({
-      from: this.configService.get('FROM_EMAIL', 'noreply@mindelta.com'),
+      from: this.configService.get('FROM_EMAIL', 'noreply@chitepo.co.zw'),
       to,
       subject,
       html,

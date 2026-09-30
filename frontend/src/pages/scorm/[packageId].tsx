@@ -177,15 +177,15 @@ export default function ScormPlayerPage() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-paper">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">SCORM Player</h1>
-              <p className="text-sm text-gray-600">Package: {typeof packageId === 'string' ? packageId : ''}</p>
+              <h1 className="text-xl font-semibold text-charcoal">SCORM Player</h1>
+              <p className="text-sm text-stone">Package: {typeof packageId === 'string' ? packageId : ''}</p>
             </div>
             <button
-              className="px-4 py-2 rounded-md bg-gray-900 text-white text-sm"
+              className="px-4 py-2 rounded-md bg-ink-950 text-white text-sm"
               onClick={() => router.back()}
             >
               Back
@@ -193,13 +193,13 @@ export default function ScormPlayerPage() {
           </div>
 
           {loading ? (
-            <div className="bg-white rounded-lg shadow p-6">Loading SCORM...</div>
+            <div className="bg-white rounded-md shadow p-6">Loading SCORM...</div>
           ) : error ? (
-            <div className="bg-white rounded-lg shadow p-6 text-red-700">{error}</div>
+            <div className="bg-white rounded-md shadow p-6 text-terracotta-700">{error}</div>
           ) : !iframeSrc ? (
-            <div className="bg-white rounded-lg shadow p-6">Missing SCORM launch URL</div>
+            <div className="bg-white rounded-md shadow p-6">Missing SCORM launch URL</div>
           ) : (
-            <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="bg-white rounded-md shadow overflow-hidden">
               <div className="relative" style={{ height: '75vh' }}>
                 <iframe
                   ref={iframeRef}

@@ -58,37 +58,37 @@ export default function Pricing() {
 
   return (
     <Layout>
-      <div className="bg-gradient-to-b from-gray-50 to-white py-16">
+      <div className="bg-gradient-to-b from-forest-100 to-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-charcoal mb-4">
               Simple, Transparent Pricing
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-stone max-w-3xl mx-auto">
               Choose the plan that best fits your learning goals. All plans include access to our world-class content.
             </p>
             
             <div className="mt-8 flex justify-center items-center space-x-4">
               <button
                 onClick={() => setBillingCycle('monthly')}
-                className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-6 py-2 rounded-md font-medium transition-colors ${
                   billingCycle === 'monthly'
                     ? 'bg-primary-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    : 'bg-forest-100 text-charcoal hover:bg-stone'
                 }`}
               >
                 Monthly
               </button>
               <button
                 onClick={() => setBillingCycle('annual')}
-                className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                className={`px-6 py-2 rounded-md font-medium transition-colors ${
                   billingCycle === 'annual'
                     ? 'bg-primary-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    : 'bg-forest-100 text-charcoal hover:bg-stone'
                 }`}
               >
                 Annual
-                <span className="ml-2 text-xs bg-green-500 text-white px-2 py-1 rounded">
+                <span className="ml-2 text-xs bg-forest-500 text-white px-2 py-1 rounded">
                   Save 20%
                 </span>
               </button>
@@ -99,34 +99,34 @@ export default function Pricing() {
             {pricingPlans.map((plan) => (
               <div
                 key={plan.name}
-                className={`rounded-2xl p-8 ${
+                className={`rounded-md p-8 ${
                   plan.highlighted
-                    ? 'bg-primary-600 text-white shadow-2xl scale-105'
-                    : 'bg-white border-2 border-gray-200'
+                    ? 'bg-primary-600 text-white shadow-sm scale-105'
+                    : 'bg-white border-2 border-border/60'
                 }`}
               >
-                <h3 className={`text-2xl font-bold mb-2 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-2xl font-bold mb-2 ${plan.highlighted ? 'text-white' : 'text-charcoal'}`}>
                   {plan.name}
                 </h3>
-                <p className={`mb-6 ${plan.highlighted ? 'text-primary-100' : 'text-gray-600'}`}>
+                <p className={`mb-6 ${plan.highlighted ? 'text-primary-100' : 'text-stone'}`}>
                   {plan.description}
                 </p>
                 
                 <div className="mb-6">
-                  <span className={`text-5xl font-bold ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                  <span className={`text-5xl font-bold ${plan.highlighted ? 'text-white' : 'text-charcoal'}`}>
                     {plan.price}
                   </span>
                   {plan.period && (
-                    <span className={plan.highlighted ? 'text-primary-100' : 'text-gray-600'}>
+                    <span className={plan.highlighted ? 'text-primary-100' : 'text-stone'}>
                       {plan.period}
                     </span>
                   )}
                 </div>
 
                 <button
-                  className={`w-full py-3 px-6 rounded-lg font-semibold mb-8 transition-colors ${
+                  className={`w-full py-3 px-6 rounded-md font-semibold mb-8 transition-colors ${
                     plan.highlighted
-                      ? 'bg-white text-primary-600 hover:bg-gray-100'
+                      ? 'bg-white text-primary-600 hover:bg-forest-100'
                       : 'bg-primary-600 text-white hover:bg-primary-700'
                   }`}
                 >
@@ -139,7 +139,7 @@ export default function Pricing() {
                       <CheckIcon className={`h-6 w-6 mr-3 flex-shrink-0 ${
                         plan.highlighted ? 'text-primary-200' : 'text-primary-600'
                       }`} />
-                      <span className={plan.highlighted ? 'text-primary-50' : 'text-gray-700'}>
+                      <span className={plan.highlighted ? 'text-primary-50' : 'text-charcoal'}>
                         {feature}
                       </span>
                     </li>
@@ -149,15 +149,15 @@ export default function Pricing() {
             ))}
           </div>
 
-          <div className="bg-primary-50 rounded-2xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-primary-50 rounded-md p-8 text-center">
+            <h2 className="text-2xl font-bold text-charcoal mb-4">
               Government & NGO Partnerships
             </h2>
-            <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
+            <p className="text-charcoal mb-6 max-w-2xl mx-auto">
               We offer special pricing for government institutions, NGOs, and educational organizations. 
               Contact us to discuss custom solutions for your organization.
             </p>
-            <button className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+            <button className="bg-primary-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-primary-700 transition-colors">
               Contact Us
             </button>
           </div>

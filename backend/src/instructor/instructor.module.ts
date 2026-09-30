@@ -9,13 +9,13 @@ import { AnalyticsModule } from '../analytics/analytics.module';
 import { InstructorApplication } from './entities/instructor-application.entity';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Course } from '../courses/entities/course.entity';
-import { Enrollment } from '../courses/entities/enrollment.entity';
+import { Enrollment } from '../enrollments/entities/enrollment.entity';
 import { User } from '../users/entities/user.entity';
-import { Progress } from '../assessments/entities/progress.entity';
+import { LessonProgress } from '../courses/entities/lesson-progress.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([InstructorApplication, Course, Enrollment, User, Progress, Lesson]), CoursesModule, AnalyticsModule, NotificationsModule],
+  imports: [TypeOrmModule.forFeature([InstructorApplication, Course, Enrollment, User, LessonProgress, Lesson]), CoursesModule, AnalyticsModule, NotificationsModule],
   controllers: [InstructorController, PayoutController],
   providers: [InstructorService, PayoutService],
   exports: [InstructorService, PayoutService],

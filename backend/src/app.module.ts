@@ -40,6 +40,7 @@ import { RoleBasedLearningModule } from './role-learning/role-based-learning.mod
 import { SuccessMetricsModule } from './success-metrics/success-metrics.module';
 import { ScormModule } from './scorm/scorm.module';
 import { GamificationModule } from './gamification/gamification.module';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
   imports: [
@@ -125,6 +126,7 @@ import { GamificationModule } from './gamification/gamification.module';
     SuccessMetricsModule,
     ScormModule,
     GamificationModule,
+    NotesModule,
   ],
 })
 export class AppModule {}

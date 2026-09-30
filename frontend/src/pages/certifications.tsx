@@ -23,7 +23,7 @@ const pathways = [
     name: 'General Ideological Education',
     icon: '🎓',
     description: 'For party members, general public, youth, and interested citizens',
-    color: 'from-blue-500 to-blue-700',
+    color: 'from-forest-500 to-forest-700',
     levels: [
       {
         level: 0,
@@ -77,7 +77,7 @@ const pathways = [
     name: 'Government Officials Track',
     icon: '🏛️',
     description: 'For DCC members, councillors, mayors, traditional leaders, judges',
-    color: 'from-red-500 to-red-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     levels: [
       {
         level: 1,
@@ -125,7 +125,7 @@ const pathways = [
     name: 'Diaspora Engagement Track',
     icon: '✈️',
     description: 'For diaspora members, international community',
-    color: 'from-purple-500 to-purple-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     levels: [
       {
         level: 1,
@@ -170,7 +170,7 @@ const pathways = [
     name: 'Youth Leadership Track',
     icon: '🌟',
     description: 'For young leaders (18-35 years), students, young professionals',
-    color: 'from-green-500 to-green-700',
+    color: 'from-forest-500 to-forest-700',
     levels: [
       {
         level: 1,
@@ -206,7 +206,7 @@ const pathways = [
     name: 'Women\'s Leadership Track',
     icon: '👩‍💼',
     description: 'For women in party, government, and civil society',
-    color: 'from-pink-500 to-pink-700',
+    color: 'from-terracotta-500 to-terracotta-700',
     levels: [
       {
         level: 1,
@@ -281,7 +281,7 @@ export default function CertificationsPage() {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <SparklesIcon className="h-16 w-16 mx-auto mb-6 text-yellow-300" />
+              <SparklesIcon className="h-16 w-16 mx-auto mb-6 text-ochre-300" />
               <h1 className="text-5xl font-bold mb-6">
                 Certification Pathways
               </h1>
@@ -289,7 +289,7 @@ export default function CertificationsPage() {
                 Progressive credentials for ideological education, governance excellence, diaspora leadership, 
                 youth empowerment, and women's advancement.
               </p>
-              <div className="inline-flex items-center px-6 py-3 bg-white/20 rounded-lg">
+              <div className="inline-flex items-center px-6 py-3 bg-white/20 rounded-md">
                 <TrophyIcon className="h-5 w-5 mr-2" />
                 <span className="font-semibold">6 Pathways • 5 Levels • Multiple Specializations</span>
               </div>
@@ -298,7 +298,7 @@ export default function CertificationsPage() {
         </div>
 
         {/* Benefits Grid */}
-        <div className="py-16 bg-gray-50">
+        <div className="py-16 bg-paper">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {benefits.map((benefit, index) => (
@@ -307,11 +307,11 @@ export default function CertificationsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white p-6 rounded-lg shadow-md text-center"
+                  className="bg-white p-6 rounded-md shadow-sm text-center"
                 >
                   <benefit.icon className="h-10 w-10 mx-auto mb-3 text-primary-600" />
                   <h3 className="font-bold mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-gray-600">{benefit.description}</p>
+                  <p className="text-sm text-stone">{benefit.description}</p>
                 </motion.div>
               ))}
             </div>
@@ -323,7 +323,7 @@ export default function CertificationsPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Choose Your Pathway</h2>
-              <p className="text-gray-600">Select the track that matches your role and goals</p>
+              <p className="text-stone">Select the track that matches your role and goals</p>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
@@ -331,14 +331,14 @@ export default function CertificationsPage() {
                 <button
                   key={pathway.id}
                   onClick={() => setSelectedPathway(pathway)}
-                  className={`p-4 rounded-lg border-2 transition-all ${
+                  className={`p-4 rounded-md border-2 transition-all ${
                     selectedPathway.id === pathway.id
                       ? 'border-primary-500 bg-primary-50 scale-105'
-                      : 'border-gray-200 hover:border-primary-300'
+                      : 'border-border/60 hover:border-primary-300'
                   }`}
                 >
                   <div className="text-4xl mb-2">{pathway.icon}</div>
-                  <div className="text-sm font-semibold text-gray-900">{pathway.name.split(' ')[0]}</div>
+                  <div className="text-sm font-semibold text-charcoal">{pathway.name.split(' ')[0]}</div>
                 </button>
               ))}
             </div>
@@ -349,7 +349,7 @@ export default function CertificationsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-lg shadow-xl overflow-hidden"
+              className="bg-white rounded-md shadow-sm overflow-hidden"
             >
               <div className={`bg-gradient-to-r ${selectedPathway.color} p-8 text-white`}>
                 <div className="flex items-start justify-between">
@@ -381,16 +381,16 @@ export default function CertificationsPage() {
                             {level.level}
                           </div>
                           <div>
-                            <h4 className="text-lg font-bold text-gray-900">{level.title}</h4>
+                            <h4 className="text-lg font-bold text-charcoal">{level.title}</h4>
                             {level.mandatory && (
-                              <span className="inline-block mt-1 px-2 py-1 bg-red-100 text-red-700 text-xs rounded font-semibold">
+                              <span className="inline-block mt-1 px-2 py-1 bg-terracotta-100 text-terracotta-700 text-xs rounded font-semibold">
                                 MANDATORY: {level.mandatory}
                               </span>
                             )}
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="flex items-center text-sm text-gray-600 mb-1">
+                          <div className="flex items-center text-sm text-stone mb-1">
                             <ClockIcon className="h-4 w-4 mr-1" />
                             {level.duration}
                           </div>
@@ -403,16 +403,16 @@ export default function CertificationsPage() {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="font-semibold text-gray-700">Courses:</span>
-                          <p className="text-gray-600">{level.courses}</p>
+                          <span className="font-semibold text-charcoal">Courses:</span>
+                          <p className="text-stone">{level.courses}</p>
                         </div>
                         <div>
-                          <span className="font-semibold text-gray-700">Requirement:</span>
-                          <p className="text-gray-600">{level.requirement}</p>
+                          <span className="font-semibold text-charcoal">Requirement:</span>
+                          <p className="text-stone">{level.requirement}</p>
                         </div>
                         <div>
-                          <span className="font-semibold text-gray-700">Outcome:</span>
-                          <p className="text-gray-600">{level.outcome}</p>
+                          <span className="font-semibold text-charcoal">Outcome:</span>
+                          <p className="text-stone">{level.outcome}</p>
                         </div>
                       </div>
                     </motion.div>
@@ -422,12 +422,12 @@ export default function CertificationsPage() {
                 <div className="mt-8 flex gap-4">
                   <Link 
                     href="/courses"
-                    className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
+                    className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white rounded-md font-semibold hover:bg-primary-700 transition-colors"
                   >
                     <AcademicCapIcon className="mr-2 h-5 w-5" />
                     Browse Courses
                   </Link>
-                  <button className="flex-1 inline-flex items-center justify-center px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
+                  <button className="flex-1 inline-flex items-center justify-center px-6 py-3 border-2 border-primary-600 text-primary-600 rounded-md font-semibold hover:bg-primary-50 transition-colors">
                     <DocumentTextIcon className="mr-2 h-5 w-5" />
                     Download Guide
                   </button>
@@ -438,31 +438,31 @@ export default function CertificationsPage() {
         </div>
 
         {/* Recognition of Prior Learning */}
-        <div className="py-16 bg-gray-50">
+        <div className="py-16 bg-paper">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white rounded-lg shadow-lg p-8">
+            <div className="bg-white rounded-md shadow-sm p-8">
               <div className="flex items-start">
-                <CheckBadgeIcon className="h-12 w-12 text-green-600 mr-4 flex-shrink-0" />
+                <CheckBadgeIcon className="h-12 w-12 text-forest-600 mr-4 flex-shrink-0" />
                 <div>
                   <h3 className="text-2xl font-bold mb-4">Recognition of Prior Learning (RPL)</h3>
-                  <p className="text-gray-700 mb-4">
+                  <p className="text-charcoal mb-4">
                     Have relevant work experience or previous qualifications? You may be eligible for credit toward your certification.
                   </p>
                   <ul className="space-y-2 mb-6">
-                    <li className="flex items-start text-gray-700">
-                      <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <li className="flex items-start text-charcoal">
+                      <CheckBadgeIcon className="h-5 w-5 text-forest-600 mr-2 flex-shrink-0 mt-0.5" />
                       <span><strong>5+ years relevant experience</strong> may earn up to 50% program credit</span>
                     </li>
-                    <li className="flex items-start text-gray-700">
-                      <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <li className="flex items-start text-charcoal">
+                      <CheckBadgeIcon className="h-5 w-5 text-forest-600 mr-2 flex-shrink-0 mt-0.5" />
                       <span><strong>Previous academic qualifications</strong> from accredited institutions</span>
                     </li>
-                    <li className="flex items-start text-gray-700">
-                      <CheckBadgeIcon className="h-5 w-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" />
+                    <li className="flex items-start text-charcoal">
+                      <CheckBadgeIcon className="h-5 w-5 text-forest-600 mr-2 flex-shrink-0 mt-0.5" />
                       <span><strong>Demonstrated competencies</strong> through portfolio assessment</span>
                     </li>
                   </ul>
-                  <button className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                  <button className="inline-flex items-center px-6 py-3 bg-forest-600 text-white rounded-md font-semibold hover:bg-forest-700 transition-colors">
                     Apply for RPL Assessment
                     <ArrowRightIcon className="ml-2 h-5 w-5" />
                   </button>
@@ -484,18 +484,18 @@ export default function CertificationsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link 
                 href="/courses"
-                className="inline-flex items-center px-8 py-3 bg-white text-primary-700 rounded-lg font-semibold hover:bg-primary-50 transition-colors"
+                className="inline-flex items-center px-8 py-3 bg-white text-primary-700 rounded-md font-semibold hover:bg-primary-50 transition-colors"
               >
                 <AcademicCapIcon className="mr-2 h-5 w-5" />
                 Browse All Courses
               </Link>
-              <button className="inline-flex items-center px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors">
+              <button className="inline-flex items-center px-8 py-3 border-2 border-white text-white rounded-md font-semibold hover:bg-white/10 transition-colors">
                 <UserGroupIcon className="mr-2 h-5 w-5" />
                 Contact Advisor
               </button>
             </div>
             <p className="mt-6 text-sm text-primary-200">
-              Questions? Email <a href="mailto:registrar@chitepo.edu.zw" className="underline font-semibold">registrar@chitepo.edu.zw</a>
+              Questions? Email <a href="mailto:registrar@chitepo.co.zw" className="underline font-semibold">registrar@chitepo.co.zw</a>
             </p>
           </div>
         </div>
