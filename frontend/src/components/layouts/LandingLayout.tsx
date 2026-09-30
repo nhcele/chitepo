@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
 import { useAuth } from '@/contexts/AuthContext';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 interface LandingLayoutProps {
   children: ReactNode;
@@ -19,6 +20,7 @@ const navLinks = [
 
 export default function LandingLayout({ children }: LandingLayoutProps) {
   const { isAuthenticated, isLoading } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-cream">
@@ -92,15 +94,83 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                   </Link>
                   <Link
                     href="/auth/register"
-                    className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-ochre-400 focus:ring-offset-2"
+                    className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors focus:outline-none focus:ring-2 focus:ring-ochre-400 focus:ring-offset-2"
                   >
                     Get started
                   </Link>
                 </>
               ) : null}
+
+              <button
+                type="button"
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+                className="md:hidden -mr-2 inline-flex items-center justify-center rounded-md p-2 text-charcoal hover:text-forest-600 transition-colors"
+                onClick={() => setMobileMenuOpen((open) => !open)}
+              >
+                {mobileMenuOpen ? (
+                  <XMarkIcon className="h-6 w-6" />
+                ) : (
+                  <Bars3Icon className="h-6 w-6" />
+                )}
+              </button>
             </div>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <nav className="md:hidden border-t border-border/60 bg-cream">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <div className="pt-3 mt-3 border-t border-border/60 space-y-2">
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      href="/my-learning"
+                      className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      My courses
+                    </Link>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-center px-4 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/auth/login"
+                      className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      href="/auth/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-center px-4 py-3 text-sm font-semibold text-white bg-forest-600 rounded-md hover:bg-forest-500 transition-colors"
+                    >
+                      Get started
+                    </Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </nav>
+        )}
       </header>
 
       <main id="main-content" className="flex-1">

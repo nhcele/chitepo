@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -12,6 +12,7 @@ import {
   TrophyIcon,
   UsersIcon,
   Bars3Icon,
+  XMarkIcon,
 } from '@heroicons/react/24/outline';
 
 interface AppLayoutProps {
@@ -29,6 +30,7 @@ const navItems = [
 export default function AppLayout({ children }: AppLayoutProps) {
   const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-cream flex flex-col">
@@ -139,14 +141,82 @@ export default function AppLayout({ children }: AppLayoutProps) {
 
               <button
                 type="button"
-                aria-label="Open menu"
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
                 className="md:hidden p-2 text-charcoal hover:bg-forest-100 rounded-md"
+                onClick={() => setMobileMenuOpen((open) => !open)}
               >
-                <Bars3Icon className="w-5 h-5" />
+                {mobileMenuOpen ? (
+                  <XMarkIcon className="w-5 h-5" />
+                ) : (
+                  <Bars3Icon className="w-5 h-5" />
+                )}
               </button>
             </div>
           </div>
         </div>
+
+        {mobileMenuOpen && (
+          <nav className="md:hidden border-t border-border/60 bg-paper">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-1">
+              {navItems.map((item) => {
+                const isActive = router.pathname === item.href || router.pathname.startsWith(`${item.href}/`);
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 -mx-3 rounded-md px-3 py-2.5 text-base font-semibold ${
+                      isActive
+                        ? 'text-forest-600 bg-forest-100'
+                        : 'text-charcoal hover:bg-forest-100'
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+              {isAuthenticated && user && (
+                <div className="pt-3 mt-3 border-t border-border/60 space-y-1">
+                  <Link
+                    href="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                  >
+                    Profile
+                  </Link>
+                  {(user.role === UserRole.ADMIN || user.role === UserRole.SUPER_ADMIN) && (
+                    <Link
+                      href="/admin/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  {user.role === UserRole.INSTRUCTOR && (
+                    <Link
+                      href="/instructor/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="-mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                    >
+                      Instructor
+                    </Link>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => { setMobileMenuOpen(false); logout(); }}
+                    className="w-full text-left -mx-3 block rounded-md px-3 py-2.5 text-base font-semibold text-charcoal hover:bg-forest-100"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          </nav>
+        )}
       </header>
 
       <main id="main-content" className="flex-1">

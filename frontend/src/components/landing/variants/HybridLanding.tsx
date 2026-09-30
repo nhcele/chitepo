@@ -67,10 +67,10 @@ export default function HybridLanding({ courses, loading }: HybridLandingProps) 
     <>
       {/* Hero — editorial text + dynamic geometric visual */}
       <section className="relative overflow-hidden bg-cream">
-        <div className="absolute top-0 right-0 w-2/5 h-full bg-forest-100 -skew-x-6 origin-top-right translate-x-1/6" />
+        <div className="absolute top-0 right-0 w-2/5 h-full bg-forest-100 -skew-x-6 origin-top-right translate-x-1/4 hidden lg:block" />
         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-ochre-100 rounded-full" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-32">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             <motion.div
               initial="hidden"
@@ -86,13 +86,13 @@ export default function HybridLanding({ courses, loading }: HybridLandingProps) 
               </motion.p>
               <motion.h1
                 variants={itemVariants}
-                className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-charcoal leading-[1.1] mb-6"
+                className="font-serif text-3xl sm:text-5xl lg:text-6xl font-semibold text-charcoal leading-[1.1] mb-6"
               >
                 Training party structures and local government leaders for delivery.
               </motion.h1>
               <motion.p
                 variants={itemVariants}
-                className="text-lg text-stone leading-relaxed max-w-xl mb-10"
+                className="text-base sm:text-lg text-stone leading-relaxed max-w-xl mb-10"
               >
                 Applied courses for DCC members, councillors, ward teams, public servants, and
                 community organizers working where policy meets people.
@@ -120,19 +120,19 @@ export default function HybridLanding({ courses, loading }: HybridLandingProps) 
               transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               className="lg:col-span-6 relative"
             >
-              <div className="relative aspect-square max-w-lg mx-auto">
-                <div className="absolute inset-8 bg-ink-950 rounded-tr-[5rem] rounded-bl-[5rem] flex items-center justify-center shadow-sm">
-                  <div className="text-center text-cream p-8">
-                    <span className="font-serif text-8xl lg:text-9xl text-ochre-500 font-bold">C</span>
-                    <p className="mt-4 font-serif text-2xl italic text-cream/90">
+              <div className="relative aspect-square max-w-sm sm:max-w-md lg:max-w-lg mx-auto">
+                <div className="absolute inset-4 sm:inset-8 bg-ink-950 rounded-tr-[3rem] sm:rounded-tr-[5rem] rounded-bl-[3rem] sm:rounded-bl-[5rem] flex items-center justify-center shadow-sm">
+                  <div className="text-center text-cream p-6 sm:p-8">
+                    <span className="font-serif text-6xl sm:text-8xl lg:text-9xl text-ochre-500 font-bold">C</span>
+                    <p className="mt-4 font-serif text-xl sm:text-2xl italic text-cream/90">
                       Governance in Practice
                     </p>
-                    <p className="text-sm text-cream/50 mt-2">Party and Local Government Tracks</p>
+                    <p className="text-xs sm:text-sm text-cream/50 mt-2">Party and Local Government Tracks</p>
                   </div>
                 </div>
-                <div className="absolute -top-6 -right-6 w-28 h-28 bg-forest-600 rounded-full" />
-                <div className="absolute -bottom-6 -left-6 w-36 h-36 border-4 border-terracotta-600 rounded-full" />
-                <div className="absolute top-1/2 -right-10 w-20 h-20 bg-ochre-400 rounded-md -rotate-12" />
+                <div className="hidden lg:block absolute -top-6 -right-6 w-28 h-28 bg-forest-600 rounded-full" />
+                <div className="hidden lg:block absolute -bottom-6 -left-6 w-36 h-36 border-4 border-terracotta-600 rounded-full" />
+                <div className="hidden lg:block absolute top-1/2 -right-10 w-20 h-20 bg-ochre-400 rounded-md -rotate-12" />
               </div>
             </motion.div>
           </div>
