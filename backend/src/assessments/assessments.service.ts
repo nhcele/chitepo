@@ -653,16 +653,21 @@ export class AssessmentsService {
   private async enforceAttemptPolicy(userId: string, quiz: Quiz): Promise<number> {
     const attempts = await this.quizAttemptRepository.find({
       where: { userId, quizId: quiz.id },
+      relations: ['items'],
       order: { createdAt: 'DESC' },
     });
     const completedAttempts = attempts.filter((attempt) => attempt.status !== AttemptStatus.IN_PROGRESS);
+    const lastAttempt = completedAttempts[0];
+    const correctionEligibleStatuses = [AttemptStatus.FINALIZED, AttemptStatus.GRADED, AttemptStatus.AUTO_SUBMITTED];
+    const hasIncorrectAnswers = !!lastAttempt
+      && correctionEligibleStatuses.includes(lastAttempt.status)
+      && (lastAttempt.items || []).some((item) => item.isCorrect === false);
 
-    if ((quiz.maxAttempts ?? 0) > 0 && completedAttempts.length >= quiz.maxAttempts) {
+    if (!hasIncorrectAnswers && (quiz.maxAttempts ?? 0) > 0 && completedAttempts.length >= quiz.maxAttempts) {
       throw new HttpException('Maximum attempts reached for this quiz.', HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    const lastAttempt = completedAttempts[0];
-    if (lastAttempt && !lastAttempt.passed && (quiz.retakeCooldownHours ?? 0) > 0) {
+    if (!hasIncorrectAnswers && lastAttempt && !lastAttempt.passed && (quiz.retakeCooldownHours ?? 0) > 0) {
       const completedAt = lastAttempt.completedAt || lastAttempt.submittedAt || lastAttempt.createdAt;
       const msSince = Date.now() - new Date(completedAt).getTime();
       const requiredMs = quiz.retakeCooldownHours * 60 * 60 * 1000;

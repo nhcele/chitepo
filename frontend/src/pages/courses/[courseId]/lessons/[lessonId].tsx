@@ -777,7 +777,7 @@ export default function LessonPage() {
     } catch (e: any) {
       const status = e?.response?.status;
       const message = e?.response?.data?.message || e?.message || 'You cannot start this quiz right now.';
-      if (status === 403) {
+      if (status) {
         if (silentIfUnavailable) {
           setQuizOpen(false);
         } else {

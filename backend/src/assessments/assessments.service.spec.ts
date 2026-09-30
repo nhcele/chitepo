@@ -446,6 +446,36 @@ describe('AssessmentsService', () => {
     });
   });
 
+  it('allows correction attempts after the configured attempt limit when answers remain incorrect', async () => {
+    attemptRepo.find.mockResolvedValue([
+      {
+        attemptNumber: 1,
+        status: AttemptStatus.FINALIZED,
+        passed: false,
+        items: [{ isCorrect: true }, { isCorrect: false }],
+      },
+    ] as any);
+
+    await expect(
+      (service as any).enforceAttemptPolicy('user-1', { id: 'quiz-1', maxAttempts: 1, retakeCooldownHours: 24 }),
+    ).resolves.toBe(2);
+  });
+
+  it('still enforces the attempt limit when there are no incorrect answers to fix', async () => {
+    attemptRepo.find.mockResolvedValue([
+      {
+        attemptNumber: 1,
+        status: AttemptStatus.FINALIZED,
+        passed: true,
+        items: [{ isCorrect: true }],
+      },
+    ] as any);
+
+    await expect(
+      (service as any).enforceAttemptPolicy('user-1', { id: 'quiz-1', maxAttempts: 1, retakeCooldownHours: 0 }),
+    ).rejects.toThrow('Maximum attempts reached for this quiz.');
+  });
+
   it('grades multiple-choice selections as an exact set regardless of order', () => {
     const question = {
       options: ['A', 'B', 'C'],
